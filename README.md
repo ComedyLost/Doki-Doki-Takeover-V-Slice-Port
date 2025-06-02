@@ -14,6 +14,41 @@ DDLC Links: **[DDLC Official Website](http://ddlc.moe) ⋅ [itch.io page](https:
 
 DDLC+ Links: **[DDLC+ Official Website](http://ddlc.plus) ⋅ [Steam page](https://store.steampowered.com/app/1388880)**
 
+# Songs in Current Build
+
+- High School Conflict
+- Bara No Yume
+- Your Demise
+- Your Reality (Takeover Mix)
+- Rain Clouds
+- My Confession
+- My Sweets
+- Baka
+  - Normal and Alt
+- Deep Breaths
+- Obsession
+- Reconciliation
+- Crucify (Yuri Mix)
+- Beathoven (Natsuki Mix)
+- It's Complicated (Sayori Mix)
+- Glitcher (Monika Mix)
+- Hot Air Balloon
+- Shrinking Violet
+- Joyride
+- Our Harmony
+- You and Me
+- Dokidoggle (Fanmade)
+- Poems n Thorns
+- Dual Demise
+- Titular (MC Mix)
+- Epiphany
+  - Normal and with Lyrics
+- Drinks on Me
+- Libitina
+- Catfight
+- Wilted
+- That one fuckass thing
+
 # Credits
 
 Credits are listed in the game!
