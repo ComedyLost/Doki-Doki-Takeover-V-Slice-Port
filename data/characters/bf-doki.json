@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0",
+  "name": "DDTO Boyfriend",
+  "renderType": "multisparrow",
+  "assetPath": "characters/CLEANER DOKI BF ASSETS",
+  "flipX": true,
+  "singTime": 8.0,
+  "healthIcon": {"id": "bfdoki"},
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "BF idle dance",
+      "offsets": [-3, 1]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "BF NOTE LEFT0",
+      "offsets": [9, -6]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "BF NOTE DOWN0",
+      "offsets": [-23, -32]
+    },
+    {
+      "name": "singUP",
+      "prefix": "BF NOTE UP0",
+      "offsets": [-46, 23]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "BF NOTE RIGHT0",
+      "offsets": [-58, -5]
+    },
+    {
+      "name": "singLEFTmiss",
+      "prefix": "BF NOTE LEFT MISS",
+      "offsets": [5, 20]
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "BF NOTE DOWN MISS",
+      "offsets": [-23, -1]
+    },
+    {
+      "name": "singUPmiss",
+      "prefix": "BF NOTE UP MISS",
+      "offsets": [-45, 29]
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "BF NOTE RIGHT MISS",
+      "offsets": [-55, 23]
+    },
+    {
+      "name": "preAttack",
+      "prefix": "bf pre attack",
+      "offsets": [-40, -35]
+    },
+    {
+      "name": "attack",
+      "prefix": "boyfriend attack",
+      "offsets": [294, 272]
+    },
+    {
+      "name": "dodge",
+      "prefix": "boyfriend dodge",
+      "offsets": [-10, -8]
+    },
+    {
+      "name": "hey",
+      "prefix": "BF HEY!!",
+      "offsets": [-13, 12]
+    },
+    {
+      "name": "cheer",
+      "prefix": "Cheer",
+      "assetPath": "characters/BFCheer",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "hit",
+      "prefix": "BF hit",
+      "offsets": [14, 17]
+    },
+    {
+      "name": "firstDeath",
+      "prefix": "DokiGameOverIntro",
+      "assetPath": "characters/DokiGameOver",
+      "offsets": [-48, 151]
+    },
+    {
+      "name": "fakeDeath",
+      "prefix": "BF dies0",
+      "assetPath": "characters/THOT DIEDED",
+      "offsets": [27, 0]
+    },
+    {
+      "name": "deathLoop",
+      "prefix": "DokiGameOverLoop",
+      "assetPath": "characters/DokiGameOver",
+      "looped": true,
+      "offsets": [-72, 137]
+    },
+    {
+      "name": "deathConfirm",
+      "prefix": "DokiGameOverConfirm",
+      "assetPath": "characters/DokiGameOver",
+      "offsets": [-52, 153]
+    },
+    {
+      "name": "scared",
+      "prefix": "BF idle shaking",
+      "offsets": [-6, 0]
+    }
+  ]
+}

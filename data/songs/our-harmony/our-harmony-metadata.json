@@ -1,0 +1,47 @@
+{
+  "version": "2.2.4",
+  "songName": "Our Harmony",
+  "artist": "DatDavi ft. Carimelle",
+  "charter": "Unknown",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    },
+    "altVocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokisonly",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "monika",
+      "girlfriend": "nogf",
+      "opponent": "sayori",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "stage": "musicroom",
+    "noteStyle": "ddto",
+    "ratings": {
+      "normal": 7
+    },
+    "album": "takeover",
+    "previewStart": 0,
+    "previewEnd": 15000
+  },
+  "generatedBy": "Friday Night Funkin' - v0.6.4",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 180,
+      "n": 4,
+      "d": 4
+    }
+  ]
+}

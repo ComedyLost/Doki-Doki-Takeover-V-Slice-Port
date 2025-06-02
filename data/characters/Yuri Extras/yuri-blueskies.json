@@ -1,0 +1,71 @@
+{
+    "version": "1.0.0",
+    "name": "Yuri (Blue Skies)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/yuri/Doki_Yuri_BlueSkies_Assets",
+    "flipX": false,
+    "healthIcon": {"id": "yuri"},
+    "singTime": 6,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Yuri Idle0",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "idle-alt",
+            "prefix": "Yuri Idle-alt",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "breath",
+            "prefix": "Yuri Breath",
+            "offsets": [
+                11,
+                25
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Yuri Sing Note Left",
+            "offsets": [
+                -5,
+                -22
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Yuri Sing Note Right",
+            "offsets": [
+                16,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Yuri Sing Note Up",
+            "offsets": [
+                23,
+                23
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Yuri Sing Note Down",
+            "offsets": [
+                -8,
+                -20
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

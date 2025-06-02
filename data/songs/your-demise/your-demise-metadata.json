@@ -1,0 +1,53 @@
+{
+  "version": "2.2.3",
+  "songName": "Your Demise",
+  "artist": "DPZ",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    }
+  },
+  "playData": {
+    "stickerPack": "justmonika",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "pixelbfangry-new",
+      "girlfriend": "monika-angry",
+      "opponent": "monika-pixelnew",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "album": "takeover",
+    "stage": "schoolEvilDDTO",
+    "noteStyle": "ddtopixel",
+    "ratings": {
+      "easy": 0,
+      "hard": 0,
+      "normal": 6
+    },
+    "previewStart": 22000,
+    "previewEnd": 48700
+  },
+  "generatedBy": "Friday Night Funkin' - v0.4.1",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 180,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ]
+}

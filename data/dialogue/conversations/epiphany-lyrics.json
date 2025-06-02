@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#00000000"
+  },
+
+  "music": {
+    "asset": "silence",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "enter",
+      "text": ["\"Notice anything different?\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Ahaha, I wanted to make this moment a little extra special.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"I’ve noticed that when we sing, my voice gets turned into an assortment of random vowels and sounds.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"As fun as it can still be that way, there’s so much I’m trying to say to you that doesn’t come through.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"So I did a little digging into this game’s files myself, and I think I’ve successfully bypassed that feature!\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Unfortunately, you’ll still need to use Boyfriend’s voice to sing back, though I won’t make you sing against all those death notes this time, ahaha.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Just remember to save me once the game tries to delete me again, okay, my love?\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Ah, I’m getting sidetracked.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Like I said, I want this to be very special, so here’s something I wrote specially for you.\""]
+    }
+  ]
+}

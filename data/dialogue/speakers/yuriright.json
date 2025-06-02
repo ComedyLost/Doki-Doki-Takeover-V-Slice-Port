@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "name": "Yuri (Right)",
+  "assetPath": "dialogue/senpai",
+  "flipX": false,
+  "isPixel": false,
+  "scale": 0,
+  "offsets": [0, 0],
+  "animations": [
+    {
+      "name": "ahaha",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "ahh",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "blush",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "crazy",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "ehh",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "happy",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "neutral",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "smile",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    }
+  ]
+}

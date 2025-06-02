@@ -1,0 +1,71 @@
+{
+    "version": "1.0.0",
+    "name": "Yuri (Tabi)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/yuri/Doki_YuriTabi_Assets",
+    "flipX": false,
+    "healthIcon": {"id": "yuri"},
+    "singTime": 6,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Yuri Idle0",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "idle-alt",
+            "prefix": "Yuri Idle-alt",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "breath",
+            "prefix": "Yuri Breath",
+            "offsets": [
+                14,
+                12
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Yuri Sing Note Left",
+            "offsets": [
+                37,
+                -2
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Yuri Sing Note Right",
+            "offsets": [
+                17,
+                4
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Yuri Sing Note Up",
+            "offsets": [
+                24,
+                23
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Yuri Sing Note Down",
+            "offsets": [
+                -8,
+                -15
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

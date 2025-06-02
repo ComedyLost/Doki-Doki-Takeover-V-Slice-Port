@@ -1,0 +1,239 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "Lunchbox",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_hmm",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_uhoh",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Ahaha, I should know better-"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_uhoh",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Trying to interfere with people's love lives again."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_hmm",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["I'll leave you be."]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "idle",
+
+      "text": ["YOU'RE NOT SUPPOSED TO SEE THIS MESSAGE\nIF YOU SEE THIS MESSAGE IN GAME\nREPORT IT TO COMEDY LOST"]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "hmm",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["So, you weren't the one who stole my mic?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["That blue-haired kid gave it to me when I showed up."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["I don't know where he got it."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["I don't even know how I got here, for that matter."]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "hmm",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Hmm-"]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "hmm",
+      "box": "rosesClassic",
+      "boxAnimation": "idle",
+
+      "text": ["And what exactly happened after our... unintentional duet?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["I... got rid of everyone."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Temporarily. It's something I can do, but that's a long story."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["-and that included that kid's girlfriend."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_uhoh",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Ahaha, old habits die hard, as they say."]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "hmm",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["You got his girl too?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Hah! I bet you really pissed that worm off!"]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "speaking",
+
+      "text": ["I wish I was there to see the look on his hideous baby face."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["He was mad..."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "hmm",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Hey."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["...hm?"]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Your performance wasn't half bad earlier."]
+    },
+    {
+      "speaker": "senpaiddto",
+      "speakerAnimation": "neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "speaking",
+
+      "text": ["Care for another song?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..!"]
+    }
+  ]
+}

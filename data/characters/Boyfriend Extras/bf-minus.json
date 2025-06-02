@@ -1,0 +1,129 @@
+{
+    "version": "1.0.0",
+    "name": "Minus Boyfriend (DDTO Blue)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/boyfriend/MINUSBOYFRIEND_2",
+    "flipX": true,
+    "singTime": 4,
+    "healthIcon": {"id": "bfdoki"},
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "BF idle dance",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "BF NOTE LEFT0",
+            "offsets": [
+                18,
+                -2
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "BF NOTE DOWN0",
+            "offsets": [
+                -11,
+                -64
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "BF NOTE UP0",
+            "offsets": [
+                3,
+                30
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "BF NOTE RIGHT0",
+            "offsets": [
+                -22,
+                -8
+            ]
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "BF NOTE LEFT MISS",
+            "offsets": [
+                19,
+                -3
+            ]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "BF NOTE DOWN MISS",
+            "offsets": [
+                -5,
+                -71
+            ]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "BF NOTE UP MISS",
+            "offsets": [
+                -1,
+                29
+            ]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "BF NOTE RIGHT MISS",
+            "offsets": [
+                -22,
+                -12
+            ]
+        },
+        {
+            "name": "hey",
+            "prefix": "BF HEY",
+            "offsets": [
+                2,
+                3
+            ]
+        },
+        {
+            "name": "scared",
+            "prefix": "BF idle shaking",
+            "offsets": [
+                -8,
+                1
+            ],
+            "looped": true
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "BF dies",
+            "offsets": [
+                22,
+                3
+            ]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "BF Dead Loop",
+            "offsets": [
+                22,
+                -3
+            ],
+            "looped": true
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "BF Dead confirm",
+            "offsets": [
+				22,
+				61
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

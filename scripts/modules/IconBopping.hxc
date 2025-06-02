@@ -1,0 +1,51 @@
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.PlayState;
+import funkin.Paths;
+import flixel.FlxG;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.play.components.HealthIcon;
+import flixel.util.FlxTimer;
+import Std;
+import flixel.util.FlxSave;
+
+class IconBoppingModule extends Module 
+{
+  public function new() {
+	  super('IconBopForXML');
+
+    cost = new FlxSave();
+		cost.bind("Costumes");
+    save = new FlxSave();
+    save.bind("TakeoverOptions");
+	}
+
+  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+
+  function onCountdownStart(event:CountdownScriptEvent):Void {
+    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+    if (PlayState.instance.currentChart.characters.player == 'bf' && save.data.costumesanywhere && cost.data.selectedBFCostume != 0){
+      PlayState.instance.iconP1.isLegacyStyle = true;
+    }
+    if (PlayState.instance.currentChart.characters.opponent == 'gf' && save.data.costumesanywhere && cost.data.selectedGFCostume != 0){
+			PlayState.instance.iconP2.loadCharacter('gf');
+    }
+    //Lock icon bopping fix to DDTO V-Slice only to prevent other V-Slice mod issues
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+    if (PlayState.instance.currentStage.getBoyfriend() != null && !PlayState.instance.iconP1.isLegacyStyle) PlayState.instance.iconP1.isLegacyStyle = true;
+    if (PlayState.instance.currentStage.getDad() != null && !PlayState.instance.iconP2.isLegacyStyle) PlayState.instance.iconP2.isLegacyStyle = true;
+  }
+
+  override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+    if (PlayState.instance.isMinimalMode) return;
+
+    //Lock icon bopping fix to DDTO V-Slice only to prevent other V-Slice mod issues
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+    if (PlayState.instance.currentStage.getBoyfriend() != null && !PlayState.instance.iconP1.isLegacyStyle) PlayState.instance.iconP1.isLegacyStyle = true;
+    if (PlayState.instance.currentStage.getDad() != null && !PlayState.instance.iconP2.isLegacyStyle) PlayState.instance.iconP2.isLegacyStyle = true;
+	}
+}

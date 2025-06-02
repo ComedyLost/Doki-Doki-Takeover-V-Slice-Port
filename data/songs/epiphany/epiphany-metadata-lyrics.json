@@ -1,0 +1,48 @@
+{
+  "version": "2.2.2",
+  "songName": "Epiphany with Lyrics",
+  "artist": "Matt$, Juno Songs, Carimelle",
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    }
+  },
+  "playData": {
+    "stickerPack": "justmonika",
+    "songVariations": [    ],
+    "difficulties": ["lyrics"],
+    "characters": {
+      "player": "bf-doki",
+      "girlfriend": "gf",
+      "opponent": "bigmonika-dress",
+      "instrumental": "",
+      "altInstrumentals": [""]
+    },
+    "album": "takeover",
+    "stage": "evilClubroom",
+    "noteStyle": "ddto",
+    "ratings": {
+      "lyrics": 6
+    },
+    "previewStart": 0,
+    "previewEnd": 0
+  },
+  "generatedBy": "Friday Night Funkin' - v0.3.3",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 263,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ]
+}

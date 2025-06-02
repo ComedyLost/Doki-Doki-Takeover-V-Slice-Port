@@ -1,0 +1,934 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.Highscore;
+import funkin.save.Save;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.utils.Assets;
+import funkin.modding.base.ScriptedFlxRuntimeShader;
+import openfl.filters.ShaderFilter;
+import flixel.FlxCamera;
+import funkin.graphics.FunkinCamera;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
+import funkin.Conductor;
+import hxvlc.flixel.FlxVideoSprite;
+import flixel.util.FlxTimer;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import flixel.addons.display.FlxBackdrop; 
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.FlxCameraFollowStyle;
+import funkin.util.Constants;
+import funkin.modding.module.ModuleHandler;
+import funkin.play.GameOverSubState;
+import funkin.audio.FunkinSound;
+import funkin.play.PauseSubState;
+import funkin.play.cutscene.VideoCutscene;
+import funkin.save.Save;
+import flixel.util.FlxSave;
+
+//Worst thing I ever fucking coded
+//Agonizing pain
+class LibitinaSong extends Song
+{
+	function new()
+	{
+		super('libitina');
+
+		save = new FlxSave();
+		save.bind("TakeoverOptions");	
+	}
+
+	var shaderstatic = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
+	var staticshader = new ShaderFilter(shaderstatic);
+	var shaderstatic2 = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
+	var staticshader2 = new ShaderFilter(shaderstatic2);
+
+	var inverty = new FlxRuntimeShader(Assets.getText(Paths.frag("InvertShader")));
+
+	var warp = new FlxRuntimeShader(Assets.getText(Paths.frag("WarpShader")));
+    var warpshader = new ShaderFilter(warp);
+
+
+	var fish = new FlxRuntimeShader(Assets.getText(Paths.frag("FishEyeShader")));
+    var fishshader = new ShaderFilter(fish);
+	var glitch = new FlxRuntimeShader(Assets.getText(Paths.frag("GlitchShader")));
+    var glitchshader = new ShaderFilter(glitch);
+	var glitch2 = new FlxRuntimeShader(Assets.getText(Paths.frag("GlitchShader")));
+    var glitchshader2 = new ShaderFilter(glitch2);
+
+	var camGame2:FunkinCamera;
+	var camOverlay:FunkinCamera;
+
+	var grpPopups:Array<Dynamic>;
+	var time:Float;
+
+	//Holy shit there's so many fucking sprites
+	var deskBG1;
+	var deskBG2;
+	var cursorDDTO;
+	var extractPopup;
+	var libiWindow;
+	var libHando;
+	var deskBG2Overlay;
+	var libAwaken;
+	var ghostBG;
+	var eyeBG;
+	var eyeMidwayBG;
+	var eyeShadow;
+	var infoBG;
+	var infoBG2;
+	var staticshock;
+	var libFinaleBG;
+	var libGhost;
+	var libParty;
+	var libRockIs;
+	var libFinale;
+	var libFinaleEyes;
+	var libFinaleOverlay;
+	var libVignette;
+	var blackScreen:FlxSprite;
+    var rainBG:FlxVideoSprite;
+    var testVM:FlxVideoSprite;
+    var crackBG:FlxVideoSprite;
+	var hasPlayedCutscene:Bool;
+
+	function calcSectionLength(duration:Int = 1){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		hasPlayedCutscene = false;
+
+		FunkinSprite.cacheTexture(Paths.image('characters/ghost/LibiIntro_Assets'));
+		FunkinSprite.cacheTexture(Paths.image('characters/ghost/Libitina'));
+		FunkinSprite.cacheTexture(Paths.image('characters/ghost/Libitina_tmp'));
+
+		camGame2 = new FunkinCamera('playStateCamGame2');
+		FlxG.cameras.add(camGame2, false);
+		camGame2.bgColor = 0x000000;
+
+		//Camera Code (commented out since it broke most of the song)
+		//camGame2.follow(PlayState.instance.cameraFollowPoint, FlxCameraFollowStyle.LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
+		//camGame2.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
+
+		FlxG.cameras.remove(PlayState.instance.camHUD, false);
+		FlxG.cameras.add(PlayState.instance.camHUD, false);	
+
+		camOverlay = new FunkinCamera('playStateCamOverlay');
+		FlxG.cameras.add(camOverlay, false);
+		camOverlay.bgColor = 0x000000;
+
+		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
+		FlxG.cameras.add(PlayState.instance.camCutscene, false);
+
+		buildStage();
+
+		grpPopups = [];
+
+		blackScreen = new FunkinSprite(0, 0).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+		blackScreen.zIndex = 500;
+		blackScreen.alpha = 1;
+		blackScreen.cameras = [camOverlay];
+		blackScreen.screenCenter();
+		blackScreen.y = -300;
+		PlayState.instance.add(blackScreen);
+	}
+
+	override function onSongRetry(event) {
+		super.onSongRetry(event);
+		FlxG.resetState();
+	}	
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		time++;
+		warp.setFloat('iTime', time / 128);
+		glitch.setFloat('time', time / 128);
+		glitch2.setFloat('time', time / 128);
+	}
+
+	public function onPause(event) {
+        super.onPause(event);
+
+		if (rainBG != null) rainBG.pause();
+		if (testVM != null) testVM.pause();
+		if (crackBG != null) crackBG.pause();
+    }
+    
+	public function onResume(event) {
+        super.onResume(event);
+		if (rainBG != null) rainBG.resume();
+		if (testVM != null) testVM.resume();
+		if (crackBG != null) crackBG.resume();
+    }
+
+	//Took three hours just to make the stage :(
+	//Much easier than using Base Game stage json stuff
+	//Plus I needed a way to make the mp4 stuff be layered
+	function buildStage(){
+		var stage = PlayState.instance.currentStage;
+		deskBG1 = new FlxSprite(0, 0, Paths.image('libitina/outrodesk'));
+		deskBG1.loadGraphic(Paths.image('libitina/introdesk'));
+		deskBG1.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		deskBG1.updateHitbox();
+		deskBG1.scrollFactor.set(0, 0);
+		deskBG1.zIndex = 10;
+		deskBG1.cameras = [camGame2];
+		stage.add(deskBG1);
+
+		deskBG2 = new FlxSprite(0, 0, Paths.image('libitina/outroscreen'));
+		deskBG2.loadGraphic(Paths.image('libitina/introscreen'));
+		deskBG2.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		deskBG2.updateHitbox();
+		deskBG2.cameras = [camGame2];
+		deskBG2.scrollFactor.set(0, 0);
+		deskBG2.alpha = 0.001;
+		deskBG2.zIndex = 20;
+		stage.add(deskBG2);
+		
+		cursorDDTO = new FlxSprite(800, 730, Paths.image('libitina/mousecursor'));
+		cursorDDTO.setGraphicSize(Std.int(cursorDDTO.width / PlayState.instance.stageZoom));
+		cursorDDTO.updateHitbox();
+		cursorDDTO.cameras = [camGame2];
+		cursorDDTO.scrollFactor.set(0, 0);
+		cursorDDTO.alpha = 0.001;
+		cursorDDTO.zIndex = 30;
+		stage.add(cursorDDTO);
+
+		extractPopup = new FlxSprite(0, 0, Paths.image('libitina/extracting'));
+		extractPopup.setGraphicSize(Std.int(extractPopup.width / PlayState.instance.stageZoom));
+		extractPopup.updateHitbox();
+		extractPopup.screenCenter();
+		extractPopup.cameras = [camGame2];
+		extractPopup.scrollFactor.set(0, 0);
+		extractPopup.alpha = 0.001;
+		extractPopup.zIndex = 40;
+		stage.add(extractPopup);
+
+		rainBG = new FlxVideoSprite(0, 0);
+		rainBG.cameras = [camGame2];
+		rainBG.antialiasing = true;
+		rainBG.scrollFactor.set();
+		stage.add(rainBG);
+
+		if (rainBG.load(Assets.getPath(Paths.videos('rain'), false))) rainBG.play();
+
+		rainBG.bitmap.onFormatSetup.add(() -> {
+			rainBG.setGraphicSize(1280, 720);
+			rainBG.updateHitbox();
+			rainBG.screenCenter();
+			rainBG.zIndex = 100;	
+		});
+
+		rainBG.bitmap.onEndReached.add(() -> {        
+			if (rainBG.load(Assets.getPath(Paths.videos('rain'), false))) rainBG.play();
+		});
+
+		testVM = new FlxVideoSprite(0, 0);
+		if (testVM.load(Assets.getPath(Paths.videos('testvm'), true))) testVM.play();
+		testVM.scrollFactor.set();
+		testVM.setGraphicSize(Std.int(testVM.width / PlayState.instance.stageZoom));
+		testVM.updateHitbox();
+		testVM.scrollFactor.set();
+		testVM.antialiasing = true;
+		testVM.alpha = 0.001;
+		stage.add(testVM);
+
+		testVM.bitmap.onEndReached.add(() -> {        
+			if (testVM.load(Assets.getPath(Paths.videos('testvm'), true))) testVM.play();
+		});
+
+
+		libiWindow = new FlxSprite(0, 0, Paths.image('libitina/granted')); // preload
+		libiWindow.loadGraphic(Paths.image('libitina/bigwindow'));
+		libiWindow.setGraphicSize(Std.int(libiWindow.width / PlayState.instance.stageZoom));
+		libiWindow.updateHitbox();
+		libiWindow.screenCenter();
+		libiWindow.scrollFactor.set();
+		libiWindow.cameras = [camGame2];
+		libiWindow.alpha = 0.001;
+		stage.add(libiWindow);
+
+		libHando = new FlxSprite(0, 0);
+		libHando.frames = Paths.getSparrowAtlas('libitina/Hando');
+		libHando.animation.addByPrefix('idle', 'HandoAnim', 24, true);
+		libHando.setGraphicSize(Std.int((libHando.width * 1.5) / PlayState.instance.stageZoom));
+		libHando.updateHitbox();
+		libHando.screenCenter();
+		libHando.cameras = [camGame2];
+		libHando.scrollFactor.set(0, 0);
+		libHando.alpha = 0.001;
+		stage.add(libHando);
+
+		deskBG2Overlay = new FlxSprite(0, 0, Paths.image('libitina/lightoverlay'));
+		deskBG2Overlay.setGraphicSize(Std.int((FlxG.width * 1.2) / PlayState.instance.stageZoom));
+		deskBG2Overlay.updateHitbox();
+		deskBG2Overlay.screenCenter();
+		deskBG2Overlay.cameras = [camOverlay];
+		deskBG2Overlay.scrollFactor.set();
+		deskBG2Overlay.alpha = 0.001;
+		stage.add(deskBG2Overlay);
+
+		libAwaken = new FlxSprite(0, 0);
+		libAwaken.frames = Paths.getSparrowAtlas('libitina/SheAwakens');
+		libAwaken.animation.addByPrefix('idle', 'SheAwakens', 24, true);
+		libAwaken.setGraphicSize(Std.int((libAwaken.width * 1.1) / PlayState.instance.stageZoom));
+		libAwaken.updateHitbox();
+		libAwaken.screenCenter();
+		libAwaken.cameras = [camGame2];
+		libAwaken.alpha = 0.001;
+		libAwaken.scrollFactor.set();
+		stage.add(libAwaken);
+
+		ghostBG = new FlxBackdrop(Paths.image('libitina/ghostbg'));
+		ghostBG.setPosition(0, -200);
+		ghostBG.scrollFactor.set(0.3, 0.3);
+		ghostBG.velocity.set(-40, 0);
+		ghostBG.setGraphicSize(Std.int((FlxG.width * 1.5) / PlayState.instance.stageZoom));
+		ghostBG.updateHitbox();
+		ghostBG.screenCenter();
+		ghostBG.alpha = 0.001;
+		stage.add(ghostBG);
+
+		eyeBG = new FlxSprite(0, 0, Paths.image('libitina/eyebg'));
+		eyeBG.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		eyeBG.updateHitbox();
+		eyeBG.screenCenter();
+		eyeBG.scrollFactor.set();
+		eyeBG.alpha = 0.001;
+		stage.add(eyeBG);
+
+		eyeMidwayBG = new FlxSprite(0, 0);
+		eyeMidwayBG.frames = Paths.getSparrowAtlas('libitina/EyeMidwayBG');
+		eyeMidwayBG.animation.addByPrefix('idle', 'MidwayBG', 24, true);
+		eyeMidwayBG.setGraphicSize(Std.int((FlxG.width * 1.1) / PlayState.instance.stageZoom));
+		eyeMidwayBG.animation.play('idle');
+		eyeMidwayBG.updateHitbox();
+		eyeMidwayBG.screenCenter();
+		eyeMidwayBG.scrollFactor.set();
+		eyeMidwayBG.cameras = [camGame2];
+
+		eyeShadow = new FlxSprite(0, 0, Paths.image('libitina/EyeShadow'));
+		eyeShadow.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		eyeShadow.updateHitbox();
+		eyeShadow.screenCenter();
+		eyeShadow.scrollFactor.set();
+		eyeShadow.cameras = [camGame2];
+
+		infoBG = new FlxSprite(0, 0);
+		infoBG.frames = Paths.getSparrowAtlas('libitina/InfoMidwayBG');
+		infoBG.animation.addByPrefix('idle', 'InfoBG', 24, true);
+		infoBG.animation.play('idle');
+		infoBG.setGraphicSize(Std.int((FlxG.width * 1.1) / PlayState.instance.stageZoom));
+		infoBG.updateHitbox();
+		infoBG.screenCenter();
+		infoBG.scrollFactor.set();
+		infoBG.alpha = 0.001;
+		stage.add(infoBG);
+
+		infoBG2 = new FlxSprite(0, 0);
+		infoBG2.frames = Paths.getSparrowAtlas('libitina/InfoMidwayBGInvert');
+		infoBG2.animation.addByPrefix('idle', 'InfoBG', 24, true);
+		infoBG2.animation.play('idle');
+		infoBG2.setGraphicSize(Std.int((FlxG.width * 1.1) / PlayState.instance.stageZoom));
+		infoBG2.updateHitbox();
+		infoBG2.screenCenter();
+		infoBG2.scrollFactor.set();
+		infoBG2.alpha = 0.001;
+		stage.add(infoBG2);
+
+		crackBG = new FlxVideoSprite(-10, -10);
+		if (crackBG.load(Assets.getPath(Paths.videos('crackBG'), true))) crackBG.play();
+		crackBG.scrollFactor.set(0.3, 0.3);
+		crackBG.cameras = [camGame2];
+		crackBG.setGraphicSize(Std.int(crackBG.width / PlayState.instance.stageZoom));
+		crackBG.updateHitbox();
+		crackBG.alpha = 0.001;
+		stage.add(crackBG);
+
+		crackBG.bitmap.onEndReached.add(() -> {        
+			if (crackBG.load(Assets.getPath(Paths.videos('crackBG'), true))) crackBG.play();
+		});
+
+		staticshock = new FlxSprite(0, 0);
+		staticshock.frames = Paths.getSparrowAtlas('HomeStatic');
+		staticshock.animation.addByPrefix('idle', 'HomeStatic', 24, true);
+		staticshock.animation.play('idle');
+		staticshock.scrollFactor.set();
+		staticshock.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		staticshock.updateHitbox();
+		staticshock.screenCenter();
+		staticshock.cameras = [camGame2];
+		staticshock.alpha = 0.001;
+
+		libFinaleBG = new FlxSprite(0, 0, Paths.image('libitina/finale/FinaleBG'));
+		libFinaleBG.setGraphicSize(Std.int(libFinaleBG.width / PlayState.instance.stageZoom));
+		libFinaleBG.updateHitbox();
+		libFinaleBG.cameras = [camGame2];
+		libFinaleBG.scrollFactor.set();
+		libFinaleBG.alpha = 0.001;
+		stage.add(libFinaleBG);
+
+		libGhost = new FlxSprite(160, 710);
+		libGhost.frames = Paths.getSparrowAtlas('libitina/finale/LibiFinaleDramatic');
+		libGhost.animation.addByPrefix('idle', 'LibiFinale', 24, true);
+		libGhost.setGraphicSize(Std.int(libGhost.width / PlayState.instance.stageZoom));
+		libGhost.updateHitbox();
+		libGhost.animation.play('idle');
+		libGhost.cameras = [camGame2];
+		libGhost.scrollFactor.set();
+		libGhost.alpha = 0.001;
+		stage.add(libGhost);
+
+		libParty = new FlxSprite(-80, -460, Paths.image('libitina/finale/GOONS1'));
+		libParty.setGraphicSize(Std.int(libParty.width / PlayState.instance.stageZoom));
+		libParty.updateHitbox();
+		libParty.cameras = [camGame2];
+		libParty.alpha = 0.001;
+		libParty.scrollFactor.set();
+		stage.add(libParty);
+
+		libRockIs = new FlxSprite(140, -460, Paths.image('libitina/finale/GOONS2'));
+		libRockIs.setGraphicSize(Std.int(libRockIs.width / PlayState.instance.stageZoom));
+		libRockIs.updateHitbox();
+		libRockIs.cameras = [camGame2];
+		libRockIs.scrollFactor.set();
+		libRockIs.alpha = 0.001;
+		stage.add(libRockIs);
+
+		libFinale = new FlxSprite(0, 0, Paths.image('libitina/finale/Finale4'));
+		libFinale.loadGraphic(Paths.image('libitina/finale/Finale3')); // preload
+		libFinale.loadGraphic(Paths.image('libitina/finale/Finale2'));
+		libFinale.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		libFinale.updateHitbox();
+		libFinale.scrollFactor.set();
+		libFinale.cameras = [camGame2];
+		libFinale.alpha = 0.001;
+		stage.add(libFinale);
+
+		libFinaleEyes = new FlxSprite(0, 0);
+		libFinaleEyes.frames = Paths.getSparrowAtlas('libitina/finale/ShesWatching');
+		libFinaleEyes.animation.addByPrefix('idle', 'ShesWatching', 24, true);
+		libFinaleEyes.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		libFinaleEyes.updateHitbox();
+		libFinaleEyes.screenCenter();
+		libFinaleEyes.animation.play('idle');
+		libFinaleEyes.scrollFactor.set();
+		libFinaleEyes.alpha = 0.001;
+		stage.add(libFinaleEyes);
+
+		libFinaleOverlay = new FlxSprite(0, 0);
+		libFinaleOverlay.frames = Paths.getSparrowAtlas('libitina/finale/ShesWatching');
+		libFinaleOverlay.animation.addByPrefix('idle', 'ShesWatching', 24, true);
+		libFinaleOverlay.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+		libFinaleOverlay.updateHitbox();
+		libFinaleOverlay.cameras = [camGame2];
+		libFinaleOverlay.animation.play('idle');
+		libFinaleOverlay.scrollFactor.set();
+		libFinaleOverlay.alpha = 0.001;
+		stage.add(libFinaleOverlay);
+
+		libVignette = new FlxSprite(0, 0, Paths.image('libitina/vignetteend'));
+		libVignette.loadGraphic(Paths.image('libitina/vignette'));
+		libVignette.setGraphicSize(Std.int(libVignette.width / PlayState.instance.stageZoom));
+		libVignette.updateHitbox();
+		libVignette.scrollFactor.set();
+		libVignette.cameras = [camGame2];
+
+		stage.refresh();
+	}
+
+	function addcharacter(newCharacter:String, type:Int){
+		var charData = CharacterDataParser.parseCharacterData(newCharacter.toLowerCase());
+        CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
+
+		var zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex;
+		PlayState.instance.currentStage.getBoyfriend().destroy();
+		var boyfriend = CharacterDataParser.fetchCharacter(newCharacter.toLowerCase());
+		if (boyfriend != null) {
+			boyfriend.set_characterType(CharacterType.BF);
+			PlayState.instance.currentStage.addCharacter(boyfriend, CharacterType.BF);
+			PlayState.instance.currentStage.getBoyfriend().zIndex = zIndex;
+		}
+		PlayState.instance.currentStage.refresh();
+	}
+
+	function startVideo() {
+		VideoCutscene.play(Assets.getPath(Paths.videos('metaintro')));
+	}
+	
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		GameOverSubState.blueBallSuffix == '-quiet';
+		GameOverSubState.musicSuffix = '-libi';
+		PauseSubState.musicSuffix = '-doki';
+
+		/*if (!hasPlayedCutscene && save.data.freeplayDialogue) {
+			//doesn't work for some reason
+			//I'll probably fix it in a minor update or the Encore update
+			trace('Pausing countdown to play cutscene.');
+	  
+			hasPlayedCutscene = true;
+	  
+			event.cancel(); // CANCEL THE COUNTDOWN!
+	  
+			startVideo();
+
+			return;
+		}*/
+
+		fish.setFloat('warp', 0.5);
+		fish.setFloat('scan', 0);
+		glitch.setFloat('prob', 0.25 - (-5.0 / 8));
+		glitch.setFloat('intensityChromatic', 0.2);
+		glitch2.setFloat('prob', 0.25 - (-5.0 / 8));
+		glitch2.setFloat('intensityChromatic', 0.2);
+
+		PlayState.instance.currentStage.getBoyfriend().alpha = 0.001;
+		PlayState.instance.camHUD.alpha = 0;
+		PlayState.instance.iconP1.alpha = 0;
+		PlayState.instance.comboPopUps.visible = false;
+		PlayState.instance.healthBar.alpha = 0.001;
+		PlayState.instance.healthBarBG.alpha = 0.001;
+		PlayState.instance.scoreText.alpha = 0.001;
+		PlayState.instance.opponentStrumline.visible = false;
+		PlayState.instance.playerStrumline.visible = false;
+
+		//Skip countdown
+		event.cancel();
+		PlayState.instance.isInCountdown = true;
+		Conductor.instance.update(PlayState.instance.startTimestamp);
+	}	
+
+	function libShader(show:Bool, old:Bool)
+		{
+			if (old == null) old = false;
+			if (show == null) show = true;
+
+			if (show)
+			{
+				PlayState.instance.camGame.filters = [fishshader, glitchshader];
+				camGame2.filters = [glitchshader2];
+			}
+			else
+			{
+				PlayState.instance.camGame.filters = [fishshader];
+				camGame2.filters = [];
+			}
+		}	
+
+	//FUCKKKKK I FUCKED UP THE SPRITE ORDER D:
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 16:
+					FlxTween.tween(blackScreen, {alpha: 0.001}, calcSectionLength(2), {ease: FlxEase.sineOut});
+				case 68:
+					FlxTween.tween(deskBG2, {alpha: 1}, calcSectionLength(0.25), {
+						ease: FlxEase.sineIn,
+						onComplete: function(tween:FlxTween)
+						{
+							deskBG1.alpha = 0.001;
+							rainBG.alpha = 0.001;
+						}
+					});
+				case 72:
+					FlxTween.tween(PlayState.instance, {currentCameraZoom: 1.5}, calcSectionLength(2.25), {ease: FlxEase.quadIn});
+					FlxTween.tween(camGame2, {zoom: 1.5}, calcSectionLength(2.25), {ease: FlxEase.quadIn});
+				case 94:
+					cursorDDTO.alpha = 1;
+					FlxTween.tween(cursorDDTO, {x: 660, y: 400}, calcSectionLength(0.9), {ease: FlxEase.quadOut});
+				case 110:
+					cursorDDTO.scale.set(0.9, 0.9);
+				case 111:
+					cursorDDTO.scale.set(1, 1);
+				case 112:
+					extractPopup.alpha = 1;
+					extractPopup.scale.set();
+					FlxTween.tween(extractPopup.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
+				case 114:
+					FlxTween.tween(cursorDDTO, {alpha: 0.001}, 0.3, {ease: FlxEase.sineIn});
+				case 120:
+					FlxTween.tween(deskBG2, {alpha: 0.001}, calcSectionLength(0.3125), {ease: FlxEase.sineIn});
+				case 126:
+					libShader();
+				case 127:
+					testVM.bitmap.time = 0;
+				case 128:
+					libShader(false);
+					PlayState.instance.currentCameraZoom = 1;
+					camGame2.zoom = 1;
+
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+					deskBG2.alpha = 0.001;
+					extractPopup.alpha = 0.001;
+					deskBG2Overlay.alpha = 0.15;
+					PlayState.instance.camHUD.alpha = 1;
+
+					testVM.alpha = 1;
+				case 160, 224, 288, 480, 576, 688, 800, 896, 1024:
+					libPopup(526, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
+					libPopup(808, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
+					libPopup(184, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
+				case 352:
+					libiWindow.alpha = 1;
+					libiWindow.scale.set();
+					libiWindow.cameras = [camGame2];
+					FlxTween.tween(libiWindow.scale, {x: 1.1, y: 1.1}, 0.2, {ease: FlxEase.quadOut});
+				case 364:
+					libHando.alpha = 1;
+					libHando.cameras = [camGame2];
+					libHando.animation.play('idle', true);
+				case 368:
+					FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+
+					PlayState.instance.playerStrumline.visible = true;
+					PlayState.instance.playerStrumline.fadeInArrows();
+				case 384:
+					libHando.alpha = 0.001;
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+					libiWindow.scale.set(1, 1);
+					PlayState.instance.currentStage.getBoyfriend().setPosition(190, -30);
+					PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
+					PlayState.instance.currentStage.getBoyfriend().alpha = 1;
+					for (i in 0...grpPopups.length){
+						var props = grpPopups.pop(i);
+						props.destroy();
+					}
+				case 520, 1169, 1181, 1186, 1197, 1568, 1968, 2800, 2864, 2928:
+					libShader();
+				case 544, 1172, 1184, 1189, 1576, 2816, 2880, 2944, 3666:
+					libShader(false);
+				case 624:
+					testVM.alpha = 0.001;
+					libiWindow.alpha = 0.001;
+					PlayState.instance.currentStage.getBoyfriend().alpha = 0.001;
+					deskBG2Overlay.alpha = 0.001;
+					for (i in 0...grpPopups.length){
+						var props = grpPopups[i];
+						props.visible = false;
+					}
+					libAwaken.alpha = 1;
+					libAwaken.animation.play('idle', true);
+				case 640:
+					PlayState.instance.playerStrumline.scrollSpeed += 0.2;
+
+					testVM.alpha = 1;
+
+					PlayState.instance.currentStage.getBoyfriend().alpha = 1;
+					deskBG2Overlay.alpha = 0.15;
+					for (i in 0...grpPopups.length){
+						var props = grpPopups[i];
+						props.visible = true;
+					}
+					libAwaken.alpha = 0.001;
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+					addcharacter('ghost-sketch', 0);
+					PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
+					PlayState.instance.currentStage.getBoyfriend().screenCenter();
+
+					for (i in 0...grpPopups.length){
+						var props = grpPopups.pop(i);
+						props.destroy();
+					}
+
+					PlayState.instance.add(libVignette);
+					libVignette.cameras = [camGame2];
+				case 1152:
+					FlxTween.tween(testVM, {alpha: 0.001}, calcSectionLength(), {ease: FlxEase.sineOut});
+				case 1200:
+					libShader(false);
+					FlxTween.tween(deskBG2Overlay, {alpha: 0.001}, calcSectionLength(), {ease: FlxEase.linear});
+					camGame2.fade(0xFFFFFFFF, calcSectionLength(), false);
+				case 1216:
+					PlayState.instance.camGame.filters = [warpshader, fishshader];
+
+					addcharacter('ghost', 0);
+					PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
+					PlayState.instance.currentStage.getBoyfriend().screenCenter();
+
+					ghostBG.alpha = 1;
+					noteCam = true;
+
+					for (i in 0...grpPopups.length){
+						var props = grpPopups.pop(i);
+						props.destroy();
+					}
+					PlayState.instance.remove(libVignette);
+					PlayState.instance.add(libVignette);
+					libVignette.cameras = [camGame2];
+				case 1217:
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+				case 1712:
+					ghostBG.alpha = 0.001;
+					libVignette.alpha = 0.001;
+					staticshock.alpha = 1;
+					staticshock.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 1;
+					PlayState.instance.currentStage.add(staticshock);
+					staticshock.cameras = [camGame2];
+				case 1728:
+					PlayState.instance.camGame.filters = [fishshader];
+
+					eyeBG.alpha = 1;
+
+					PlayState.instance.currentStage.add(eyeShadow);
+					PlayState.instance.currentStage.add(eyeMidwayBG);
+
+					eyeMidwayBG.cameras = [camGame2];
+					eyeShadow.cameras = [camGame2];
+
+					eyeShadow.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 10;
+					eyeMidwayBG.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 10;
+
+					libVignette.alpha = 1;
+					staticshock.alpha = 0.001;
+				case 1984:
+					libShader(false);
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+					PlayState.instance.currentStage.getBoyfriend().shader = inverty; // this doesn't have shader check on purpose
+					libFinaleOverlay.alpha = 0.001;
+					eyeBG.alpha = 0.001;
+					eyeShadow.alpha = 0.001;
+					eyeMidwayBG.alpha = 0.001;
+					infoBG.alpha = 1;
+				case 2240:
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+					PlayState.instance.currentStage.getBoyfriend().shader = null; // this doesn't have shader check on purpose
+					infoBG.alpha = 0.001;
+					infoBG2.alpha = 1;
+				case 2480:
+					camGame2.fade(0xFF000000, 0, false);
+				case 2495:
+					crackBG.bitmap.time = 0;
+				case 2496:
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+					infoBG2.alpha = 0.001;
+					crackBG.alpha = 1;
+					crackBG.cameras = [camGame2];
+
+					libVignette.loadGraphic(Paths.image('libitina/vignetteend'));
+				case 2752, 2817, 2881, 2945, 2960, 2972, 2974, 2976, 2978, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2889, 2890, 2891, 2892, 2893:
+					// this code looks so fucking ugly
+					// I agree >:D
+					libPopup(FlxG.random.int(386, 666), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
+					libPopup(FlxG.random.int(668, 948), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
+					libPopup(FlxG.random.int(44, 324), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
+				case 2994:
+					PlayState.instance.currentStage.remove(libiWindow);
+					PlayState.instance.add(libiWindow);
+					libiWindow.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 69;
+					libiWindow.loadGraphic(Paths.image('libitina/granted'));
+					libiWindow.cameras = [PlayState.instance.camHUD];
+					libiWindow.screenCenter();
+					libiWindow.alpha = 1;
+					libiWindow.scale.set();
+					FlxTween.tween(libiWindow.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
+				case 3008:
+					camGame2.fade(0xFFFFFFFF, 0, false);
+					PlayState.instance.currentStage.getBoyfriend().alpha = 0.001;
+					libiWindow.alpha = 0.001;
+
+					crackBG.alpha = 0.001;
+
+					PlayState.instance.currentCameraZoom = PlayState.instance.stageZoom;
+					camGame2.zoom = PlayState.instance.stageZoom;
+					PlayState.instance.camHUD.zoom = PlayState.instance.defaultHUDCameraZoom;
+
+					libVignette.loadGraphic(Paths.image('libitina/vignette'));
+					libFinaleBG.alpha = 1;
+					libGhost.alpha = 1;
+
+					for (i in 0...grpPopups.length){
+						var props = grpPopups.pop(i);
+						props.destroy();
+					}
+				case 3020:
+					camGame2.fade(0xFFFFFFFF, calcSectionLength(2), true);
+					libFinaleBG.cameras = [camGame2];
+					libGhost.cameras = [camGame2];
+					for (i in 0...grpPopups.length){
+						var props = grpPopups.pop(i);
+						props.destroy();
+					}
+				case 3040:
+					PlayState.instance.playerStrumline.scrollSpeed /= 2;
+				case 3060:
+					FlxTween.tween(libFinaleBG, {y: libFinaleBG.y - 560}, calcSectionLength(6), {ease: FlxEase.sineInOut});
+					FlxTween.tween(libGhost, {y: libGhost.y - 580}, calcSectionLength(5), {ease: FlxEase.sineInOut, startDelay: calcSectionLength(1.1)});
+				case 3584:
+					camGame2.fade(0xFFFFFFFF, 0.2, true);
+					libParty.alpha = 1;
+					libRockIs.alpha = 1;
+					libParty.cameras = [camGame2];
+					libRockIs.cameras = [camGame2];
+				case 3624:
+					FlxTween.tween(libFinale, {alpha: 1}, calcSectionLength(0.35), {
+						ease: FlxEase.sineIn,
+						onComplete: function(tween:FlxTween)
+						{
+							libFinaleBG.alpha = 0.001;
+							libGhost.alpha = 0.001;
+							libParty.alpha = 0.001;
+							libRockIs.alpha = 0.001;
+						}
+					});
+				case 3646, 3682, 3688, 3710:
+					libShader(true, false);
+				case 3648:
+					// I would've used the switch case but then it wouldn't run the loadGraphic stuff
+					libShader(false);
+					libFinale.loadGraphic(Paths.image('libitina/finale/Finale3'));
+					libFinale.cameras = [camGame2];
+				case 3664:
+					libShader(true, false);
+					libFinaleOverlay.alpha = 1;
+					libFinaleOverlay.cameras = [camGame2];
+				case 3684:
+					libShader(false);
+					libFinale.loadGraphic(Paths.image('libitina/finale/Finale4'));
+					libFinale.cameras = [camGame2];
+				case 3692:
+					libShader(false);
+
+					libFinaleOverlay.setGraphicSize(Std.int(FlxG.width * 0.86 / PlayState.instance.stageZoom));
+					libFinaleOverlay.screenCenter();
+
+					deskBG2.loadGraphic(Paths.image('libitina/outroscreen'));
+					PlayState.instance.camHUD.alpha = 0.001;
+					libFinale.alpha = 0.001;
+					deskBG2.alpha = 1;
+					deskBG2.cameras = [camGame2];
+				case 3711:
+					rainBG.bitmap.time = 0;
+				case 3712:
+					camGame2.zoom = 1.4;
+					FlxTween.tween(camGame2, {zoom: 1}, calcSectionLength(2.5), {ease: FlxEase.sineInOut});
+
+					libShader(false);
+					ModuleHandler.getModule('Credits').scriptCall('tweenIn');
+					rainBG.alpha = 1;
+					rainBG.cameras = [camGame2];
+
+					deskBG1.loadGraphic(Paths.image('libitina/outrodesk'));
+					deskBG1.alpha = 1;
+					deskBG1.cameras = [camGame2];
+					deskBG1.zIndex = 110;
+
+					PlayState.instance.currentStage.refresh();
+
+					deskBG2.alpha = 0.001;
+					deskBG2.cameras = [camGame2];
+					libFinaleOverlay.alpha = 0.001;
+				case 3760:
+					camGame2.fade(0xFFFFFFFF, 0.3, true);
+					ModuleHandler.getModule('Credits').scriptCall('tweenOut');
+					PlayState.instance.camHUD.alpha = 0.001;
+					deskBG1.alpha = 0.001;
+
+					rainBG.alpha = 0.001;
+			}
+		}
+
+	var curDokiLight:Int = 0;
+	var pastDokiLight:Int = 1;
+
+	var libPopupTypes:Array<Array<String>> = [
+		[
+			"Binary",
+			"Error",
+			"Unauthorized",
+			"Unknown",
+			"Unspecified"
+		],
+		[
+			"Access",
+			"Corrupted"
+		]
+	];
+
+	function libPopup(x:Float = 0, y:Float = 0, scale:Float = 1, type:String = 'Unspecified', style:String = '', delay:Float = 0, random:Bool = true)
+	{
+		if (x == null) x = 0;
+		if (y == null) y = 0;
+		if (scale == null) scale = 0;
+		if (type == null) type = 'Unspecified';
+		if (style == null) style = '';
+		if (delay == null) delay = 0;
+		if (random == null) random = true;
+
+		if (random)
+			{
+				var popupArray:Array<String> = libPopupTypes[style == 'red' ? 1 : 0];
+	
+				// Randomize the types, while excluding whatever was the past type
+				// so as not to repeat the same type
+				curDokiLight = FlxG.random.int(0, popupArray.length - 1, [pastDokiLight]);
+				pastDokiLight = curDokiLight;
+	
+				type = popupArray[curDokiLight];
+			}
+	
+			var x2 = x;
+			var y2 = y;
+			var scale2 = scale;
+			var type2 = type;
+			var style2 = style;
+
+			new FlxTimer().start(delay, function(tmr:FlxTimer)
+			{
+				var eye = new FlxSprite(x2, y2);
+				eye.frames = Paths.getSparrowAtlas('libitina/popups' + style2 + '/' + type2);
+				eye.animation.addByPrefix('idle', 'PopupAnim', 24, true);		
+				eye.scale.set(scale2, scale2);
+				eye.cameras = [camGame2];
+				eye.animation.play('idle', true);
+				eye.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 5;
+				PlayState.instance.add(eye);
+				grpPopups.push(eye);
+	
+				new FlxTimer().start(3.4, function(tmr:FlxTimer)
+				{
+					grpPopups.remove(eye);
+					eye.destroy();
+				});
+			});
+	}
+
+	override function onGameOver(event:ScriptEvent):Void {
+		super.onGameOver(event);
+		new FlxTimer().start(0.000001, function(tmr)
+			{
+				for (cameras in FlxG.cameras.list){
+					cameras.filters = [];
+				}		
+				FunkinSound.stopAllAudio();
+				var blueScreen = new FlxSprite().loadGraphic(Paths.image('LibiGameOver'));
+				blueScreen.scrollFactor.set();
+				GameOverSubState.instance.add(blueScreen);
+				GameOverSubState.instance.startDeathMusic(1.0, false);		
+			});
+	}		
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+}

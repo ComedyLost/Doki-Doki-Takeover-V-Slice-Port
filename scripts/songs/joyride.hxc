@@ -1,0 +1,124 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import funkin.play.PlayStatePlaylist;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import flixel.util.FlxSave;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import funkin.modding.module.ModuleHandler;
+import funkin.modding.module.Module;
+import funkin.graphics.FunkinCamera;
+import flixel.group.FlxTypedSpriteGroup;
+
+class JoyrideSong extends Song
+{
+	function new()
+	{
+		super('joyride');
+	}
+
+
+	var curDokiLight;
+	var pastDokiLight;
+	var encoreTime:Int;
+	
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		encoreTime = 0;
+		sunshine = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/SayoSunshine'));
+		sunshine.alpha = 0.001;
+		sunshine.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(sunshine);
+	}
+
+	override function onCountdownStart(event) {
+		super.onCountdownStart(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+	}
+
+	function calcSectionLength(duration:Int){
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	function onSongRetry(event:ScriptEvent) {
+		super.onSongRetry(event);
+		encoreTime = 0;
+	}	  
+
+	function onBeatHit(event:SongTimeScriptEvent):Void {	
+		super.onBeatHit(event);
+		var curBeat = event.beat;
+		switch (encoreTime)
+			{
+				default:
+					// none
+				case 1, 2:
+					if (curBeat % 2 == 0)
+					{
+						// Hi Tioder :)
+						// Set colors to an array
+						var dokiLights:Array<Int> = [0xff95E0FA, 0xff8CD465, 0xffFC95D3, 0xff9E72D2];
+	
+						// Randomize the colors, while excluding whatever was the past light
+						// so as not to repeat the same color
+						curDokiLight = FlxG.random.int(0, dokiLights.length - 1, [pastDokiLight]);
+						pastDokiLight = curDokiLight;
+	
+						var funnyFlash:FlxSprite;
+	
+						if (encoreTime == 2) // Can turn into a switch if need be
+							funnyFlash = sunshine;
+	
+						FlxTween.cancelTweensOf(funnyFlash);
+						funnyFlash.color = dokiLights[curDokiLight];
+						funnyFlash.alpha = 1;
+						FlxTween.tween(funnyFlash, {alpha: 0.001}, 1, {startDelay: 0.5});
+					}
+			}
+	}
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			super.onStepHit(event);
+			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+			if (PlayState.instance.isMinimalMode) return;
+
+			switch(event.step)
+			{
+				case 126:
+					encoreTime = 2;
+					//PlayState.instance.currentCameraZoom = 1.3;
+				case 254:
+					encoreTime = 0;
+					//PlayState.instance.currentCameraZoom = 1.6;
+				case 270, 780:
+					encoreTime = 2;
+					//PlayState.instance.currentCameraZoom = 1;
+				case 512:
+					encoreTime = 0;
+				case 768:
+					//PlayState.instance.currentCameraZoom = 1.6;
+				case 1024:
+					encoreTime = 0;
+			}
+		}
+}

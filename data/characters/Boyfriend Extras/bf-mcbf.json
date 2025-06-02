@@ -1,0 +1,206 @@
+{
+    "version": "1.0.0",
+    "name": "MCBF",
+    "renderType": "multisparrow",
+    "assetPath": "characters/boyfriend/dokiMCBF",
+    "flipX": true,
+    "singTime": 10.7,
+    "doesLoop": true,
+    "healthIcon": {"id": "dokiMCBF"},
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "BF idle dance",
+            "offsets": [
+                -3,
+                1
+            ]
+        },
+        {
+            "name": "hey",
+            "prefix": "BF HEY",
+            "offsets": [
+                -13,
+                15
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "BF NOTE LEFT0",
+            "offsets": [
+                26,
+                12
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "BF NOTE DOWN0",
+            "offsets": [
+                -23,
+                -15
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "BF NOTE UP0",
+            "offsets": [
+                -37,
+                41
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "BF NOTE RIGHT0",
+            "offsets": [
+                -47,
+                0
+            ]
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "BF NOTE LEFT MISS",
+            "offsets": [
+                25,
+                21
+            ]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "BF NOTE DOWN MISS",
+            "offsets": [
+                -25,
+                4
+            ]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "BF NOTE UP MISS",
+            "offsets": [
+                -43,
+                41
+            ]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "BF NOTE RIGHT MISS",
+            "offsets": [
+                -52,
+                23
+            ]
+        },
+        {
+            "name": "hit",
+            "prefix": "BF hit",
+            "offsets": [
+                16,
+                18
+            ]
+        },
+        {
+            "name": "scared",
+            "prefix": "BF idle shaking",
+            "offsets": [
+                -48,
+                0
+            ],
+            "looped": false
+        },
+        {
+            "name": "dodge",
+            "prefix": "boyfriend dodge",
+            "offsets": [
+                -11,
+                -16
+            ]
+        },
+        {
+            "name": "dodgeLeft",
+            "prefix": "Dodge Left",
+            "offsets": [
+                22,
+                -14
+            ]
+        },
+        {
+            "name": "dodgeRight",
+            "prefix": "Dodge Right",
+            "offsets": [
+                -20,
+                -16
+            ]
+        },
+        {
+            "name": "dodgeUp",
+            "prefix": "Dodge Up",
+            "offsets": [
+                -33,
+                -7
+            ]
+        },
+        {
+            "name": "dodgeDown",
+            "prefix": "Dodge Down",
+            "offsets": [
+                -42,
+                -42
+            ]
+        },
+        {
+            "name": "attack",
+            "prefix": "boyfriend attack",
+            "offsets": [
+                287,
+                262
+            ]
+        },
+        {
+            "name": "pre-attack",
+            "prefix": "bf pre attack",
+            "offsets": [
+                -41,
+                -46
+            ]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "BF dies",
+	    "assetPath": "characters/deaths/dokimcbfdeath",
+            "offsets": [
+                21,
+                71
+            ]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "BF Dead Loop",
+	    "assetPath": "characters/deaths/dokimcbfdeath",
+            "offsets": [
+                21,
+                58
+            ],
+            "looped": true
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "BF Dead confirm",
+	    "assetPath": "characters/deaths/dokimcbfdeath",
+            "offsets": [
+                21,
+                79
+            ]
+        },
+        {
+            "name": "fakeDeath",
+            "prefix": "BF dies",
+	    "assetPath": "characters/deaths/dokimcbfdeath",
+            "offsets": [
+                44,
+                71
+            ]
+        }  
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

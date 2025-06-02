@@ -1,0 +1,183 @@
+{
+  "props": [
+    {
+      "name": "solid",
+      "assetPath": "#FFFFFF",
+      "position": [-500, -1000],
+      "scale": [2400, 2000],
+      "scroll": [0, 0]
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 10,
+      "position": [-200, 0],
+      "scale": [6, 6],
+      "animType": "sparrow",
+      "name": "Bar BG",
+      "isPixel": true,
+      "assetPath": "va11halla/barbg",
+      "scroll": [1, 1]
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 20,
+      "position": [-200, 0],
+      "scale": [6, 6],
+      "animType": "sparrow",
+      "name": "The Bar",
+      "isPixel": true,
+      "assetPath": "va11halla/barbg2",
+      "scroll": [1, 1]
+    },
+    {
+      "danceEvery": 2,
+      "zIndex": 15,
+      "position": [617, 72],
+      "scale": [6, 6],
+      "animType": "sparrow",
+      "name": "Dana",
+      "startingAnimation": "idle",
+      "isPixel": true,
+      "alpha": 0,
+      "assetPath": "va11halla/dana",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "dana",
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 1,
+      "zIndex": 60,
+      "position": [-163, 242],
+      "scale": [6, 6],
+      "animType": "sparrow",
+      "name": "Dorth",
+      "startingAnimation": "danceRight",
+      "isPixel": true,
+      "assetPath": "va11halla/dorth",
+      "scroll": [1, 1],
+      "alpha": 0,
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "dortohy_left",
+          "flipX": false,
+          "name": "danceLeft"
+        },
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "dortohy_right",
+          "flipX": false,
+          "name": "danceRight"
+        }
+      ]
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 15,
+      "position": [1023, 85],
+      "scale": [6, 6],
+      "animType": "sparrow",
+      "name": "Bar Ads",
+      "startingAnimation": "Advert",
+      "isPixel": true,
+      "assetPath": "va11halla/BarAds",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "BarAdvert",
+          "looped": true,
+          "flipX": false,
+          "name": "Advert"
+        }
+      ]
+    },
+    {
+      "danceEvery": 2,
+      "zIndex": 15,
+      "position": [975, 61],
+      "scale": [6, 6],
+      "animType": "sparrow",
+      "name": "Alma",
+      "startingAnimation": "idle",
+      "isPixel": true,
+      "alpha": 0,
+      "assetPath": "va11halla/alma",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "alma",
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 12,
+      "position": [-200, 0],
+      "scale": [6, 6],
+      "animType": "sparrow",
+      "name": "Anna",
+      "startingAnimation": "idle",
+      "isPixel": true,
+      "assetPath": "va11halla/anna",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "anna_idle",
+          "flipX": false,
+          "name": "idle"
+        },
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "anna_static",
+          "flipX": false,
+          "name": "static"
+        }
+      ]
+    }
+  ],
+  "cameraZoom": 1.1,
+  "version": "1.0.0",
+  "characters": {
+    "bf": {
+      "zIndex": 70,
+      "position": [850, 1000],
+      "cameraOffsets": [-100, -150]
+    },
+    "dad": {
+      "zIndex": 50,
+      "position": [300, 550],
+      "cameraOffsets": [260, 175]
+    },
+    "gf": {
+      "zIndex": 60,
+      "position": [570, 900],
+      "cameraOffsets": [0, -50]
+    }
+  },
+  "name": "Va11halla Bar"
+}

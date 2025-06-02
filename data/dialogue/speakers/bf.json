@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "name": "Boyfriend (Doki Pixel)",
+  "assetPath": "dialogue/bf",
+  "flipX": true,
+  "isPixel": true,
+  "scale": 5.4,
+  "offsets": [650, -24],
+  "animations": [
+    {
+      "name": "bf_neutral",
+      "prefix": "bf_neutral",
+      "offsets": [0, 0],
+      "frameRate": 12,
+      "looped": false
+    },
+    {
+      "name": "bf_angry",
+      "prefix": "bf_angry",
+      "offsets": [0, 0],
+      "frameRate": 12
+    },
+    {
+      "name": "bf_what",
+      "prefix": "bf_what",
+      "offsets": [0, 0],
+      "frameRate": 12,
+      "looped": false
+    }
+  ]
+}

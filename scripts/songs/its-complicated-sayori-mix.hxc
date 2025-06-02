@@ -1,0 +1,32 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.Highscore;
+import funkin.save.Save;
+import funkin.modding.module.ModuleHandler;
+
+class ItsComplicatedSayoriMix extends Song
+{
+	function new()
+	{
+		super('its-complicated-sayori-mix');
+	}
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
+		function onStepHit(event:SongTimeScriptEvent):Void
+		{
+			if (PlayState.instance == null) return;
+			switch(event.step)
+			{
+				case 260:
+					ModuleHandler.getModule('Credits').scriptCall('tweenIn');
+				case 320:
+					ModuleHandler.getModule('Credits').scriptCall('tweenOut');
+			}
+		}
+}

@@ -1,0 +1,303 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "sayoc",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"It appears that we have visitors.\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "hmmph",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Seriously, Sayori? You brought a boy to the club?\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Hey- I wasn’t expecting anyone new. We haven’t even put out fliers for the club yet!\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"But look, Natsuki! We have another girl too!\""]
+    },
+    {
+      "speaker": "gfright",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "gf",
+      "text": ["*empty thoughts*"]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Ehehe, if I knew we were expecting more members- I would've asked Natsuki to bake some welcome cupcakes!\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "happ",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Oh! And maybe I could've asked Yuri to make tea as well!\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "happ",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"I need to write this down for later: 'Plan Tea Party for Club Soon'\""]
+    },
+    {
+      "speaker": "yuriright",
+      "speakerAnimation": "smile",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"Sounds like you’re already very excited about our new guests. You haven’t even asked for their names yet-\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Ah, right! Eheh, silly me. What’re your names, new literature club attendees?\""]
+    },
+    {
+      "speaker": "bfright",
+      "speakerAnimation": "beep",
+      "box": "doki",
+      "boxAnimation": "bf",
+      "text": ["\"Beep skee!\""]
+    },
+    {
+      "speaker": "gfright",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "gf",
+      "text": ["*happy gesture*"]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "happ",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"You two are Boyfriend and Girlfriend? Aww, you look so cute together!!!\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"...that’s cute and all, but like, what are your names?\""]
+    },
+    {
+      "speaker": "bfright",
+      "speakerAnimation": "beep",
+      "box": "doki",
+      "boxAnimation": "bf",
+      "text": ["\"Beep skee!\""]
+    },
+    {
+      "speaker": "gfright",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "gf",
+      "text": ["*another happy gesture*"]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Yes, we know that you guys are dating! We wanna know your NAMES!\""]
+    },
+    {
+      "speaker": "bfright",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "bf",
+      "text": ["\"Bee dee skee dep!\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "hmmph",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"...I don’t like them already.\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "hmmph",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"They’re already messing with me!\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"Natsuki! Not so harsh...\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "hmmph",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Hmph.\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Eheheh... I’m sorry about that. If you don’t want to tell us your names, that’s ok!\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "happ",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"I’m Sayori!\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"That lovely lavender lady over there is Yuri, and Natsuki is the one who’s real sassy today.\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"With introductions aside... may we ask what these microphones are for?\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"I was just about to ask that.\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"I hope you didn’t confuse this place with the music club-\""]
+    },
+    {
+      "speaker": "bfright",
+      "speakerAnimation": "beep",
+      "box": "doki",
+      "boxAnimation": "bf",
+      "text": ["\"Boop dee!\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"...you really want to sing with us?\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "blush",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"I’m... not sure how comfortable I’d feel doing that-\""]
+    },
+    {
+      "speaker": "bfright",
+      "speakerAnimation": "beep",
+      "box": "doki",
+      "boxAnimation": "bf",
+      "text": ["\"Skee dep doop!\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "blush",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"Wh-what do you mean I have to?!\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"You know, we’ve been working so hard on writing and poems lately. I think having a fun singing session with everyone is the perfect break we all need!\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "blush",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"-!\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"When you think about it, songs are just poems with music behind them, aren’t they?\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "yeah",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"I bet we’d all be great at this!\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"...\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"...\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "yeah",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Here, I’ll go first!\""]
+    }
+  ]
+}

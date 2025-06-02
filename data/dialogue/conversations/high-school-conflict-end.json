@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "Lunchbox",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "none"
+  },
+
+  "dialogue": [
+    {
+      "speaker": "bf-pixel",
+      "speakerAnimation": "talkEnter",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Skdee bep!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_happy",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["You kept up really well with my song!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_neutral",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Ah, I haven't felt this happy in a while!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_neutral",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Could we sing again?"]
+    },
+    {
+      "speaker": "bf-pixel",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Beep!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_happy",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["Alright! Here we go-"]
+    },
+    {
+      "speaker": "senpaiddto-flipped",
+      "speakerAnimation": "who",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Who the hell are you?!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["-huh?"]
+    }
+  ]
+}

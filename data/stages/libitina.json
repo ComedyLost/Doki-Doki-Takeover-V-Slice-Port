@@ -1,0 +1,23 @@
+{
+  "props": [],
+  "cameraZoom": 1,
+  "version": "1.0.0",
+  "characters": {
+    "bf": {
+      "zIndex": 70,
+      "position": [260, 0],
+      "cameraOffsets": [0, 0]
+    },
+    "dad": {
+      "zIndex": 60,
+      "position": [100, 450],
+      "cameraOffsets": [0, 0]
+    },
+    "gf": {
+      "zIndex": 50,
+      "cameraOffsets": [0, 0],
+      "position": [400, 130]
+    }
+  },
+  "name": "Libitina"
+}

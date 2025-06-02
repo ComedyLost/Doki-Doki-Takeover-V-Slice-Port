@@ -1,0 +1,44 @@
+import funkin.modding.module.Module;
+import flixel.FlxG;
+import funkin.Paths;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.util.ReflectUtil;
+import funkin.ui.freeplay.SongMenuItem;
+import StringTools;
+
+class DifficultyOrderFix extends Module {
+	public function new(){
+		super('DifficultyOrderFix');
+	}
+	
+	var curLyrics:FlxText;
+
+	override function onSubStateOpenEnd(event) {
+        super.onSubStateOpenEnd(event);
+
+        if (Std.isOfType(event.targetState, FreeplayState)) {
+			fixOrder(event.targetState);
+		}
+	}
+
+	override function onStateOpenEnd(event) {
+        super.onStateOpenEnd(event);
+
+        if (Std.isOfType(event.targetState, FreeplayState)) {
+			fixOrder(event.targetState);
+		}
+	}
+
+	//Fix the order of the difficulties
+	function fixOrder(state){
+		var defaultDiffs = ['easy', 'normal', 'hard', 'erect', 'nightmare'];
+		for (diffs in state.allDifficulties){
+			if (defaultDiffs.contains(diffs)) state.allDifficulties.remove(diffs);
+		}
+		var remainingDiffs = state.allDifficulties;
+		state.allDifficulties = defaultDiffs;
+		for (diffs in remainingDiffs){
+			if (!defaultDiffs.contains(diffs)) state.allDifficulties.push(diffs);
+		}
+	}
+}

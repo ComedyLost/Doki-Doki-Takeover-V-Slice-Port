@@ -1,0 +1,117 @@
+{
+    "version": "1.0.0",
+    "name": "Pixel BF (Va11halla)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/newbfPixelbar",
+    "flipX": true,
+    "singTime": 4,
+    "healthIcon": {"id": "pixelbfdoki"},
+    "death": {
+        "cameraOffsets": [-150, 50]
+    },    
+    "animations": [
+        {
+            "name": "singLEFTmiss",
+            "prefix": "BF Left Miss",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "BF Up Miss",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "BFLeft",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "BFRight",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "BF Down Miss",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "BF Right Miss",
+            "offsets": [
+                -4,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "BFDown",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "idle",
+            "prefix": "BFIdle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "BFUp",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "hey",
+            "prefix": "BFHey",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "BF Dies pixel",
+            "assetPath": "characters/bfPixelsDEAD",
+            "offsets": [25, -10]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "Retry Loop",
+            "assetPath": "characters/bfPixelsDEAD",
+            "looped": true,
+            "offsets": [20, -12.5]
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "RETRY CONFIRM",
+            "assetPath": "characters/bfPixelsDEAD",
+            "offsets": [20, -12.5]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": true,
+    "scale": 6,
+    "Made_With": "the cigs Converter"
+}

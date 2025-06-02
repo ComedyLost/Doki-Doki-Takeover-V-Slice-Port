@@ -1,0 +1,47 @@
+{
+  "version": "2.2.4",
+  "songName": "Glitcher (Monika Mix)",
+  "artist": "HighPoweredKeyz & Matt$ / YingYang48",
+  "charter": "Unknown",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    },
+    "altVocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokisall",
+    "album": "takeover",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "bf-doki",
+      "girlfriend": "gf-realdoki",
+      "opponent": "monika",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "stage": "dokiglitcher",
+    "noteStyle": "ddto",
+    "ratings": {
+      "normal": 5
+    },
+    "previewStart": 0,
+    "previewEnd": 15000
+  },
+  "generatedBy": "Friday Night Funkin' - v0.6.4",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 175,
+      "n": 4,
+      "d": 4
+    }
+  ]
+}

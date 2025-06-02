@@ -1,0 +1,398 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import funkin.play.PlayStatePlaylist;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import flixel.util.FlxSave;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import funkin.modding.module.ModuleHandler;
+import funkin.modding.module.Module;
+import funkin.graphics.FunkinCamera;
+import flixel.group.FlxTypedSpriteGroup;
+
+class OurHarmonySong extends Song
+{
+	function new()
+	{
+		super('our-harmony');
+
+		save = new FlxSave();
+        save.bind("Costumes");
+
+		options = new FlxSave();
+		options.bind("TakeoverOptions");	
+	}
+
+	var playStrumDefaultPos = [];
+	var oppStrumDefaultPos = [];
+	var yuri;
+	var natsuki;
+    var sukiCostumes:Array<String> = ['', '-casual', '-skater', '-kapi', '-sunday', '-hank', '-blueskies'];
+	var yuriCostumes:Array<String> = ['', '-casual', '-derby', '-picnic', '-taki', '-tabi', '-blueskies'];
+	var lyricData:Array<Dynamic>;
+	var cg1:FlxSprite;
+	var cg2:FlxSprite;
+	var cg2Group:FlxTypedSpriteGroup<FlxSprite>;
+	var whiteflash:FlxSprite;
+	var camGame2:FunkinCamera;
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		lyricData = [];
+		var opponentStrums = PlayState.instance.opponentStrumline.strumlineNotes;
+		var playerStrums = PlayState.instance.playerStrumline.strumlineNotes;
+		for (i in 0...4)
+			{
+				playStrumDefaultPos.push(opponentStrums.members[i].y);
+				oppStrumDefaultPos.push(playerStrums.members[i].y);
+			}
+
+		camGame2 = new FunkinCamera('playStateCamGame2');
+		FlxG.cameras.add(camGame2, false);
+		camGame2.bgColor = 0x000000;
+
+		FlxG.cameras.remove(PlayState.instance.camHUD, false);
+		FlxG.cameras.add(PlayState.instance.camHUD, false);	
+
+		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
+		FlxG.cameras.add(PlayState.instance.camCutscene, false);
+
+		cg1 = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg1'));
+		cg1.alpha = 0.001;
+		cg1.cameras = [PlayState.instance.camHUD];
+		cg1.setGraphicSize(Std.int(cg1.width * 0.7));//Smallest 0.67
+		cg1.updateHitbox();
+		cg1.screenCenter();
+		cg1.scrollFactor.set();
+		PlayState.instance.add(cg1);
+
+		//Tween to -954x
+		cg2 = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg2'));
+		cg2.alpha = 0.001;
+		cg2.cameras = [PlayState.instance.camHUD];
+		cg2.scrollFactor.set();
+		PlayState.instance.add(cg2);
+
+		cg2Group = new FlxTypedSpriteGroup();
+		cg2Group.cameras = [camGame2];
+		cg2Group.scrollFactor.set();
+		cg2Group.alpha = 0.001;
+		PlayState.instance.add(cg2Group);
+
+		//Why must you do this to me Team TBD
+		cg2BG = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2BG'));
+		cg2BG.ID = 4;
+		cg2Group.add(cg2BG);
+		cg2Yuri = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Yuri'));
+		cg2Yuri.ID = 3;
+		cg2Group.add(cg2Yuri);
+		cg2Sayo = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Sayo'));
+		cg2Sayo.ID = 2;
+		cg2Group.add(cg2Sayo);
+		cg2Natsu = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Natsu'));
+		cg2Natsu.ID = 1;
+		cg2Group.add(cg2Natsu);
+		cg2Moni = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Moni'));
+		cg2Moni.ID = 0;
+		cg2Group.add(cg2Moni);
+
+		whiteflash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		whiteflash.alpha = 0.0001;
+		whiteflash.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(whiteflash);
+
+
+		lyrics = new FlxText();
+		lyrics.fieldWidth = FlxG.width;
+		lyrics.setFormat(Paths.font("HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		lyrics.screenCenter(0x01);
+		lyrics.y = (FlxG.height * 0.72);
+		lyrics.borderSize = 1.25;
+		lyrics.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(lyrics);
+
+		var lyricFile = coolTextFile('songs/' + PlayState.instance.currentSong.id.toLowerCase() + '/lyrics');
+
+		for (lyric in lyricFile) {
+			var data:Array<String> = lyric.split('::');
+			lyricData.push([Std.parseInt(data[0]), data[1]]);
+		}
+	}
+
+	function onNoteHit(callback){
+		if (PlayState.instance == null) return;
+	
+		switch (callback.note.noteData.kind) {
+			case "GF Sing":
+				yuri.holdTimer = 0;
+				yuri.playSingAnimation(callback.note.noteData.getDirection(), false);
+			case "Hurt Note":
+				natsuki.holdTimer = 0;
+				natsuki.playSingAnimation(callback.note.noteData.getDirection(), false);
+		}
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		processNotes(event);
+	}
+
+	function stutterNotes(elapsed:Float):Void
+		{
+			// Process hold notes on the opponent's side.
+			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+						{
+							switch (holdNote.noteData.kind) {
+								case "GF Sing":
+									if (yuri.isSinging()) yuri.animation.curAnim.restart();
+								case "Hurt Note":
+									if (natsuki.isSinging()) natsuki.animation.curAnim.restart();
+							}
+						}
+				}  
+		}
+
+
+	function processNotes(elapsed:Float):Void
+		{
+			// Process hold notes on the opponent's side.
+			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+						{
+							switch (holdNote.noteData.kind) {
+								case "GF Sing":
+									if (yuri.isSinging()) yuri.holdTimer = 0;
+								case "Hurt Note":
+									if (natsuki.isSinging()) natsuki.holdTimer = 0;
+							}
+						}
+				}
+			  
+		}
+
+	override function onSongLoaded(event) {
+		super.onSongLoaded(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		createDokis();
+	}
+	
+	override function onSongEnd(event) {
+		super.onSongEnd(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+   		camGame2.fade(0xFF000000, 0.6);
+	}
+
+	override function onDestroy(event) {
+		super.onDestroy(event);
+		if (yuri != null) {
+			yuri = null;
+		}
+		if (natsuki != null) {
+			natsuki = null;
+		}
+	}
+	function createDokis(){
+		if (yuri != null || natsuki != null) return;
+		var natsukiName = (save.data.selectedSukiCostume == 0) ? 'natsuki' : 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
+		var yuriName = (save.data.selectedYuriCostume == 0) ? 'yuri' : 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
+
+		yuri = CharacterDataParser.fetchCharacter(yuriName);
+		if (yuri != null) {
+			yuri.set_characterType(CharacterType.OTHER);
+			PlayState.instance.currentStage.addCharacter(yuri, CharacterType.OTHER);
+		}
+		yuri.zIndex = PlayState.instance.currentStage.getDad().zIndex - 1;
+		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
+		yuri.x = (stageCharData.position[0] - yuri.characterOrigin.x) + 150;
+		yuri.y = (stageCharData.position[1] - yuri.characterOrigin.y) - 20;
+
+		yuri.originalPosition.set(yuri.x, yuri.y);  
+
+		natsuki = CharacterDataParser.fetchCharacter(natsukiName);
+		if (natsuki != null) {
+			natsuki.set_characterType(CharacterType.OTHER);
+			PlayState.instance.currentStage.addCharacter(natsuki, CharacterType.OTHER);
+		}
+		natsuki.zIndex = PlayState.instance.currentStage.getDad().zIndex + 1;
+		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
+		natsuki.x = (stageCharData.position[0] - natsuki.characterOrigin.x) - 150;
+		natsuki.y = (stageCharData.position[1] - natsuki.characterOrigin.y) + 20;
+
+		natsuki.originalPosition.set(natsuki.x, natsuki.y);  
+
+		PlayState.instance.currentStage.refresh();
+	}
+
+	override function onCountdownStart(event) {
+		super.onCountdownStart(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		PlayState.instance.iconP2.loadCharacter('our-harmony');
+	}
+
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	public static function coolTextFile(path:String):Array<String>
+		{
+			var fullText:String = Assets.getText(Paths.txt(path));
+
+			// Split into lines and remove empty lines
+			var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
+		
+			return firstArray;				
+		}	
+
+	function onSongRetry(event:ScriptEvent) {
+		super.onSongRetry(event);
+		PlayState.instance.cameraZoomRate = 4;
+		PlayState.instance.iconP2.loadCharacter('our-harmony');
+		if (lyrics != null) lyrics.text = '';
+		var opponentStrums = PlayState.instance.opponentStrumline.strumlineNotes;
+		var playerStrums = PlayState.instance.playerStrumline.strumlineNotes;
+		for (i in 0...4)
+			{
+				FlxTween.cancelTweensOf(opponentStrums.members[i]);
+				FlxTween.cancelTweensOf(playerStrums.members[i]);
+				opponentStrums.members[i].y = playStrumDefaultPos[i];
+				playerStrums.members[i].y = oppStrumDefaultPos[i];
+				opponentStrums.members[i].alpha = 1;
+				playerStrums.members[i].alpha = 1;
+			}
+		FlxTween.cancelTweensOf(cg1);
+		FlxTween.cancelTweensOf(cg2);
+		FlxTween.cancelTweensOf(whiteflash);
+		cg1.scale.set(0.7, 0.7);//Smallest 0.67
+		cg1.alpha = 0;
+		cg1.screenCenter();
+		cg2.alpha = 0;
+		cg2.screenCenter();
+		var hueh231 = ModuleHandler.getModule("coolgameplay").scriptGet("hueh231", []);
+		if (hueh231 != null)
+			hueh231.visible = true;
+		whiteflash.alpha = 0;
+		for (item in cg2Group.members){
+			FlxTween.cancelTweensOf(item);
+			item.x = 0;
+		}
+		cg2Group.alpha = 0;
+		lyrics.y = (FlxG.height * 0.72);
+		for (hud in [PlayState.instance.healthBarBG, PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.scoreText]){
+			FlxTween.cancelTweensOf(hud);
+			hud.alpha = 1;
+		}
+	}	  
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			super.onStepHit(event);
+			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+			if (PlayState.instance.isMinimalMode) return;
+			if (options.data.psychholds) stutterNotes();	
+
+			if (event.step >= 2448 && PlayState.instance.vocals.playerVolume != 1) PlayState.instance.vocals.playerVolume = 1;
+			if (lyrics != null){
+				for (i in 0...lyricData.length) {
+					if (event.step == lyricData[i][0]) {
+						lyrics.text = lyricData[i][1];
+						lyrics.screenCenter(0x01);
+					}
+				}
+			}
+			switch(event.step)
+			{
+				case 2420:
+					lyrics.y += 80;
+
+					FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.healthBar, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.iconP1, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.scoreText, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+
+					FlxTween.tween(PlayState.instance.playerStrumline.background, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.opponentStrumline.background, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+
+					FlxTween.tween(whiteflash, {alpha: 1}, 2, {ease: FlxEase.sineIn});
+				case 2432:
+					var opponentStrums = PlayState.instance.opponentStrumline.strumlineNotes;
+					var playerStrums = PlayState.instance.playerStrumline.strumlineNotes;
+					for (i in 0...4)
+						{
+							FlxTween.tween(opponentStrums.members[i], {y: opponentStrums.members[i].y - 10, alpha: 0}, 1,
+							{ease: FlxEase.circOut, startDelay: 0.5 + (0.1 * i)});
+							FlxTween.tween(playerStrums.members[i], {y: playerStrums.members[i].y - 10, alpha: 0}, 1,
+							{ease: FlxEase.circOut, startDelay: 0.5 + (0.1 * i)});
+						}
+				case 2448:
+					var hueh231 = ModuleHandler.getModule("coolgameplay").scriptGet("hueh231", []);
+					if (hueh231 != null)
+						hueh231.visible = false;
+
+					cg1.alpha = 1;
+					PlayState.instance.vocals.playerVolume = 1;
+					PlayState.instance.cameraZoomRate = 0;
+					FlxTween.tween(cg1.scale, {x: 0.67, y: 0.67}, 5, {ease: FlxEase.sineIn});
+					FlxG.camera.zoom = PlayState.instance.currentStage.camZoom;
+				case 2456:
+					FlxTween.tween(whiteflash, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+				case 2568:
+					FlxTween.tween(whiteflash, {alpha: 1}, 0.57, {ease: FlxEase.sineIn});
+				case 2578:
+					cg1.alpha = 0;
+					cg2.alpha = 1;
+					FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineIn});
+					FlxTween.tween(cg2, {x: -954}, 9, {ease: FlxEase.sineIn});
+				case 2590:
+				// end here
+				case 2674:
+					FlxTween.tween(whiteflash, {alpha: 1}, 1, {ease: FlxEase.sineIn});
+				case 2694:
+					cg2.alpha = 0;
+					cg2Group.alpha = 1;
+
+					for (item in cg2Group.members)
+						FlxTween.tween(item, {x: -250}, 17 + (1 * item.ID), {ease: FlxEase.sineIn});
+
+					FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineIn});
+					// Fade out
+				case 2702:
+					// End here
+			}
+		}
+}

@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "name": "Monika",
+  "assetPath": "dialogue/monika",
+  "flipX": false,
+  "isPixel": true,
+  "scale": 5.4,
+  "offsets": [150, -24],
+  "animations": [
+    {
+      "name": "monika_neutral",
+      "prefix": "monika_neutral",
+      "offsets": [0, 0],
+      "frameRate": 12,
+      "looped": false
+    },
+    {
+      "name": "monika_hmm",
+      "prefix": "monika_hmm",
+      "offsets": [0, 0],
+      "frameRate": 12
+    },
+    {
+      "name": "monika_happy",
+      "prefix": "monika_happy",
+      "offsets": [0, 0],
+      "frameRate": 12,
+      "looped": false
+    },
+    {
+      "name": "monika_uhoh",
+      "prefix": "monika_uhoh",
+      "offsets": [0, 0],
+      "frameRate": 12
+    },
+    {
+      "name": "monika_gasp",
+      "prefix": "monika_gasp",
+      "offsets": [0, 0],
+      "frameRate": 12,
+      "looped": false
+    },
+    {
+      "name": "monika_sad",
+      "prefix": "monika_sad",
+      "offsets": [0, 0],
+      "frameRate": 12
+    }
+  ]
+}

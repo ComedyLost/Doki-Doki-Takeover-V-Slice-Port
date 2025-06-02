@@ -1,0 +1,49 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.addons.effects.FlxTrail;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Conductor;
+import funkin.modding.module.ModuleHandler;
+
+class SchoolEvilDDTOStage extends Stage
+{
+	function new()
+	{
+		super('schoolEvilDDTO');
+	}
+
+	var wiggle:FlxRuntimeShader = null;
+
+	override function buildStage()
+	{
+		super.buildStage();
+
+		wiggle = new WiggleEffectRuntime(2, 4, 0.017, WiggleEffectType.DREAMY);
+		getNamedProp('evilSchoolBG').shader = wiggle;
+		getNamedProp('evilSchoolFG').shader = wiggle;
+		getNamedProp('finaleSpace').alpha = 0;
+		getNamedProp('finaleBG').alpha = 0;
+		getNamedProp('finaleFG').alpha = 0;
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+
+		if (wiggle != null) {
+			wiggle.update(event.elapsed);
+		}
+	}
+
+	function kill() {
+		super.kill();
+		wiggle = null;
+	}
+}

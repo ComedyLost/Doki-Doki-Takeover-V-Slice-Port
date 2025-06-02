@@ -1,0 +1,68 @@
+{
+  "version": "2.2.4",
+  "songName": "Libitina",
+  "artist": "N/A",
+  "charter": "Unknown",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    },
+    "altVocals": {    }
+  },
+  "playData": {
+    "stickerPack": "libitina",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "album": "takeover",
+    "characters": {
+      "player": "ghost-intro",
+      "girlfriend": "hidden",
+      "opponent": "hidden",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "stage": "libitina",
+    "noteStyle": "libitina",
+    "ratings": {
+      "normal": 7
+    },
+    "previewStart": 0,
+    "previewEnd": 15000
+  },
+  "generatedBy": "Friday Night Funkin' - v0.5.3",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 130,
+      "n": 4,
+      "d": 4
+    },
+    {
+      "t": 44307.6923076923,
+      "b": 96,
+      "bpm": 180,
+      "n": 4,
+      "d": 4
+    },
+    {
+      "t": 64307.6923076923,
+      "b": 156,
+      "bpm": 200,
+      "n": 4,
+      "d": 4
+    },
+    {
+      "t": 243107.692307692,
+      "b": 752,
+      "bpm": 130,
+      "n": 4,
+      "d": 4
+    }
+  ]
+}

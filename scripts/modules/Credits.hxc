@@ -1,0 +1,203 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import flixel.FlxSprite;
+import flixel.FlxG;
+import funkin.play.Countdown;
+import funkin.play.song.Song;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import flixel.util.FlxTimer;
+import funkin.util.FlxTweenUtil;
+
+class Credits extends Module
+{
+    function new()
+        {
+            super('Credits');
+        }    
+
+    var metaName:FlxText;
+    var metaIcon:FunkinSprite;
+    var metaArtist:FlxText;
+    var isPixel:Bool;
+	var metaNameTween:FlxTween;
+	var metaIconTween:FlxTween;
+	var metaArtistTween:FlxTween;
+    var tweenOutTimer:FlxTimer;
+	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+
+    override function onPause(event) {
+		super.onPause(event);
+        if (tweenOutTimer != null && tweenOutTimer.active == true)
+			{
+                tweenOutTimer.active = false;
+			}
+        if (metaNameTween != null) metaNameTween.active = false;
+		if (metaIconTween != null) metaIconTween.active = false;
+        if (metaArtistTween != null) metaArtistTween.active = false;
+    }
+
+    override function onResume(event) {
+		super.onResume(event);
+        if (tweenOutTimer != null && tweenOutTimer.active == false)
+			{
+                tweenOutTimer.active = true;
+			}
+        if (metaNameTween != null) metaNameTween.active = true;
+		if (metaIconTween != null) metaIconTween.active = true;
+        if (metaArtistTween != null) metaArtistTween.active = true;
+    }
+
+    function tweenIn(){
+		if (metaName != null) metaNameTween = FlxTween.tween(metaName, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		if (metaIcon != null) metaIconTween = FlxTween.tween(metaIcon, {alpha: 1, y: 20 - (metaIcon.height / 2) + 16}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		if (metaArtist != null) metaArtistTween = FlxTween.tween(metaArtist, {alpha: 1, y: 58}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.4});
+    }
+
+    function tweenOut(){
+		if (metaName != null) metaNameTween = FlxTween.tween(metaName, {alpha: 0, y: 0}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		if (metaIcon != null) metaIconTween = FlxTween.tween(metaIcon, {alpha: 0, y: 0 - (metaIcon.height / 2) + 16}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		if (metaArtist != null) metaArtistTween = FlxTween.tween(metaArtist, {alpha: 0, y: 38}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+    }
+
+    function onSongRetry(event:ScriptEvent)
+        {
+            super.onSongRetry(event);
+            if (tweenOutTimer != null) {
+                tweenOutTimer.cancel();
+                tweenOutTimer.destroy();
+                tweenOutTimer = null;
+            }    
+            if (metaNameTween != null) {
+                metaNameTween.cancel();
+                metaNameTween.destroy();
+                metaNameTween = null;
+                PlayState.instance.remove(metaName);
+                metaName = null;
+            }
+            if (metaIconTween != null) {
+                metaIconTween.cancel();
+                metaIconTween.destroy();
+                metaIconTween = null;
+                PlayState.instance.remove(metaIcon);
+                metaIcon = null;
+            }
+            if (metaArtistTween != null) {
+                metaArtistTween.cancel();
+                metaArtistTween.destroy();
+                metaArtistTween = null;
+                PlayState.instance.remove(metaArtist);
+                metaArtist = null;
+            } 
+        }  
+
+
+    public function onSongStart(event) {
+		super.onSongStart(event);
+        if (tweenOutTimer != null) {
+            tweenOutTimer.cancel();
+            tweenOutTimer.destroy();
+            tweenOutTimer = null;
+        }    
+        if (metaNameTween != null) {
+            metaNameTween.cancel();
+            metaNameTween.destroy();
+            metaNameTween = null;
+            PlayState.instance.remove(metaName);
+            metaName = null;
+        }
+        if (metaIconTween != null) {
+            metaIconTween.cancel();
+            metaIconTween.destroy();
+            metaIconTween = null;
+            PlayState.instance.remove(metaIcon);
+            metaIcon = null;
+        }
+        if (metaArtistTween != null) {
+            metaArtistTween.cancel();
+            metaArtistTween.destroy();
+            metaArtistTween = null;
+            PlayState.instance.remove(metaArtist);
+            metaArtist = null;
+        } 
+        isPixel = (PlayState.instance.playerStrumline.noteStyle.id == 'ddtopixel' || PlayState.instance.playerStrumline.noteStyle.id == 'pixel');
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+        metaName = new FlxText(20, 15, 0, "", 36);
+        metaName.text = PlayState.instance.currentChart.songName;
+        metaName.updateHitbox();
+        metaName.scrollFactor.set();
+        metaName.alpha = 0;
+        metaName.antialiasing = !isPixel;
+        metaName.alignment = "right";
+		metaName.borderSize = 2;
+		metaName.cameras = [PlayState.instance.camHUD];
+		metaName.zIndex = 1000000;
+		metaName.borderStyle = FlxTextBorderStyle.OUTLINE;
+        if (!isPixel){
+            metaName.font = Paths.font("riffic.ttf");
+        } else {
+            metaName.font = Paths.font("vcr.ttf");
+        }
+        metaName.x = FlxG.width - (metaName.width + 20);
+
+        if (isPixel){
+            metaIcon = FunkinSprite.create(0, 0, 'songCredits/pen-pixel');
+        } else {
+            metaIcon = FunkinSprite.create(0, 0, 'songCredits/pen');
+        }
+        if (PlayState.instance.currentStageId == 'va11halla') metaIcon = FunkinSprite.create(0, 0, 'songCredits/shaker');
+        if (PlayState.instance.currentStageId == 'lbitina') metaIcon = FunkinSprite.create(0, 0, 'songCredits/file');
+        metaIcon.updateHitbox();
+        metaIcon.scrollFactor.set();
+        metaIcon.scale.set(0.35, 0.35);
+        metaIcon.setPosition(FlxG.width - (metaName.width) - 120, 15 - (metaIcon.height / 2) + 16);
+        metaIcon.cameras = [PlayState.instance.camHUD];
+		metaIcon.zIndex = 1000000;
+        metaIcon.alpha = 0;
+
+        metaArtist = new FlxText(38, 38, 0, "", 20);
+        metaArtist.text = PlayState.instance.currentChart.songArtist;
+        metaArtist.updateHitbox();
+        metaArtist.scrollFactor.set();
+        metaArtist.alpha = 0;
+        metaArtist.antialiasing = !isPixel;
+        metaArtist.alignment = "right";
+		metaArtist.borderSize = 2;
+		metaArtist.cameras = [PlayState.instance.camHUD];
+		metaArtist.zIndex = 1000000;
+		metaArtist.borderStyle = FlxTextBorderStyle.OUTLINE;
+        if (!isPixel){
+            metaArtist.font = Paths.font("Aller_Rg.ttf");
+        } else {
+            metaArtist.font = Paths.font("vcr.ttf");
+        }
+        metaArtist.setPosition(FlxG.width - (metaArtist.width + 20), metaArtist.y + 16);
+
+
+        PlayState.instance.add(metaName);
+        PlayState.instance.add(metaIcon);
+        PlayState.instance.add(metaArtist);
+
+        switch (PlayState.instance.currentSong.id.toLowerCase()){
+			case 'wilted', 'your-demise', 'drinks-on-me', 'libitina', 'its-complicated-sayori-mix', 'glitcher-monika-mix': return;
+            default: manualCreditsSummon();
+
+        }
+	}
+      
+    function manualCreditsSummon(){
+        if (metaName != null) tweenIn();
+        tweenOutTimer = new FlxTimer();
+        tweenOutTimer.start(3, function(tmr:FlxTimer)
+            {
+                if (metaName != null) tweenOut();
+                else trace('metadata display is still null my dude');
+            });       
+    }
+}

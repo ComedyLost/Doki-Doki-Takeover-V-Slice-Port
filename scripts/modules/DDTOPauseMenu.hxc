@@ -1,0 +1,410 @@
+import flixel.FlxG;
+import flixel.util.FlxTimer;
+
+import funkin.Paths;
+import funkin.Highscore;
+import funkin.graphics.FunkinSprite;
+import funkin.play.PlayState;
+import funkin.modding.module.Module;
+import flixel.FlxSprite;
+import funkin.audio.FunkinSound;
+import funkin.play.PauseSubState;
+import funkin.util.FlxTweenUtil;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.text.FlxTextBorderStyle;
+import flixel.text.FlxText;
+import funkin.PlayerSettings;
+import flixel.math.FlxMath;
+import StringTools;
+
+class DDTOPauseMenu extends Module {
+	public function new() {
+		super("DDTOPauseMenu");
+	}
+
+	//I have regrets
+
+	var state = null;
+	var pauseArt:FlxSprite;
+	var pauseImg:String;
+	var logo:FlxSprite;
+	var logoBl:FlxSprite;
+	var levelInfo:FlxText;
+	var deathText:FlxText;
+	var practiceText:FlxText;
+	var menuItems:Array<String>;
+	var itmColor:FlxColor;
+	var selColor:FlxColor;
+	var options:Array;
+	var curSelected:Int;
+	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+	var pauseImg:String; //Make it set-able so a song can manually change it
+
+	function createDokiMenu(){
+		itmColor = 0xFFFF7CFF;
+		selColor = 0xFFFFCFFF;    
+		options = [];
+		curSelected = 0;
+		logo = new FlxSprite(-260, 0).loadGraphic(Paths.image('Credits_LeftSide'));
+		state.add(logo);
+
+		FlxTween.tween(logo, {x: -60}, 1.2, {
+			ease: FlxEase.elasticOut
+		});
+
+		logoBl = new FlxSprite(-160, -45);
+		logoBl.frames = Paths.getSparrowAtlas('DDLCStart_Screen_Assets');
+		logoBl.scale.set(0.5, 0.5);
+		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, true);
+		logoBl.animation.play('bump');
+		logoBl.updateHitbox();
+		state.add(logoBl);
+
+		FlxTween.tween(logoBl, {x: 40}, 1.2, {
+			ease: FlxEase.elasticOut
+		});        
+
+		levelInfo = new FlxText(20, 15, 0, "", 32);
+		levelInfo.text = PlayState.instance.currentChart.songName;
+		levelInfo.scrollFactor.set();
+		levelInfo.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		levelInfo.borderSize = 1.25;
+		levelInfo.alpha = 0;
+		levelInfo.x = FlxG.width - (levelInfo.width + 20);
+		levelInfo.updateHitbox();
+		state.add(levelInfo);
+
+		//Not needed since most DDTO songs are on normal difficulty or have a different name for a difficulty
+		//Plus .toTitleCase() does not work in hxc files
+		
+		/*levelDifficulty = new FlxText(20, 15 + 32, 0, "", 32);
+		levelDifficulty.text = StringTools.replace(PlayState.instance.currentDifficulty, "-", " ");
+		levelDifficulty.scrollFactor.set();
+		levelDifficulty.setFormat(Paths.font("riffic.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		levelDifficulty.alpha = 0;
+		levelDifficulty.x = FlxG.width - (levelDifficulty.width + 20);
+		levelDifficulty.borderSize = 1.25;
+		levelDifficulty.updateHitbox();
+		state.add(levelDifficulty);*/
+
+		var deathType:String;
+		if (StringTools.contains(PlayState.instance.currentChart.characters.player, "bf")) deathType = "Blue Balled: ";
+		else if (StringTools.contains(PlayState.instance.currentChart.characters.player, "senpai")) deathType = "Pasta'd: ";
+		else deathType = "Deleted: ";
+		deathText = new FlxText(20, 15 + 32, 0, deathType, 32);
+		deathText.text += PlayState.instance.deathCounter;
+		deathText.scrollFactor.set();
+		deathText.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		deathText.borderSize = 1.25;
+		deathText.alpha = 0;
+		deathText.x = FlxG.width - (deathText.width + 20);
+		deathText.updateHitbox();
+		state.add(deathText);
+
+		practiceText = new FlxText(20, 15 + 64, 0, "Practice Mode", 32);
+		practiceText.visible = PlayState.instance.isPracticeMode;
+		practiceText.scrollFactor.set();
+		practiceText.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		practiceText.borderSize = 1.25;
+		practiceText.alpha = 0;
+		practiceText.x = FlxG.width - (practiceText.width + 20);
+		practiceText.updateHitbox();
+		state.add(practiceText);
+
+		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		//FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
+		FlxTween.tween(deathText, {alpha: 1, y: deathText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		if (practiceText.visible != false) FlxTween.tween(practiceText, {alpha: 1, y: practiceText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.9});
+
+		var textX:Int = 50;
+
+		var entryIndex:Int = 0;
+		for (entry in state.currentMenuEntries)
+			{
+				var songText:FlxText = new FlxText(-350, 370 + (entryIndex * 50), 0, entry.text);
+				songText.setFormat(Paths.font("riffic.ttf"), 27, 0xFFFFFFFF, "left");
+				songText.setBorderStyle(FlxTextBorderStyle.OUTLINE, itmColor, 2);
+				options.push(songText);
+				state.add(songText);
+
+				entryIndex++;
+	
+				FlxTween.tween(songText, {x: textX}, 1.2 + (entryIndex * 0.2), {
+					ease: FlxEase.elasticOut
+				});
+				changeSelection();
+			}    
+	}
+
+	override function onSongLoaded(event){
+		super.onSongLoaded(event);
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+		resetPauseIMG();
+	}
+
+	public function onSongRetry(event) {
+		super.onSongRetry(event);
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+		resetPauseIMG();
+	}
+
+	function resetPauseIMG(){
+		pauseImg = switch (PlayState.instance.currentChart.characters.opponent) {
+			case "bigmonika", "bigmonika-dress": "epiphany";
+			case "duetnew", "monika-pixelnew", "monika-angry": "monika";
+			case "senpai-ddto": "senpai";
+			default: PlayState.instance.currentChart.characters.opponent;
+		}
+		if (PlayState.instance.currentChart.characters.player == "tankman-doki") pauseImg = "tankman";
+		if (PlayState.instance.currentChart.characters.player == "protag") pauseImg = "protag";
+	}
+
+	function createVallMenu(){
+		itmColor = 0xFFFF3A89;
+		selColor = 0xFFFFCFFF;    
+		options = [];
+		curSelected = 0;
+		logo = new FlxSprite(-260, 0).loadGraphic(Paths.image('Va11Pause'));
+		state.add(logo);
+
+		FlxTween.tween(logo, {x: -60}, 1.2, {
+			ease: FlxEase.elasticOut
+		});
+
+		levelInfo = new FlxText(20, 15, 0, "", 32);
+		levelInfo.text = PlayState.instance.currentChart.songName;
+		levelInfo.scrollFactor.set();
+		levelInfo.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		levelInfo.borderSize = 1.25;
+		levelInfo.alpha = 0;
+		levelInfo.x = FlxG.width - (levelInfo.width + 20);
+		levelInfo.updateHitbox();
+		state.add(levelInfo);
+
+		var deathType:String;
+		if (StringTools.contains(PlayState.instance.currentChart.characters.player, "bf")) deathType = "Blue Balled: ";
+		else if (StringTools.contains(PlayState.instance.currentChart.characters.player, "senpai")) deathType = "Pasta'd: ";
+		else deathType = "Deleted: ";
+		deathText = new FlxText(20, 15 + 32, 0, deathType, 32);
+		deathText.text += PlayState.instance.deathCounter;
+		deathText.scrollFactor.set();
+		deathText.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		deathText.borderSize = 1.25;
+		deathText.alpha = 0;
+		deathText.x = FlxG.width - (deathText.width + 20);
+		deathText.updateHitbox();
+		state.add(deathText);
+
+		practiceText = new FlxText(20, 15 + 64, 0, "Practice Mode", 32);
+		practiceText.visible = PlayState.instance.isPracticeMode;
+		practiceText.scrollFactor.set();
+		practiceText.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		practiceText.borderSize = 1.25;
+		practiceText.alpha = 0;
+		practiceText.x = FlxG.width - (practiceText.width + 20);
+		practiceText.updateHitbox();
+		state.add(practiceText);
+
+		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		//FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
+		FlxTween.tween(deathText, {alpha: 1, y: deathText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		if (practiceText.visible != false) FlxTween.tween(practiceText, {alpha: 1, y: practiceText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.9});
+
+		var textX:Int = 50;
+		textX += 25;
+
+		var entryIndex:Int = 0;
+		for (entry in state.currentMenuEntries)
+			{
+				var songText:FlxText = new FlxText(-350, 370 + (entryIndex * 50), 0, entry.text);
+				songText.setFormat(Paths.font("CyberpunkWaifus.ttf"), 32, 0xFFFFFFFF, "left");
+				songText.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFF000000, 0);
+				options.push(songText);
+				state.add(songText);
+
+				songText.y -= 75;
+
+				entryIndex++;
+	
+				FlxTween.tween(songText, {x: textX}, 1.2 + (entryIndex * 0.2), {
+					ease: FlxEase.elasticOut
+				});
+				changeSelection();
+			}    
+	}
+
+	function createLibMenu(){
+		itmColor = 0xFF8BA9F0;
+		selColor = 0xFFFFFFFF;    
+		options = [];
+		curSelected = 0;
+		logo = new FlxSprite(-260, 0).loadGraphic(Paths.image('LibitinaPause'));
+		state.add(logo);
+
+		FlxTween.tween(logo, {x: -60}, 1.2, {
+			ease: FlxEase.elasticOut
+		});
+
+		var deathType:String;
+		if (StringTools.contains(PlayState.instance.currentChart.characters.player, "bf")) deathType = "Blue Balled: ";
+		else if (StringTools.contains(PlayState.instance.currentChart.characters.player, "senpai")) deathType = "Pasta'd: ";
+		else deathType = "Deleted: ";
+		deathText = new FlxText(20, 15 + 32, 0, deathType, 32);
+		deathText.text += PlayState.instance.deathCounter;
+		deathText.scrollFactor.set();
+		deathText.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		deathText.borderSize = 1.25;
+		deathText.alpha = 0;
+		deathText.x = FlxG.width - (deathText.width + 20);
+		deathText.updateHitbox();
+		state.add(deathText);
+
+		practiceText = new FlxText(20, 15 + 64, 0, "Practice Mode", 32);
+		practiceText.visible = PlayState.instance.isPracticeMode;
+		practiceText.scrollFactor.set();
+		practiceText.setFormat(Paths.font("Aller_Rg.ttf"), 32, 0xFFFFFFFF, "right", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+		practiceText.borderSize = 1.25;
+		practiceText.alpha = 0;
+		practiceText.x = FlxG.width - (practiceText.width + 20);
+		practiceText.updateHitbox();
+		state.add(practiceText);
+
+		//FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
+		FlxTween.tween(deathText, {alpha: 1, y: deathText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		if (practiceText.visible != false) FlxTween.tween(practiceText, {alpha: 1, y: practiceText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.9});
+
+		var textX:Int = 50;
+
+		var entryIndex:Int = 0;
+		for (entry in state.currentMenuEntries)
+			{
+				var songText:FlxText = new FlxText(-350, 370 + (entryIndex * 50), 0, entry.text);
+				songText.setFormat(Paths.font("Perfect DOS VGA 437 Win.ttf"), 27, 0xFFFFFFFF, "left");
+				songText.setBorderStyle(FlxTextBorderStyle.OUTLINE, itmColor, 2);
+				if (songText.text == "Return to Chart Editor") songText.text = "Chart Editor";
+				if (songText.text == "Enable Practice Mode") songText.text = "Practice Mode";
+				options.push(songText);
+				state.add(songText);
+
+				entryIndex++;
+	
+				FlxTween.tween(songText, {x: textX}, 1.2 + (entryIndex * 0.2), {
+					ease: FlxEase.elasticOut
+				});
+				changeSelection();
+			}    
+	}
+
+	function updateOptions(){
+		if (state == null) return;
+		if (practiceText.visible == false && PlayState.instance.isPracticeMode == true){
+			practiceText.visible = PlayState.instance.isPracticeMode;
+			FlxTween.tween(practiceText, {alpha: 1, y: practiceText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		}
+		for (items in options){
+			state.remove(items);
+		}
+		options = [];
+		var textX:Int = 50;
+		if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") textX += 25;
+
+		var entryIndex:Int = 0;
+		for (entry in state.currentMenuEntries)
+			{
+				var songText:FlxText = new FlxText(-350, 370 + (entryIndex * 50), 0, entry.text);
+				songText.setFormat(Paths.font("riffic.ttf"), 27, 0xFFFFFFFF, "left");
+				songText.setBorderStyle(FlxTextBorderStyle.OUTLINE, itmColor, 2);
+				options.push(songText);
+				state.add(songText);
+
+				if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") {
+					songText.y -= 75;
+					songText.setFormat(Paths.font("CyberpunkWaifus.ttf"), 32, 0xFFFFFFFF, "left");
+					songText.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFF000000, 0);
+				} else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") {
+					songText.setFormat(Paths.font("Perfect DOS VGA 437 Win.ttf"), 27, 0xFFFFFFFF, "left");
+					songText.setBorderStyle(FlxTextBorderStyle.OUTLINE, itmColor, 2);
+					if (songText.text == "Return to Chart Editor") songText.text = "Chart Editor";
+					if (songText.text == "Enable Practice Mode") songText.text = "Practice Mode";
+				}
+				entryIndex++;
+
+				FlxTween.tween(songText, {x: textX}, 1.2 + (entryIndex * 0.2), {
+					ease: FlxEase.elasticOut
+				});
+	
+				changeSelection();
+			}    
+	}
+
+	function changeSelection(change:Int){
+		curSelected = FlxMath.wrap(curSelected + change, 0, options.length - 1);
+		for (i in 0...options.length){
+			if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") options[i].setFormat(Paths.font("CyberpunkWaifus.ttf"), 32, 0xFFFFFFFF, "left");
+			else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") options[i].setFormat(Paths.font("Perfect DOS VGA 437 Win.ttf"), 32, 0xFFFFFFFF, "left");
+			else options[i].setBorderStyle(FlxTextBorderStyle.OUTLINE, itmColor, 2);    
+		}
+		if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") options[curSelected].setFormat(Paths.font("CyberpunkWaifus.ttf"), 32, itmColor, "left");
+		else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") options[curSelected].setFormat(Paths.font("Perfect DOS VGA 437 Win.ttf"), 32, itmColor, "left");
+		else options[curSelected].setBorderStyle(FlxTextBorderStyle.OUTLINE, selColor, 2);
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (state != null && Std.isOfType(state, PauseSubState)) {
+			if (!state.allowInput) return;
+			if (PlayerSettings.player1.controls.UI_UP_P)
+				changeSelection(-1);
+			if (PlayerSettings.player1.controls.UI_DOWN_P)
+				changeSelection(1);
+			if (PlayerSettings.player1.controls.ACCEPT)
+				new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
+					{
+						updateOptions();
+					});        
+		}
+	}
+
+	override function onSubStateCloseBegin(event) {
+		super.onSubStateCloseBegin(event);
+		if (Std.isOfType(state, PauseSubState)) {
+			state = null;
+		}
+	}    
+
+	override function onSubStateOpenEnd(event:StateChangeScriptEvent)
+		{
+			super.onSubStateOpenEnd(event);
+			if (Std.isOfType(event.targetState, PauseSubState)) {
+				state = event.targetState;
+				if (!ddtoStages.contains(PlayState.instance.currentStageId)) {
+					state = null;
+					return;
+				}
+				state.metadataDeaths.font = Paths.font("Aller_Rg.ttf");
+				state.metadataDeaths.text = "Deleted: " + PlayState.instance.deathCounter;
+				pauseArt = new FlxSprite(FlxG.width, 0).loadGraphic(Paths.image('pause/' + pauseImg));
+				state.remove(state.metadata);
+				state.remove(state.menuEntryText);
+				state.add(pauseArt); 
+
+				FlxTween.tween(pauseArt, {x: FlxG.width - pauseArt.width}, 1.2, {
+					ease: FlxEase.quartInOut,
+					startDelay: 0.2
+				});
+				if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") createVallMenu();
+				else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") createLibMenu();
+				else createDokiMenu();
+			} else {
+				if (state != null) state = null;
+			}
+		}    
+
+	/*public function onSubStateOpenBegin(event) {
+		super.onSubStateOpenBegin(event);
+		if (Std.isOfType(event.targetState, PauseSubState)) {
+			state = event.targetState;
+		}
+	}*/
+}

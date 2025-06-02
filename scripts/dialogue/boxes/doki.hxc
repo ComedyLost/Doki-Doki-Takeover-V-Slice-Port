@@ -1,0 +1,107 @@
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.Paths;
+import funkin.play.cutscene.dialogue.ConversationState;
+import funkin.play.cutscene.dialogue.DialogueBox;
+import funkin.audio.FunkinSound;
+import flixel.text.FlxTextBorderStyle;
+import funkin.play.PlayState;
+
+class DokiDialogueBox extends DialogueBox {
+	function new() {
+		super('doki');
+	}
+
+  var none:FunkinSound;
+  var bfSFX:FunkinSound;
+  var gfSFX:FunkinSound;
+  var moniSFX:FunkinSound;
+  var sayoSFX:FunkinSound;
+  var natsuSFX:FunkinSound;
+  var yuriSFX:FunkinSound;
+  var protagSFX:FunkinSound;
+  var zipSFX:FunkinSound;
+
+  override function onCreate(event){
+    super.onCreate(event);
+    PlayState.instance.disableKeys = false; //Re-enable inputs if the game disables them
+    textDisplay.borderStyle = FlxTextBorderStyle.OUTLINE;
+
+    none = FunkinSound.load(Paths.sound('dialogue/pixelText'), 0.6);
+    bfSFX = FunkinSound.load(Paths.sound('dialogue/bfText'), 0.6);
+    gfSFX = FunkinSound.load(Paths.sound('dialogue/gfText'), 0.6);
+    moniSFX = FunkinSound.load(Paths.sound('dialogue/monikaText'), 0.6);
+    sayoSFX = FunkinSound.load(Paths.sound('dialogue/sayoriText'), 0.6);
+    natsuSFX = FunkinSound.load(Paths.sound('dialogue/natsukiText'), 0.6);
+    yuriSFX = FunkinSound.load(Paths.sound('dialogue/yuriText'), 0.6);
+    protagSFX = FunkinSound.load(Paths.sound('dialogue/mcText'), 0.6);
+    zipSFX = FunkinSound.load(Paths.sound('dialogue/zipperText'), 0.6);
+    boxSprite.screenCenter(0x01);
+    textDisplay.screenCenter(0x01);
+    textDisplay.fieldWidth = Std.int(boxSprite.width * 0.85);
+  }
+
+  override function onUpdate(event) {
+    super.onUpdate(event);
+    
+    if (boxSprite.animation.curAnim.name == "bf") {
+      if(!textDisplay.sounds.contains(bfSFX))
+        textDisplay.sounds = [bfSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "gf") {
+        if(!textDisplay.sounds.contains(gfSFX))
+          textDisplay.sounds = [gfSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "moni") {
+        if(!textDisplay.sounds.contains(moniSFX))
+          textDisplay.sounds = [moniSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "sayo") {
+        if(!textDisplay.sounds.contains(sayoSFX))
+          textDisplay.sounds = [sayoSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "natsu") {
+        if(!textDisplay.sounds.contains(natsuSFX))
+          textDisplay.sounds = [natsuSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "yuri") {
+        if(!textDisplay.sounds.contains(yuriSFX))
+          textDisplay.sounds = [yuriSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "glitchyuri") {
+        if(!textDisplay.sounds.contains(yuriSFX))
+          textDisplay.sounds = [yuriSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "protag") {
+        if(!textDisplay.sounds.contains(protagSFX))
+          textDisplay.sounds = [protagSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "zipper") {
+        if(!textDisplay.sounds.contains(zipSFX))
+          textDisplay.sounds = [zipSFX];
+    }
+    else if (boxSprite.animation.curAnim.name == "empty") {
+      if(!textDisplay.sounds.contains(none))
+        textDisplay.sounds = [none];
+    }
+  }
+
+  public function onDialogueStart(event:DialogueScriptEvent):Void {
+    playAnimation('enter', true);
+    super.onDialogueStart(event);
+  }
+
+  public function onDialogueLine(event:DialogueScriptEvent):Void {
+    // Override the default box animation behavior by switching the state
+    //event.conversation.state = ConversationState.Opening;
+
+    FunkinSound.playOnce(Paths.sound("clickText"), 0.6);
+    super.onDialogueEnd(event);
+  }
+
+  public function onDialogueEnd(event:DialogueScriptEvent):Void {
+    super.onDialogueEnd(event);
+    // Play 'enter' in reverse
+    textDisplay.visible = false;
+  }
+}

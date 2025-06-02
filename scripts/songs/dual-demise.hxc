@@ -1,0 +1,170 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.addons.effects.FlxTrail;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import funkin.play.PlayStatePlaylist;
+import funkin.util.Constants;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.save.Save;
+import flixel.util.FlxSave;
+
+class DualDemiseSong extends Song
+{
+	function new()
+	{
+		super('dual-demise');
+
+		save = new FlxSave();
+		save.bind("TakeoverOptions");	
+	}
+
+	var spirit;
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
+	function onStepHit(event:SongTimeScriptEvent):Void {	
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		if (!save.data.psychholds) return;
+	
+		stutterNotes();	
+	}	
+
+	override function onSongLoaded(event) {
+		super.onSongLoaded(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		createSpirit();
+	}
+
+	function calcSectionLength(duration:Int){
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		processNotes(event);
+	}
+
+	function processNotes(elapsed:Float):Void
+		{
+			// Process hold notes on the opponent's side.
+			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0 && holdNote.noteData.kind == "hurt")
+						{
+							// Make sure the opponent keeps singing while the note is held.
+							if (spirit.isSinging()) spirit.holdTimer = 0;
+						}
+				}
+			  
+		}
+
+	function stutterNotes(elapsed:Float):Void
+		{
+			// Process hold notes on the opponent's side.
+			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0 && holdNote.noteData.kind == "hurt")
+						{
+							// Make sure the opponent keeps singing while the note is held.
+							if (spirit.isSinging()) spirit.animation.curAnim.restart();
+						}
+				}
+			  
+		}
+
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+		{
+			super.onSongEvent(scriptEvent);
+			if (scriptEvent.eventData.eventKind == "FocusCamera")
+			{
+				var eventProps = scriptEvent.eventData.value;
+				switch (Std.parseInt(eventProps.char)) {
+					case 2:
+						scriptEvent.cancel();
+						PlayState.instance.resetCamera(false, false, false);
+						PlayState.instance.cancelCameraFollowTween();				
+						var spiritPoint = spirit.cameraFocusPoint;
+						var targetX = 0;
+						var targetY = 0;
+						targetX += spiritPoint.x + 500;
+						targetY += spiritPoint.y + 250;
+						PlayState.instance.cameraFollowPoint.setPosition(targetX, targetY);
+				}
+			}
+	
+		}	
+
+	function onNoteHit(callback)
+		{
+			if (PlayState.instance == null) return;
+		
+			if (callback.note.noteData.kind == "hurt")
+			{
+				spirit.holdTimer = 0;
+				spirit.playSingAnimation(callback.note.noteData.getDirection(), false);
+			}	
+		}	
+
+	function createSpirit(){
+        if (spirit != null) spirit.kill();
+		spirit = CharacterDataParser.fetchCharacter('spirit');
+		if (spirit != null) {
+			spirit.set_characterType(CharacterType.OTHER);
+			PlayState.instance.currentStage.addCharacter(spirit, CharacterType.OTHER);
+		}
+		spirit.zIndex = PlayState.instance.currentStage.getDad().zIndex + 1;
+		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
+		spirit.x = (stageCharData.position[0] - spirit.characterOrigin.x) - 100;
+		spirit.y = (stageCharData.position[1] - spirit.characterOrigin.y) - 150;
+
+		spirit.originalPosition.set(spirit.x, spirit.y);  
+
+		PlayState.instance.currentStage.refresh();
+	}
+	
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+
+		PlayState.instance.iconP2.loadCharacter('dual-demise');
+		PlayState.instance.currentStage.getDad().cameraFocusPoint.x -= 200;
+		PlayState.instance.currentStage.getBoyfriend().x = 1000;
+		PlayState.instance.currentStage.getBoyfriend().y = 550;
+		PlayState.instance.currentStage.getNamedProp('finaleSpace').alpha = 1;
+		PlayState.instance.currentStage.getNamedProp('finaleBG').alpha = 1;
+		PlayState.instance.currentStage.getNamedProp('finaleFG').alpha = 1;
+		PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getDad().cameraFocusPoint.x, PlayState.instance.currentStage.getDad().cameraFocusPoint.y, 0, FlxEase.instant);
+	}
+}

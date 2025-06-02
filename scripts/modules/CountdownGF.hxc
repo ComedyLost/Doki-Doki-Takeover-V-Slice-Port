@@ -1,0 +1,46 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import flixel.util.FlxSave;
+
+class CountdownGF extends Module
+{
+    function new()
+        {
+            super('CountdownGF');
+
+			save = new FlxSave();
+			save.bind("TakeoverOptions");	
+        }    
+
+    public override function onCountdownStep(event: CountdownScriptEvent): Void { 
+		super.onCountdownStep(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		if (PlayState.instance.currentStage.getGirlfriend() == null) return;
+
+		if (PlayState.instance.currentChart.characters.girlfriend == 'sayo-speaker') return;
+		if (!save.data.gfCountdown) return;
+		if (event.eventCanceled) return;
+
+		switch (event.step){
+			case "THREE":
+				if (PlayState.instance.currentStage.getGirlfriend().hasAnimation('countdownThree')) {
+					PlayState.instance.currentStage.getGirlfriend().isDead = true; //Prevent gf from idling while counting down
+					PlayState.instance.currentStage.getGirlfriend().playAnimation('countdownThree', true);
+				}
+			case "TWO":
+				if (PlayState.instance.currentStage.getGirlfriend().hasAnimation('countdownTwo')) PlayState.instance.currentStage.getGirlfriend().playAnimation('countdownTwo', true);
+			case "ONE":
+				if (PlayState.instance.currentStage.getGirlfriend().hasAnimation('countdownOne')) PlayState.instance.currentStage.getGirlfriend().playAnimation('countdownOne', true);
+			case "GO":
+				if (PlayState.instance.currentStage.getGirlfriend().hasAnimation('countdownGo')) PlayState.instance.currentStage.getGirlfriend().playAnimation('countdownGo', true);
+				PlayState.instance.currentStage.getGirlfriend().isDead = false; //Let gf idle again
+		}
+	}
+}

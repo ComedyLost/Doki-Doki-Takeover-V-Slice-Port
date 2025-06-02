@@ -1,0 +1,65 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import flixel.util.FlxSave;
+import funkin.Conductor;
+
+class PsychEngineHolds extends Module
+{
+    function new()
+        {
+            super('PsychEngineHolds');
+
+			save = new FlxSave();
+			save.bind("TakeoverOptions");	
+        }
+
+		//Only stutter on a step (same way Psych Engine / Pre 0.3 did it)
+		function onStepHit(event:SongTimeScriptEvent):Void {	
+			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+			if (PlayState.instance.isMinimalMode) return;
+			if (!save.data.psychholds) return;
+	
+			processNotes();	
+		}	
+
+		function processNotes():Void
+			{
+				if (PlayState.instance.playerStrumline?.notes?.members == null || PlayState.instance.opponentStrumline?.notes?.members == null) return;
+
+				// Process hold notes on the opponent's side.
+				for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+					{
+						if (holdNote == null || !holdNote.alive) continue;
+						
+						// While the hold note is being hit, and there is length on the hold note...
+						if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+							{
+								if (PlayState.instance.currentStage.getDad() != null && PlayState.instance.currentStage.getDad().isSinging()) PlayState.instance.currentStage.getDad().animation.curAnim.restart();
+									//PlayState.instance.currentStage.getDad().playSingAnimation(holdNote.noteData.getDirection());
+									//is more accurate but won't work with notes that play custom animations
+							}
+					}
+				for (holdNote in PlayState.instance.playerStrumline.holdNotes.members)
+					{
+						if (holdNote == null || !holdNote.alive) continue;
+						
+						// While the hold note is being hit, and there is length on the hold note...
+						if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+							{
+								// Make sure the opponent keeps singing while the note is held.
+								if (PlayState.instance.currentStage.getBoyfriend() != null && PlayState.instance.currentStage.getBoyfriend().isSinging())
+									PlayState.instance.currentStage.getBoyfriend().animation.curAnim.restart();
+									//PlayState.instance.currentStage.getBoyfriend().playSingAnimation(holdNote.noteData.getDirection());
+									//is more accurate but won't work with notes that play custom animations
+								else if (PlayState.instance.currentStage.getGirlfriend() != null && PlayState.instance.currentStage.getGirlfriend().isSinging())
+									PlayState.instance.currentStage.getGirlfriend().animation.curAnim.restart();
+									//PlayState.instance.currentStage.getGirlfriend().playSingAnimation(holdNote.noteData.getDirection()); 
+									//is more accurate but won't work with notes that play custom animations
+							}
+					}	  
+			}
+}

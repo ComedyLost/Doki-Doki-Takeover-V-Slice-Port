@@ -1,0 +1,106 @@
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.PlayState;
+import funkin.play.GameOverSubState;
+import funkin.play.PauseSubState;
+import funkin.play.character.CharacterType;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.FlxG;
+import funkin.graphics.FunkinSprite;
+import StringTools;
+// player offset fix by cyn0x8
+
+class NatsukiCharacter extends MultiSparrowCharacter {
+	function new() {
+		super('natsuki');
+	}
+
+	var deathSpriteRetry:FunkinSprite;
+    var defaultColor;
+    var missColor;
+  
+    public function onCreate(event):Void {
+    	super.onCreate(event);
+		if (PlayState.instance.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
+		else var isFestival = false;
+		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
+		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+	}
+
+    function createDeathSprites() {
+		deathSpriteRetry = FunkinSprite.createSparrow(0, 0, "characters/DokiGameOver");
+		deathSpriteRetry.animation.addByPrefix('firstDeath', "DokiGameOverIntro", 24, false);
+        deathSpriteRetry.animation.addByPrefix('deathLoop', "DokiGameOverLoop", 24, true);
+		deathSpriteRetry.animation.addByPrefix('deathConfirm', "DokiGameOverConfirm", 24, false);
+        deathSpriteRetry.x = this.x;
+        deathSpriteRetry.y = this.y;
+        this.alpha = 0;
+
+        deathSpriteRetry.animation.finishCallback = function (s:String) {if (s == 'firstDeath') {GameOverSubState.instance.startDeathMusic(1.0, false); GameOverSubState.instance.boyfriend.playAnimation('deathLoop');}};
+	}
+
+    override function onAdd() {
+        if (characterType != CharacterType.BF) return;
+		GameOverSubState.musicSuffix = '-doki';
+		GameOverSubState.blueBallSuffix = '-doki';
+
+		PauseSubState.musicSuffix = '-doki';
+    }
+
+	override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {
+        var output:FlxPoint = super.getScreenPosition(result, camera);
+        if (flipX) {output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;}
+        if (flipY) {output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;}
+        return output;
+    }
+    
+    override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void {
+		holdTimer = 0;
+        if (flipX) {
+            if (dir == 0) {dir = 3;} else if (dir == 3) {dir = 0;}
+        }
+		if (miss) {
+			this.color = missColor;
+			super.playSingAnimation(dir, false, suffix);
+		} else {
+			this.color = defaultColor;
+			super.playSingAnimation(dir, miss, suffix);
+		}
+    }    
+
+	override function dance(force:Bool) {
+		// Fix animation glitches with Week 3.
+		// Wait for 'hairBlow' to play, preventing dancing from interrupting it.
+		if (!force && ['hmmph'].contains(getCurrentAnimation())) return;
+
+		super.dance(force);
+	}
+
+	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
+		{
+		  // FlxG.watch.addQuick('playAnim(${characterName})', name);
+		  if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+          if (name == "firstDeath"){
+            createDeathSprites();
+
+            GameOverSubState.instance.add(deathSpriteRetry);
+          }
+          if (deathSpriteRetry != null) deathSpriteRetry.animation.play(name);
+          if (name == "deathConfirm") {
+            deathSpriteRetry.x += 4;
+            deathSpriteRetry.y -= 2;
+          }
+		  super.playAnimation(name, restart, ignoreOther, reversed);
+		}
+	  
+	function onNoteHit(event:NoteScriptEvent)
+		{
+			// Override the hit note animation.
+			switch(event.note.kind) {
+				case "gf":
+					return;
+				default:
+					super.onNoteHit(event);
+			}
+		}
+}

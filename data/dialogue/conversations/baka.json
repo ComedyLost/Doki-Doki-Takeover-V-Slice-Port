@@ -1,0 +1,100 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "natsc",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "wah",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Hah! Could you keep up with that one?\""]
+    },
+    {
+      "speaker": "gfright",
+      "speakerAnimation": "giggle",
+      "box": "doki",
+      "boxAnimation": "gf",
+      "text": ["*giggling*"]
+    },
+    {
+      "speaker": "bfright",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "bf",
+      "text": ["\"Dee boo skeet~\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "angy",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Rgh-! STOP CALLING ME CUTE!!!\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "angy",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"I don't need boys calling me cute too, that's extra embarrassing-\""]
+    },
+    {
+      "speaker": "sayoriright",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"He's the only boy here, Natsuki.\""]
+    },
+    {
+      "speaker": "sayoriright",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Well... I've been meaning to ask a good friend of mine to join the club as well, but I bet that dummy is just gonna join the anime club instead.\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "hmmph",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"I knew I should've tried something new.\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "neutral",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Luckily, music like that isn’t the only kind I listen to.\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "hmmph",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"If there's anyone who knows how to subvert expectations, its me.\""]
+    },
+    {
+      "speaker": "natsukileft",
+      "speakerAnimation": "angy",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Hit it!\""]
+    }
+  ]
+}

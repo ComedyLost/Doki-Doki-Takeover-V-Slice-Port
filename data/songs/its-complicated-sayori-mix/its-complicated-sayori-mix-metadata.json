@@ -1,0 +1,56 @@
+{
+  "version": "2.2.4",
+  "songName": "It's Complicated (Sayori Mix)",
+  "artist": "Stardust Tunes / StarrieBlu",
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    },
+    "altVocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokisall",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "bf-doki",
+      "girlfriend": "gf-realdoki",
+      "opponent": "sayori",
+      "instrumental": "",
+      "opponentVocals": [
+        "sayori"
+      ],
+      "playerVocals": [
+        "bf-doki"
+      ]
+    },
+    "album": "takeover",
+    "stage": "clubroomfestival",
+    "noteStyle": "ddto",
+    "ratings": {
+      "normal": 5
+    },
+    "previewStart": 0,
+    "previewEnd": 0
+  },
+  "generatedBy": "Friday Night Funkin' - v0.5.3",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 185,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+    "version": "1.0.0",
+    "name": "Monika (Valentine)",
+    "assetPath": "characters/monika/Doki_MonikaValentine_Assets",
+    "singTime": 6,
+    "isPixel": false,
+    "scale": 0.9,
+    "cameraOffsets": [0, -5],
+    "healthIcon": {
+        "id": "monika",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Monika Returns Idle",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP",
+            "prefix": "Monika Returns Up",
+            "offsets": [
+                -105,
+                13
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Monika Returns Right",
+            "offsets": [
+                -30,
+                -10
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Monika Returns Down",
+            "offsets": [
+                -30,
+                -64
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Monika Returns Left",
+            "offsets": [
+                -20,
+                39
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        }
+    ],
+    "flipX": false
+}

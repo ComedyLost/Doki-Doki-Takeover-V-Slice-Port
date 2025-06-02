@@ -1,0 +1,30 @@
+import funkin.play.PlayState;
+import funkin.ui.debug.charting.ChartEditorState;
+import funkin.ui.debug.charting.util.ChartEditorDropdowns;
+import funkin.modding.module.Module;
+import funkin.Paths;
+import flixel.FlxG;
+
+class DDTONoteKinds extends Module
+{
+	public function new()
+    {
+        super('DDTONoteKinds');
+    }  
+
+    function isInChartEditor(){
+        return Std.isOfType(FlxG.state, ChartEditorState);
+    }
+
+    function onStateChangeEnd(event) {
+        super.onStateChangeEnd(event);
+        if (isInChartEditor()) {
+			ChartEditorDropdowns.NOTE_KINDS.set('alt','Alt Animation');
+			ChartEditorDropdowns.NOTE_KINDS.set('noanimation','No Animation');
+            ChartEditorDropdowns.NOTE_KINDS.set('markov','Markov Note');
+            ChartEditorDropdowns.NOTE_KINDS.set('gf','GF Sing');
+        } else {
+            //do nothing
+        }
+    }
+}

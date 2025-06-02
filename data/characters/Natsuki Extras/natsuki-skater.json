@@ -1,0 +1,64 @@
+{
+    "version": "1.0.0",
+    "name": "Natsuki (Skater)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/natsuki/Doki_Nat_Skater_Assets",
+    "flipX": false,
+    "singTime": 6,
+    "healthIcon": {"id": "natsuki"},
+    "cameraOffsets": [0, -50],
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Nat Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Nat Sing Note Left",
+            "offsets": [
+                -29,
+                -22
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Nat Sing Note Right",
+            "offsets": [
+                -46,
+                14
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Nat Sing Note DOWN",
+            "offsets": [
+                38,
+                -20
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Nat Sing Note Up",
+            "offsets": [
+                34,
+                3
+            ]
+        },
+        {
+            "name": "hmmph",
+            "prefix": "Nat hmph",
+            "offsets": [
+                -13,
+                -1
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

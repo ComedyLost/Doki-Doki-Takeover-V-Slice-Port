@@ -1,0 +1,47 @@
+{
+  "version": "2.2.4",
+  "songName": "Beathoven (Natsuki Mix)",
+  "artist": "OG: PaperKitty",
+  "charter": "Unknown",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    },
+    "altVocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokisall",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "bf-doki",
+      "girlfriend": "gf-realdoki",
+      "opponent": "natsuki",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "album": "takeover",
+    "stage": "clubroomfestival",
+    "noteStyle": "ddto",
+    "ratings": {
+      "normal": 7
+    },
+    "previewStart": 0,
+    "previewEnd": 15000
+  },
+  "generatedBy": "Friday Night Funkin' - v0.5.3",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 168,
+      "n": 4,
+      "d": 4
+    }
+  ]
+}

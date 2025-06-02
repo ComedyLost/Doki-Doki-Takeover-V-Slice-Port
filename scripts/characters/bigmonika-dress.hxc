@@ -1,0 +1,34 @@
+import funkin.play.character.SparrowCharacter;
+import funkin.play.character.CharacterType;
+import funkin.play.PlayState;
+import flixel.addons.effects.FlxTrail;
+
+class BigMonikaDressCharacter extends SparrowCharacter {
+	function new() {
+		super('bigmonika-dress');
+	}
+
+	//Following code is an attempt to fix scaled characters moving around due to offsets 
+	//CANNOT BE USED WITH FOLLOW CAMERA EVENT AS THE CAMERA WILL BE OFFSET
+	override function onAnimationFinished(name:String) {
+		super.onAnimationFinished(name);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (name == 'lastNOTE_start') {
+			this.playAnimation('lastNOTE_end', true, true, false);
+		}
+		if (name == 'lastNOTE_end') {
+			this.alpha = 0;
+		}
+	}
+
+	function onNoteHit(event:NoteScriptEvent)
+		{
+			// Override the miss note animation.
+			switch(event.note.kind) {
+				case "markov", "noanimation":
+					return;
+				default:
+					super.onNoteHit(event);
+			}
+		}
+}

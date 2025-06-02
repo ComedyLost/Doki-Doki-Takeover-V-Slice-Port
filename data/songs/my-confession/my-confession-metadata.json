@@ -1,0 +1,50 @@
+{
+  "version": "2.2.2",
+  "songName": "My Confession",
+  "artist": "Sprunkle",
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokis",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "bf-doki",
+      "girlfriend": "gf-realdoki",
+      "opponent": "sayori",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "album": "takeover",
+    "stage": "clubroom",
+    "noteStyle": "ddto",
+    "ratings": {
+      "normal": 4
+    },
+    "previewStart": 0,
+    "previewEnd": 0
+  },
+  "generatedBy": "Friday Night Funkin' - v0.3.2",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 170,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+    "version": "1.0.0",
+    "name": "Natsuki",
+    "renderType": "multisparrow",
+    "assetPath": "characters/natsuki/Doki_Nat_Assets",
+    "flipX": false,
+    "singTime": 6,
+    "cameraOffsets": [0, -50],
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Nat Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Nat Sing Note Left",
+            "offsets": [
+                -32,
+                -21
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Nat Sing Note Right",
+            "offsets": [
+                -45,
+                14
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Nat Sing Note DOWN",
+            "offsets": [
+                38,
+                -20
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Nat Sing Note Up",
+            "offsets": [
+                33,
+                4
+            ]
+        },
+        {
+            "name": "hmmph",
+            "prefix": "Nat hmph",
+            "offsets": [
+                -12,
+                0
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

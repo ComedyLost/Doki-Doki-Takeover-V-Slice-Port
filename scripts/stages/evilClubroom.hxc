@@ -1,0 +1,252 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop; 
+import flixel.tweens.FlxTween;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import flixel.util.FlxTimer;
+import flixel.FlxG;
+import funkin.modding.base.ScriptedFlxRuntimeShader;
+import openfl.filters.ShaderFilter;
+import funkin.Paths;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.utils.Assets;
+import funkin.graphics.FunkinCamera;
+import flixel.FlxCamera;
+import flixel.FlxCameraFollowStyle;
+import funkin.util.Constants;
+import flixel.util.FlxSave;
+
+class EvilClubroomStage extends Stage
+{
+	var dokiBackdrop:FlxBackdrop;
+	var space:FlxBackdrop;
+	var clouds:FlxBackdrop;
+	var fancyclouds:FlxBackdrop;
+	var popup:FlxSprite;
+	var blackCover:FlxSprite;
+	var maskEnabled:Bool;
+	var canChange:Bool;
+	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
+    var shader = new ShaderFilter(bloom);
+	var camBG:FunkinCamera;
+
+	function new()
+	{
+		super('evilClubroom');
+
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+	}
+
+	public function onCountdownStart(event:CountdownScriptEvent):Void
+		{
+			super.onCountdownStart(event);	
+			canChange = true;
+			blackCover.alpha = 0;
+			dokiBackdrop.alpha = 0;
+			PlayState.instance.iconP2.alpha = 1;
+			camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
+			getBoyfriend().visible = false;
+			getGirlfriend().visible = false;
+			bloom.setFloat('funrange', 0.1);
+			bloom.setFloat('funsteps', 0.005);
+			bloom.setFloat('funthreshhold', 0.95);
+			bloom.setFloat('funbrightness', 8); 
+			if (save.data.bloom) camBG.filters = [shader];
+		}
+
+	function resetCams() {
+		FlxG.cameras.remove(PlayState.instance.camGame, false);
+		FlxG.cameras.add(PlayState.instance.camGame, true);
+		PlayState.instance.camGame.bgColor = 0x0;
+
+		FlxG.cameras.remove(PlayState.instance.camHUD, false);
+		FlxG.cameras.add(PlayState.instance.camHUD, false);	
+
+		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
+		FlxG.cameras.add(PlayState.instance.camCutscene, false);
+	}
+
+	override function buildStage()
+		{
+			//I'm never going to fully understand V-Slice coding
+			super.buildStage();
+			camBG = new FunkinCamera('playStateCamBG');
+			FlxG.cameras.add(camBG, false);
+	        camBG.bgColor = 0x000000;
+			camBG.copyFrom(PlayState.instance.camGame);
+			resetCams();
+			getNamedProp('Epiphany Main Lights').blend = 12;
+			getNamedProp('Epiphany Window Lights').cameras = [camBG];
+			getNamedProp('Epiphany BG').cameras = [camBG];
+			canChange = true;
+			maskEnabled = true;
+			blackCover = new FunkinSprite(0, 0).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+            blackCover.zIndex = 500;
+			blackCover.alpha = 0;
+            blackCover.cameras = [PlayState.instance.camHUD];
+			blackCover.screenCenter();
+			blackCover.y = -300;
+            add(blackCover);
+			popup = FunkinSprite.createSparrow(0, 0, 'bigmonika/bigika_delete');
+			popup.animation.addByPrefix('startDeleting', 'PopUpAnim', 24, false);
+			popup.zIndex = 400;
+			popup.screenCenter();
+			popup.alpha = 0;
+			popup.y += 100;
+			popup.x += 75;
+			add(popup);
+			dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG')); 
+			dokiBackdrop.updateHitbox(); 
+			dokiBackdrop.zIndex = 100;
+			dokiBackdrop.velocity.set(-40, -40);
+			dokiBackdrop.alpha = 0; 
+			dokiBackdrop.screenCenter();
+			add(dokiBackdrop); 
+			space = new FlxBackdrop(Paths.image('bigmonika/Sky')); 
+			space.updateHitbox(); 
+			space.zIndex = 10;
+			space.scrollFactor.set(0.1, 0.1);
+			space.velocity.set(-7, 0);
+			space.alpha = 1; 
+			space.screenCenter();
+			add(space);
+			space.cameras = [camBG];
+			clouds = new FlxBackdrop(Paths.image('bigmonika/Clouds')); 
+			clouds.updateHitbox(); 
+			clouds.zIndex = 10;
+			clouds.scrollFactor.set(0.1, 0.1);
+			clouds.velocity.set(-13, 0);
+			clouds.alpha = 1; 
+			add(clouds);
+			clouds.cameras = [camBG];
+			fancyclouds = new FlxBackdrop(Paths.image('bigmonika/mask')); 
+			fancyclouds.updateHitbox(); 
+			fancyclouds.zIndex = 10;
+			fancyclouds.scrollFactor.set(0.1, 0.1);
+			fancyclouds.velocity.set(-13, 0);
+			fancyclouds.alpha = 1; 
+			add(fancyclouds);
+			fancyclouds.cameras = [camBG];
+			refresh();
+		}
+	
+	function fetchAssetPaths():Array<String>
+	{
+		var results:Array<String> = super.fetchAssetPaths();
+
+		// This graphic is applied by shader to the background, so it's not included in the default stage function.
+		results.push(Paths.image('bigmonika/bigika_delete'));
+		results.push(Paths.image('scrollingBG'));
+		results.push(Paths.image('bigmonika/Sky'));
+		results.push(Paths.image('bigmonika/Clouds'));
+		results.push(Paths.image('bigmonika/mask'));
+
+		return results;
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		
+        camBG.zoom = PlayState.instance.camGame.zoom;
+        camBG.targetOffset = FlxG.camera.targetOffset;
+    }    
+
+	function onBeatHit(event:SongTimeScriptEvent)
+		{
+			super.onBeatHit(event);
+	
+			if (FlxG.random.bool(20))
+			{
+				maskStateChange();
+			}
+		}	
+
+	function maskStateChange() {
+		if (!canChange) return;
+		if (!maskEnabled){
+			canChange = false;
+			FlxTween.tween(getNamedProp('Epiphany Window Lights'), {alpha: 1}, 1);
+			maskEnabled = true;
+			FlxTween.tween(fancyclouds, {alpha: 1}, 1);
+			new FlxTimer().start(3, function(tmr)
+				{
+					canChange = true;
+				});		
+		} else if (maskEnabled){
+			canChange = false;
+			FlxTween.tween(getNamedProp('Epiphany Window Lights'), {alpha: 0}, 1);
+			maskEnabled = false;
+			FlxTween.tween(fancyclouds, {alpha: 0}, 1);
+			new FlxTimer().start(3, function(tmr)
+				{
+					canChange = true;
+				});		
+		}
+	}
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{
+			switch(event.step)
+			{
+				case 2344:
+					FlxTween.tween(dokiBackdrop, {alpha: 1}, 0.5);
+				case 2592:
+					popup.alpha = 1;
+					popup.animation.play('startDeleting');
+					popup.animation.curAnim.frameRate = 24 * PlayState.instance.playbackRate;
+				case 2600:
+					FlxTween.tween(dokiBackdrop, {alpha: 0}, 0.5);
+				case 3160:
+					FlxTween.tween(blackCover, {alpha: 1}, 0.5);
+					hideOpponentStrumline();
+					FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, 0.5);		
+			}
+
+		}
+
+		function hideOpponentStrumline()
+			{
+				var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+				if (opponentStrumline != null)
+				{
+					for (arrow in opponentStrumline.members)
+					{
+						FlxTween.tween(arrow, {alpha: 0}, 0.5);
+					}
+				}
+			}
+		
+		function showOpponentStrumline()
+			{
+				var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+				if (opponentStrumline != null)
+				{
+					for (arrow in opponentStrumline.members)
+					{
+						FlxTween.cancelTweensOf(arrow);
+						if (arrow == opponentStrumline.background) continue;
+						arrow.alpha = 1;
+					}
+				}
+			}
+	
+
+	function onSongRetry(event:ScriptEvent)
+		{
+			super.onSongRetry(event);
+			if (popup.animation?.curAnim?.name == 'startDeleting'){
+				popup.animation.curAnim.stop();
+			}
+			showOpponentStrumline();
+			blackCover.alpha = 0;
+			dokiBackdrop.alpha = 0;
+			PlayState.instance.iconP2.alpha = 1;
+			popup.alpha = 0;
+		}
+}

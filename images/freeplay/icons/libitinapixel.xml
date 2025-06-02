@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="libitinapixel.png">
+<SubTexture name="confirm0000" x="44" y="0" width="46" height="40" frameX="-3" frameY="-6" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0001" x="0" y="0" width="44" height="41" frameX="-4" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0002" x="90" y="0" width="46" height="39" frameX="-3" frameY="-8" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0003" x="0" y="41" width="46" height="40" frameX="-3" frameY="-6" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm-hold0000" x="0" y="41" width="46" height="40" frameX="-3" frameY="-6" frameWidth="50" frameHeight="50" />
+<SubTexture name="idle0000" x="44" y="0" width="46" height="40" frameX="-3" frameY="-6" frameWidth="50" frameHeight="50" />
+</TextureAtlas>

@@ -1,0 +1,61 @@
+{
+  "props": [
+    {
+      "danceEvery": 0,
+      "zIndex": 10,
+      "position": [-250, -100],
+      "scale": [1.5, 1.5],
+      "animType": "sparrow",
+      "name": "Music Room BG",
+      "isPixel": false,
+      "assetPath": "musicroom/Music_Room",
+      "scroll": [1, 1],
+      "animations": []
+    },
+        {
+      "danceEvery": 0,
+      "zIndex": 50,
+      "position": [-250, -100],
+      "scale": [1.5, 1.5],
+      "animType": "sparrow",
+      "name": "Music Room FG",
+      "isPixel": false,
+      "assetPath": "musicroom/Music_Room_FG",
+      "scroll": [1.2, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 60,
+      "position": [-250, -100],
+      "scale": [1.5, 1.5],
+      "animType": "sparrow",
+      "name": "Music Room Lights",
+      "blend": "ADD",
+      "isPixel": false,
+      "assetPath": "musicroom/Music_RoomLight",
+      "scroll": [1.1, 0.9],
+      "animations": []
+    }
+  ],
+  "cameraZoom": 1,
+  "version": "1.0.0",
+  "characters": {
+    "bf": {
+      "zIndex": 40,
+      "position": [970, 850],
+      "cameraOffsets": [-100, -200]
+    },
+    "dad": {
+      "zIndex": 30,
+      "position": [300, 850],
+      "cameraOffsets": [150, -100]
+    },
+    "gf": {
+      "zIndex": 20,
+      "cameraOffsets": [0, 0],
+      "position": [750, 775]
+    }
+  },
+  "name": "The Music Room"
+}

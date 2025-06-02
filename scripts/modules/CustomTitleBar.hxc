@@ -1,0 +1,38 @@
+import funkin.play.PlayState;
+import funkin.modding.module.Module;
+import flixel.tweens.FlxTween;
+import funkin.util.Constants;
+import flixel.FlxG;
+import funkin.Paths;
+import funkin.util.WindowUtil;
+
+class customTitleBar extends Module
+{
+	var customTitleBar:Bool;
+
+	function new()
+	{
+		super('customTitleBar');
+	}
+
+	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+	var customTitleBar;
+
+    public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		customTitleBar = ddtoStages.contains(PlayState.instance.currentStageId);
+		if (customTitleBar == true){
+			if (PlayState.instance.currentChart.songName == 'MSTSOOBF') WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - Monika Slaps The Shit Out of Boyfriend');
+            else if (PlayState.instance.currentChart.songName == 'Your Demise') WindowUtil.setWindowTitle('Your Demise');
+			else WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - ' + PlayState.instance.currentChart.songName);
+		}
+	}
+
+    override function onDestroy(event) {
+		super.onDestroy(event);
+		if (customTitleBar) {
+			WindowUtil.setWindowTitle('Friday Night Funkin\'');
+			customTitleBar = false;
+		}
+	  }
+}

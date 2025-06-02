@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Results_Textbox.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="sound system0000" x="0" y="0" width="171" height="26" frameX="-271" frameY="-295" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0001" x="171" y="0" width="283" height="153" frameX="-215" frameY="-232" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0002" x="454" y="0" width="458" height="305" frameX="-128" frameY="-156" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0003" x="912" y="0" width="615" height="493" frameX="-49" frameY="-62" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0004" x="0" y="493" width="714" height="617"/>
+	<SubTexture name="sound system0005" x="714" y="493" width="674" height="578" frameX="-20" frameY="-20" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0006" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0007" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0008" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0009" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0010" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0011" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0012" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0013" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0014" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0015" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0016" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0017" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0018" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0019" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0020" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0021" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0022" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0023" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0024" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0025" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0026" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0027" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0028" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0029" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0030" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0031" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0032" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0033" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0034" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0035" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0036" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0037" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0038" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0039" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0040" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0041" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0042" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0043" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0044" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0045" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0046" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0047" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0048" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0049" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0050" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0051" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0052" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0053" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0054" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0055" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0056" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0057" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0058" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0059" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0060" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0061" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0062" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0063" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+	<SubTexture name="sound system0064" x="0" y="1110" width="663" height="566" frameX="-26" frameY="-25" frameWidth="714" frameHeight="617"/>
+</TextureAtlas>

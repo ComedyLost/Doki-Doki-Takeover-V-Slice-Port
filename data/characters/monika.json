@@ -1,0 +1,54 @@
+{
+    "version": "1.0.0",
+    "name": "Monika",
+    "assetPath": "characters/Doki_MonikaNonPixel_Assets",
+    "flipX": false,
+    "singTime": 6,
+    "cameraOffsets": [0, -5],
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Monika Returns Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Monika Returns Up",
+            "offsets": [
+                -107,
+                15
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Monika Returns Right",
+            "offsets": [
+                -29,
+                -10
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Monika Returns Down",
+            "offsets": [
+                -30,
+                -52
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Monika Returns Left",
+            "offsets": [
+                -21,
+                40
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 0.9,
+    "Made_With": "the cigs Converter"
+}

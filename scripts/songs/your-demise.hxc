@@ -1,0 +1,355 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.song.Song;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.addons.effects.FlxTrail;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import funkin.util.Constants;
+import funkin.play.cutscene.dialogue.DialogueBox;
+import funkin.play.PlayStatePlaylist;
+import funkin.play.cutscene.dialogue.ConversationState;
+import flixel.tweens.FlxEase;
+import funkin.Conductor;
+import funkin.modding.module.ModuleHandler;
+import funkin.util.EaseUtil;
+
+class YourDemiseSong extends Song
+{
+	var hasPlayedVideoCutscene:Bool;
+	var hasPlayedIntroCutscene:Bool;
+	var hasPlayedOutroCutscene:Bool;
+	var blackScreen:FlxSprite;
+	var redStatic:FlxSprite;
+
+	function new()
+	{
+		super('your-demise');
+	}
+
+	var countdownStep;
+	var countdownTimer:FlxTimer;
+
+	public static function performCountdown():Bool
+	{
+		countdownStep = 5;
+		PlayState.instance.isInCountdown = true;
+		Conductor.instance.update(PlayState.instance.startTimestamp + Conductor.instance.beatLengthMs * -5);
+		// Handle onBeatHit events manually
+		// @:privateAccess
+		// PlayState.instance.dispatchEvent(new SongTimeScriptEvent(SONG_BEAT_HIT, 0, 0));
+	
+		// The timer function gets called based on the beat of the song.
+		countdownTimer = new FlxTimer();
+	
+		countdownTimer.start(Conductor.instance.beatLengthMs / 1000, function(tmr:FlxTimer) {
+			if (PlayState.instance == null)
+				{
+				  tmr.cancel();
+				  return;
+				}
+			countdownStep = tmr.loopsLeft - 1;
+		  
+			// onBeatHit events are now properly dispatched by the Conductor even at negative timestamps,
+			// so calling this is no longer necessary.
+			// PlayState.instance.dispatchEvent(new SongTimeScriptEvent(SONG_BEAT_HIT, 0, 0));
+	  
+			// Countdown graphic.
+			showCountdownGraphic(countdownStep);
+	  
+			// Countdown sound.
+			playCountdownSound(countdownStep);
+	  
+			// Event handling bullshit.	
+			if (countdownStep < 0)
+			{
+			  stopCountdown();
+			}	  		  
+		}, 5); // Before, 3, 2, 1, GO!, After
+	
+		return true;
+	}
+
+	override function onPause(event) {
+		super.onPause(event);
+		if (countdownTimer != null && countdownTimer.active == true)
+			{
+			  countdownTimer.active = false;
+			}
+	}
+
+	override function onResume(event) {
+		super.onResume(event);
+		if (countdownTimer != null && countdownTimer.active == false)
+			{
+			  countdownTimer.active = true;
+			}
+	}
+
+	function stopCountdown(){
+		if (countdownTimer != null)
+			{
+			  countdownTimer.cancel();
+			  countdownTimer.destroy();
+			  countdownTimer = null;
+			}
+	}
+
+	public static function playCountdownSound(index:Int, isPixelStyle:Bool):Void
+		{
+		  var soundPath:String;
+	  
+		  switch (index)
+		  {
+			case 3:
+			  soundPath = 'intro3-glitch';
+			case 2:
+			  soundPath = 'intro2-glitch';
+			case 1:
+			  soundPath = 'intro1-glitch';
+			case 0:
+			  soundPath = 'introGo-glitch';
+			default:
+			  // null
+		  }	
+
+		  if (soundPath == null) return;
+	  
+		  FunkinSound.playOnce(Paths.sound(soundPath), Constants.COUNTDOWN_VOLUME);
+		}	  
+
+	function showCountdownGraphic(index:Int, isPixelStyle:Bool):Void
+		{
+			var spritePath:String = null;
+
+			switch (index)
+			{
+			  case 2:
+				spritePath = 'weeb/pixelUI/ready-pixel';
+			  case 1:
+				spritePath = 'weeb/pixelUI/set-pixel';
+			  case 0:
+				spritePath = 'weeb/pixelUI/demise-date';
+			  default:
+				// null
+			}	  	
+
+			if (spritePath == null) return;
+
+			var fadeEase = FlxEase.cubeInOut;
+			fadeEase = EaseUtil.stepped(8);		
+
+			var countdownSprite:FunkinSprite = FunkinSprite.create(0, 0, spritePath);
+			countdownSprite.scrollFactor.set(0, 0);		
+			countdownSprite.updateHitbox();
+			countdownSprite.antialiasing = false;
+			countdownSprite.setGraphicSize(Std.int(countdownSprite.width * 0.7));
+			countdownSprite.setGraphicSize(Std.int(countdownSprite.width * Constants.PIXEL_ART_SCALE));
+					
+			// Fade sprite in, then out, then destroy it.
+			FlxTween.tween(countdownSprite, {alpha: 0}, Conductor.instance.beatLengthMs / 1000,
+			  {
+				ease: fadeEase,
+				onComplete: function(twn:FlxTween) {
+				  countdownSprite.destroy();
+				}
+			  });
+		
+			countdownSprite.cameras = [PlayState.instance.camHUD];
+			PlayState.instance.add(countdownSprite);
+			countdownSprite.screenCenter();
+		}	  
+
+	function onCreate(event:ScriptEvent):Void
+	{
+	  	super.onCreate(event);
+
+		redStatic = new FlxSprite();
+		redStatic.frames = Paths.getSparrowAtlas('HomeStatic');
+		redStatic.cameras = [PlayState.instance.camHUD];
+		redStatic.animation.addByPrefix('idle', 'HomeStatic', 24, true);
+		redStatic.animation.play('idle');
+		redStatic.setGraphicSize(FlxG.width, FlxG.height);
+		redStatic.screenCenter();
+		redStatic.alpha = 0;
+		PlayState.instance.add(redStatic);
+
+		blackScreen = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		blackScreen.scrollFactor.set();
+		blackScreen.alpha = 1;
+		PlayState.instance.add(blackScreen);
+	  
+	  	hasPlayedIntroCutscene = false;
+		hasPlayedOutroCutscene = false;
+	}	 
+	
+	function hideHud(){
+		var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+		var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+		if (opponentStrumline != null)
+		{
+			for (arrow in opponentStrumline.strumlineNotes.members)
+			{
+				arrow.alpha = 0;
+			}
+		}
+		if (playerStrumline != null)
+			{
+				for (arrow in playerStrumline.strumlineNotes.members)
+				{
+					arrow.alpha = 0;
+				}
+			}	
+		var hudElements:Array<Dynamic> = [PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.scoreText, PlayState.instance.healthBarBG];
+		for (hud in hudElements)
+			{
+				hud.alpha = 0;
+			}
+	}
+
+	function returnHud(){
+		var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+		var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+		if (opponentStrumline != null)
+		{
+			for (arrow in opponentStrumline.strumlineNotes.members)
+			{
+				arrow.alpha = 1;
+			}
+		}
+		if (playerStrumline != null)
+			{
+				for (arrow in playerStrumline.strumlineNotes.members)
+				{
+					arrow.alpha = 1;
+				}
+			}	
+		var hudElements:Array<Dynamic> = [PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.scoreText, PlayState.instance.healthBarBG];
+		for (hud in hudElements)
+			{
+				FlxTween.tween(hud, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+			}
+	}
+	
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+		
+		if (!PlayStatePlaylist.isStoryMode) blackScreen.alpha = 0;
+
+		if (!hasPlayedIntroCutscene) {
+		  trace('Pausing countdown to play cutscene.');
+	
+		  hasPlayedIntroCutscene = true;
+
+		  hideHud();
+
+		  event.cancel(); // CANCEL THE COUNTDOWN!
+	
+		  startDialogue();
+		} else {
+			event.cancel();
+			performCountdown();
+		}
+	}
+
+	/*public override function onSongEnd(event:CountdownScriptEvent):Void {
+		super.onSongEnd(event);
+		trace('Started countdown for Roses...');
+
+		if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+	
+		if (!hasPlayedOutroCutscene) {
+		  trace('Pausing countdown to play cutscene.');
+	
+		  hasPlayedOutroCutscene = true;
+	
+		  event.cancel(); // CANCEL THE COUNTDOWN!
+	
+		  PlayState.instance.camCutscene.visible = true;
+	
+		  startEndDialogue();
+		}	
+	}*/
+
+	function stageSwap(swap:Bool){
+		glitchEffect();
+		if (swap){
+			PlayState.instance.currentStage.getBoyfriend().x = 1000;
+			PlayState.instance.currentStage.getBoyfriend().y = 550;
+			PlayState.instance.currentStage.getNamedProp('finaleSpace').alpha = 1;
+			PlayState.instance.currentStage.getNamedProp('finaleBG').alpha = 1;
+			PlayState.instance.currentStage.getNamedProp('finaleFG').alpha = 1;
+		} else {
+			PlayState.instance.currentStage.getBoyfriend().resetPosition();
+			PlayState.instance.currentStage.getNamedProp('finaleSpace').alpha = 0;
+			PlayState.instance.currentStage.getNamedProp('finaleBG').alpha = 0;
+			PlayState.instance.currentStage.getNamedProp('finaleFG').alpha = 0;
+		}
+	}
+
+	function onSongRetry(event:ScriptEvent)
+		{
+			super.onSongRetry(event);
+			redStatic.alpha = 0;
+			if (PlayStatePlaylist.isStoryMode) blackScreen.alpha = 1;
+			else blackScreen.alpha = 0;
+			PlayState.instance.currentStage.getNamedProp('finaleSpace').alpha = 0;
+			PlayState.instance.currentStage.getNamedProp('finaleBG').alpha = 0;
+			PlayState.instance.currentStage.getNamedProp('finaleFG').alpha = 0;
+		}
+
+	function glitchEffect(){
+		FlxTween.cancelTweensOf(redStatic);
+		redStatic.alpha = 1;
+		FlxTween.tween(redStatic, {alpha: 0}, 0.2, {ease: FlxEase.linear});		
+	  }	
+
+	function startDialogue() {
+		PlayState.instance.startConversation('your-demise');
+		PlayState.instance.currentConversation.completeCallback = songStart;
+	}
+	
+	  function startEndDialogue() {
+		PlayState.instance.startConversation('your-demise-end');
+		PlayState.instance.currentConversation.completeCallback = endSong;
+	}	
+
+	function songStart(){
+		PlayState.instance.onConversationComplete();
+		returnHud();
+		PlayState.instance.playerStrumline.fadeInArrows();
+		PlayState.instance.opponentStrumline.fadeInArrows();
+	}
+
+	function endSong(){
+		PlayState.instance.endSong();
+	}
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 0:
+					if (PlayStatePlaylist.isStoryMode) FlxTween.tween(blackScreen, {alpha: 0}, 0.5);
+				case 264:
+					blackScreen.alpha = 1;
+				case 328:
+					stageSwap(true);
+					ModuleHandler.getModule('Credits').scriptCall('manualCreditsSummon');
+					blackScreen.alpha = 0;
+				case 840:
+					stageSwap(false);
+				case 1640:
+					stageSwap(true);
+				case 1864:
+					FlxTween.tween(blackScreen, {alpha: 1}, 0.5);
+			}
+
+		}
+}

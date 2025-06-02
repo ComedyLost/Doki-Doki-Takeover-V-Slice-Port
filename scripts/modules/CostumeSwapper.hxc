@@ -1,0 +1,340 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.util.FlxSave;
+import flixel.util.FlxTimer;
+
+import flixel.FlxG;
+
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.play.components.HealthIcon;
+import funkin.graphics.FunkinSprite;
+
+import funkin.Paths;
+import openfl.utils.Assets;
+
+import funkin.util.assets.DataAssets;
+
+/*
+Bunch of code for the costume swapper
+Also swaps costumes on character change
+*/
+class CostumeSwapper extends Module {
+
+	public function new() {
+		super('CostumeSwapper');
+		any = new FlxSave();
+		any.bind("TakeoverOptions");
+		save = new FlxSave();
+		save.bind("Costumes");
+		save.data.selectedBFCostume = (save.data.selectedBFCostume != null) ? save.data.selectedBFCostume : 0; 
+		save.data.selectedGFCostume = (save.data.selectedGFCostume != null) ? save.data.selectedGFCostume : 0; 
+		save.data.selectedMoniCostume = (save.data.selectedMoniCostume != null) ? save.data.selectedMoniCostume : 0; 
+		save.data.selectedSayoCostume = (save.data.selectedSayoCostume != null) ? save.data.selectedSayoCostume : 0; 
+		save.data.selectedSukiCostume = (save.data.selectedSukiCostume != null) ? save.data.selectedSukiCostume : 0; 
+		save.data.selectedYuriCostume = (save.data.selectedYuriCostume != null) ? save.data.selectedYuriCostume : 0;     
+		save.data.selectedProtagCostume = (save.data.selectedProtagCostume != null) ? save.data.selectedProtagCostume : 0;
+		save.flush();
+	}
+
+	var bfCostumes:Array<String> = ['-doki', '-classic', '-minus', '-soft', '-mrcow', '-blueskies', '-aloe', '-mcbf'];
+	var gfCostumes:Array<String> = ['-doki', '-classic', '-minus', '-soft', '-blueskies', '-nene', '-tbdtan'];
+	var moniCostumes:Array<String> = ['', '-casual', '-valentine', '-hex', '-senpai', '-blueskies', '-vigilante'];
+	var sayoCostumes:Array<String> = ['', '-casual', '-sleepwear', '-picnic', '-grace', '-zipper', '-blueskies'];
+	var sukiCostumes:Array<String> = ['', '-casual', '-skater', '-kapi', '-sunday', '-hank', '-blueskies'];
+	var yuriCostumes:Array<String> = ['', '-casual', '-derby', '-picnic', '-taki', '-tabi', '-blueskies'];
+	var protagCostumes:Array<String> = ['', '-casual', '-hotline', '-henry', '-blueskies'];
+
+	public function onSongRetry(event):Void {
+		super.onSongRetry(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		songLoadCostumeSwap();
+	}
+
+	function songLoadCostumeSwap(){ // Does the costume swap on song load, fixes the default characters showing up on restart
+		switch (PlayState.instance.currentSong.id.toLowerCase()) {
+			case "mstsoobf", "epiphany-with-lyrics", "epiphany", "libitina", 'tutorial': return;
+			default: //Nothing
+		}
+		switch (PlayState.instance.currentChart.characters.player) {
+			case 'bf':
+				if (save.data.selectedBFCostume != 0 && any.data.costumesanywhere) { //Why tf does it need to be false for it to work?
+					var character = 'Boyfriend Extras/bf'+bfCostumes[save.data.selectedBFCostume];
+					changeCharacter(character, 'bf');
+					PlayState.instance.iconP1.isLegacyStyle = true;
+				}
+			case 'bf-doki':
+				if (save.data.selectedBFCostume != 0) {
+					var character = 'Boyfriend Extras/bf'+bfCostumes[save.data.selectedBFCostume];
+					changeCharacter(character, 'bf');        
+				}
+			case 'sayori':
+				if (save.data.selectedSayoCostume != 0) {
+					var character = 'Sayori Extras/sayori'+sayoCostumes[save.data.selectedSayoCostume];
+					changeCharacter(character, 'bf');        
+				}
+			case 'natsuki':
+				if (save.data.selectedSukiCostume != 0) {
+					var character = 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
+					changeCharacter(character, 'bf');        
+				}
+			case 'yuri':
+				if (save.data.selectedYuriCostume != 0) {
+					var character = 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
+					changeCharacter(character, 'bf');        
+				}
+			case 'monika':
+				if (save.data.selectedMoniCostume != 0){
+					var character = 'Monika Extras/monika'+moniCostumes[save.data.selectedMoniCostume];
+					changeCharacter(character, 'bf');
+				}
+			case 'protag':
+				if (save.data.selectedProtagCostume != 0){
+					var character = 'Protag Extras/protag'+protagCostumes[save.data.selectedProtagCostume];
+					changeCharacter(character, 'bf');
+				}
+			}
+		if (PlayState.instance.currentStage.getGirlfriend() != null && save.data.selectedGFCostume != 0){
+			switch (PlayState.instance.currentChart.characters.girlfriend){
+				case 'gf-realdoki':
+					var character = 'Girlfriend Extras/gf'+gfCostumes[save.data.selectedGFCostume];
+					changeCharacter(character, 'gf');
+				case 'gf':
+					if (any.data.costumesanywhere){
+						var character = 'Girlfriend Extras/gf'+gfCostumes[save.data.selectedGFCostume];
+						changeCharacter(character, 'gf');
+					}
+			}
+		}
+		var opponentCharacter = PlayState.instance.currentChart.characters.opponent;
+		switch opponentCharacter {
+			case 'gf':
+				if (any.data.costumesanywhere){
+					var character = 'Girlfriend Extras/gf'+gfCostumes[save.data.selectedGFCostume];
+					changeCharacter(character, 'dad');
+					PlayState.instance.iconP2.loadCharacter('gf');
+					var pos:FlxPoint = PlayState.instance.currentStage.getGirlfriendPosition();
+					PlayState.instance.currentStage.getDad().originalPosition.x = pos.x - PlayState.instance.currentStage.getDad().characterOrigin.x;
+					PlayState.instance.currentStage.getDad().originalPosition.y = pos.y - PlayState.instance.currentStage.getDad().characterOrigin.y;
+					PlayState.instance.currentStage.getDad().resetPosition();
+				}
+			case 'sayori':
+				if (save.data.selectedSayoCostume != 0){
+					var character = 'Sayori Extras/sayori'+sayoCostumes[save.data.selectedSayoCostume];
+					changeCharacter(character, 'dad');
+				}
+			case 'natsuki':
+				if (save.data.selectedSukiCostume != 0){
+					var character = 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
+					changeCharacter(character, 'dad');
+				}
+			case 'yuri':
+				if (save.data.selectedYuriCostume != 0){
+					var character = 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
+					changeCharacter(character, 'dad');
+				}
+			case 'monika':
+				if (save.data.selectedMoniCostume != 0){
+					var character = 'Monika Extras/monika'+moniCostumes[save.data.selectedMoniCostume];
+					changeCharacter(character, 'dad');
+				}
+			case 'protag':
+				if (save.data.selectedProtagCostume != 0){
+					var character = 'Protag Extras/protag'+protagCostumes[save.data.selectedProtagCostume];
+					changeCharacter(character, 'dad');
+				}
+		}
+	}
+
+	//Cache costume textures to prevent lag
+	override function onSongLoaded(event) {
+		super.onSongLoaded(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		songLoadCostumeSwap();
+		for (events in event.events){
+			if (events.eventKind == 'ChangeCharacterCL'){
+				switch (events.value.newchar.toLowerCase()) {
+					case 'bf-doki':
+						if (save.data.selectedBFCostume != 0)
+							var character = 'Boyfriend Extras/bf'+bfCostumes[save.data.selectedBFCostume];
+						else continue;
+					case 'gf-realdoki':
+						if (save.data.selectedGFCostume != 0)
+							var character = 'Girlfriend Extras/gf'+gfCostumes[save.data.selectedGFCostume];
+						else continue;
+					case 'sayori':
+						if (save.data.selectedSayoCostume != 0)
+							var character = 'Sayori Extras/sayori'+sayoCostumes[save.data.selectedSayoCostume];
+						else continue;
+					case 'natsuki':
+						if (save.data.selectedSukiCostume != 0)
+							var character = 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
+						else continue;
+					case 'yuri':
+						if (save.data.selectedYuriCostume != 0)
+							var character = 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
+						else continue;
+					case 'yuri-crazy':
+						if (save.data.selectedYuriCostume != 0)
+							var character = 'Yuri Extras/yuri-crazy'+yuriCostumes[save.data.selectedYuriCostume];
+						else continue;
+					case 'monika':
+						if (save.data.selectedMoniCostume != 0)
+							var character = 'Monika Extras/monika'+moniCostumes[save.data.selectedMoniCostume];
+						else continue;
+					case 'protag':
+						if (save.data.selectedProtagCostume != 0)
+							var character = 'Protag Extras/protag'+protagCostumes[save.data.selectedProtagCostume];
+						else continue;
+					default:
+						continue;
+				}
+				var charData = CharacterDataParser.parseCharacterData(character);
+				CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
+				var _data = CharacterDataParser.fetchCharacter(character);
+				FunkinSprite.cacheSparrow(_data.assetPath);
+				if (Std.string(_data.renderType) == 'MultiSparrow'){
+					var assetList = [];
+					for (anim in _data.animations) {
+						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){
+							assetList.push(anim.assetPath);
+							FunkinSprite.cacheSparrow(anim.assetPath);
+						}
+					}
+				}
+			}
+		}
+	}	
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+		{
+			var script = scriptEvent;
+			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter")
+			{
+				var eventProps = scriptEvent.eventData.value;
+				new FlxTimer().start(0.0001, _ -> { //Add a little delay to stop character glitching when swapping out characters (I have no idea why this fixes it)
+					switch (eventProps.newchar.toLowerCase()) {
+						case 'bf-doki':
+							if (save.data.selectedBFCostume != 0){
+								script.cancel();
+								var character = 'Boyfriend Extras/bf'+bfCostumes[save.data.selectedBFCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}
+						case 'gf-realdoki':
+							if (save.data.selectedGFCostume != 0){
+								script.cancel();
+								var character = 'Girlfriend Extras/gf'+gfCostumes[save.data.selectedGFCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}
+						case 'sayori':
+							if (save.data.selectedSayoCostume != 0){
+								script.cancel();
+								var character = 'Sayori Extras/sayori'+sayoCostumes[save.data.selectedSayoCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}
+						case 'natsuki':
+							if (save.data.selectedSukiCostume != 0){
+								script.cancel();
+								var character = 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}
+						case 'yuri':
+							if (save.data.selectedYuriCostume != 0){
+								script.cancel();
+								var character = 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}
+						case 'yuri-crazy':
+							if (save.data.selectedYuriCostume != 0){
+								script.cancel();
+								var character = 'Yuri Extras/yuri-crazy'+yuriCostumes[save.data.selectedYuriCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}
+						case 'monika':
+							if (save.data.selectedMoniCostume != 0){
+								script.cancel();
+								var character = 'Monika Extras/monika'+moniCostumes[save.data.selectedMoniCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}
+						case 'protag':
+							if (save.data.selectedProtagCostume != 0){
+								script.cancel();
+								var character = 'Protag Extras/protag'+protagCostumes[save.data.selectedProtagCostume];
+								changeCharacter(character, eventProps.character.toLowerCase());
+							} else {
+								super.onSongEvent(script);
+							}            
+						default:
+							super.onSongEvent(script);
+					}				    
+				});		
+			}
+		}
+
+	function changeCharacter(newName:String, character:String){
+		var charData = CharacterDataParser.parseCharacterData(newName);
+		CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
+
+		switch (character){
+			case 'bf':
+				var bfZIndex = PlayState.instance.currentStage.getBoyfriend().zIndex;
+				if (bfZIndex == null) bfZIndex = 0;
+		
+				PlayState.instance.currentStage.getBoyfriend().destroy();
+		
+				var boyfriend = CharacterDataParser.fetchCharacter(newName);
+				if (boyfriend != null) {
+					boyfriend.set_characterType(CharacterType.BF);
+					boyfriend.initHealthIcon(false);
+					PlayState.instance.currentStage.addCharacter(boyfriend, CharacterType.BF);
+					PlayState.instance.currentStage.getBoyfriend().zIndex = bfZIndex;
+				}
+			case 'gf':
+				var gfZIndex = PlayState.instance.currentStage.getGirlfriend().zIndex;
+				if (gfZIndex == null) gfZIndex = 0;
+		
+				PlayState.instance.currentStage.getGirlfriend().destroy();
+		
+				var girlfriend = CharacterDataParser.fetchCharacter(newName);
+				if (girlfriend != null) {
+					girlfriend.set_characterType(CharacterType.GF);
+					PlayState.instance.currentStage.addCharacter(girlfriend, CharacterType.GF);
+					PlayState.instance.currentStage.getGirlfriend().zIndex = gfZIndex;
+				}
+			case 'dad':
+				var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
+				if (oppZIndex == null) oppZIndex = 0;
+		
+				PlayState.instance.currentStage.getDad().destroy();
+		
+				var dad = CharacterDataParser.fetchCharacter(newName);
+				if (dad != null) {
+					dad.set_characterType(CharacterType.DAD);
+					dad.initHealthIcon(true);
+					PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
+					PlayState.instance.currentStage.getDad().zIndex = oppZIndex;
+				}
+		}
+		PlayState.instance.currentStage.refresh();
+	}
+}

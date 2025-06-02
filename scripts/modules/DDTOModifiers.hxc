@@ -1,0 +1,56 @@
+import funkin.modding.module.Module;
+import flixel.FlxG;
+import funkin.Paths;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.util.ReflectUtil;
+import funkin.ui.freeplay.SongMenuItem;
+import funkin.audio.FunkinSound;
+import funkin.modding.base.ScriptedMusicBeatSubState;
+import StringTools;
+import flixel.util.FlxTimer;
+import funkin.PlayerSettings;
+import funkin.graphics.FunkinCamera;
+import funkin.graphics.FunkinSprite;
+import flixel.FlxSprite;
+
+class DDTOModifiers extends Module {
+	public function new(){
+		super('DDTOModifiers');
+
+		active = false; //Disabled as I couldn't get the menu to fully work yet
+	}
+	
+	var modifierMenu:FlxSprite;
+	var mainCam:FunkinCamera;
+
+	//Modifiers menu from original DDTO
+	override function onSubStateOpenEnd(event) {
+        super.onSubStateOpenEnd(event);
+        if (Std.isOfType(event.targetState, FreeplayState)) {
+			var state = event.targetState;
+			state.dj.onIntroDone.add(function() {
+				mainCam = new FunkinCamera('MainCam');
+				FlxG.cameras.add(mainCam, false);
+				mainCam.bgColor = 0x0;
+				mainCam.visible = true;
+			
+				modifierMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('freeplay/extra/modifiers'));
+				modifierMenu.setGraphicSize(Std.int(modifierMenu.width * 0.6));
+				modifierMenu.updateHitbox();
+				modifierMenu.x = (FlxG.width - modifierMenu.width) - 10;
+				modifierMenu.y += modifierMenu.height + 10;
+				modifierMenu.cameras = [mainCam];
+				
+				state.add(modifierMenu);
+				state.refresh();			
+			});
+		}
+	}
+
+	override function onStateOpenEnd(event) {
+        super.onStateOpenEnd(event);
+
+        if (Std.isOfType(event.targetState, FreeplayState)) {
+		}
+	}
+}

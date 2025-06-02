@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "name": "Natsuki (Right)",
+  "assetPath": "dialogue/senpai",
+  "flipX": false,
+  "isPixel": false,
+  "scale": 0,
+  "offsets": [0, 0],
+  "animations": [
+    {
+      "name": "angy",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "happy",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "hmmph",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "neutral",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "sick",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "spook",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "wah",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "what",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    }
+  ]
+}

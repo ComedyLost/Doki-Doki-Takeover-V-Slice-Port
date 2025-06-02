@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="example icon PLS USE THIS FOR LINING STUFF UP I HATE OFFSET ICONS.png">
+	<!-- Created with Adobe Animate version 22.0.5.191 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="idle0000" x="0" y="0" width="150" height="150"/>
+	<SubTexture name="losing0001" x="150" y="0" width="150" height="150"/>
+	<SubTexture name="winning0002" x="300" y="0" width="150" height="150"/>
+</TextureAtlas>

@@ -1,0 +1,168 @@
+{
+  "version": "2.2.3",
+  "songName": "Catfight",
+  "artist": "Matt$",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokisonly",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "natsuki",
+      "girlfriend": "sayo-speaker",
+      "opponent": "yuri",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "album": "takeover",
+    "stage": "clubroom",
+    "noteStyle": "ddto",
+    "ratings": {
+      "normal": 6
+    },
+    "previewStart": 0,
+    "previewEnd": 0
+  },
+  "generatedBy": "Friday Night Funkin' - v0.4.1",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 150,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 60800,
+      "b": 152,
+      "bpm": 153,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 62368.6274509804,
+      "b": 156,
+      "bpm": 157,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 63897.2898713626,
+      "b": 160,
+      "bpm": 160,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 108897.289871363,
+      "b": 280,
+      "bpm": 163,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 110369.682509399,
+      "b": 284,
+      "bpm": 167,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 111806.808257902,
+      "b": 288,
+      "bpm": 170,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 148512.690610843,
+      "b": 392,
+      "bpm": 180,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 159179.35727751,
+      "b": 424,
+      "bpm": 190,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "t": 169284.620435405,
+      "b": 456,
+      "bpm": 200,
+      "n": 4,
+      "d": 4,
+      "bt": [
+        4,
+        4,
+        4,
+        4
+      ]
+    }
+  ]
+}

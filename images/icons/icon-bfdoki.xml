@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="icon-bfdoki.png">
+	<!-- Created with Adobe Animate version 22.0.5.191 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="idle0000" x="0" y="0" width="150" height="150"/>
+	<SubTexture name="losing0000" x="151" y="0" width="150" height="150"/>
+	<SubTexture name="toWinning0000" x="0" y="0" width="150" height="150"/>
+	<SubTexture name="toWinning0001" x="0" y="0" width="150" height="150"/>
+	<SubTexture name="toWinning0002" x="302" y="0" width="150" height="150"/>
+	<SubTexture name="toWinning0003" x="302" y="0" width="150" height="150"/>
+	<SubTexture name="toWinning0004" x="0" y="151" width="150" height="150"/>
+	<SubTexture name="winning0000" x="0" y="151" width="150" height="150"/>
+</TextureAtlas>

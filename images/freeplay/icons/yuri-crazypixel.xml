@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="yuri-crazypixel.png">
+<SubTexture name="confirm0000" x="45" y="0" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0001" x="0" y="0" width="45" height="46" frameX="-3" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0002" x="87" y="0" width="43" height="45" frameX="-4" frameY="-3" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0003" x="0" y="46" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0004" x="42" y="46" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm-hold0000" x="0" y="46" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm-hold0001" x="42" y="46" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="idle0000" x="45" y="0" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+</TextureAtlas>

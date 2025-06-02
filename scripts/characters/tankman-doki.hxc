@@ -1,0 +1,38 @@
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.PlayState;
+import funkin.play.GameOverSubState;
+import funkin.play.PauseSubState;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.FlxG;
+import funkin.play.character.CharacterType;
+
+class TankmanDokiCharacter extends MultiSparrowCharacter {
+	function new() {
+		super('tankman-doki');
+	}
+
+	function onCreate(event:ScriptEvent) {
+		super.onCreate(event);
+
+		GameOverSubState.musicSuffix = '-doki';
+		GameOverSubState.blueBallSuffix = '-tankman';
+
+		PauseSubState.musicSuffix = '-doki';
+	}
+
+	function onNoteHit(event:HitNoteScriptEvent)
+		{
+			super.onNoteHit(event);
+	
+			if (event.note.noteData.getMustHitNote() && characterType == CharacterType.BF) {
+				// Override the hit note animation.
+				switch(event.note.kind) {
+					case "ugh":
+						holdTimer = 0;
+						this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
+						return;
+				}
+			}
+		}	
+}

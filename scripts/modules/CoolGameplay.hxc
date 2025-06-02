@@ -1,0 +1,44 @@
+import funkin.modding.module.Module;
+import funkin.play.PlayState;
+import funkin.Preferences;
+import funkin.PlayerSettings;
+import funkin.Highscore;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import flixel.FlxG;
+import flixel.util.FlxSave;
+import flixel.FlxSprite;
+
+class CoolGameplay extends Module
+{
+    function new(){
+        super("coolgameplay");
+
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+    }
+
+	var hueh231:FlxSprite;
+	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+
+	override function onDestroy(event) {
+        super.onDestroy(event);
+		if (hueh231 != null) hueh231 = null;
+	}
+
+	override function onCountdownStart(event) {
+        super.onCountdownStart(event);
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+		if (!save.data.cool || hueh231 != null) return;
+		hueh231 = new FlxSprite();
+		hueh231.frames = Paths.getSparrowAtlas('coolgameplay/coolgameplay');
+		hueh231.animation.addByPrefix('idle', 'Symbol', 24, true);
+		hueh231.animation.play('idle');
+		hueh231.scrollFactor.set();
+		hueh231.updateHitbox();
+		hueh231.screenCenter();
+		hueh231.zIndex = 700;
+		hueh231.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(hueh231);
+	}
+}

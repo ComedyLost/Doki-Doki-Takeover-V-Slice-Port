@@ -1,0 +1,28 @@
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.PlayState;
+import funkin.play.GameOverSubState;
+import funkin.play.PauseSubState;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.FlxG;
+
+class MinusBFCharacter extends MultiSparrowCharacter {
+	function new() {
+		super('Boyfriend Extras/bf-minus');
+	}
+
+	function onCreate(event:ScriptEvent) {
+		super.onCreate(event);
+
+		GameOverSubState.musicSuffix = '-doki';
+		GameOverSubState.blueBallSuffix = '';
+
+		PauseSubState.musicSuffix = '-doki';
+	}
+
+	function onNoteMiss(event:NoteScriptEvent)
+		{
+			if (event.eventCanceled) return;
+			super.onNoteMiss(event);
+		}
+}

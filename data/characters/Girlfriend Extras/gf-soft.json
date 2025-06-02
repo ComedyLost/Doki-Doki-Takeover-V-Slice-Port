@@ -1,0 +1,79 @@
+{
+    "version": "1.0.0",
+    "name": "Soft Pico (DDTO)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/girlfriend/Reanimated_Toughie_Assets",
+    "flipX": false,
+    "singTime": 4,
+    "offsets": [-50, -20],
+    "cameraOffsets": [0, -90],
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "GF Dancing Beat",
+            "frameIndices": [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "offsets": [
+                0,
+                -9
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "GF Dancing Beat",
+            "frameIndices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+            "offsets": [
+                0,
+                -9
+            ]
+        },
+        {
+            "name": "countdownThree",
+            "prefix": "GF countdown",
+            "frameIndices": [0, 1, 2, 3, 4, 5, 6],
+            "offsets": [
+                2,
+                9
+            ]
+        },
+        {
+            "name": "countdownTwo",
+            "prefix": "GF countdown",
+            "frameIndices": [7, 8, 9, 10, 11, 12, 13, 14, 15],
+            "offsets": [
+                2,
+                9
+            ]
+        },
+        {
+            "name": "countdownOne",
+            "prefix": "GF countdown",
+            "frameIndices": [16, 17, 18, 19, 20, 21, 22, 23],
+            "offsets": [
+                2,
+                9
+            ]
+        },
+        {
+            "name": "countdownGo",
+            "prefix": "GF countdown",
+            "frameIndices": [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+            "offsets": [
+                2,
+                9
+            ]
+        },
+        {
+            "name": "GF Necksnap",
+            "prefix": "GF NECKSNAP",
+            "offsets": [
+                -7,
+                -6
+            ],
+            "looped": true
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

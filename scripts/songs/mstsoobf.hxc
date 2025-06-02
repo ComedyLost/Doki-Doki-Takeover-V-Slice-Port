@@ -1,0 +1,63 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.song.Song;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.addons.effects.FlxTrail;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import funkin.util.Constants;
+import haxe.Unserializer;
+import flixel.util.FlxTimer;
+
+class MSTSOOBFSong extends Song
+{
+	//SECRET SONG OOOOH
+	var opponentStartingX:Int;
+	function new()
+	{
+		super('mstsoobf');
+	}
+	
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		opponentStartingX = PlayState.instance.currentStage.getDad().x;
+		PlayState.instance.currentStage.getDad().zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 10;
+		PlayState.instance.currentStage.getGirlfriend().alpha = 0;
+		PlayState.instance.currentStage.refresh();
+	}
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 12:
+					FlxTween.tween(PlayState.instance.currentStage.getDad(), { x: PlayState.instance.currentStage.getBoyfriend().x}, 0.5, 
+						{ 
+							ease:       FlxEase.quadOut,
+						}
+					);
+				case 14:
+					PlayState.instance.camGame.shake(0.03, 0.25);
+					if (FlxG.random.bool((1 / 42) * 100)){
+						FunkinSound.playOnce(Paths.sound('the doki'));
+						new FlxTimer().start(0.3, function(e:FlxTimer){
+							Lib = Unserializer.DEFAULT_RESOLVER.resolveClass('openfl.Lib');
+							Lib.application.window.close();			
+						});	      				  
+					}
+				case 20:
+					FlxTween.tween(PlayState.instance.currentStage.getDad(), { x: opponentStartingX}, 0.5, 
+						{ 
+							ease:       FlxEase.quadOut,
+						}
+					);
+			}
+
+		}
+}

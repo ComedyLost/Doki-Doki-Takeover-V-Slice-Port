@@ -1,0 +1,233 @@
+{
+  "props": [
+    {
+      "danceEvery": 0,
+      "zIndex": 10,
+      "position": [-700, -520],
+      "scale": [1.6, 1.6],
+      "animType": "sparrow",
+      "name": "DDLC Far BG",
+      "isPixel": false,
+      "assetPath": "festival/FarBack",
+      "scroll": [0.9, 0.9],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 20,
+      "position": [-700, -520],
+      "scale": [1.6, 1.6],
+      "animType": "sparrow",
+      "name": "DDLC BG",
+      "isPixel": false,
+      "assetPath": "festival/MainBG",
+      "scroll": [1, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 20,
+      "position": [215, 125],
+      "scale": [1.6, 1.6],
+      "animType": "sparrow",
+      "name": "Festival Back Lights",
+      "isPixel": false,
+      "startingAnimation": "idle",
+      "assetPath": "festival/lights_back",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "lights back",
+          "looped": true,
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 30,
+      "position": [-700, -520],
+      "scale": [1.6, 1.6],
+      "animType": "sparrow",
+      "name": "Festival Banner",
+      "isPixel": false,
+      "assetPath": "festival/FestivalBanner",
+      "scroll": [1, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 2,
+      "zIndex": 40,
+      "position": [-49, 247],
+      "scale": [0.7, 0.7],
+      "animType": "sparrow",
+      "name": "BG Sayori",
+      "isPixel": false,
+      "startingAnimation": "idle",
+      "assetPath": "bgdoki/sayori",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "Sayori BG",
+          "looped": false,
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 2,
+      "zIndex": 40,
+      "position": [1044, 178],
+      "scale": [0.7, 0.7],
+      "animType": "sparrow",
+      "name": "BG Yuri",
+      "isPixel": false,
+      "startingAnimation": "idle",
+      "assetPath": "bgdoki/yuri",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "Yuri BG",
+          "looped": false,
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 2,
+      "zIndex": 40,
+      "position": [1247, 303],
+      "scale": [0.7, 0.7],
+      "animType": "sparrow",
+      "name": "BG Natsuki",
+      "isPixel": false,
+      "startingAnimation": "idle",
+      "assetPath": "bgdoki/natsuki",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "Natsu BG",
+          "looped": false,
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 2,
+      "zIndex": 40,
+      "position": [150, 152],
+      "scale": [0.7, 0.7],
+      "animType": "sparrow",
+      "name": "BG Protag",
+      "isPixel": false,
+      "startingAnimation": "idle",
+      "assetPath": "bgdoki/protag",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "Protag-kun BG",
+          "looped": false,
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 2,
+      "zIndex": 40,
+      "position": [320, 173],
+      "scale": [0.7, 0.7],
+      "animType": "sparrow",
+      "name": "BG Monika",
+      "isPixel": false,
+      "startingAnimation": "idle",
+      "assetPath": "bgdoki/monika",
+      "scroll": [1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "Moni BG",
+          "looped": false,
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 100,
+      "position": [-700, -520],
+      "scale": [1.6, 1.6],
+      "animType": "sparrow",
+      "name": "Front Desks",
+      "isPixel": false,
+      "assetPath": "festival/DesksFestival",
+      "scroll": [1.3, 1.3],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 110,
+      "position": [-1400, 325],
+      "scale": [1.6, 1.6],
+      "animType": "sparrow",
+      "name": "Festival Front Lights",
+      "isPixel": false,
+      "startingAnimation": "idle",
+      "assetPath": "festival/lights_front",
+      "scroll": [1.1, 1],
+      "animations": [
+        {
+          "offsets": [0, 0],
+          "flipY": false,
+          "frameRate": 24,
+          "prefix": "Lights front",
+          "looped": true,
+          "flipX": false,
+          "name": "idle"
+        }
+      ]
+    }
+  ],
+  "cameraZoom": 0.75,
+  "version": "1.0.0",
+  "characters": {
+    "bf": {
+      "zIndex": 70,
+      "position": [970, 850],
+      "cameraOffsets": [-100, -200]
+    },
+    "dad": {
+      "zIndex": 60,
+      "position": [300, 850],
+      "cameraOffsets": [100, -100]
+    },
+    "gf": {
+      "zIndex": 50,
+      "cameraOffsets": [0, 0],
+      "position": [750, 775]
+    }
+  },
+  "name": "The Clubroom (Festival)"
+}

@@ -1,0 +1,71 @@
+{
+    "version": "1.0.0",
+    "name": "Yuri (Taki)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/yuri/Doki_Yuri_Taki_Assets",
+    "flipX": false,
+    "healthIcon": {"id": "yuri"},
+    "singTime": 6,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Yuri Idle0",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "idle-alt",
+            "prefix": "Yuri Idle-alt",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "breath",
+            "prefix": "Yuri Breath",
+            "offsets": [
+                20,
+                14
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Yuri Sing Note Left",
+            "offsets": [
+                -25,
+                -71
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Yuri Sing Note Right",
+            "offsets": [
+                19,
+                -5
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Yuri Sing Note Up",
+            "offsets": [
+                16,
+                10
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Yuri Sing Note Down",
+            "offsets": [
+                -25,
+                -33
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

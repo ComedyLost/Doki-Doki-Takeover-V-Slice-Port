@@ -1,0 +1,148 @@
+{
+    "version": "1.0.0",
+    "name": "Sayori (Speakers)",
+    "assetPath": "characters/sayo_speaker",
+    "flipX": false,
+    "singTime": 4,
+    "offsets": [0, -100],
+    "cameraOffsets": [0, 0],
+    "animations": [
+        {
+            "name": "singLEFT",
+            "prefix": "Sayo_singLEFT",
+            "offsets": [
+                0,
+                9
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Sayo_singDOWN",
+            "offsets": [
+                0,
+                -2
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Sayo_singUP",
+            "offsets": [
+                0,
+                69
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Sayo_singRIGHT",
+            "offsets": [
+                0,
+                -5
+            ]
+        },
+        {
+            "name": "danceLeft",
+            "prefix": "Sayo_Idle",
+            "frameIndices": [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "Sayo_Idle",
+            "frameIndices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "scared",
+            "prefix": "Sayo_scared",
+            "offsets": [
+                0,
+                4
+            ]
+        },
+        {
+            "name": "popout",
+            "prefix": "Sayo_popout",
+            "offsets": [
+                0,
+                11
+            ]
+        },
+        {
+            "name": "gone",
+            "prefix": "Sayo_Idle_gone",
+            "offsets": [
+                0,
+                -212
+            ]
+        },
+        {
+            "name": "danceLeft-alt",
+            "prefix": "Sayo_Idle_gone",
+            "offsets": [
+                0,
+                -212
+            ]
+        },
+        {
+            "name": "danceRight-alt",
+            "prefix": "Sayo_Idle_gone",
+            "offsets": [
+                0,
+                -212
+            ]
+        },
+        {
+            "name": "countdownThree",
+            "prefix": "Sayo_Idle",
+            "frameIndices": [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "countdownTwo",
+            "prefix": "Sayo_Idle",
+            "frameIndices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],        
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "countdownOne",
+            "prefix": "Sayo_Idle",
+            "frameIndices": [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "countdownGo",
+            "prefix": "Sayo_singUP",
+            "offsets": [
+                0,
+                69
+            ]
+        },
+        {
+            "name": "necksnap",
+            "prefix": "Sayo_Idle_gone",
+            "offsets": [
+                0,
+                -212
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

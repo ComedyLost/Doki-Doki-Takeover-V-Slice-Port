@@ -1,0 +1,101 @@
+{
+    "version": "1.0.0",
+    "name": "MC (Blue Skies)",
+    "assetPath": "characters/protag/protag_blueskies",
+    "singTime": 6,
+    "isPixel": false,
+    "scale": 0.98,
+    "renderType": "multisparrow",
+    "healthIcon": {
+        "id": "protag",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "offsets": [0, -10],
+    "death": {
+        "cameraOffsets": [-40, -20],
+        "cameraZoom": 0.9
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Protag Idle",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Protag Left",
+            "offsets": [
+                95,
+                40
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Protag Right",
+            "offsets": [
+                -36,
+                17
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP",
+            "prefix": "Protag Up",
+            "offsets": [
+                7,
+                42
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Protag Down",
+            "offsets": [
+                1,
+                -22
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "firstDeath",
+            "assetPath": "characters/protag_death",
+            "prefix": "Protag Dies",
+            "offsets": [
+                30,
+                3
+            ]
+        },
+        {
+            "name": "deathLoop",
+            "assetPath": "characters/protag_death",
+            "prefix": "Protag Retry Loop",
+            "offsets": [
+                21,
+                3
+            ],
+            "looped": true
+        },
+        {
+            "name": "deathConfirm",
+            "assetPath": "characters/protag_death",
+            "prefix": "Protag Retry Confirm",
+            "offsets": [
+                21,
+                3
+            ]
+        }
+    ],
+    "flipX": false
+}

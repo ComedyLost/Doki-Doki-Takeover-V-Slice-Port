@@ -1,0 +1,72 @@
+{
+    "version": "1.0.0",
+    "name": "Blue Skies Sayori",
+    "assetPath": "characters/sayori/Doki_SayoBlueSkies_Assets",
+    "flipX": false,
+    "healthIcon": {"id": "sayori"},
+    "singTime": 6,
+    "animations": [
+        {
+            "name": "singLEFT",
+            "prefix": "Sayo Sing Note Left",
+            "offsets": [
+                -32,
+                -2
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Sayo Sing Note Right",
+            "offsets": [
+                -98,
+                -8
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Sayo Sing Note Down",
+            "offsets": [
+                -88,
+                -44
+            ]
+        },
+        {
+            "name": "danceLeft",
+            "prefix": "Sayo Idle nrw test",
+            "frameIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "Sayo Idle nrw test",
+            "frameIndices": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Sayo Sing Note Up",
+            "offsets": [
+                -51,
+                73
+            ]
+        },
+        {
+            "name": "nara",
+            "prefix": "Sayo Nara animated",
+            "offsets": [
+                -21,
+                1
+            ]
+        }
+    ],
+    "startingAnimation": "danceRight",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

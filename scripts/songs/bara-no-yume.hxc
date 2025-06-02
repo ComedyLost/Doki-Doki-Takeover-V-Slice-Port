@@ -1,0 +1,160 @@
+import flixel.tweens.FlxEase;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxTween;
+import funkin.Paths;
+import funkin.play.cutscene.dialogue.DialogueBox;
+import funkin.play.PlayState;
+import funkin.play.PlayStatePlaylist;
+import funkin.play.song.Song;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import funkin.play.cutscene.dialogue.ConversationState;
+import funkin.audio.FunkinSound;
+import funkin.play.cutscene.VideoCutscene;
+import openfl.utils.Assets;
+import funkin.play.cutscene.CutsceneType;
+import flixel.util.FlxTimer;
+
+class BaraNoYumeSong extends Song {
+  var hasPlayedVideoCutscene:Bool;
+  var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
+  var redStatic:FlxSprite;
+
+	public function new() {
+		super('bara-no-yume');
+	}
+
+  public override function onCountdownStart(event:CountdownScriptEvent):Void {
+		super.onCountdownStart(event);
+
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+
+    if (!hasPlayedIntroCutscene) {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      FunkinSound.playOnce(Paths.sound('ANGRY'), 1.0);
+
+      startDialogue();
+    }
+	}
+
+  public override function onSongEnd(event:CountdownScriptEvent):Void {
+		super.onSongEnd(event);
+    trace('Started countdown for Roses...');
+
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene) {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      startEndDialogue();
+    }
+	}
+
+  function startDialogue() {
+    PlayState.instance.startConversation('bara-no-yume');
+  }
+
+  function startEndDialogue() {
+    PlayState.instance.startConversation('bara-no-yume-end');
+    PlayState.instance.currentConversation.completeCallback = endingCutscene;
+  }
+
+  /**
+   * Don't replay the cutscene between restarts.
+   */
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+
+    hasPlayedIntroCutscene = true;
+  }
+
+  /**
+   * Replay the cutscene after leaving the song.
+   */
+  function onCreate(event:ScriptEvent):Void
+  {
+    super.onCreate(event);
+
+    redStatic = new FlxSprite();
+    redStatic.frames = Paths.getSparrowAtlas('HomeStatic');
+    redStatic.cameras = [PlayState.instance.camHUD];
+    redStatic.animation.addByPrefix('idle', 'HomeStatic', 24, true);
+		redStatic.animation.play('idle');
+    redStatic.setGraphicSize(FlxG.width, FlxG.height);
+    redStatic.screenCenter();
+    redStatic.alpha = 0;
+    PlayState.instance.add(redStatic);
+
+    hasPlayedIntroCutscene = false;
+    hasPlayedOutroCutscene = false;
+  }
+
+  function endingCutscene(){
+    PlayState.instance.onConversationComplete();
+    FunkinSound.playOnce(Paths.sound('awhellnaw'), 1.0);
+    PlayState.instance.tweenCameraZoom(0.9, 0, false);
+    PlayState.instance.camHUD.alpha = 0;
+    PlayState.instance.currentStage.getNamedProp('evilSchoolBG').alpha = 1;
+    PlayState.instance.currentStage.getNamedProp('evilSchoolFG').alpha = 1;
+    PlayState.instance.currentStage.getBoyfriend().alpha = 0;
+    PlayState.instance.currentStage.getGirlfriend().alpha = 0;
+    PlayState.instance.currentStage.getDad().alpha = 0;
+    new FlxTimer().start(1.46, function(e:FlxTimer){
+      startVideo();
+    });
+  }
+
+  function stageSwap(evil:Bool){
+    if (evil){
+      glitchEffect();
+      PlayState.instance.currentStage.getNamedProp('evilSchoolBG').alpha = 1;
+      PlayState.instance.currentStage.getNamedProp('evilSchoolFG').alpha = 1;
+    } else {
+      glitchEffect();
+      PlayState.instance.currentStage.getNamedProp('evilSchoolBG').alpha = 0;
+      PlayState.instance.currentStage.getNamedProp('evilSchoolFG').alpha = 0;
+    }
+  }
+
+  function glitchEffect(){
+    FlxTween.cancelTweensOf(redStatic);
+    redStatic.alpha = 1;
+    FlxTween.tween(redStatic, {alpha: 0}, 0.2, {ease: FlxEase.linear});		
+  }
+  
+  function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+      switch(event.step)
+      {
+        case 1360:
+          stageSwap(true);
+        case 1552:
+          stageSwap(false);
+      }
+		}
+
+  function startVideo() {
+		VideoCutscene.play(Assets.getPath(Paths.videos('monika')), CutsceneType.ENDING);
+		// This will call onSongEnd() again so make sure the flag is set!
+    var bgSprite = new FunkinSprite(-100, -100);
+    bgSprite.makeSolidColor(2000, 2500, 0xFF000000);
+    PlayState.instance.camHUD.alpha = 1;
+    bgSprite.cameras = [PlayState.instance.camHUD]; // Show over the HUD.
+    bgSprite.zIndex = 1000000;
+    PlayState.instance.add(bgSprite);
+    PlayState.instance.refresh();
+  }
+}

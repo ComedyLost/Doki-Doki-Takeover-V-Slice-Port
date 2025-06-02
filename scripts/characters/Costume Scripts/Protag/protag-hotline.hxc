@@ -1,0 +1,67 @@
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.PlayState;
+import funkin.play.character.CharacterType;
+import funkin.play.GameOverSubState;
+import funkin.play.PauseSubState;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.FlxG;
+import flixel.math.FlxPoint;
+import funkin.util.Constants;
+import StringTools;
+
+// player offset fix by cyn0x8
+
+class ProtagHotlineCharacter extends MultiSparrowCharacter {
+
+	function new() {
+		super('Protag Extras/protag-hotline');
+	}
+
+    var defaultColor;
+    var missColor;
+  
+    public function onCreate(event):Void {
+    	super.onCreate(event);
+		if (PlayState.instance.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
+		else var isFestival = false;
+		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
+		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+	}
+
+    override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {
+        var output:FlxPoint = super.getScreenPosition(result, camera);
+        if (flipX) {output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;}
+        if (flipY) {output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;}
+        return output;
+    }
+    
+    override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void {
+		holdTimer = 0;
+        if (flipX) {
+            if (dir == 0) {dir = 3;} else if (dir == 3) {dir = 0;}
+        }
+		if (miss) {
+			this.color = missColor;
+			super.playSingAnimation(dir, false, suffix);
+		} else {
+			this.color = defaultColor;
+			super.playSingAnimation(dir, miss, suffix);
+		}
+    }    
+    
+    function onAdd(event:ScriptEvent) {
+        if (characterType != CharacterType.BF) return;
+		GameOverSubState.musicSuffix = '-doki';
+		GameOverSubState.blueBallSuffix = '';
+
+		PauseSubState.musicSuffix = '-doki';
+	}
+
+	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
+		{
+		  // FlxG.watch.addQuick('playAnim(${characterName})', name);
+		  if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+		  super.playAnimation(name, restart, ignoreOther, reversed);
+		}
+}

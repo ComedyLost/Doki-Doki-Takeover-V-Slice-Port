@@ -1,0 +1,15 @@
+import funkin.ui.story.Level;
+import funkin.save.Save;
+
+class DDTOWeek6Level extends Level
+{
+	function new()
+	{
+		super('DDTOWeek6');
+	}
+
+    override function getSongDisplayNames(difficultyId:String):Array<String> {
+		//Shortens the song names to prevent the game window from cutting it off
+        return ["Crucify", "Beathoven", "It's Complicated", "Glitcher"];
+    }    
+}

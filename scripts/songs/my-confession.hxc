@@ -1,0 +1,137 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.addons.effects.FlxTrail;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.play.PlayStatePlaylist;
+import flixel.math.FlxMath;
+
+class MyConfessionSong extends Song
+{
+	var vignette:FlxSprite;
+	var staticshock:FlxSprite;
+	var hasPlayedIntroCutscene:Bool;
+
+	function new()
+	{
+		super('my-confession');
+	}
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		PlayState.instance.iconP2.animation.addByPrefix("Depressed", "depression arc", 24, false);
+		hasPlayedIntroCutscene = false;
+		staticshock = new FlxSprite();
+		staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
+		staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
+		staticshock.animation.play('idle');
+		staticshock.scrollFactor.set();
+		staticshock.alpha = 0.6;
+		staticshock.zIndex = 1500;
+		staticshock.visible = false;
+		staticshock.cameras = [PlayState.instance.camHUD];
+		staticshock.blend = 14;
+		staticshock.updateHitbox();
+		staticshock.screenCenter();
+		PlayState.instance.add(staticshock);
+
+		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
+		vignette.scrollFactor.set();
+		vignette.alpha = 0;
+		vignette.zIndex = 1600;
+		vignette.cameras = [PlayState.instance.camHUD];
+		vignette.updateHitbox();
+		vignette.screenCenter();
+		PlayState.instance.add(vignette);
+	  }
+
+	function fetchAssetPaths():Array<String>
+	{
+		var results:Array<String> = super.fetchAssetPaths();
+
+		results.push(Paths.image('vignette'));
+		results.push(Paths.image('staticshock'));
+
+		return results;
+	}
+
+	function startIntroDialogue() {
+		PlayState.instance.startConversation('my-confession');
+	}	
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			if (event.step % 4 == 0 && PlayState.instance.iconP2.getCurrentAnimation('Depressed')){
+				PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2);
+            	PlayState.instance.iconP2.x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01)) - (PlayState.instance.iconP2.width - 26);
+			}
+			switch(event.step)
+			{
+				case 749:
+					if (PlayState.instance.currentStage.getDad().characterId == 'Sayori Extras/sayori-grace')
+						PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
+				case 752:
+					if (PlayState.instance.currentStage.getDad().characterId != 'Sayori Extras/sayori-grace')
+						PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
+					staticshock.visible = true;
+					vignette.alpha = 0.2;
+					PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2);
+            		PlayState.instance.iconP2.x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01)) - (PlayState.instance.iconP2.width - 26);
+            		PlayState.instance.iconP2.updateHitbox();
+					PlayState.instance.iconP2.playAnimation("Depressed");
+            		PlayState.instance.iconP2.autoUpdate = false;
+				case 768:
+					vignette.alpha = 0;
+					staticshock.visible = false;
+					PlayState.instance.iconP2.autoUpdate = true;
+			}
+
+		}
+
+	public override function onUpdate(event:UpdateScriptEvent):Void {
+        super.onUpdate(event);
+		if (PlayState.instance == null) return;
+		if (PlayState.instance.iconP2 != null && PlayState.instance.iconP2.getCurrentAnimation('Depressed')){
+			PlayState.instance.iconP2.x = PlayState.instance.healthBar.x
+           	+ (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01))
+           	- (PlayState.instance.iconP2.width - 26);
+			PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2); // - (PlayState.instance.healthBar.height / 2)
+		}
+    }
+		
+		public function onCountdownStart(event):Void {
+			super.onCountdownStart(event);
+			vignette.alpha = 0;
+			staticshock.visible = false;
+			if (!PlayStatePlaylist.isStoryMode) {
+				hasPlayedIntroCutscene = true;
+			}
+
+			if (!hasPlayedIntroCutscene) {
+				trace('Pausing countdown to play a video cutscene (`rain-clouds`)');
+		  
+				hasPlayedIntroCutscene = true;
+		  
+				event.cancel(); // CANCEL THE COUNTDOWN!
+		  
+				startIntroDialogue();		  
+			}		  
+		}
+
+		function onSongRetry(event:ScriptEvent)
+			{
+			  super.onSongRetry(event);
+		  
+			  hasPlayedIntroCutscene = true;
+			}		  
+}

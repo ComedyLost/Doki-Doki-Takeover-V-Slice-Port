@@ -1,0 +1,78 @@
+{
+    "version": "1.0.0",
+    "name": "TBD Tan",
+    "renderType": "multisparrow",
+    "assetPath": "characters/girlfriend/TBD Tan",
+    "flipX": false,
+    "singTime": 4,
+    "cameraOffsets": [0, -20],
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "TBD Dance",
+            "frameIndices": [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "TBD Dance",
+            "frameIndices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "countdownThree",
+            "prefix": "TBD Countdown",
+            "frameIndices": [0, 1, 2, 3, 4, 5, 6],
+            "offsets": [
+                0,
+                15
+            ]
+        },
+        {
+            "name": "countdownTwo",
+            "prefix": "TBD Countdown",
+            "frameIndices": [7, 8, 9, 10, 11, 12, 13, 14, 15],
+            "offsets": [
+                0,
+                15
+            ]
+        },
+        {
+            "name": "countdownOne",
+            "prefix": "TBD Countdown",
+            "frameIndices": [16, 17, 18, 19, 20, 21, 22, 23],
+            "offsets": [
+                0,
+                15
+            ]
+        },
+        {
+            "name": "countdownGo",
+            "prefix": "TBD Countdown",
+            "frameIndices": [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34],
+            "offsets": [
+                0,
+                15
+            ]
+        },
+        {
+            "name": "GF Necksnap",
+            "prefix": "TBD Spook",
+            "offsets": [
+                0,
+                -4
+            ],
+            "looped": true
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

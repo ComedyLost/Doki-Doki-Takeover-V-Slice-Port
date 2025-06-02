@@ -1,0 +1,37 @@
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.character.CharacterType;
+import funkin.play.PlayState;
+import flixel.addons.effects.FlxTrail;
+import funkin.save.Save;
+
+class BigMonikaCharacter extends MultiSparrowCharacter {
+	function new() {
+		super('bigmonika');
+	}
+
+	override function onAnimationFinished(name:String) {
+		super.onAnimationFinished(name);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (name == 'lastNOTE_start') {
+			if(Save.instance.hasBeatenSong('epiphany', ['normal']) == false){
+				this.playAnimation('lastNOTE_end', true, true, false);
+			} else {
+				this.playAnimation('lastNOTE_retry', true, true, false);
+			}
+		}
+		if (name == 'lastNOTE_end' || name == 'lastNOTE_retry') {
+			this.alpha = 0;
+		}
+	}
+
+	function onNoteHit(event:NoteScriptEvent)
+		{
+			// Override the miss note animation.
+			switch(event.note.kind) {
+				case "markov", "noanimation":
+					return;
+				default:
+					super.onNoteHit(event);
+			}
+		}
+}

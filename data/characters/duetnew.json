@@ -1,0 +1,89 @@
+{
+    "version": "1.0.0",
+    "name": "Duet",
+    "assetPath": "characters/Duet",
+    "flipX": false,
+    "singTime": 4,
+    "healthIcon": {
+      "id": "duet",
+      "isPixel": true
+    },
+    "animations": [
+        {
+            "name": "singUP",
+            "prefix": "MkaUp",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "MkaDown",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "MkaLeft",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "MkaRight",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT-alt",
+            "prefix": "SenLeft",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHT-alt",
+            "prefix": "SenRight",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singUP-alt",
+            "prefix": "SenUp",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN-alt",
+            "prefix": "SenDown",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "idle",
+            "prefix": "FightIdle",
+            "offsets": [
+                2,
+                0
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": true,
+    "scale": 6,
+    "Made_With": "the cigs Converter"
+}

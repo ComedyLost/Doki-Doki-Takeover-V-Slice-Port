@@ -1,0 +1,211 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import funkin.play.PlayStatePlaylist;
+import flixel.FlxCamera;
+import funkin.graphics.FunkinCamera;
+import flixel.FlxCameraFollowStyle;
+import funkin.save.Save;
+import funkin.audio.VoicesGroup;
+import funkin.Highscore;
+
+class TitularMCMixSong extends Song
+{
+	function new()
+	{
+		super('titular-mc-mix');
+	}
+
+	var camGame2:FunkinCamera;
+	
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		
+        camGame2.zoom = PlayState.instance.camGame.zoom;
+        camGame2.targetOffset = FlxG.camera.targetOffset;
+    }    
+
+
+	function oneMore()
+		{
+			var dadMidPoint:FlxPoint = PlayState.instance.currentStage.getDad().getGraphicMidpoint();
+			var funnyX:Float = dadMidPoint.x - 120;
+			var funnyY:Float = dadMidPoint.y - 120;
+			var funnyglow:FlxSprite = new FlxSprite(funnyX, funnyY, Paths.image('dumb/glwo'));
+			funnyglow.alpha = 0.001;
+			funnyglow.scale.set(2,2);
+			PlayState.instance.currentStage.add(funnyglow);
+			var ring:BGSprite = new FlxSprite(funnyX, funnyY, Paths.image('dumb/ring'));
+			ring.scale.set(2,2);
+			PlayState.instance.currentStage.add(ring);
+			var onemore:BGSprite = new FlxSprite(funnyX, funnyY, Paths.image('dumb/onemore'));
+			onemore.alpha = 0.001;
+			onemore.scale.set(2, 2);
+			PlayState.instance.currentStage.add(onemore);
+			funnyglow.cameras = [camGame2];
+			ring.cameras = [camGame2];
+			onemore.cameras = [camGame2];
+	
+			FlxTween.tween(funnyglow.scale, {x: 2.2, y: 2.2}, 0.25, {
+				ease: FlxEase.circOut
+			});
+
+			FlxTween.tween(funnyglow, {alpha: 0.7}, 0.25, {
+				ease: FlxEase.circOut,
+				onComplete: function(twn:FlxTween)
+				{
+					FlxTween.tween(funnyglow.scale, {x: 3, y: 3}, 0.25, {
+						ease: FlxEase.circOut
+					});
+		
+					FlxTween.tween(funnyglow, {alpha: 0}, 0.25, {
+						ease: FlxEase.circOut,
+						onComplete: function(twn:FlxTween)
+						{
+							funnyglow.destroy();
+						}
+					});
+				}
+			});
+			FlxTween.tween(ring.scale, {x: 4, y: 4}, 0.5, {ease: FlxEase.circOut});
+			FlxTween.tween(ring, {alpha: 0}, 0.5, {ease: FlxEase.circOut,
+				onComplete: function(twn:FlxTween)
+				{
+					ring.destroy();
+				}
+			});
+			FlxTween.tween(onemore.scale, {x: 2.2, y: 2.2}, 0.25, {
+				ease: FlxEase.circOut
+			});
+
+			FlxTween.tween(onemore, {alpha: 1}, 0.5, {
+				ease: FlxEase.circOut,
+				onComplete: function(twn:FlxTween)
+				{
+					FlxTween.tween(onemore.scale, {x: 3, y: 3}, 0.25, {
+						ease: FlxEase.circOut
+					});
+
+					FlxTween.tween(onemore, {alpha: 0}, 0.25, {
+						ease: FlxEase.circOut,
+						onComplete: function(twn:FlxTween)
+						{
+							onemore.destroy();
+						}
+					});
+				}
+			});
+		}	
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 730:
+					PlayState.instance.tweenCameraZoom(1, calcSectionLength(), true, FlxEase.expoOut);
+					oneMore();
+				case 736:
+					PlayState.instance.tweenCameraZoom(0.75, calcSectionLength(), true, FlxEase.expoOut);
+			}
+		}
+	
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		camGame2 = new FunkinCamera('playStateCamGame2');
+		FlxG.cameras.add(camGame2, false);
+		camGame2.bgColor = 0x000000;
+
+		camGame2.follow(PlayState.instance.cameraFollowPoint, FlxCameraFollowStyle.LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
+		camGame2.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
+
+		FlxG.cameras.remove(PlayState.instance.camHUD, false);
+		FlxG.cameras.add(PlayState.instance.camHUD, false);	
+
+		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
+		FlxG.cameras.add(PlayState.instance.camCutscene, false);
+	}
+
+	public function buildPlayerVoiceList():Array<String>{		  
+		// Automatically resolve voices by removing suffixes.
+		// For example, if `Voices-bf-car-erect.ogg` does not exist, check for `Voices-bf-erect.ogg`.
+		// Then, check for  `Voices-bf-car.ogg`, then `Voices-bf.ogg`.
+	  
+		var playerVoice:String = Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '-' + PlayState.instance.currentChart.characters.player + '-rare');
+			  
+		return playerVoice != null ? [playerVoice] : [];
+	}		  
+
+	public function buildVocals():VoicesGroup {
+		var result:VoicesGroup = new VoicesGroup();
+		  
+		var playerVoiceList:Array<String> = buildPlayerVoiceList();
+		var opponentVoiceList:Array<String> = PlayState.instance.currentChart.buildOpponentVoiceList();
+
+		// Add player vocals.
+		for (playerVoice in playerVoiceList) {
+			result.addPlayerVoice(FunkinSound.load(playerVoice));
+		}
+
+		for (opponentVoice in opponentVoiceList) {
+    		result.addOpponentVoice(FunkinSound.load(opponentVoice));
+    	}
+		  
+		result.playerVoicesOffset = PlayState.instance.currentChart.offsets.getVocalOffset(PlayState.instance.currentChart.characters.player, '');
+		result.opponentVoicesOffset = PlayState.instance.currentChart.offsets.getVocalOffset(PlayState.instance.currentChart.characters.opponent, '');
+
+		return result;
+	}
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		//Fuck it, random old Titular chance
+		var secretVariant = FlxG.random.bool(50);
+		if (secretVariant){
+			PlayState.instance.vocals.stop();
+			PlayState.instance.vocals = buildVocals();
+			var playerNoteData:Array<SongNoteData> = [];
+			var opponentNoteData:Array<SongNoteData> = [];
+			var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('rare');
+			Highscore.tallies.totalNotes = 0;
+			for (notes in animChart.notes){
+				switch (notes.getStrumlineIndex()){
+					case 0:
+						playerNoteData.push(notes);
+						Highscore.tallies.totalNotes++;
+					case 1:
+						opponentNoteData.push(notes);
+				}
+			}
+			PlayState.instance.playerStrumline.applyNoteData(playerNoteData);
+			PlayState.instance.opponentStrumline.applyNoteData(opponentNoteData);	
+		} else {
+			PlayState.instance.vocals.stop();
+			PlayState.instance.vocals = PlayState.instance.currentChart.buildVocals(PlayState.instance.currentInstrumental);
+		}
+	}
+}

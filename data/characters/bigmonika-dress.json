@@ -1,0 +1,70 @@
+{
+    "version": "1.0.0",
+    "name": "Epiphany Monika (Dress)",
+    "assetPath": "characters/Doki_BigMonikaDress_Assets",
+    "flipX": false,
+    "singTime": 6,
+	"healthIcon": {"id": "bigmonika"},
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Big Monika Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Big Monika Sing Up",
+            "offsets": [
+                158,
+                13
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Big Monika Sing Right",
+            "offsets": [
+                -14,
+                1
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Big Monika Sing Down",
+            "offsets": [
+                3,
+                -54
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Big Monika Sing Left",
+            "offsets": [
+                164,
+                -16
+            ]
+        },
+        {
+            "name": "lastNOTE_start",
+            "prefix": "Big Monika Last Note0",
+            "offsets": [
+                157,
+                -1
+            ]
+        },
+        {
+            "name": "lastNOTE_end",
+            "prefix": "Big Monika Last Note First",
+            "offsets": [
+                313,
+                -8
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

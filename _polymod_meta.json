@@ -1,0 +1,44 @@
+{
+  "title": "Doki Doki Takeover Plus",
+  "description": "A port of Doki Doki Takeover Plus into base engine.",
+  "contributors": [
+    {
+      "name": "Comedy Lost",
+      "role": "Porting, Coding",
+      "url": "https://www.youtube.com/channel/UCGUHN_tmfSFAzKa3hOhHT-Q"
+    },
+    {
+      "name": "MC07",
+      "role": "Cleaned up BF-Doki, Custom notes, Custom BF and Sayori icons, Quality control",
+      "url": "https://www.youtube.com/channel/UCxDMikIUN_gryDEjF2de3GQ"
+    },
+    {
+      "name": "James Doodles",
+      "role": "Freeplay Icons",
+      "url": "https://twitter.com/doodles_james"
+    },
+    {
+      "name": "poedev08",
+      "role": "Created Change Character Event",
+      "url": "https://gamebanana.com/members/2095900"
+    },
+    {
+      "name": "Sonnah Roland",
+      "role": "Made DDTO FLP Recreations",
+      "url": "https://www.youtube.com/@SuperStamps"
+    },
+    {
+      "name": "Team TBD",
+      "role": "Original Creators of DDTO Plus",
+      "url": "https://gamebanana.com/mods/47364"
+    },
+    {
+      "name": "SirDusterBuster",
+      "role": "Main Director of DDTO & Made the stickerpack",
+      "url": "https://gamebanana.com/mods/47364"
+    }
+  ],
+  "api_version": "0.6.3",
+  "mod_version": "0.5.3",
+  "license": "Apache-2.0"
+}

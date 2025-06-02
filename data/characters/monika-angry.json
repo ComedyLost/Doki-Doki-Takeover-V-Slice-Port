@@ -1,0 +1,85 @@
+{
+    "version": "1.0.0",
+    "name": "Angry Pixel Monika",
+    "assetPath": "characters/Monika_Finale_New",
+    "flipX": false,
+    "singTime": 4,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Monika_Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Monika_singUP0",
+            "offsets": [
+                0,
+                2
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Monika_singRIGHT0",
+            "offsets": [
+                0,
+                1
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Monika_singLEFT0",
+            "offsets": [
+                0,
+                1
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Monika_singDOWN0",
+            "offsets": [
+                0,
+                2
+            ]
+        },
+        {
+            "name": "singUP-alt",
+            "prefix": "Monika_singUPALT",
+            "offsets": [
+                0,
+                2
+            ]
+        },
+        {
+            "name": "singRIGHT-alt",
+            "prefix": "Monika_singRIGHTALT",
+            "offsets": [
+                0,
+                1
+            ]
+        },
+        {
+            "name": "singLEFT-alt",
+            "prefix": "Monika_singLEFTALT",
+            "offsets": [
+                0,
+                1
+            ]
+        },
+        {
+            "name": "singDOWN-alt",
+            "prefix": "Monika_singDOWNALT",
+            "offsets": [
+                0,
+                2
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": true,
+    "scale": 6,
+    "Made_With": "the cigs Converter"
+}

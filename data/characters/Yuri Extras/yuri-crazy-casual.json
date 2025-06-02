@@ -1,0 +1,55 @@
+{
+    "version": "1.0.0",
+    "name": "Yuri (Crazy Casual)",
+    "renderType": "sparrow",
+    "assetPath": "characters/yuri/Doki_Yuri_Casual_Crazy_Assets",
+    "flipX": false,
+    "healthIcon": {"id": "yuri-crazy"},
+    "singTime": 6,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Yuri Crazy Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Yuri Crazy Left",
+            "offsets": [
+                153,
+                15
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Yuri Crazy Right",
+            "offsets": [
+                -51,
+                -4
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Yuri Crazy Down",
+            "offsets": [
+                -3,
+                -40
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Yuri Crazy Up",
+            "offsets": [
+                48,
+                60
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

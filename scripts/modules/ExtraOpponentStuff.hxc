@@ -1,0 +1,331 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.util.FlxTweenUtil;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.play.components.HealthIcon;
+import funkin.util.Constants;
+import funkin.play.components.HealthIcon;
+import flixel.math.FlxMath;
+
+import funkin.data.notestyle.NoteStyleRegistry;
+import funkin.play.notes.NoteSplash;
+import funkin.play.notes.NoteSprite;
+import funkin.play.notes.notestyle.NoteStyle;
+import funkin.play.notes.Strumline;
+import funkin.Preferences;
+
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.play.notes.Strumline;
+
+import funkin.Conductor;
+
+/*
+TO DO:
+*Find a way to add alt anims support for notes
+*/
+
+/*
+Code created by Comedy Lost
+You may use this for your own mod as long as you leave this section in the script
+
+FOR THE STRUMLINE:
+In order to summon the extra strumline, your song MUST have an difficuly called 'extra'
+In this difficulty will be your extra character's chart, chart your extra character in the opponent side
+
+FOR THE CHARACTER:
+In order to summon your extra character, you just have to summon the script on countdown start
+USE THE CODE LINE BELOW TO SUMMON (Replace the OPP in brackets with the character json file name. KEEP THE BRACKETS)
+		ModuleHandler.getModule('ExtraOpponent').scriptCall('createExtraOpp', [OPP]);
+To use their custom animations, summon the script using the code line below (Replace the ANIM in brackets with the animation name. KEEP THE BRACKETS)
+		ModuleHandler.getModule('ExtraOpponent').scriptCall('playAnim', [ANIM]);
+Currently the extra character cannot use alt note animations
+I'll add those functions later on
+*/
+
+//Original Code for Dokidoggle (No longer used since all code was put into the song script instead)
+class ExtraStrumline extends Module
+{
+
+    function new(){
+        super('ExtraStrumline');
+
+		active = false;
+    }
+    
+    var extraStrumline;
+    var extraStrumlineEnabled:Bool;
+
+    public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		summonExtraStrumline();
+	}
+
+	function onSongEnd(event){
+		if (extraStrumlineEnabled){
+			Strumline.STRUMLINE_SIZE = 104;
+			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
+		}
+        if (extraStrumline != null && PlayState.instance != null){
+            extraStrumline.kill();
+            PlayState.instance.remove(extraStrumline);
+            extraStrumline = null;      
+        }
+		extraStrumlineEnabled = false;
+	}
+    
+    override function onDestroy(event) {
+        super.onDestroy(event);
+		if (extraStrumlineEnabled){
+			Strumline.STRUMLINE_SIZE = 104;
+			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
+		}
+        if (extraStrumline != null && PlayState.instance != null){
+            extraStrumline.kill();
+            PlayState.instance.remove(extraStrumline);
+            extraStrumline = null;      
+        }
+		extraStrumlineEnabled = false;
+    } 
+
+	public override function onPause(event:PauseScriptEvent) {
+		super.onPause(event);
+		if (extraStrumlineEnabled) FlxTweenUtil.pauseTweensOf(extraStrumline);
+	}
+
+	public override function onResume(event:ScriptEvent) {
+		super.onResume(event);
+		if (extraStrumlineEnabled) FlxTweenUtil.resumeTweensOf(extraStrumline);
+	}
+
+    function summonExtraStrumline(){
+		//Grabbing extra notes
+		if (extraStrumline != null) return;
+		var extraNoteData:Array<SongNoteData> = [];
+		var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('extra');
+        if (animChart == null) {
+			Strumline.STRUMLINE_SIZE = 104;
+			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
+            extraStrumlineEnabled = false;
+            trace('Initializing Extra Strumline failed; no `extra` chart found for this song.');
+			return;
+        }
+        extraStrumlineEnabled = true;
+		Strumline.STRUMLINE_SIZE = 94;
+		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
+		PlayState.instance.playerStrumline.kill();
+		PlayState.instance.opponentStrumline.kill();
+		PlayState.instance.initStrumlines();
+		PlayState.instance.regenNoteData();
+		for (notes in animChart.notes){
+			switch (notes.getStrumlineIndex()){
+				case 1:
+					extraNoteData.push(notes);
+			}
+		}
+		//The Extra Strumline
+		var noteStyleIdPlayer:String = (PlayState.instance.currentSong.id.toLowerCase() == "dokidoggle") ? 'ddto' : PlayState.instance.playerStrumline.noteStyle.id;
+		var noteStylePlayer:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleIdPlayer);
+		extraStrumline = new Strumline(noteStylePlayer, false);
+    	extraStrumline.onNoteIncoming.add(PlayState.instance.onStrumlineNoteIncoming);
+    	PlayState.instance.add(extraStrumline);
+		extraStrumline.applyNoteData(extraNoteData);
+
+		// Position the extra strumline out of view to the left
+		extraStrumline.x = 0 - extraStrumline.width;
+		if (Preferences.downscroll) 
+			extraStrumline.y = FlxG.height - extraStrumline.height - Constants.STRUMLINE_Y_OFFSET; 
+		else
+			extraStrumline.y = Constants.STRUMLINE_Y_OFFSET;
+
+		extraStrumline.zIndex = 1001;
+		extraStrumline.cameras = [PlayState.instance.camHUD];
+	}
+
+    function moveStrumline(newPosX:Int, tweenLength:Int){
+        FlxTween.tween(extraStrumline, {x: newPosX}, tweenLength, {ease: FlxEase.quadInOut});
+    }
+
+    function processNotes(elapsed:Float):Void
+		{ 
+		  // Process notes on the opponent's side.
+          if (extraStrumline.notes.members == null) return;
+
+		  for (note in extraStrumline.notes.members)
+		  {
+			if (note == null) continue;
+	  
+			// TODO: Are offsets being accounted for in the correct direction?
+			var hitWindowStart = note.strumTime + Conductor.instance.inputOffset - Constants.HIT_WINDOW_MS;
+			var hitWindowCenter = note.strumTime + Conductor.instance.inputOffset;
+			var hitWindowEnd = note.strumTime + Conductor.instance.inputOffset + Constants.HIT_WINDOW_MS;
+	  
+			if (Conductor.instance.songPosition > hitWindowCenter)
+			{
+			  if (note.hasBeenHit) continue;
+	  	  
+			  // Command the opponent to hit the note on time.
+			  // NOTE: This is what handles the strumline and cleaning up the note itself!
+			  extraStrumline.hitNote(note);
+              ModuleHandler.getModule('ExtraOpponent').scriptCall('changeHoldTimer', []);
+              ModuleHandler.getModule('ExtraOpponent').scriptCall('playExtraOpponentAnim', [note.noteData.data % 4]);
+	  
+			  if (note.holdNoteSprite != null)
+			  {
+				extraStrumline.playNoteHoldCover(note.holdNoteSprite);
+			  }
+			}
+			else if (Conductor.instance.songPosition > hitWindowStart)
+			{
+			  if (note.hasBeenHit || note.hasMissed) continue;
+	  
+			  note.tooEarly = false;
+			  note.mayHit = true;
+			  note.hasMissed = false;
+			  if (note.holdNoteSprite != null) note.holdNoteSprite.missedNote = false;
+			}
+			else
+			{
+			  note.tooEarly = true;
+			  note.mayHit = false;
+			  note.hasMissed = false;
+			  if (note.holdNoteSprite != null) note.holdNoteSprite.missedNote = false;
+			}
+		  }
+	  
+		  // Process hold notes on the opponent's side.
+		  for (holdNote in extraStrumline.holdNotes.members)
+		  {
+			if (holdNote == null || !holdNote.alive) continue;
+	  
+			// While the hold note is being hit, and there is length on the hold note...
+			if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+			{
+			  // Make sure the opponent keeps singing while the note is held.
+              ModuleHandler.getModule('ExtraOpponent').scriptCall('characterSingingScript');
+			}
+	  
+			if (holdNote.missedNote && !holdNote.handledMiss)
+			{
+			  // When the opponent drops a hold note.
+			  holdNote.handledMiss = true;
+	  
+			  // We dropped a hold note.
+			  // Play miss animation, but don't penalize.
+              ModuleHandler.getModule('ExtraOpponent').scriptCall('playExtraOpponentAnim', [holdNote.noteData.data % 4]);
+			}
+		  }
+		}
+
+    override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (PlayState.instance == null || !extraStrumlineEnabled) return;
+		processNotes();
+	}
+
+    function onSongRetry(event:ScriptEvent)
+		{
+			super.onSongRetry(event);
+			if (!extraStrumlineEnabled) return;
+			extraStrumline.vwooshNotes();
+			extraStrumline.clean();
+			extraStrumline.handleSkippedNotes();
+			if (extraStrumline.x != 0 - extraStrumline.width)
+				FlxTween.tween(extraStrumline, {x: 0 - extraStrumline.width}, 1.25, {ease: FlxEase.quadInOut});
+		}
+}
+
+class ExtraOpponent extends Module
+{
+    var extraOpp;
+	var iconP3:HealthIcon;
+
+    function new(){
+        super('ExtraOpponent');
+    }
+
+    function playAnim(animName){
+        extraOpp.playAnimation(animName, true, true);
+    }
+
+    function characterSingingScript(){
+        if (extraOpp != null && extraOpp.isSinging()) extraOpp.holdTimer = 0;
+    }
+
+    function changeHoldTimer(){
+        extraOpp.holdTimer = 0;
+    }
+	
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (iconP3 == null) return;
+		iconP3.updateHealthIcon(HealthIcon.MAXIMUM_HEALTH - PlayState.instance.health);
+		iconP3.offset.y = -10;
+		iconP3.x = (PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01)) - (iconP3.width - HealthIcon.POSITION_OFFSET)) - 75;
+	}
+
+    function playExtraOpponentAnim(direction:Int):Void{
+		switch (direction) {
+			case 0: extraOpp.playAnimation('singLEFT', true, true);
+			case 1: extraOpp.playAnimation('singDOWN', true, true);
+			case 2: extraOpp.playAnimation('singUP', true, true);
+			case 3: extraOpp.playAnimation('singRIGHT', true, true);
+		}
+	}
+
+	override function onDestroy(event) {
+        super.onDestroy(event);
+		if (iconP3 != null) iconP3 = null;
+	}
+
+	override function onBeatHit(curBeat:Int):Void
+		{
+		  // Make the icons bop.
+		  if (iconP3 == null) return;
+		  if (iconP3.bopEvery != 0 && curBeat % iconP3.bopEvery == 0 && iconP3.isLegacyStyle)
+		  {
+			// Make the icon increase in size (the update function causes them to lerp back down).
+			if (iconP3.width > iconP3.height)
+			{
+			  iconP3.setGraphicSize(Std.int(iconP3.width + (HealthIcon.HEALTH_ICON_SIZE * iconP3.size.x * HealthIcon.BOP_SCALE)), 0);
+			}
+			else
+			{
+			  iconP3.setGraphicSize(0, Std.int(iconP3.height + (HealthIcon.HEALTH_ICON_SIZE * iconP3.size.y * HealthIcon.BOP_SCALE)));
+			}	  
+			iconP3.updateHitbox();
+	  
+			// Ensure the icon is positioned correctly after updating the hitbox.
+			iconP3.updatePosition();
+		  }
+		}	  
+
+    function createExtraOpp(name){
+		if (iconP3 != null) iconP3.kill();
+		iconP3 = new HealthIcon('extra', 2);
+		iconP3.y = (PlayState.instance.healthBar.y - (iconP3.height / 2)) + 100;
+		iconP3.zIndex = 850;
+		PlayState.instance.add(iconP3);
+		iconP3.cameras = [PlayState.instance.camHUD];
+		iconP3.isLegacyStyle = true;
+		iconP3.loadCharacter('yuri');
+		iconP3.size.set(0.75, 0.75);
+        if (extraOpp != null) extraOpp.kill();
+		extraOpp = CharacterDataParser.fetchCharacter(name);
+		if (extraOpp != null) {
+			extraOpp.set_characterType(CharacterType.OTHER);
+			PlayState.instance.currentStage.addCharacter(extraOpp, CharacterType.OTHER);
+		}
+		extraOpp.zIndex = 70;
+		extraOpp.x = PlayState.instance.currentStage.getDad().x - 300;
+		extraOpp.y = PlayState.instance.currentStage.getDad().y - 150;
+		PlayState.instance.currentStage.refresh();
+	}
+
+}

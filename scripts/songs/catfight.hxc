@@ -1,0 +1,378 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import flixel.addons.display.FlxBackdrop; 
+import flixel.FlxCamera;
+import funkin.Highscore;
+import funkin.play.character.CharacterType;
+import funkin.util.Constants;
+import funkin.play.components.HealthIcon;
+import flixel.math.FlxMath;
+import funkin.PlayerSettings;
+import funkin.save.Save;
+import funkin.modding.module.ModuleHandler;
+import funkin.modding.module.Module;
+import flixel.util.FlxSave;
+
+class CatfightSong extends Song
+{
+	function new()
+	{
+		super('catfight');
+
+		save = new FlxSave();
+		save.bind("TakeoverOptions");
+	}
+
+	var psychMod:Module;
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+	
+	var strumlineNames = ['playerStrumline', 'opponentStrumline'];
+	var playerCharacter:String;
+	var hasPlayedIntroCutscene:Bool;
+	var hasPlayedOutroCutscene:Bool;
+	var defaultCamPos;
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		if (playerCharacter == 'yuri'){
+			psychMod.active = false;
+			PlayState.instance.currentStage.getDad().characterType = 3;
+			PlayState.instance.currentStage.getBoyfriend().characterType = 3;
+		}
+
+		if (!hasPlayedIntroCutscene && save.data.freeplayDialogue) {
+			trace('Pausing countdown to play cutscene.');
+	  
+			hasPlayedIntroCutscene = true;
+	  
+			event.cancel(); // CANCEL THE COUNTDOWN!
+
+			PlayState.instance.camHUD.visible = false;
+	  
+			transitionToDialogue();
+
+			return;
+		}
+
+		PlayState.instance.playerStrumline.resetScrollSpeed();
+		PlayState.instance.opponentStrumline.resetScrollSpeed();
+
+		if (PlayState.instance.currentStage.getBoyfriend().cameraFocusPoint.y == defaultCamPos)
+			PlayState.instance.currentStage.getBoyfriend().cameraFocusPoint.y += 125;
+	}
+
+	public function onDestroy(event):Void {
+		super.onDestroy(event);
+		psychMod.active = true;
+	}
+
+	function startIntroDialogue() {
+		PlayState.instance.startConversation('catfight');
+	}	
+
+	function startOutroDialogue() {
+		PlayState.instance.startConversation('catfight-end');
+		PlayState.instance.currentConversation.completeCallback = function() {
+			PlayState.instance.onConversationComplete();
+			PlayState.instance.endSong();
+		};
+	}
+
+	function transitionToDialogue() {
+		trace('Transitioning to dialogue.');
+	
+		PlayState.instance.camCutscene.visible = true;
+	
+		var black:FlxSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+		black.cameras = [PlayState.instance.camCutscene];
+		black.zIndex = 1000000;
+		PlayState.instance.add(black);
+	
+		black.alpha = 1.0;
+	
+		FlxTween.tween(black, {alpha: 0}, 1, {
+			ease: FlxEase.linear,
+			startDelay: 0.25,
+			onComplete: function (input) {
+	
+			// black.visible = false;
+			startIntroDialogue();
+			}
+		});
+	}
+
+	function onCreate(event:ScriptEvent) {
+		super.onCreate(event);
+		psychMod = ModuleHandler.getModule("PsychEngineHolds");
+		defaultCamPos = PlayState.instance.currentStage.getBoyfriend().cameraFocusPoint.y;
+		hasPlayedIntroCutscene = false;
+		hasPlayedOutroCutscene = false;
+	}
+
+	override public function onSongEnd(event)
+		{
+			super.onSongEnd(event);
+			if (!hasPlayedOutroCutscene && save.data.freeplayDialogue) {
+				trace('Pausing countdown to play cutscene.');
+		  
+				hasPlayedOutroCutscene = true;
+		  
+				event.cancel(); // CANCEL THE COUNTDOWN!
+	
+				PlayState.instance.camHUD.visible = false;
+		  
+				startOutroDialogue();
+			}	
+		}	
+
+	override public function onSongLoaded(event)
+		{
+			super.onSongLoaded(event);
+			choseDoki();
+		}	
+
+	function onSongRetry(event:ScriptEvent)
+		{
+		  super.onSongRetry(event);
+		  if (playerCharacter != 'yuri') return;
+		  new FlxTimer().start(0.1, function(tmr:FlxTimer)
+			{
+				//var playerVocals = PlayState.instance.vocals.playerVoices;
+				//PlayState.instance.vocals.playerVoices = PlayState.instance.vocals.opponentVoices;
+				//PlayState.instance.vocals.opponentVoices = playerVocals;
+				PlayState.instance.currentStage.getDad().characterType = 3;
+				PlayState.instance.currentStage.getBoyfriend().characterType = 3;
+				PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET; // Classic style
+				PlayState.instance.opponentStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
+				swapNoteData();
+			});
+	  	}  
+		
+	function swapNoteData(){
+		var notes:Array<SongNoteData> = PlayState.instance.currentChart.notes;
+		var playerNoteData:Array<SongNoteData> = [];
+		var opponentNoteData:Array<SongNoteData> = [];
+		Highscore.tallies.totalNotes = 0;
+		for (songNote in notes){
+			switch (songNote.getStrumlineIndex())
+			{
+			  case 0:
+				// increment totalNotes for total possible notes able to be hit by the player
+				notes.data += 4;
+				playerNoteData.push(songNote);
+				Highscore.tallies.totalNotes++;
+			  case 1:
+				notes.data -= 4;
+				opponentNoteData.push(songNote);
+			}		  	
+		}
+		PlayState.instance.playerStrumline.applyNoteData(opponentNoteData);
+		PlayState.instance.opponentStrumline.applyNoteData(playerNoteData);
+	}
+
+	function choseDoki(){
+		var who:String;
+		var anim:String;
+		var check = ModuleHandler.getModule("CatFightFreeplayFix");
+		isYuri = check.scriptGet("isYuri", []);
+		if (isYuri == null) isYuri = false;
+		playerCharacter = (isYuri ? 'yuri' : 'natsuki');
+		who = (isYuri ? 'catfightYuriPopup' : 'catfightNatPopup');
+		anim = (isYuri ? 'PopUpYuri' : 'PopUpNatsuki');
+		var catpopup:FlxSprite = new FlxSprite(400, 400);
+		catpopup.frames = Paths.getSparrowAtlas('extraui/' + who);
+		catpopup.animation.addByPrefix('idle', anim, 24, false);
+		catpopup.setGraphicSize(Std.int(catpopup.width * 0.7));
+		catpopup.updateHitbox();
+		catpopup.animation.play('idle');
+		PlayState.instance.add(catpopup);
+		new FlxTimer().start(0.1, function(tmr:FlxTimer)
+			{
+				if (!isYuri) return;
+				var playerVocals = PlayState.instance.vocals.playerVoices;
+				PlayState.instance.vocals.playerVoices = PlayState.instance.vocals.opponentVoices;
+				PlayState.instance.vocals.opponentVoices = playerVocals;
+				PlayState.instance.healthBar.flipX = true;
+				PlayState.instance.healthBarBG.flipX = true;
+				PlayState.instance.currentStage.getDad().characterType = 3;
+				PlayState.instance.currentStage.getBoyfriend().characterType = 3;
+				PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET; // Classic style
+				PlayState.instance.opponentStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
+				swapNoteData();
+			});
+	}
+
+	override function onNoteGhostMiss(event) {
+		super.onNoteGhostMiss(event);
+		if (playerCharacter != 'yuri') return;
+		PlayState.instance.currentStage.getDad().playSingAnimation(event.dir, true);
+		PlayState.instance.currentStage.getDad().holdTimer = 0;
+	}	
+
+	override public function onNoteMiss(event) //play splashes
+		{
+			super.onNoteMiss(event);
+			if (playerCharacter != 'yuri') return;
+			switch(event.note.noteData.getStrumlineIndex())
+            {
+                case 0:
+                    PlayState.instance.currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection(), true);
+                    PlayState.instance.currentStage.getBoyfriend().holdTimer = 0;
+                case 1:
+                    PlayState.instance.currentStage.getDad().playSingAnimation(event.note.noteData.getDirection(), true);
+                    PlayState.instance.currentStage.getDad().holdTimer = 0;
+            }
+		}	
+
+	override public function onNoteHit(event) //play splashes
+		{
+			super.onNoteHit(event);
+			if (playerCharacter != 'yuri') return;
+			if (event.note.kind == "gf"){
+				PlayState.instance.vocals.playerVolume = 0; //Both tracks have Sayori's voice, so we need to mute the player when she sings
+				return;
+			}
+			switch(event.note.noteData.getStrumlineIndex())
+            {
+                case 0:
+                    PlayState.instance.currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection(), false);
+                    PlayState.instance.currentStage.getBoyfriend().holdTimer = 0;
+                case 1:
+                    PlayState.instance.currentStage.getDad().playSingAnimation(event.note.noteData.getDirection(), false);
+                    PlayState.instance.currentStage.getDad().holdTimer = 0;
+            }
+		}		
+	
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (playerCharacter == 'yuri') {
+			processNotes();
+			updatePosition();
+		}
+	}	
+
+	function processNotes(elapsed:Float):Void
+		{
+			if (PlayState.instance?.playerStrumline?.notes?.members == null || PlayState.instance?.opponentStrumline?.notes?.members == null) return;
+			// Process hold notes on the opponent's side.
+			for (holdNote in PlayState.instance.playerStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+						{
+							// Make sure the "opponent" keeps singing while the note is held.
+							PlayState.instance.currentStage.getDad().holdTimer = 0;
+						}
+				}
+			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+						{
+							// Make sure the "player" keeps singing while the note is held.
+							PlayState.instance.currentStage.getBoyfriend().holdTimer = 0;
+						}
+				}			  
+		}
+
+	function updatePosition(){
+		if (PlayState.instance.iconP1 == null || PlayState.instance.iconP2 == null) return;
+		PlayState.instance.iconP1.playerId = 2;
+		PlayState.instance.iconP2.playerId = 2;
+		PlayState.instance.iconP1.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP1.height / 2); // - (PlayState.instance.healthBar.height / 2)
+		PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2); // - (PlayState.instance.healthBar.height / 2)
+		PlayState.instance.iconP2.x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 2, 0, 100, 0) * 0.01)) - (PlayState.instance.iconP2.width - HealthIcon.POSITION_OFFSET);
+		PlayState.instance.iconP1.x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 2, 0, 100, 0) * 0.01) - HealthIcon.POSITION_OFFSET);
+		PlayState.instance.iconP1.updateHitbox();
+		PlayState.instance.iconP2.updateHitbox();
+		PlayState.instance.iconP1.updateHealthIcon(HealthIcon.MAXIMUM_HEALTH - PlayState.instance.health);
+		PlayState.instance.iconP2.updateHealthIcon(PlayState.instance.health);
+	}
+
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	function onNoteIncoming(callback)
+		{
+			if (callback.note.noteData.kind == "gf")
+			{
+				if (callback.note.noteData.getStrumlineIndex() == 0 && playerCharacter != 'yuri') {
+					Highscore.tallies.totalNotes--;
+					callback.note.kill();
+					return;	
+				} else if (callback.note.noteData.getStrumlineIndex() == 1  && playerCharacter == 'yuri'){
+					Highscore.tallies.totalNotes--;
+					callback.note.kill();
+					return;	
+				}
+			}
+		}	
+
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 608:
+					PlayState.instance.tweenCameraZoom(0.8, calcSectionLength(1), true, FlxEase.expoOut);
+				case 624:
+					PlayState.instance.tweenCameraZoom(0.85, calcSectionLength(1), true, FlxEase.expoOut);
+				case 640:
+					PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.1, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+
+					PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1120:
+					PlayState.instance.tweenCameraZoom(0.95, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1136:
+					PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.1, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+
+					PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1150:
+					PlayState.instance.cameraFollowPoint.setPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y - 125);
+					PlayState.instance.tweenCameraZoom(1.6, calcSectionLength(1), true, FlxEase.expoOut);
+					PlayState.instance.vocals.playerVolume = 0;
+				case 1169:
+					PlayState.instance.vocals.playerVolume = 1;
+					PlayState.instance.tweenCameraZoom(1.05, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1568:
+					PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+
+					PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1696:
+					PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+
+					PlayState.instance.tweenCameraZoom(1.15, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1824:
+					PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+
+					PlayState.instance.tweenCameraZoom(1.2, calcSectionLength(1), true, FlxEase.expoOut);
+			}
+		}
+	
+}

@@ -1,0 +1,112 @@
+{
+  "version": "1.1.0",
+  "name": "Doki Boxes",
+  "assetPath": "dialogue/Text_Boxes",
+  "isPixel": false,
+  "offsets": [-20, 445],
+  "scale": 1.2,
+  "text": {
+    "offsets": [50, 80],
+    "width": 900,
+    "size": 28,
+    "color": "#FFFFFF",
+    "fontFamily": "Aller",
+    "shadowColor": "#000000",
+    "shadowWidth": 1
+  },
+
+  "animations": [
+    {
+      "name": "enter",
+      "prefix": "Doki Dialogue Blank0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "exit",
+      "prefix": "Doki Dialogue Blank0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "frameIndices": [8, 7, 6, 5, 4, 3, 2, 1, 0],
+      "looped": false
+    },
+    {
+      "name": "bf",
+      "prefix": "Doki Dialogue BF0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "gf",
+      "prefix": "Doki Dialogue GF0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "moni",
+      "prefix": "Doki Dialogue Moni0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "natsu",
+      "prefix": "Doki Dialogue Natsu0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "protag",
+      "prefix": "Doki Dialogue Protag0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "sayo",
+      "prefix": "Doki Dialogue Sayo0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "unknown",
+      "prefix": "Doki Dialogue Who0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "yuri",
+      "prefix": "Doki Dialogue Yuri0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "glitchyuri",
+      "prefix": "Doki Dialogue Yuri Glitch0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "zipper",
+      "prefix": "Doki Dialogue Zipper0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "empty",
+      "prefix": "Doki Dialogue noone0",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="natsukipixel.png">
+<SubTexture name="confirm0000" x="41" y="0" width="43" height="35" frameX="-6" frameY="-8" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0001" x="84" y="0" width="44" height="34" frameX="-5" frameY="-10" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0002" x="0" y="0" width="41" height="36" frameX="-7" frameY="-6" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0003" x="0" y="36" width="43" height="35" frameX="-6" frameY="-8" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0004" x="0" y="36" width="43" height="35" frameX="-6" frameY="-8" frameWidth="50" frameHeight="50" />
+<SubTexture name="idle0000" x="41" y="0" width="43" height="35" frameX="-6" frameY="-8" frameWidth="50" frameHeight="50" />
+</TextureAtlas>

@@ -1,0 +1,141 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import flixel.addons.display.FlxBackdrop; 
+import flixel.FlxCamera;
+import funkin.save.Save;
+
+class ObsessionSong extends Song
+{
+	function new()
+	{
+		super('obsession');
+	}
+
+	var vignette:FlxSprite;
+	var staticshock:FlxSprite;
+	var whiteflash:FlxSprite;
+	var blackScreen:FlxSprite;
+	var blackScreenBG:FlxSprite;
+	var blackScreentwo:FlxSprite;
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
+		vignette.scrollFactor.set();
+		vignette.alpha = 0;
+
+		vignette.cameras = [PlayState.instance.camHUD];
+		vignette.setGraphicSize(Std.int(vignette.width / FlxCamera.defaultZoom));
+		vignette.updateHitbox();
+		vignette.screenCenter();
+		PlayState.instance.add(vignette);
+
+		staticshock = new FlxSprite();
+		staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
+		staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
+		staticshock.animation.play('idle');
+		staticshock.scrollFactor.set();
+		staticshock.alpha = 0.6;
+		staticshock.blend = 14;
+		staticshock.zIndex = 1500;
+		staticshock.visible = false;
+		staticshock.cameras = [PlayState.instance.camHUD];
+		staticshock.updateHitbox();
+		staticshock.screenCenter();
+		PlayState.instance.add(staticshock);
+
+		blackScreen = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		blackScreen.scrollFactor.set();
+		blackScreen.cameras = [PlayState.instance.camHUD];
+
+		blackScreenBG = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		blackScreenBG.alpha = 0.0001;
+		blackScreenBG.zIndex = 55;
+		blackScreenBG.scrollFactor.set();
+		PlayState.instance.currentStage.add(blackScreenBG);
+		PlayState.instance.currentStage.refresh();
+
+		blackScreentwo = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		blackScreentwo.scrollFactor.set();
+		PlayState.instance.add(blackScreentwo);
+
+		whiteflash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		whiteflash.scrollFactor.set();
+		whiteflash.cameras = [PlayState.instance.camHUD];
+		whiteflash.zIndex = 1500;
+	}
+
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 480:
+					PlayState.instance.tweenCameraZoom(1.5, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, false, FlxEase.linear);
+					staticshock.visible = true;
+					staticshock.alpha = 0;
+					FlxTween.tween(staticshock, {alpha: 1}, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, {
+						ease: FlxEase.linear,
+						onComplete: function(tween:FlxTween)
+						{
+							staticshock.alpha = 0.1;
+						}
+					});
+				case 544:
+					PlayState.instance.add(whiteflash);
+					PlayState.instance.add(blackScreen);
+					FlxG.sound.play(Paths.sound('Lights_Shut_off'), 0.7);
+					PlayState.instance.currentChart.stickerPack = 'yuricrazy';
+				case 552:
+					blackScreenBG.alpha = 0.8;
+					PlayState.instance.currentStage.getBoyfriend().x = PlayState.instance.currentStage.getDad().x + 250;
+					vignette.alpha = 0.6;
+				case 568:
+					FlxTween.tween(whiteflash, {alpha: 0.15}, calcSectionLength(0.75), {ease: FlxEase.sineOut});
+					PlayState.instance.remove(blackScreen);
+				case 848:
+					blackScreentwo.visible = true;
+
+			}
+		}
+	
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		PlayState.instance.currentChart.stickerPack = 'yuri';
+		PlayState.instance.currentStage.getDad().idleSuffix = '-alt';
+		blackScreenBG.alpha = 0;
+		whiteflash.alpha = 1;
+		PlayState.instance.remove(whiteflash);
+		PlayState.instance.remove(blackScreen);
+		vignette.alpha = 0;
+		staticshock.visible = false;
+		blackScreen.visible = false;
+		blackScreentwo.visible = false;
+	}
+}

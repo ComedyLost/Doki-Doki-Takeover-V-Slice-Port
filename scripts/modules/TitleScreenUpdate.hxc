@@ -1,0 +1,231 @@
+import flixel.FlxG;
+
+import flixel.addons.transition.FlxTransitionableState;
+
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
+import flixel.addons.display.FlxBackdrop; 
+
+import flixel.util.FlxTimer;
+import funkin.PlayerSettings;
+
+import funkin.ui.mainmenu.MainMenuState;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.ui.options.OptionsState;
+import funkin.ui.title.TitleState;
+import funkin.ui.MusicBeatState;
+import funkin.ui.story.StoryMenuState;
+import flixel.util.FlxSave;
+import funkin.ui.title.FlxSpriteOverlay;
+import funkin.Conductor;
+
+import funkin.ui.transition.LoadingState;
+
+import funkin.play.PlayStatePlaylist;
+import funkin.play.PlayState;
+import funkin.play.PauseSubState;
+import funkin.graphics.FunkinSprite;
+
+import funkin.audio.FunkinSound;
+
+import funkin.modding.base.ScriptedMusicBeatState;
+import funkin.modding.base.MusicBeatState;
+import funkin.modding.module.Module;
+
+import funkin.Paths;
+
+import Std;
+class TitleScreen extends Module
+{
+
+	public function new()
+	{
+		super('TitleScreen');
+
+		active = false; //Archival Purposes
+		
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+	}
+	
+	var dokiApp:FlxSprite;
+	var doki:FlxSprite;
+	var bottom:Int;
+	var top:Int;
+	var dokisAppeared:Bool = false;
+
+	var whiteBackground:FlxSprite;
+	var dokiBackdrop:FlxBackdrop;
+	var creditsBG:FlxBackdrop;
+	var scanline:FlxBackdrop;
+	var gradient:FlxSprite;
+
+	var newGfDance:FlxSpriteOverlay;
+	var newLogo:FlxSprite;
+	var newTitleText:FlxSprite;
+
+	function startIntro(){
+		if (!Std.isOfType(FlxG.state, TitleState) || FlxG.state.initialized) return;
+		FunkinSound.playMusic('freakyMenu-DDTO',
+		{
+        	startingVolume: 0.0,
+    	   	overrideExisting: true,
+    	   	restartTrack: false,
+    	   	// Continue playing this music between states, until a different music track gets played.
+    	   	persist: true
+    	});
+ 		// Fade from 0.0 to 1 over 4 seconds
+		FlxG.sound.music.fadeIn(4.0, 0.0, 1.0);
+	}
+	function onStateChangeEnd(event:StateChangeScriptEvent)
+		{
+			super.onStateChangeEnd(event);
+			if (Std.isOfType(FlxG.state, TitleState) && save.data.titlescreen) 
+			{
+				if (!FlxG.state.initialized) new FlxTimer().start(1, function(tmr:FlxTimer) {
+      				startIntro();
+    			});
+    			else
+      				startIntro();
+
+
+				dokiApp = new FlxSprite(0, 0);
+				var dokiArray:Array<Array<Dynamic>> = [
+					['NatsukiPopup', 770, 270], 
+					['SayoriPopup', 770, 270],  
+					['YuriPopup', 770, 240],
+					['MonikaPopup', 770, 180],
+					['ProtagPopup', 770, 170]
+				];
+				var selected:Int = FlxG.random.int(0, dokiArray.length - 1);
+				var dokiIndex:String = dokiArray[selected][0];
+				bottom = dokiArray[selected][1];
+				top = dokiArray[selected][2];
+		
+				dokiApp.setPosition(0, bottom);
+				dokiApp.frames = Paths.getSparrowAtlas('intro/' + dokiIndex, 'preload');
+				dokiApp.animation.addByPrefix('pop', dokiIndex, 26, false);
+				dokiApp.screenCenter();
+				dokiApp.y = bottom;
+				dokiApp.antialiasing = true;
+
+				doki = new FlxSprite(50, 100);
+				doki.frames = Paths.getSparrowAtlas('intro/DOKI DOKI');
+				doki.animation.addByPrefix('doki', "Doki centered", 24, false);
+				doki.antialiasing = true;
+				doki.alpha = 0;
+				doki.updateHitbox();
+
+				//Background
+				whiteBackground = new FlxSprite();
+				whiteBackground.makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
+				whiteBackground.screenCenter();
+				whiteBackground.alpha = 1;
+				whiteBackground.shader = FlxG.state.swagShader.shader;
+
+				dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG'));
+				dokiBackdrop.scrollFactor.set(0.1, 0.1);
+				dokiBackdrop.velocity.set(-10, 0);
+				dokiBackdrop.alpha = 0.3;
+				dokiBackdrop.shader = FlxG.state.swagShader.shader;
+
+				creditsBG = new FlxBackdrop(Paths.image('credits/pocBackground'));
+				creditsBG.scrollFactor.set(0.1, 0.1);
+				creditsBG.velocity.set(-50, 0);
+				creditsBG.shader = FlxG.state.swagShader.shader;
+
+				scanline = new FlxBackdrop(Paths.image('credits/scanlines'));
+				scanline.scrollFactor.set(0.1, 0.1);
+				scanline.velocity.set(0, 20);
+				scanline.shader = FlxG.state.swagShader.shader;
+
+				gradient = new FlxSprite().loadGraphic(Paths.image('credits/gradent'));
+				gradient.scrollFactor.set(0.1, 0.1);
+				gradient.screenCenter();
+				gradient.setGraphicSize(Std.int(gradient.width * 1.6));	
+				gradient.shader = FlxG.state.swagShader.shader;
+
+				newLogo = new FlxSprite(-100, -100);
+				newLogo.frames = Paths.getSparrowAtlas('intro/logoBumpinPlusDoki');
+				newLogo.animation.addByPrefix('bump', 'logo bumpin', 24, false);
+				newLogo.updateHitbox();			
+				newLogo.setGraphicSize(Std.int(newLogo.width * 0.8));		
+				newLogo.shader = FlxG.state.swagShader.shader;
+
+				newGfDance = new FlxSpriteOverlay(FlxG.width * 0.4, FlxG.height * 0.07);
+				newGfDance.frames = Paths.getSparrowAtlas('intro/gfDanceTitleDoki');
+				newGfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);				
+				newGfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+				newGfDance.shader = FlxG.state.swagShader.shader;
+
+				newTitleText = new FlxSprite(170, FlxG.height * 0.8);
+				newTitleText.frames = Paths.getSparrowAtlas('intro/titleEnterDoki');
+				newTitleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
+				newTitleText.animation.addByPrefix('press', "ENTER PRESSED", 24, true);
+				newTitleText.animation.play('idle');
+				newTitleText.updateHitbox();
+				newTitleText.shader = FlxG.state.swagShader.shader;		
+
+			}
+		}
+			  
+	override function onUpdate(event) 
+		{
+			if (FlxG != null && Std.isOfType(FlxG.state, TitleState) && save.data.titlescreen)
+			{
+				//Never worked anyways
+				/*if (FlxG.state.skippedIntro && !FlxG.state.transitioning && PlayerSettings.player1.controls.ACCEPT){
+					newTitleText.animation.play('press', true);
+				}*/
+				if (FlxG.state.skippedIntro){
+					FlxG.state.add(whiteBackground);
+					FlxG.state.add(dokiBackdrop);
+					FlxG.state.add(creditsBG);
+					FlxG.state.add(scanline);
+					FlxG.state.add(gradient);
+					FlxG.state.add(newGfDance);
+					FlxG.state.add(newLogo);
+					FlxG.state.add(newTitleText);
+					FlxG.state.gfDance.alpha = 0;
+					FlxG.state.logoBl.alpha = 0;
+				}
+				if (Conductor.instance.currentBeat % 1 == 0 && FlxG.state.skippedIntro){
+					if (newLogo != null && newLogo.animation != null) newLogo.animation.play('bump');
+				}
+				if (Conductor.instance.currentBeat % 1 == 0 && FlxG.state.skippedIntro){
+					if (newGfDance != null && newGfDance.animation != null){
+						if (FlxG.state.danceLeft)
+							newGfDance.animation.play('danceRight');
+						else
+							newGfDance.animation.play('danceLeft');			
+					}
+				}
+				if (!FlxG.state.skippedIntro && FlxG.state.lastBeat <= 17) {
+					switch FlxG.state.lastBeat{
+						case 13:
+							dokisAppeared = true;
+							FlxG.state.deleteCoolText();
+							FlxG.state.add(dokiApp);
+							FlxG.state.add(doki);
+							dokiApp.animation.play('pop');
+							FlxTween.tween(dokiApp, {y: top}, 0.15, {startDelay: 0.2});			
+						case 14:
+							FlxG.state.deleteCoolText();
+							doki.alpha = 1;
+							doki.animation.play('doki');
+						case 15:
+							FlxG.state.deleteCoolText();
+					}	
+				}
+				if (FlxG.state.lastBeat == 16 && dokisAppeared){
+					dokisAppeared = false;
+					FlxG.state.remove(dokiApp);
+					FlxG.state.remove(doki);		
+				}
+					
+				super.onUpdate(event);
+			}
+		}	
+}

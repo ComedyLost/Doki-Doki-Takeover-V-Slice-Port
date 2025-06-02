@@ -1,0 +1,32 @@
+import funkin.modding.module.Module;
+import funkin.play.PlayState;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import funkin.Preferences;
+import funkin.util.Constants;
+import funkin.Highscore;
+import funkin.play.scoring.Scoring;
+
+class GFNotes extends Module
+{
+    function new(){
+        super("gf");
+    }
+
+	function onCreate(event:ScriptEvent){
+
+	}
+	
+	function onNoteHit(callback)
+	{
+		if (PlayState.instance == null) return;
+
+		if (callback.note.noteData.kind == "gf")
+		{
+			PlayState.instance.currentStage.getGirlfriend().holdTimer = 0;
+			PlayState.instance.currentStage.getGirlfriend().playSingAnimation(callback.note.noteData.getDirection(), false);
+
+
+		}
+	}
+}

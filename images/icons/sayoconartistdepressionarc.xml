@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="sayoconartistdepressionarc.png">
+	<!-- Created with Adobe Animate version 22.0.5.191 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="depression arc0000" x="0" y="0" width="857" height="785"/>
+	<SubTexture name="depression arc0001" x="0" y="0" width="857" height="785"/>
+	<SubTexture name="depression arc0002" x="858" y="0" width="151" height="151" frameX="-355" frameY="-375" frameWidth="857" frameHeight="785"/>
+	<SubTexture name="depression arc0003" x="858" y="0" width="151" height="151" frameX="-355" frameY="-375" frameWidth="857" frameHeight="785"/>
+	<SubTexture name="depression arc0004" x="0" y="786" width="151" height="151" frameX="-355" frameY="-375" frameWidth="857" frameHeight="785"/>
+	<SubTexture name="depression arc0005" x="0" y="786" width="151" height="151" frameX="-355" frameY="-375" frameWidth="857" frameHeight="785"/>
+	<SubTexture name="idle0000" x="152" y="786" width="151" height="150"/>
+	<SubTexture name="losing0000" x="304" y="786" width="151" height="151"/>
+	<SubTexture name="winning0000" x="456" y="786" width="151" height="150"/>
+</TextureAtlas>

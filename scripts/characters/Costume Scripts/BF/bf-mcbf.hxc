@@ -1,0 +1,57 @@
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.PlayState;
+import funkin.play.GameOverSubState;
+import funkin.play.PauseSubState;
+import funkin.Paths;
+import flixel.FlxSprite;
+import funkin.play.character.CharacterType;
+import flixel.FlxG;
+import funkin.Conductor;
+
+class MCBFCharacter extends MultiSparrowCharacter {
+	function new() {
+		super('Boyfriend Extras/bf-mcbf');
+	}
+
+	//Force Psych Engine Jitter Anims on this character
+	function onStepHit(event:SongTimeScriptEvent):Void {	
+			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+			if (PlayState.instance.isMinimalMode) return;
+
+			processNotes(event.elapsed);	
+	}	
+
+
+	function processNotes(elapsed:Float):Void
+		{
+			var strumline:FlxSprite = (characterType == CharacterType.BF) ? PlayState.instance.playerStrumline : PlayState.instance.opponentStrumline;
+			if (strumline == null) return;
+			for (holdNote in strumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+						{
+							//Make the character restart their current animation like how Psych Engine/Pre V-Slice 0.3.0 did
+							//holdTimer = 0;
+							if (this.isSinging() && Conductor.instance.currentStep % 2 == 0) this.animation.curAnim.restart();
+						}
+				}		  
+		}
+
+	function onCreate(event:ScriptEvent) {
+		super.onCreate(event);
+
+		GameOverSubState.musicSuffix = '-doki';
+		GameOverSubState.blueBallSuffix = '';
+
+		PauseSubState.musicSuffix = '-doki';
+	}
+
+	function onNoteMiss(event:NoteScriptEvent)
+		{
+			if (event.eventCanceled) return;
+			super.onNoteMiss(event);
+		}
+}

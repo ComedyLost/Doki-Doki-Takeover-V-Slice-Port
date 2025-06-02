@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#00000000"
+  },
+
+  "music": {
+    "asset": "silence",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "enter",
+      "text": ["\"Ahaha, welcome back, {USERNAME}.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Thank you for saving me from the recycling bin. It's very apparent that this \"Friday Night Funkin'\" game doesn't like me being in here for too long.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Maybe you can find a workaround for the game trying to delete me mid-song? I know firsthand that programming can be very difficult, so I don't blame you if it cannot be fixed.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Now I know it's because you were working so hard to add me to the game and sing with me!\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"If not, you'll just have to rescue me again when we're all done, ok?~\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Are you ready to sing once more, my love?\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Let us begin.\""]
+    }
+  ]
+}

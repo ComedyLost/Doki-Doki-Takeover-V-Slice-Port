@@ -1,0 +1,144 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import funkin.play.Countdown;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import flixel.FlxCamera;
+import flixel.util.FlxTimer;
+import funkin.modding.base.ScriptedFlxRuntimeShader;
+import openfl.filters.ShaderFilter;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.utils.Assets;
+import flixel.util.FlxSave;
+
+import Std;
+
+class FestivalClubroomGlitcherStage extends Stage
+{
+	function new()
+	{
+		super('dokiglitcher');
+		
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+	}
+
+	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
+    var shader = new ShaderFilter(bloom);
+	var noFestivalMod:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
+
+	function setDokiPosition(character:String){
+		natsuki.alpha = 1;
+		yuri.alpha = 1;
+		monika.alpha = 1;
+		sayori.alpha = 1;
+		protag.alpha = 1;
+		switch (character) {
+			case "protag":
+				{
+					protag.alpha = 0;
+				}
+			case "natsuki":
+				{
+					natsuki.alpha = 0;
+					sayori.setPosition(-49, 247);
+					yuri.setPosition(1044, 178);
+					protag.setPosition(379, 152);
+					monika.setPosition(1207, 173);
+				}
+			case "yuri", "yuri-crazy":
+				{
+					yuri.alpha = 0;
+					sayori.setPosition(-49, 247);
+					natsuki.setPosition(1044, 290);
+					protag.setPosition(379, 152);
+					monika.setPosition(1207, 173);
+				}
+			case "sayori":
+				{
+					sayori.alpha = 0;
+					yuri.setPosition(-74, 176);
+					natsuki.setPosition(1044, 290);
+					protag.setPosition(379, 152);
+					monika.setPosition(1207, 173);
+				}
+			case "monika":
+				{
+					monika.alpha = 0;
+					sayori.setPosition(-49, 247);
+					yuri.setPosition(1044, 178);
+					natsuki.setPosition(1247, 303);
+					protag.setPosition(150, 152);
+				}
+		}
+
+	}
+
+	override function buildStage()
+		{
+			super.buildStage();
+			sayori = getNamedProp('BG Sayori');
+			natsuki = getNamedProp('BG Natsuki');		
+			yuri = getNamedProp('BG Yuri');
+			monika = getNamedProp('BG Monika');
+			protag = getNamedProp('BG Protag');
+		}
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+		{
+			super.onSongEvent(scriptEvent);
+			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL")
+			{
+				var eventProps = scriptEvent.eventData.value;
+				setDokiPosition(eventProps.newchar.toLowerCase());
+				new FlxTimer().start(0.0001, _ -> {
+					getBoyfriend().color = 0x828282;
+					getGirlfriend().color = 0x828282;
+					getOpponent().color = 0x828282;	
+				});
+				sayori.color = 0x828282;
+				natsuki.color = 0x828282;
+				monika.color = 0x828282;
+				yuri.color = 0x828282;
+				protag.color = 0x828282;		
+			}
+		}
+
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		bloom.setFloat('funrange', 0.1);
+		bloom.setFloat('funsteps', 0.005);
+		bloom.setFloat('funthreshhold', 0.8);
+		bloom.setFloat('funbrightness', 7); 
+		if (save.data.bloom) PlayState.instance.camGame.filters = [shader];
+		getBoyfriend().color = 0x828282;
+		getGirlfriend().color = 0x828282;
+		getOpponent().color = 0x828282;
+		sayori.color = 0x828282;
+		natsuki.color = 0x828282;
+		monika.color = 0x828282;
+		yuri.color = 0x828282;
+		protag.color = 0x828282;
+		//switch (PlayState.instance.currentStage.getDad().characterId) {
+		setDokiPosition(PlayState.instance.currentChart.characters.opponent.toLowerCase());
+	}
+
+	public function onSongRetry(event):Void {
+		super.onSongRetry(event);
+		getBoyfriend().color = 0x828282;
+		getGirlfriend().color = 0x828282;
+		getOpponent().color = 0x828282;
+		sayori.color = 0x828282;
+		natsuki.color = 0x828282;
+		monika.color = 0x828282;
+		yuri.color = 0x828282;
+		protag.color = 0x828282;
+		//switch (PlayState.instance.currentStage.getDad().characterId) {
+		setDokiPosition(PlayState.instance.currentChart.characters.opponent.toLowerCase());
+	}
+}

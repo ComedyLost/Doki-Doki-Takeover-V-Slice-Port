@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="PleaseKrillMe.png">
+	<!-- Created with Adobe Animate version 22.0.5.191 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="costumes idle0000" x="0" y="0" width="594" height="133"/>
+	<SubTexture name="costumes idle0001" x="0" y="0" width="594" height="133"/>
+	<SubTexture name="costumes idle0002" x="0" y="0" width="594" height="133"/>
+	<SubTexture name="costumes idle0003" x="0" y="134" width="594" height="133"/>
+	<SubTexture name="costumes idle0004" x="0" y="134" width="594" height="133"/>
+	<SubTexture name="costumes idle0005" x="0" y="134" width="594" height="133"/>
+	<SubTexture name="costumes idle0006" x="0" y="268" width="594" height="133"/>
+	<SubTexture name="costumes idle0007" x="0" y="268" width="594" height="133"/>
+	<SubTexture name="costumes idle0008" x="0" y="268" width="594" height="133"/>
+	<SubTexture name="costumes selected0000" x="0" y="402" width="773" height="176" frameX="0" frameY="0" frameWidth="774" frameHeight="176"/>
+	<SubTexture name="costumes selected0001" x="0" y="579" width="773" height="176" frameX="0" frameY="0" frameWidth="774" frameHeight="176"/>
+	<SubTexture name="costumes selected0002" x="0" y="756" width="774" height="176"/>
+</TextureAtlas>

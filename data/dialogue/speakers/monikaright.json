@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "No Portrait",
+  "assetPath": "dialogue/senpai",
+  "flipX": false,
+  "isPixel": true,
+  "scale": 5.4,
+  "offsets": [-2000, 2014],
+  "animations": [
+    {
+      "name": "empty",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    }
+  ]
+}

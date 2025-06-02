@@ -1,0 +1,46 @@
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.addons.effects.FlxTrail;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+
+class SchoolDDTOStage extends Stage
+{
+	function new()
+	{
+		super('schoolDDTO');
+	}
+
+	var wiggle:FlxRuntimeShader = null;
+
+	function buildStage()
+	{
+		super.buildStage();
+
+		wiggle = new WiggleEffectRuntime(2, 4, 0.017, WiggleEffectType.DREAMY);
+		getNamedProp('evilSchoolBG').shader = wiggle;
+		getNamedProp('evilSchoolFG').shader = wiggle;
+
+		if (PlayState.instance.currentSong.id.toLowerCase() == "high-school-conflict" || PlayState.instance.currentSong.id.toLowerCase() == "your-reality-takeover-mix") getNamedProp('freaks').alpha = 0;
+
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+
+		if (wiggle != null) {
+			wiggle.update(event.elapsed);
+		}
+	}
+
+	function kill() {
+		super.kill();
+		wiggle = null;
+	}
+}

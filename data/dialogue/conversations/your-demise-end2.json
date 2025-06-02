@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "Lunchbox",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "angrySenpai",
+      "text": ["Wait-"]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "angrySenpai",
+      "text": ["Is that my microphone? How the hell did you get that?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["and what is that WORM doing here?!"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_what",
+      "box": "rosesClassic",
+      "boxAnimation": "idle",
+
+      "text": ["bep-"]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "idle",
+
+      "text": ["Didn't have enough fun making a fool of me last time you showed up?"]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "idle",
+
+      "text": ["Now you're bringing more of your hideously attractive friends here to mock me once again?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["Hey, its not-"]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["You. Give me that back. I have another score to settle"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["Huh? No, wait, I was just about to-"]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["I said GIVE IT!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["N-no!"]
+    }
+  ]
+}

@@ -1,0 +1,608 @@
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.sound.FlxSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxTween;
+import funkin.Conductor;
+import funkin.ui.mainmenu.MainMenuState;
+import funkin.modding.base.ScriptedFlxRuntimeShader;
+import funkin.ui.MusicBeatState;
+import flixel.addons.display.FlxBackdrop;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import funkin.Paths;
+
+//Character Swapper Stuff
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.play.components.HealthIcon;
+import flixel.util.FlxSave;
+
+import funkin.util.assets.DataAssets;
+import funkin.PlayerSettings;
+
+class Costumes extends MusicBeatState
+{
+	public function new()
+	{
+		super();
+	}
+
+	var save:FlxSave;
+
+	var secret:Bool;
+
+	var maxOptions:Int;
+
+	var options:Array<FlxText>;
+
+	//Most unorganized piece of code I've ever done in my life
+	//:(
+
+	//Final Chosen Costume
+	var chosenBF;
+	var chosenGF;
+	var chosenMoni;
+	var chosenSayo;
+	var chosenSuki;
+	var chosenYuri;
+	var chosenProtag;
+
+	//ALL FUCKING DESCRIPTIONS
+	//I'll eventually make this read the tsv file. I'm just too lazy to actually do it
+	var bfDesc:Array<String> = [
+		"A standard school uniform. Those who show up in the club are mysteriously given one\nto wear.",
+		"BF's usual fit. Comfortable to wear and wickedly funky.",
+		"BF from an alternate universe. He is but one of three BF variations in his homeworld.",
+		"Benjamin has no idea how he got here, but these schoolgirls seem nice enough, he hopes.",
+		"Partnered with Mr. Bird, he's always there to offer Sayori some much needed hug\nenergy. Oh, and he's sentient now.",
+		"Homeroom teacher Sakurai's attire. What better way to woo your girlfriend than by\ntelling her about the atrocities of 20th century history?",
+		"A rising star back on the scene, Aloe doesn’t know how she got here,\nbut with her close Genmate Nene by her side, she can do anything.",
+		"A robot built by MC07 with a goal in mind... but he forgot.\nHe now wanders with no purpose.",
+		"A robot built by MC07. He's here for something, \nbut I have absolutely no clue what for.",
+		"A robot built by MC07 to achieve its goal. What goal? I have absolutely no idea."
+	];
+	var gfDesc:Array<String> = [
+		"A standard school uniform.\nGF may be in school now, but her head continues to be empty."
+		"GF's favorite red dress. A hand-me-down from her mother."
+		"GF from an alternate universe. Always ready to talk your ear off in her thick cockney accent."
+		"Where Benjamin goes, Pico follows to keep him safe."
+		"Protag's Mother's outfit. It's not weird for your girlfriend to dress as someone's mom\nif she has style, right?"
+		"This isn't Nene's first time in a spooky high school game.\nShe's hoping there will be less ERRORs this time around."
+		"The mascot of Team TBD! She's happy you've played the mod all the way to the end,\nand so is the rest of Team TBD. Thank you!"
+	];
+	var moniDesc:Array<String> = [
+		"A standard school uniform. Monika has hers changed up a bit."
+		"Monika's casual wear. Sweaters are truly the pinnacle of casual comfort. (Yuri would agree.)"
+		"A white summer dress. While never seen in game, Monika wears this outfit in several promo artworks."
+		"Hex's uniform. Monika's athletic skill could make her a top notch<N>basketball star like Hex too."
+		"Senpai's uniform. Monika might even wear it better than Senpai does."
+		"Monika's winter outfit from Blue Skies. Lacking a route didn't stop the club president from lacking style."
+		"Monika's thief outfit from Doki Doki Vigilante. It's time to wake up, get up,\nand get out there!"
+	];
+	var sayoDesc:Array<String> = [
+		"A standard school uniform. Sayori has grown out of it a bit, so the jacket doesn't fit."
+		"Sayori's casual wear. Simple, cute, and very comfy."
+		"Sayori's sleepwear. She's only ever seen wearing this during\n'unfortunate' circumstances."
+		"Sayori's adorable summer clothes. Perfect to wear while sharing snacks with your friends."
+		"Grace's attire. Sayori easily identifies with the emotions Grace expresses in her songs."
+		"A hoodie inspired by Zipper. It's much better than wearing a whole ass straight jacket."
+		"Sayori's winter outfit from Blue Skies. Comfy trainers? Check. Simple outfit? Check.\nNot even fully tucked in? Yep, that's Sayori alright."
+		"UNUSED: DO NOT INITIALIZE Sayori from an alternate universe. An adorable mermaid friend who must remain hydrated, as required by scientist protocols."
+	];
+	var sukiDesc:Array<String> = [
+		"A standard school uniform. Natsuki's is the smallest size they offer.",
+		"Natsuki's casual wear. She forgot her mic, so she busted out the old reliable hairbrush."
+		"Natsuki's skater fit. Both stylish and sporty!"
+		"Kapi's fit. A natural choice, given Natsuki's affinity for cats."
+		"Sunday's outfit. Sunday was impressed that Natsuki\ncould match them in a screaming competition."
+		"Hank's Antipathy gear. In case you somehow thought Natsuki had the patience\nto deal with your shit."
+		"Natsuki's Halloween costume from Blue Skies. Nicknamed 'Natspooki' much to her annoyance."
+		"Square up, thot."
+	];
+	var yuriDesc:Array<String> = [
+		'A standard school uniform. Yuri\'s is the largest size they offer.'
+		'Yuri\'s casual wear. Perfect for winding down and reading the day away.'
+		'Yuri\'s rollerskating gear. She\'s learned to keep extremely good balance while on wheels.'
+		'Yuri\'s summer dress. You can always count Yuri\'s fashion sense to compliment her personality.'
+		'Taki\'s church robes. Chainsaw not included.'
+		'Tabi\'s outfit. Yuri and Tabi have formed a mutual bond over their fondness of knives.'
+		'Yuri\'s winter outfit from Blue Skies. Yuri truly has an affinity for wearing black.'
+	];
+	var protagDesc:Array<String> = [
+		"A standard school uniform. For an equally standard individual."
+		"The protagonist's casual wear. A lot of interpretation here since you only see the\ntop half and back view of this outfit in game."
+		"Rude 1's fit. Monika and Yuri suggested the look after their \nstrange encounter with a certain funky space lady."
+		"An outfit inspired by Henry Stickmin. Both Protag and Henry are your humble protagonists\ngetting into larger than life situations."
+		"The protagonist's winter clothes. If you manage to take Yuri to see an exciting \nfireworks display in Blue Skies, you'll catch Protag in this outfit."
+	];
+
+	//All Costume Previews
+	var bfCostumes:Array<String> = ['', '-casual', '-minus', '-soft', '-mrcow', '-blueskies', '-holofunk', '-mcbf'];
+	var gfCostumes:Array<String> = ['', '-casual', '-minus', '-soft', '-blueskies', '-holofunk', '-tbd'];
+	var monikaCostumes:Array<String> = ['', '-casual', '-valentine', '-hex', '-senpai', '-blueskies', '-vigilante'];
+	var sayoriCostumes:Array<String> = ['', '-casual', '-sleepwear', '-picnic', '-grace', '-zipper', '-blueskies'];
+	var natsukiCostumes:Array<String> = ['', '-casual', '-skater', '-kapi', '-sunday', '-hank', '-blueskies'];
+	var yuriCostumes:Array<String> = ['', '-casual', '-derby', '-picnic', '-taki', '-tabi', '-blueskies'];
+	var protagCostumes:Array<String> = ['', '-casual', '-hotline', '-henry', '-blueskies'];
+
+	//HOLY SHIT
+    var characterNames:Array<String> = ['Boyfriend', 'Girlfriend', 'Monika', 'Sayori', 'Natsuki', 'Yuri', 'Protag', ''];
+	var bfCostumeNames:Array<String> = ['Uniform', 'Regular', 'Minus', 'Soft', 'Mr. Cow', 'Blue Skies', 'Holofunk', 'MCBF'];
+	var gfCostumeNames:Array<String> = ['Uniform', 'Regular', 'Minus', 'Soft Pico', 'Blue Skies', 'Holofunk', 'TBD-Tan', ''];
+	var monikaCostumeNames:Array<String> = ['Uniform', 'Casual', 'Valentine', 'Festival', 'Friends', 'Blue Skies', 'Vigilante', ''];
+	var sayoriCostumeNames:Array<String> = ['Uniform', 'Casual', 'Sleepwear', 'Picnic', 'Festival', 'Friends', 'Blue Skies', ''];
+	var natsukiCostumeNames:Array<String> = ['Uniform', 'Casual', 'Skater', 'Festival', 'Friends', 'Antipathy', 'Blue Skies', ''];
+	var yuriCostumeNames:Array<String> = ['Uniform', 'Casual', 'Derby', 'Picnic', 'Festival', 'Friends', 'Blue Skies', ''];
+	var protagCostumeNames:Array<String> = ['Uniform', 'Casual', 'Hotline', 'Henry', 'Blue Skies', '', '', ''];
+	var variableStuff:Array<Dynamic>;
+    var selectedCharacterCostumes:Array<String>;
+
+	var selected:Int;
+	var specificCostume:Bool;
+	var lastSelectedOption:Int;
+
+	var BF:FunkinSprite;
+	var GF:FunkinSprite;
+	var monika:FunkinSprite;
+	var sayori:FunkinSprite;
+	var natsuki:FunkinSprite;
+	var yuri:FunkinSprite;
+	var protag:FunkinSprite;
+
+	var catSprite:FlxSprite;
+	var ddtoLogo:FlxSprite;
+	var sideImage:FunkinSprite;
+	var descriptionBar:FunkinSprite;
+	var descriptionText:FlxText;
+	
+	var background:FunkinSprite;
+	var loopingBackground:FlxBackdrop;
+
+	override function create() {
+		super.create();
+		super.beatHit(true);
+		save = new FlxSave();
+		save.bind("Costumes");
+		Conductor.instance.forceBPM(124);
+        chosenBF = save.data.selectedBFCostume = (save.data.selectedBFCostume != null) ? save.data.selectedBFCostume : 0; 
+        chosenGF = save.data.selectedGFCostume = (save.data.selectedGFCostume != null) ? save.data.selectedGFCostume : 0; 
+		chosenMoni = save.data.selectedMoniCostume = (save.data.selectedMoniCostume != null) ? save.data.selectedMoniCostume : 0; 
+        chosenSayo = save.data.selectedSayoCostume = (save.data.selectedSayoCostume != null) ? save.data.selectedSayoCostume : 0; 
+        chosenSuki = save.data.selectedSukiCostume = (save.data.selectedSukiCostume != null) ? save.data.selectedSukiCostume : 0; 
+        chosenYuri = save.data.selectedYuriCostume = (save.data.selectedYuriCostume != null) ? save.data.selectedYuriCostume : 0;     
+		chosenProtag = save.data.selectedProtagCostume = (save.data.selectedProtagCostume != null) ? save.data.selectedProtagCostume : 0;     
+		save.flush();
+		specificCostume = false;
+		secret = false;
+		selected = 0;
+		options = [];
+		variableStuff = [];
+        for (num in 0...characterNames.length)
+			{
+				if (characterNames[num] != '')
+					{
+						maxOptions = num;
+					}
+			}
+		//Create Looping Background
+		loopingBackground = new FlxBackdrop(Paths.image('scrollingBG')); 
+		loopingBackground.updateHitbox(); 
+		loopingBackground.scrollFactor.set(0, 0); 
+		loopingBackground.velocity.set(-40, -40);
+		loopingBackground.alpha = 1; 
+		loopingBackground.screenCenter();
+		add(loopingBackground); 
+
+		//Option 1 Text & Sprites
+		BF = FunkinSprite.create(400, -100, 'costume/bf'+bfCostumes[chosenBF]);
+		BF.updateHitbox(); 
+		BF.scale.set(0.7, 0.7);
+		BF.alpha = 0; 
+		add(BF);
+		variableStuff.push(BF);
+
+		//Option 2 Text
+		GF = FunkinSprite.create(400, -100, 'costume/gf'+gfCostumes[chosenGF]);
+		GF.updateHitbox(); 
+		GF.scale.set(0.7, 0.7);
+		GF.alpha = 0; 
+		add(GF);
+		variableStuff.push(GF);
+
+		//Option 3 Text
+		monika = FunkinSprite.create(400, -100, 'costume/monika'+monikaCostumes[chosenMoni]);
+		monika.updateHitbox(); 
+		monika.scale.set(0.7, 0.7);
+		monika.alpha = 0; 
+		add(monika);
+		variableStuff.push(monika);
+
+		//Option 4 Text
+		sayori = FunkinSprite.create(400, -100, 'costume/sayori'+sayoriCostumes[chosenSayo]);
+		sayori.updateHitbox(); 
+		sayori.scale.set(0.7, 0.7);
+		sayori.alpha = 0; 
+		add(sayori);
+		variableStuff.push(sayori);
+		
+		//Option 5 Text
+		natsuki = FunkinSprite.create(400, -100, 'costume/natsuki'+natsukiCostumes[chosenSuki]);
+		natsuki.updateHitbox(); 
+		natsuki.scale.set(0.7, 0.7);
+		natsuki.alpha = 0; 
+		add(natsuki);
+		variableStuff.push(natsuki);
+
+		//Option 6 Text
+		yuri = FunkinSprite.create(400, -100, 'costume/yuri'+yuriCostumes[chosenYuri]);
+		yuri.updateHitbox(); 
+		yuri.scale.set(0.7, 0.7);
+		yuri.alpha = 0; 
+		add(yuri);
+		variableStuff.push(yuri);
+
+		//Option 7 Text
+		protag = FunkinSprite.create(400, -100, 'costume/protag' + protagCostumes[chosenProtag]);
+		protag.updateHitbox(); 
+		protag.scale.set(0.7, 0.7);
+		protag.alpha = 0; 
+		add(protag);
+		variableStuff.push(protag);
+
+		descriptionBar = new FlxSprite(0, 605).makeGraphic(1280, 63, 0xFFFF8ED0);
+		descriptionBar.zIndex = 500;
+		descriptionBar.alpha = 0;
+		descriptionBar.screenCenter();
+		descriptionBar.y = 605;
+		add(descriptionBar);
+
+		descriptionText = new FlxText(354, 608, 933, "I'm a test, this is for scale!", 20);
+		descriptionText.alignment = "center";
+		descriptionText.borderSize = 2;
+		descriptionText.borderQuality = 1;
+		descriptionText.borderStyle = FlxTextBorderStyle.OUTLINE;
+		descriptionText.font = Paths.font("riffic.ttf");	  
+		add(descriptionText);
+
+		sideImage = FunkinSprite.create(-80, 0, 'Credits_LeftSide');
+		sideImage.updateHitbox(); 
+		sideImage.alpha = 1; 
+		add(sideImage); 
+
+		//Create DDTO Logo
+		ddtoLogo = new FlxSprite(0, 0);
+		ddtoLogo.frames = Paths.getSparrowAtlas("DDLCStart_Screen_Assets");
+		ddtoLogo.animation.addByPrefix('Bumpin', 'logo bumpin', 24, false);
+		ddtoLogo.animation.play('Bumpin');
+		ddtoLogo.alpha = 1.0;
+
+		// Place the cat sprite in the center of the screen
+		ddtoLogo.setGraphicSize(400, 400);
+		ddtoLogo.x = -175;
+		ddtoLogo.y = -240;
+
+		add(ddtoLogo);
+
+		catSprite = new FlxSprite(0, 0);
+		catSprite.frames = Paths.getSparrowAtlas("catvibe/crumb");
+		catSprite.animation.addByPrefix('idle', 'idle 0', 6, true);
+		catSprite.animation.play('idle');
+		catSprite.alpha = 0.0;
+
+		// Place the cat sprite in the center of the screen
+		catSprite.width = 256;
+		catSprite.height = 256;
+		catSprite.setGraphicSize(256, 256);
+		catSprite.x = FlxG.width / 2 - catSprite.width / 2;
+		catSprite.y = FlxG.height / 2 - catSprite.height / 2;
+
+		// Add the cat sprite to the state
+		add(catSprite);
+
+		FlxG.sound.music.pause();
+		FlxG.sound.music = new FlxSound().loadEmbedded(Paths.music('breakfast-doki'), true, true);
+
+		FlxG.sound.music.volume = 0;
+		FlxG.sound.music.play();
+
+		FlxTween.tween(FlxG.sound.music, {volume: 0.6}, 2.5, {ease: FlxTween.linear});	
+
+		for (i in 0...characterNames.length)
+			{
+				var choices = new FlxText(60, 380 + (40 * i), FlxG.width, '', 26);
+				choices.alignment = "left";
+				choices.borderSize = 2;
+				choices.borderColor = 0xFFFF7CFF;
+				choices.borderStyle = FlxTextBorderStyle.OUTLINE;
+				choices.font = Paths.font("riffic.ttf");	  
+				options.push(choices);
+				add(choices);
+				options[i].text = characterNames[i];
+			}		
+        selectText();
+	}
+	
+	function characterSelect(){
+		var character:String;
+		var curCostume;
+		switch (lastSelectedOption) {
+			case 0:
+				curCostume = bfCostumes[chosenBF];
+				character = 'bf';
+			case 1:
+				curCostume = gfCostumes[chosenGF];
+				character = 'gf';
+			case 2:
+				curCostume = monikaCostumes[chosenMoni];
+				character = 'monika';
+			case 3:
+				curCostume = sayoriCostumes[chosenSayo];
+				character = 'sayori';
+			case 4:
+				curCostume = natsukiCostumes[chosenSuki];
+				character = 'natsuki';
+			case 5:
+				curCostume = yuriCostumes[chosenYuri];
+				character = 'yuri';
+			case 6:
+				curCostume = protagCostumes[chosenProtag];
+				character = 'protag';
+
+		}
+		variableStuff[lastSelectedOption].loadGraphic(Paths.image('costume/'+character+curCostume));
+		for (i in 0...characterNames.length)
+			{
+				if (characterNames[i] != ''){
+					maxOptions = i;
+				}
+				options[i].text = characterNames[i];
+			}		
+		specificCostume = false;
+		selected = lastSelectedOption;
+		selectText();
+	}
+
+
+    function selectText(){
+		if (selected > maxOptions){
+			selected = 0;
+		}
+		if (selected < 0){
+			selected = maxOptions;
+		}
+		if (!specificCostume){
+			BF.alpha = 0;
+			GF.alpha = 0;
+			monika.alpha = 0;
+			sayori.alpha = 0;
+			natsuki.alpha = 0;
+			yuri.alpha = 0;
+			protag.alpha = 0;	
+		}
+		for (i in 0...characterNames.length)
+			{
+				options[i].borderColor = 0xFFFF7CFF;
+			}	
+		if (!specificCostume){
+			variableStuff[selected].alpha = 1;
+		} else {
+			swapCostumes();
+		}
+		options[selected].borderColor = 0xFFFDDBF1;
+		if (characterNames[selected] == '???' && !specificCostume){
+			var update = switch selected{
+				case 2, 6: 'Festival';
+			}
+			descriptionBar.alpha = 0.4;
+			descriptionText.text = 'Unlocked in The ' + update + ' Update';
+		} else if (!specificCostume){
+			descriptionBar.alpha = 0;
+			descriptionText.text = '';
+		}
+	}
+
+	function swapCostumes(){
+		var character:String;
+		var curCostume;
+		switch (lastSelectedOption) {
+			case 0:
+				if (selected == 7){
+					var rng = FlxG.random.int(0, 2);
+					descriptionText.text = bfDesc[selected + rng];
+				} else {
+					descriptionText.text = bfDesc[selected];
+				}
+				descriptionBar.alpha = 0.4;
+				curCostume = bfCostumes[selected];
+				character = 'bf';
+			case 1:
+				descriptionText.text = gfDesc[selected];
+				descriptionBar.alpha = 0.4;
+				curCostume = gfCostumes[selected];
+				character = 'gf';
+			case 2:
+				descriptionText.text = moniDesc[selected];
+				descriptionBar.alpha = 0.4;
+				curCostume = monikaCostumes[selected];
+				character = 'monika';
+			case 3:
+				descriptionText.text = sayoDesc[selected];
+				descriptionBar.alpha = 0.4;
+				curCostume = sayoriCostumes[selected];
+				character = 'sayori';
+			case 4:
+				descriptionText.text = sukiDesc[selected];
+				descriptionBar.alpha = 0.4;
+				curCostume = natsukiCostumes[selected];
+				character = 'natsuki';
+			case 5:
+				descriptionText.text = yuriDesc[selected];
+				descriptionBar.alpha = 0.4;
+				curCostume = yuriCostumes[selected];
+				character = 'yuri';
+			case 6:
+				descriptionText.text = protagDesc[selected];
+				descriptionBar.alpha = 0.4;
+				curCostume = protagCostumes[selected];
+				character = 'protag';
+
+		}
+		variableStuff[lastSelectedOption].loadGraphic(Paths.image('costume/'+character+curCostume));
+	}
+
+	function costumeSelect(){
+		specificCostume = true;
+		lastSelectedOption = selected;
+		switch (selected) {
+			case 0:
+				for (i in 0...bfCostumeNames.length)
+					{
+						selected = chosenBF;
+						if (bfCostumeNames[i] != '') maxOptions = i;
+						options[i].text = bfCostumeNames[i];
+					}			
+			case 1:
+				for (i in 0...gfCostumeNames.length)
+					{
+						selected = chosenGF;
+						if (gfCostumeNames[i] != '') maxOptions = i;
+						options[i].text = gfCostumeNames[i];
+					}			
+			case 2:
+				for (i in 0...monikaCostumeNames.length)
+					{
+						selected = chosenMoni;
+						if (monikaCostumeNames[i] != '') maxOptions = i;
+						options[i].text = monikaCostumeNames[i];
+					}			
+			case 3:	
+				for (i in 0...sayoriCostumeNames.length)
+					{
+						selected = chosenSayo;
+						if (sayoriCostumeNames[i] != '') maxOptions = i;
+						options[i].text = sayoriCostumeNames[i];
+					}			
+			case 4:
+				for (i in 0...natsukiCostumeNames.length)
+					{
+						selected = chosenSuki;
+						if (natsukiCostumeNames[i] != '') maxOptions = i;
+						options[i].text = natsukiCostumeNames[i];
+					}			
+			case 5:
+				for (i in 0...yuriCostumeNames.length)
+					{
+						selected = chosenYuri;
+						if (yuriCostumeNames[i] != '') maxOptions = i;
+						options[i].text = yuriCostumeNames[i];
+					}			
+			case 6:
+				for (i in 0...protagCostumeNames.length)
+					{
+						selected = chosenProtag;
+						if (protagCostumeNames[i] != '') maxOptions = i;
+						options[i].text = protagCostumeNames[i];
+					}			
+		}
+		selectText();
+	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+		Conductor.instance.update();
+		if (controls.ACCEPT)
+			{
+				if (specificCostume) {
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+					switch (lastSelectedOption) {
+						case 0:
+							chosenBF = selected;
+							save.data.selectedBFCostume = chosenBF;
+						case 1:
+							chosenGF = selected;
+							save.data.selectedGFCostume = chosenGF;
+						case 2:
+							chosenMoni = selected;
+							save.data.selectedMoniCostume = chosenMoni;
+						case 3:
+							chosenSayo = selected;
+							save.data.selectedSayoCostume = chosenSayo;
+						case 4:
+							chosenSuki = selected;
+							save.data.selectedSukiCostume = chosenSuki;
+						case 5:
+							chosenYuri = selected;
+							save.data.selectedYuriCostume = chosenYuri;
+						case 6:
+							chosenProtag = selected;
+							save.data.selectedProtagCostume = chosenProtag;
+
+					}
+					save.flush();
+				}
+				if (!specificCostume) {
+					if (characterNames[selected] != '???'){
+						FlxG.sound.play(Paths.sound('confirmMenu'));
+						costumeSelect();
+					} else {
+						FlxG.sound.play(Paths.sound('cancelMenu'));
+						FlxG.cameras.shake(0.01, 0.25);
+					}
+				}
+			}
+			if (controls.BACK)
+			{
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				if (specificCostume){
+					characterSelect();
+				} else {
+					FlxG.switchState(new MainMenuState());
+				}
+			}	
+		if (FlxG.keys.justPressed.F1) {
+			FlxTween.cancelTweensOf(catSprite);
+			FlxTween.cancelTweensOf(FlxG.sound.music);
+			if (!secret){
+				secret = true;
+				FlxG.sound.music.pause();
+				FlxTween.tween(catSprite, {alpha: 0.5}, 12.5, {ease: FlxTween.linear});
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				FlxG.sound.music = new FlxSound().loadEmbedded(Paths.music('catvibe/darkagedrop'), true, true);
+	
+				FlxG.sound.music.volume = 0;
+				FlxG.sound.music.play();
+				Conductor.instance.forceBPM(90);
+		
+				FlxTween.tween(FlxG.sound.music, {volume: 1.0}, 2.5, {ease: FlxTween.linear});		
+			} else if (secret){
+				secret = false;
+				FlxG.sound.music.pause();
+				FlxTween.tween(catSprite, {alpha: 0}, 1.5, {ease: FlxTween.linear});
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				FlxG.sound.music = new FlxSound().loadEmbedded(Paths.music('breakfast-doki'), true, true);
+		
+				FlxG.sound.music.volume = 0;
+				FlxG.sound.music.play();
+				Conductor.instance.forceBPM(124);
+
+				FlxTween.tween(FlxG.sound.music, {volume: 1.0}, 2.5, {ease: FlxTween.linear});			
+			}
+		}
+		if (controls.UI_UP_P) {
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			selected--;
+            selectText();
+		} else if (controls.UI_DOWN_P) {
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			selected++;
+            selectText();
+		}
+	}
+
+	override function beatHit():Bool
+		{
+		  ddtoLogo.animation.play('Bumpin', true);
+		}	  
+}

@@ -1,0 +1,223 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.Highscore;
+import funkin.save.Save;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.utils.Assets;
+import flixel.FlxCamera;
+import funkin.modding.base.ScriptedFlxRuntimeShader;
+import openfl.filters.ShaderFilter;
+import funkin.modding.module.ModuleHandler;
+import funkin.Conductor;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import funkin.graphics.FunkinSprite;
+import funkin.data.stage.StageRegistry;
+import funkin.play.stage.Stage;
+import flixel.util.FlxSave;
+
+class GlitcherMonikaMixSong extends Song
+{
+	var pixel = new FlxRuntimeShader(Assets.getText(Paths.frag("PixelShader")));
+    var pixelshader = new ShaderFilter(pixel);
+	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
+    var shader = new ShaderFilter(bloom);
+	var pixelTween:FlxTween;
+	var noFestivalMode:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
+
+	function new()
+	{
+		super('glitcher-monika-mix');
+
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+	}
+
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{
+			if (PlayState.instance == null) return;
+			switch(event.step)
+			{
+				case 64:
+					ModuleHandler.getModule('Credits').scriptCall('tweenIn');
+				case 128:
+					ModuleHandler.getModule('Credits').scriptCall('tweenOut');
+				case 566, 822, 1078, 1334: // Start glitch
+					pixel.setFloat('strength', 0.0);
+					pixelTween = FlxTween.num(0, 2.7, calcSectionLength(0.7), {ease: FlxEase.quadOut}, function(num) { pixel.setFloat('strength', num); });
+				case 576, 1088: // End Glitch to pixel
+					gopixel();
+					pixelTween.cancel();
+					pixel.setFloat('strength', 2.7);
+					pixelTween = FlxTween.num(2.7, 0, calcSectionLength(0.7), {ease: FlxEase.quadOut}, function(num) { pixel.setFloat('strength', num); });
+				case 832, 1344: // End Glitch except back to normal
+					becomefumo();
+					pixelTween.cancel();
+					pixel.setFloat('strength', 2.7);
+					pixelTween = FlxTween.num(2.7, 0, calcSectionLength(0.7), {ease: FlxEase.quadOut}, function(num) { pixel.setFloat('strength', num); });
+				case 1360, 1392, 1424, 1456:
+					gopixel();
+				case 1376, 1408, 1440, 1472:
+					becomefumo();
+			}
+		}
+	
+	function gopixel(){
+		stage = PlayState.instance.currentStage;
+		stage.getNamedProp('solid').visible = true;
+		stage.getNamedProp('sky').visible = true;
+		stage.getNamedProp('school').visible = true;
+		stage.getNamedProp('street').visible = true;
+		stage.getNamedProp('treesFG').visible = true;
+		stage.getNamedProp('treesBG').visible = true;
+		stage.getNamedProp('petals').visible = true;
+
+		stage.getNamedProp('DDLC Far BG').visible = false;
+		stage.getNamedProp('DDLC BG').visible = false;
+		stage.getNamedProp('Festival Back Lights').visible = false;
+		stage.getNamedProp('Festival Banner').visible = false;
+		stage.getNamedProp('Front Desks').visible = false;
+		stage.getNamedProp('Festival Front Lights').visible = false;
+		for (bgDokis in [stage.getNamedProp('BG Sayori'), stage.getNamedProp('BG Yuri'), stage.getNamedProp('BG Natsuki'), stage.getNamedProp('BG Monika'), stage.getNamedProp('BG Protag')]){
+			bgDokis.visible = false;
+		}
+		bloom.setFloat('funthreshhold', 1);
+	}
+
+	function becomefumo(){
+		stage = PlayState.instance.currentStage;
+		stage.getNamedProp('solid').visible = false;
+		stage.getNamedProp('sky').visible = false;
+		stage.getNamedProp('school').visible = false;
+		stage.getNamedProp('street').visible = false;
+		stage.getNamedProp('treesFG').visible = false;
+		stage.getNamedProp('treesBG').visible = false;
+		stage.getNamedProp('petals').visible = false;
+
+		stage.getNamedProp('DDLC Far BG').visible = true;
+		stage.getNamedProp('DDLC BG').visible = true;
+		stage.getNamedProp('Festival Back Lights').visible = true;
+		stage.getNamedProp('Festival Banner').visible = true;
+		stage.getNamedProp('Front Desks').visible = true;
+		stage.getNamedProp('Festival Front Lights').visible = true;
+		for (bgDokis in [stage.getNamedProp('BG Sayori'), stage.getNamedProp('BG Yuri'), stage.getNamedProp('BG Natsuki'), stage.getNamedProp('BG Monika'), stage.getNamedProp('BG Protag')]){
+			bgDokis.visible = true;
+		}
+		bloom.setFloat('funthreshhold', 0.8);
+	}
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+		{
+			super.onSongEvent(scriptEvent);
+			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL")
+			{
+				var eventProps = scriptEvent.eventData.value;
+				if (noFestivalMode.contains(eventProps.newchar)){
+					var character = eventProps.character;
+					new FlxTimer().start(0.01, _ -> {
+						PlayState.instance.currentStage.getBoyfriend().color = 0xFFFFFFFF;
+						PlayState.instance.currentStage.getGirlfriend().color = 0xFFFFFFFF;
+						PlayState.instance.currentStage.getOpponent().color = 0xFFFFFFFF;
+						switch (character) {
+							case 'bf':
+								var pos = [1139, 958];
+								var camPos = [-200, -100];
+								PlayState.instance.currentStage.getBoyfriend().resetPosition();
+								PlayState.instance.currentStage.getBoyfriend().updateHitbox();
+								PlayState.instance.currentStage.getBoyfriend().resetCameraFocusPoint();
+								var posX = pos[0] - PlayState.instance.currentStage.getBoyfriend().characterOrigin.x;
+								var posY = pos[1] - PlayState.instance.currentStage.getBoyfriend().characterOrigin.y;
+								PlayState.instance.currentStage.getBoyfriend().x = posX;
+								PlayState.instance.currentStage.getBoyfriend().y = posY;
+								PlayState.instance.currentStage.getBoyfriend().cameraFocusPoint.x += camPos[0];
+      							PlayState.instance.currentStage.getBoyfriend().cameraFocusPoint.y += camPos[1];
+								PlayState.instance.currentStage.getBoyfriend().color = 0xFFFFFFFF;
+							case 'gf':
+								var pos = [840, 866];
+								var camPos = [0, 0];
+								PlayState.instance.currentStage.getGirlfriend().resetPosition();
+								PlayState.instance.currentStage.getGirlfriend().updateHitbox();
+								PlayState.instance.currentStage.getGirlfriend().resetCameraFocusPoint();
+								var posX = pos[0] - PlayState.instance.currentStage.getGirlfriend().characterOrigin.x;
+								var posY = pos[1] - PlayState.instance.currentStage.getGirlfriend().characterOrigin.y;
+								PlayState.instance.currentStage.getGirlfriend().x = posX;
+								PlayState.instance.currentStage.getGirlfriend().y = posY;
+								PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x += camPos[0];
+      							PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y += camPos[1];
+								PlayState.instance.currentStage.getGirlfriend().color = 0xFFFFFFFF;
+							case 'dad':
+								var pos = [525, 950];
+								var camPos = [160, -50];
+								PlayState.instance.currentStage.scriptCall('setDokiPosition', [eventProps.newchar]);
+								PlayState.instance.currentStage.getOpponent().resetPosition();
+								PlayState.instance.currentStage.getOpponent().updateHitbox();
+								PlayState.instance.currentStage.getOpponent().resetCameraFocusPoint();
+								var posX = pos[0] - PlayState.instance.currentStage.getOpponent().characterOrigin.x;
+								var posY = pos[1] - PlayState.instance.currentStage.getOpponent().characterOrigin.y;
+								PlayState.instance.currentStage.getOpponent().x += posX;
+								PlayState.instance.currentStage.getOpponent().y += posY;
+								PlayState.instance.currentStage.getOpponent().cameraFocusPoint.x += camPos[0];
+      							PlayState.instance.currentStage.getOpponent().cameraFocusPoint.y += camPos[1];
+								PlayState.instance.currentStage.getOpponent().color = 0xFFFFFFFF;	
+						}
+					});	
+				} else {
+					new FlxTimer().start(0.01, _ -> {
+						if (eventProps.character == 'dad') PlayState.instance.currentStage.scriptCall('setDokiPosition', [eventProps.newchar]);
+						PlayState.instance.currentStage.getBoyfriend().color = 0x828282;
+						PlayState.instance.currentStage.getGirlfriend().color = 0x828282;
+						PlayState.instance.currentStage.getOpponent().color = 0x828282;	
+					});	
+				}
+			}
+		}
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		if (pixelTween != null && pixelTween.active == true) pixelTween.cancel();
+		bloom.setFloat('funrange', 0.1);
+		bloom.setFloat('funsteps', 0.005);
+		bloom.setFloat('funthreshhold', 0.8);
+		bloom.setFloat('funbrightness', 7); 
+		pixel.setFloat('strength', 0.0);
+		var filters = switch (save.data.bloom){
+			case true: [shader, pixelshader];
+			case false: [pixelshader];
+		}
+		PlayState.instance.camGame.filters = filters;
+		becomefumo();
+	}
+
+	/*function onCreate(event:ScriptEvent):Void
+		{
+			super.onCreate(event);
+			FunkinSprite.cacheTexture(Paths.image('characters/monikanew'));
+			FunkinSprite.cacheTexture(Paths.image('characters/Doki_MonikaNonPixel_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_Monika_SenpaiOutfit_Pixel_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaCasual_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaCasualLong_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaHex_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaNonPixel_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaNonPixel_blueskies_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaValentine_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaVigilante_Assets'));
+		}	*/  
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+}

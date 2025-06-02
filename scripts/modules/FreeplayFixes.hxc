@@ -1,0 +1,112 @@
+import funkin.modding.module.Module;
+import flixel.FlxG;
+import funkin.Paths;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.util.ReflectUtil;
+import funkin.ui.freeplay.SongMenuItem;
+import funkin.audio.FunkinSound;
+import funkin.modding.base.ScriptedMusicBeatSubState;
+import StringTools;
+import flixel.util.FlxTimer;
+import funkin.PlayerSettings;
+
+class FreeplayFixes extends Module {
+	public function new(){
+		super('FreeplayFixes');
+	}
+
+	var ddtolevelids = ['DDTOWeek1', 'DDTOWeek2', 'DDTOWeek3', 'DDTOWeek4', 'DDTOWeek5', 'DDTOWeek6', 'DDTOWeek7', 'DDTOWeek8', 'DDTOWeekDoggle', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories', 'fuckidk'];
+	
+	override function onSubStateOpenEnd(event) {
+        super.onSubStateOpenEnd(event);
+        if (Std.isOfType(event.targetState, FreeplayState)) {
+			for (capsule in event.targetState.grpCapsules.members){
+				if (capsule?.freeplayData != null) {
+					if (ddtolevelids.contains(capsule.freeplayData.levelId)){ //Changed from checking albums since it would miss the check sometimes
+						customDisplay(capsule);
+					} else if (isBaseWeek(capsule.freeplayData.data.id)) {
+						resetCapsules(capsule);
+					}
+				}
+			}	
+		}
+	}
+
+	//Adds the Week Type title for Takeover songs and changes the freeplay icon for characters (useful for songs which have multiple opponents and gets rid of multiple icons)
+	function customDisplay(cap:SongMenuItem) {
+		if (cap?.freeplayData == null) return;
+		cap.weekType.visible = true;
+		if (cap.songText.text == 'MSTSOOBF') cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/tf'); //TF?
+		else cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverText'); //Normal text	
+		if (cap.pixelIcon.animation.curAnim == null || cap.pixelIcon.animation.curAnim.name == 'idle'){
+			switch (cap.freeplayData.data.id){
+				case "our-harmony": cap.pixelIcon.setCharacter('monika');
+				case "you-and-me": cap.pixelIcon.setCharacter('protag');
+				case "libitina": cap.pixelIcon.setCharacter('libitina');
+			}
+			switch (cap.freeplayData.songCharacter){
+				case 'monika', 'monika-pixelnew', 'duetnew':
+					if (cap.freeplayData.data.id == 'your-demise') cap.pixelIcon.setCharacter('monika-epiphany');
+					else cap.pixelIcon.setCharacter('monika');
+				case 'bigmonika', 'bigmonika-dress', 'monika-angry': 
+					cap.pixelIcon.setCharacter('monika-epiphany');
+				case 'senpai-ddto', 'senpai-angry-ddto', 'senpai-nonpixel':
+					cap.pixelIcon.setCharacter('senpai');	
+			}
+		}
+	}
+
+	function resetCapsules(cap:SongMenuItem) {
+		if (cap?.freeplayData == null) return;
+		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/weektypes');
+		cap.weekType.animation.addByPrefix('WEEK', 'WEEK text instance 1', 24, false);
+    	cap.weekType.animation.addByPrefix('WEEKEND', 'WEEKEND text instance 1', 24, false);
+		cap.checkWeek(cap.freeplayData.data.id);
+	}
+
+	function isBaseWeek(songID:String) {
+		switch (songID) {
+      		case 'bopeebo', 'fresh', 'dadbattle':
+        		return true;
+      		case 'spookeez', 'south', 'monster':
+        		return true;
+      		case 'pico', 'philly-nice', 'blammed':
+        		return true;
+      		case "satin-panties", 'high', 'milf':
+        		return true;
+      		case "cocoa", 'eggnog', 'winter-horrorland':
+        		return true;
+      		case 'senpai', 'roses', 'thorns':
+        		return true;
+     	 	case 'ugh', 'guns', 'stress':
+        		return true;
+     		case 'darnell', 'lit-up', '2hot', 'blazin':
+        		return true;
+      		default:
+        		return false;
+    	}
+	}
+	
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (Std.isOfType(FlxG.state.subState, FreeplayState))
+			{
+				//Prevents from running if the Freeplay state is busy (Ex. Choosing an inst, choosing a Doki for Catfight, first load, currently loading a song)
+				var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
+				if (curCap?.freeplayData != null && curCap.freeplayData.data.id == 'our-harmony') curCap.pixelIcon.setCharacter('monika');
+				if (!FlxG.state.subState.busy && (PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P || FlxG.keys.justPressed.Q || FlxG.keys.justPressed.E)){
+					new FlxTimer().start(0.1, _ -> {
+						for (capsule in FlxG.state.subState.grpCapsules.members){
+							if (capsule?.freeplayData != null) {
+								if (ddtolevelids.contains(capsule.freeplayData.levelId)){
+									customDisplay(capsule);
+								} else if (isBaseWeek(capsule.freeplayData.data.id)) {
+									resetCapsules(capsule);
+								}
+							}
+						}	
+					});			
+				}
+			}		
+	}
+}

@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "name": "Senpai (DDTO+)",
+  "assetPath": "dialogue/senpai",
+  "flipX": true,
+  "isPixel": true,
+  "scale": 5.4,
+  "offsets": [650, 14],
+  "animations": [
+    {
+      "name": "neutral",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "angry",
+      "prefix": "senpai_angry",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "who",
+      "prefix": "senpai_whodis",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "hmm",
+      "prefix": "senpai_hmm",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "spirit",
+      "prefix": "senpai_spirit",
+      "offsets": [0, 0]
+    }
+  ]
+}

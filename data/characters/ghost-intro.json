@@ -1,0 +1,68 @@
+{
+    "version": "1.0.0",
+    "name": "Ghost Intro",
+    "assetPath": "characters/ghost/LibiIntro_Assets",
+    "singTime": 6.1,
+    "isPixel": false,
+    "scale": 1,
+    "offsets": [25, 25],
+    "healthIcon": {
+        "id": "libitina",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "GhostIntroIdle",
+            "offsets": [
+                10,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "GhostIntroLeft",
+            "offsets": [
+                103,
+                65
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "GhostIntroDown",
+            "offsets": [
+                96,
+                70
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP",
+            "prefix": "GhostIntroUp",
+            "offsets": [
+                97,
+                60
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "GhostIntroRight",
+            "offsets": [
+                103,
+                65
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        }
+    ],
+    "flipX": true
+}

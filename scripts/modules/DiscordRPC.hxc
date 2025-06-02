@@ -1,0 +1,61 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import flixel.util.FlxSave;
+import Date;
+
+class DiscordRPCDDTO extends Module
+{
+    function new()
+        {
+            super('DiscordRPCDDTO');
+        }    
+
+	//Makes sure DDTO Discord RPC doesn't try to load on other mods
+	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+	var resetRPC:Bool;
+	
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent) {
+		super.onSongEvent(scriptEvent);
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+		if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter") {
+			resetRPC = true;
+			var eventProps = scriptEvent.eventData.value;
+			changeRPCIcon(eventProps.newchar);
+		}
+	}
+	
+    public override function onCountdownStart(event) { 
+		super.onCountdownStart(event);
+		if (!ddtoStages.contains(PlayState.instance.currentStageId) || !resetRPC) return;
+		var icon = switch (PlayState.instance.currentSong.id.toLowerCase()){
+			case 'dokidoggle', 'our-harmony': 'all-dokis';
+			case 'libitina': 'libitina';
+			default: PlayState.instance.currentChart.characters.opponent;
+		}
+		resetRPC = false;
+    	changeRPCIcon(icon);
+	}
+
+    public override function onSongLoaded(event: CountdownScriptEvent): Void { 
+		super.onSongLoaded(event);
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+		var timeStamp = Date.now().getTime();
+		var icon = switch (PlayState.instance.currentSong.id.toLowerCase()){
+			case 'dokidoggle', 'our-harmony': 'all-dokis';
+			case 'libitina': 'libitina';
+			default: PlayState.instance.currentChart.characters.opponent;
+		}
+		resetRPC = false;
+		PlayState.instance.discordRPCAlbum = "https://github.com/ComedyLost/DDTODiscordRPC/blob/main/album-covers/" + PlayState.instance.currentChart.album + ".png?raw=true?t=" + timeStamp;
+    	changeRPCIcon(icon);
+	}
+
+	function changeRPCIcon(name:String){
+		var timeStamp = Date.now().getTime();
+		PlayState.instance.discordRPCIcon = "https://github.com/ComedyLost/DDTODiscordRPC/blob/main/icons/" + name + ".png?raw=true?t=" + timeStamp;
+	}
+}

@@ -1,0 +1,72 @@
+{
+  "props": [
+    {
+      "danceEvery": 0,
+      "zIndex": 10,
+      "position": [-155, -795],
+      "scroll": [0.2, 0.2],
+      "animType": "sparrow",
+      "name": "Skybox",
+      "isPixel": false,
+      "assetPath": "ynm/skybox",
+      "scale": [1.2, 1.2],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 20,
+      "position": [-155, -795],
+      "scroll": [0.5, 0.5],
+      "animType": "sparrow",
+      "name": "Background Houses",
+      "isPixel": false,
+      "assetPath": "ynm/bg3",
+      "scale": [1.2, 1.2],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 30,
+      "position": [-155, -795],
+      "scroll": [0.8, 0.8],
+      "animType": "sparrow",
+      "name": "MC House",
+      "isPixel": false,
+      "assetPath": "ynm/bg2",
+      "scale": [1.2, 1.2],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 40,
+      "position": [-155, -795],
+      "scroll": [0.9, 0.9],
+      "animType": "sparrow",
+      "name": "Fence",
+      "isPixel": false,
+      "assetPath": "ynm/bg",
+      "scale": [1.2, 1.2],
+      "animations": []
+    }
+  ],
+  "cameraZoom": 0.9,
+  "version": "1.0.0",
+  "characters": {
+    "bf": {
+      "zIndex": 70,
+      "position": [900, 800],
+      "cameraOffsets": [0, 0]
+    },
+    "dad": {
+      "zIndex": 60,
+      "position": [400, 800],
+      "cameraOffsets": [0, 0]
+    },
+    "gf": {
+      "zIndex": 50,
+      "cameraOffsets": [589, 326],
+      "position": [400, 130]
+    }
+  },
+  "name": "The Outside (You and Me Stage)"
+}

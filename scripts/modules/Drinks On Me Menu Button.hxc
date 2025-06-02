@@ -1,0 +1,104 @@
+import funkin.modding.module.Module;
+import funkin.ui.mainmenu.MainMenuState;
+import funkin.modding.base.ScriptedMusicBeatState;
+import flixel.FlxSprite;
+
+import funkin.ui.freeplay.FreeplayState;
+import funkin.ui.title.TitleState;
+import funkin.ui.story.StoryMenuState;
+import funkin.ui.Prompt;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.effects.FlxFlicker;
+import flixel.util.FlxTimer;
+import funkin.ui.transition.LoadingState;
+
+import funkin.Paths;
+import Std;
+
+import funkin.data.song.SongRegistry;
+import funkin.play.song.Song;
+import funkin.play.PlayStatePlaylist;
+import funkin.audio.FunkinSound;
+import flixel.sound.FlxSound;
+import flixel.input.mouse.FlxMouseEvent;
+import haxe.ui.events.MouseEvent;
+import funkin.input.Cursor;
+
+import flixel.FlxG;
+
+class DOMButton extends Module {
+  var shaker:FlxSprite;
+  var inMenu:Bool;
+  var currentState;
+
+  public function new()
+    {
+      super('DOMScreen');
+
+      active = false; //Caused issues when switching states
+    }  
+
+  public function onStateChangeEnd(event) {
+    currentState = event.targetState;
+    if (Std.isOfType(currentState, MainMenuState)) {
+      inMenu = true;
+      Cursor.show();
+      shaker = new FlxSprite(1132, 538);
+      shaker.frames = Paths.getSparrowAtlas("shaker");
+      shaker.animation.addByPrefix('play', "Shaker", 21, false);
+      shaker.animation.play('play');
+      currentState.add(shaker);  
+      shaker.scrollFactor.x = 0.0;
+      // This one affects how much the menu items move when you scroll between them.
+      shaker.scrollFactor.y = 0.4;
+    } else {
+      inMenu = false;
+    }
+  }
+
+  function openSong()
+    {
+      FlxG.sound.play(Paths.sound('va11hallaSelect'));
+      FlxFlicker.flicker(shaker, 1, 0.06, false, false);
+
+      var targetSong:Song = SongRegistry.instance.fetchEntry('drinks-on-me');
+      var targetDifficultyId:String = 'normal';
+      var targetVariation:String = targetSong.getFirstValidVariation(targetDifficultyId);
+      PlayStatePlaylist.campaignId = 'drinks-on-me';
+      var targetDifficulty:SongDifficulty = targetSong.getDifficulty(targetDifficultyId, targetVariation);
+      // TODO: Change this with alternate instrumentals
+      var targetInstId:String = targetDifficulty.characters.instrumental;
+    
+      new FlxTimer().start(1, function(tmr:FlxTimer)
+      {
+        Paths.setCurrentLevel('drinks-on-me');
+        LoadingState.loadPlayState(
+          {
+            targetSong: targetSong,
+            targetDifficulty: targetDifficultyId,
+            targetVariation: targetVariation,
+            targetInstrumental: targetInstId,
+            practiceMode: false,
+            minimalMode: false,
+            botPlayMode: false,
+            // TODO: Make these an option! It's currently only accessible via chart editor.
+            // startTimestamp: 0.0,
+            // playbackRate: 0.5,
+            // botPlayMode: true,
+          }, true);  
+      });
+    }  
+
+	  override function onUpdate(elapsed:Float) {
+		  super.onUpdate(elapsed);
+      if (Std.isOfType(FlxG.state, MainMenuState))
+        {  
+          if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(shaker)) openSong();
+        }
+    }  
+
+  override function onBeatHit():Bool
+		{
+      if (shaker != null && inMenu && currentState?.menuItems.enabled != false) shaker.animation.play('play');
+		}	  
+} 

@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "name": "MONIKA'S PROLOGUE WEEK",
+  "titleAsset": "storymenu/titles/prologue",
+  "visible": true,
+  "background": "#80C842",
+  "props": [
+    {
+      "assetPath": "dokistory/PrologueWeek",
+      "scale": 1,
+      "danceEvery": 3,
+      "offsets": [430, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "storymenu/props/dokibf",
+      "scale": 0.8,
+      "offsets": [500, 0],
+      "alpha": 1,
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "Menu Idle",
+          "frameRate": 24
+        },
+        {
+          "name": "confirm",
+          "prefix": "Menu BF HEY!!",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "songs": ["high-school-conflict", "bara-no-yume", "your-demise", "your-reality-takeover-mix"]
+}

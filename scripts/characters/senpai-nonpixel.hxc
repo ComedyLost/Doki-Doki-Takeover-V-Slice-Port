@@ -1,0 +1,101 @@
+import funkin.play.character.SparrowCharacter;
+import funkin.play.character.CharacterType;
+import funkin.play.PlayState;
+import flixel.math.FlxPoint;
+import funkin.util.Constants;
+import StringTools;
+
+/*
+As you may notice, this character file has two different classes
+They are there to future-proof the mod in the event that versions >= 0.5.0 have fixed the character scaling bug
+
+HOW IT WORKS:
+If the mod detects you are on 0.3.x or 0.4.x, it will run the version of the character script which fixes the scaling bug
+Otherwise, it will run the version of the character script without any scale fixes
+This allows the character to work normally no matter what version you are on
+*/
+
+class SenpaiNonPixelCharacter extends SparrowCharacter {
+
+	function new() {
+		super('senpai-nonpixel');
+	}
+
+	var shouldAngry:Bool;
+
+	override function onAnimationFinished(name:String) {
+		super.onAnimationFinished(name);
+		if (name == 'swap') {
+			shouldAngry = true;
+			this.idleSuffix = '-alt';
+		}
+		if (name == 'lastNOTE_end') {
+			this.alpha = 0;
+		}
+	}
+
+
+	function onNoteHit(event:NoteScriptEvent)
+		{
+			// Override the hit note animation.
+			switch(event.note.kind) {
+				case "markov":
+					event.cancelEvent();
+				default:
+					if (!event.note.noteData.getMustHitNote() && characterType == CharacterType.DAD) {
+						// Override the hit note animation.
+						if (shouldAngry){
+							holdTimer = 0;
+							this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
+							
+							return;
+						} else {
+							super.onNoteHit(event);
+						}
+					}
+			}
+		}
+
+	override function onAdd() {
+		shouldAngry = false;
+	}
+
+	override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {
+        var output:FlxPoint = super.getScreenPosition(result, camera);
+        if (flipX) {output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;}
+        if (flipY) {output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;}
+        return output;
+    }
+
+	var defaultColor;
+    var missColor;
+  
+    public function onCreate(event):Void {
+    	super.onCreate(event);
+		if (PlayState.instance.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
+		else var isFestival = false;
+		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
+		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+	}
+    
+    override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void {
+		holdTimer = 0;
+        if (flipX) {
+            if (dir == 0) {dir = 3;} else if (dir == 3) {dir = 0;}
+        }
+		if (miss) {
+			this.color = missColor;
+			super.playSingAnimation(dir, false, suffix);
+		} else {
+			this.color = defaultColor;
+			super.playSingAnimation(dir, miss, suffix);
+		}
+    }    
+
+	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
+		{
+			// FlxG.watch.addQuick('playAnim(${characterName})', name);
+			if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+			super.playAnimation(name, restart, ignoreOther, reversed);
+		}
+}

@@ -1,0 +1,68 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import flixel.FlxSprite;
+import flixel.FlxG;
+import funkin.play.Countdown;
+import funkin.play.song.Song;
+import flixel.util.FlxTimer;
+import flixel.util.FlxSave;
+
+class PixelPerfectStage extends Module
+{
+	function new()
+		{
+			super('PixelPerfect');
+
+			save = new FlxSave();
+			save.bind("TakeoverOptions");    
+		}    
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+		{
+			super.onSongEvent(scriptEvent);
+			if (!save.data.pixel) return;
+			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter")
+			{
+				new FlxTimer().start(0.001, function(tmr:FlxTimer)
+					{
+						//Recreate the now removed Pixel Perfect rendering from 0.5.0 on all stage assets when swapping characters
+						pixelfy();
+					});        
+			}
+		}
+	
+	function pixelfy(){
+		for (bopper in PlayState.instance.currentStage.boppers){
+			if (bopper != null && bopper.isPixel){
+				bopper.pixelPerfectRender = true;
+				bopper.pixelPerfectPosition = true;    
+			}
+		}
+		for (character in PlayState.instance.currentStage.characters){
+			if (character != null && character.isPixel){
+				character.pixelPerfectRender = true;
+				character.pixelPerfectPosition = true;    
+			}
+		}
+		for (props in PlayState.instance.currentStage.namedProps){
+			if (props != null && props.isPixel){
+				props.pixelPerfectRender = true;
+				props.pixelPerfectPosition = true;    
+			}
+		}                        
+
+	}
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		if (!save.data.pixel) return;
+		//Recreate the now removed Pixel Perfect rendering from 0.5.0 on all stage assets
+		pixelfy();
+	}
+}

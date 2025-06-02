@@ -1,0 +1,36 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.Preferences;
+
+class ResetStageModule extends Module
+{
+    var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+
+    override function onCountdownStart(event:ScriptEvent)
+    {
+        super.onCountdownStart(event);
+        //Resets stage to not cause any issues on a retry
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+        PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getDad().cameraFocusPoint.x, PlayState.instance.currentStage.getDad().cameraFocusPoint.y, 0, FlxEase.instant);
+        for (strums in [PlayState.instance.playerStrumline, PlayState.instance.opponentStrumline]){
+            strums.background.alpha = Preferences.strumlineBackgroundOpacity / 100.0;
+        }
+        PlayState.instance.currentStage.refresh();
+    }
+
+    override function onSongRetry(event:ScriptEvent)
+    {
+        super.onSongRetry(event);
+        //Resets stage to not cause any issues on a retry
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+        PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getDad().cameraFocusPoint.x, PlayState.instance.currentStage.getDad().cameraFocusPoint.y, 0, FlxEase.instant);
+        for (strums in [PlayState.instance.playerStrumline, PlayState.instance.opponentStrumline]){
+            strums.background.alpha = Preferences.strumlineBackgroundOpacity / 100.0;
+        }
+        PlayState.instance.currentStage.refresh();
+    }
+}

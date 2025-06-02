@@ -1,0 +1,133 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "silence",
+    "fadeTime": 2.0,
+    "looped": false
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_uhoh",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+      "text": ["There... No more distractions."]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_what",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+      "text": ["SKEE DEP!"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_what",
+      "box": "rosesClassic",
+      "boxAnimation": "speaking",
+
+      "text": ["(Translation) GIRLFRIEND!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_neutral",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["Let's get back to singing, shall we?"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_angry",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["Hmm?"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_angry",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["*aggressive bee bop noises*"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["Oh... her."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_neutral",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Hey, let's not worry about her, ok?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_neutral",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["C'mon, I've got a very special song I've wanted to sing!"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_angry",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["*continuation of angry bee bops*"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_hmm",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["One more song."]
+    }
+  ]
+}

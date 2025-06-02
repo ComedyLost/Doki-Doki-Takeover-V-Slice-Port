@@ -1,0 +1,68 @@
+{
+    "version": "1.0.0",
+    "name": "Monika (Casual)",
+    "assetPath": "characters/monika/Doki_MonikaCasual_Assets",
+    "singTime": 6,
+    "isPixel": false,
+    "scale": 0.9,
+    "cameraOffsets": [0, -5],
+    "healthIcon": {
+        "id": "monika",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Monika Returns Idle",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP",
+            "prefix": "Monika Returns Up",
+            "offsets": [
+                -107,
+                15
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Monika Returns Right",
+            "offsets": [
+                -29,
+                -10
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Monika Returns Down",
+            "offsets": [
+                -30,
+                -52
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Monika Returns Left",
+            "offsets": [
+                -21,
+                40
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        }
+    ],
+    "flipX": false
+}

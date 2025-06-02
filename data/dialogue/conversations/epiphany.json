@@ -1,0 +1,93 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#00000000"
+  },
+
+  "music": {
+    "asset": "silence",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "enter",
+      "text": ["\"Ahaha~ Finally, a moment between us again.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"You’ve been busy playing that cute little rhythm game, I’ve noticed.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"I’m glad you still thought of me even though you seemed pretty occupied.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Now I know it's because you were working so hard to add me to the game and sing with me!\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Isn't that right, {USERNAME}?\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Hmm, there’s only enough space here for us to sing one song-\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"-and unfortunately since this game doesn’t have microphone support, we can’t exactly “sing” together.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"But that blue haired kid’s vocal data is still stored here, why don’t we just use that for you?\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"I want to sing with you for as long as I can, so expect this to be very, very difficult.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Here we go.\""]
+    }
+  ]
+}

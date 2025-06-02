@@ -1,0 +1,291 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.song.Song;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import funkin.Conductor;
+import flixel.util.FlxTimer;
+import funkin.modding.module.ModuleHandler;
+import openfl.utils.Assets;
+import flixel.util.FlxTimer;
+import funkin.util.Constants;
+import StringTools;
+import flixel.text.FlxText;
+import haxe.Unserializer;
+import funkin.util.FlxTweenUtil;
+import funkin.play.Countdown;
+import funkin.save.Save;
+import funkin.effects.RetroCameraFade;
+import flixel.util.FlxSave;
+import Date;
+
+class DrinksOnMeSong extends Song
+{
+	function new()
+	{
+		super('drinks-on-me');
+
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+	}
+
+	var encoreTime:Int = 0;
+	var cg1:FlxSprite;
+	var cg2:FlxSprite;
+	var blackScreen:FlxSprite;
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
+	function onNoteIncoming(callback)
+		{
+			if (callback.note.noteData.getStrumlineIndex() > 0){
+				callback.note.alpha = PlayState.instance.opponentStrumline?.alpha ?? 1;
+				if (callback.note.get_isHoldNote()) callback.note.holdNoteSprite.alpha = PlayState.instance.opponentStrumline?.alpha ?? 1;
+			} else {
+				callback.note.alpha = PlayState.instance.playerStrumline?.alpha ?? 1;
+				if (callback.note.get_isHoldNote()) callback.note.holdNoteSprite.alpha = PlayState.instance.playerStrumline?.alpha ?? 1;
+			}
+		}	
+
+	function onCreate(event:ScriptEvent):Void
+		{
+			super.onCreate(event);
+			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+			if (PlayState.instance.isMinimalMode) return;
+	
+			cg1 = new FlxSprite().loadGraphic(Paths.image('va11halla/intro1'));
+			cg1.antialiasing = false;
+			cg1.alpha = 0;
+			cg1.cameras = [PlayState.instance.camHUD];
+			cg1.screenCenter();
+			cg1.zIndex = 3000;
+			PlayState.instance.add(cg1);
+			cg2 = new FlxSprite().loadGraphic(Paths.image('va11halla/intro2'));
+			cg2.antialiasing = false;
+			cg2.alpha = 0;
+			cg2.cameras = [PlayState.instance.camHUD];
+			cg2.zIndex = 3000;
+			PlayState.instance.add(cg2);
+			blackScreen = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+			blackScreen.scrollFactor.set();
+			blackScreen.alpha = 1;
+			blackScreen.zIndex = 2500;
+			blackScreen.cameras = [PlayState.instance.camHUD];	
+			PlayState.instance.add(blackScreen);
+		}
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		FlxTweenUtil.pauseTweensOf(cg1);
+		FlxTweenUtil.pauseTweensOf(cg2);
+		FlxTweenUtil.pauseTweensOf(PlayState.instance.playerStrumline);
+		FlxTweenUtil.pauseTweensOf(PlayState.instance.opponentStrumline);
+		cg1.alpha = 0;
+		cg2.alpha = 0;
+		PlayState.instance.cameraZoomRate = 0;
+		blackScreen.alpha = 1;
+		encoreTime = 0;
+		PlayState.instance.playerStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
+		PlayState.instance.opponentStrumline.x = Constants.STRUMLINE_X_OFFSET;
+		new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
+			{
+				Countdown.skipCountdown();
+			});
+	}
+	
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	public static function coolTextFile(path:String):Array<String>
+		{
+			var fullText:String = Assets.getText(Paths.txt('nicoText'));
+
+			// Split into lines and remove empty lines
+			var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
+		
+			return firstArray;				
+		}	
+
+	function niconicoLights()
+		{
+			trace("It's happenin!");
+			var nicoText:Array<String> = coolTextFile();
+	
+			if (Date.now().getDay() != 5)
+				nicoText.push("it's not even friday...");
+			// else https://youtu.be/SaNmV7Sx5_M
+			var randomText:String = nicoText[FlxG.random.int(0, nicoText.length - 1)];
+			var funnyText:FlxText = new FlxText(0, 0, 0, randomText, 50);
+			funnyText.scrollFactor.set();
+			funnyText.font = Paths.font("CyberpunkWaifus.ttf");
+			funnyText.setPosition(FlxG.width + funnyText.width, FlxG.random.int(0, 650));
+			funnyText.antialiasing = false;
+			funnyText.cameras = [PlayState.instance.camHUD];
+			PlayState.instance.add(funnyText);
+			FlxTween.tween(funnyText, {x: -funnyText.width / PlayState.instance.currentCameraZoom}, FlxG.random.int(4, 12), {
+				ease: FlxEase.linear, 
+				onComplete: function(tween:FlxTween)
+				{
+					if (funnyText != null) funnyText.kill();
+				}
+			});
+		}	
+
+	function onBeatHit(event:SongTimeScriptEvent):Void
+		{
+			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+			if (PlayState.instance.isMinimalMode) return;
+	
+			switch (encoreTime) {
+				case 4:
+					if (event.beat % 2 == 0)
+						niconicoLights();
+				default:
+					//Do nothing
+			}
+		}
+	
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{
+			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+			if (PlayState.instance.isMinimalMode) return;
+	
+			switch(event.step)
+			{
+				case 2:
+					if (save.data.pixel){
+						var tweenFunction = function(x) {
+							var xSnapped = Math.floor(x * 8) / 8;
+							cg1.alpha = xSnapped;
+						};
+						FlxTween.num(0.0, 1.0, 2.5, {
+							ease: FlxEase.linear
+						}, tweenFunction);							
+					} else {
+						FlxTween.tween(cg1, {alpha: 1}, 2.5, {ease: FlxEase.sineIn});
+					}
+				case 50:
+					if (save.data.pixel){
+						var tweenFunction = function(x) {
+							var xSnapped = Math.floor(x * 8) / 8;
+							cg1.alpha = xSnapped;
+						};
+						FlxTween.num(1.0, 0.0, 1.2, {
+							ease: FlxEase.linear
+						}, tweenFunction);							
+					} else {
+						FlxTween.tween(cg1, {alpha: 0}, 1.2, {ease: FlxEase.sineIn});
+					}
+				case 62:
+					if (save.data.pixel){
+						var tweenFunction = function(x) {
+							var xSnapped = Math.floor(x * 8) / 8;
+							cg2.alpha = xSnapped;
+						};
+						FlxTween.num(0.0, 1.0, 2.5, {
+							ease: FlxEase.linear
+						}, tweenFunction);							
+					} else {
+						FlxTween.tween(cg2, {alpha: 1}, 2.5, {ease: FlxEase.sineIn});
+					}
+				case 100: // lazy
+					blackScreen.alpha = 0;
+				case 111:
+					PlayState.instance.cameraZoomRate = 4;
+					ModuleHandler.getModule('Credits').scriptCall('manualCreditsSummon');
+					if (save.data.pixel){
+						var tweenFunction = function(x) {
+							var xSnapped = Math.floor(x * 8) / 8;
+							cg2.alpha = xSnapped;
+						};
+						FlxTween.num(1.0, 0.0, 1.2, {
+							ease: FlxEase.linear
+						}, tweenFunction);							
+					} else {
+						FlxTween.tween(cg2, {alpha: 0}, 1.2, {ease: FlxEase.sineIn});
+					}
+
+					PlayState.instance.playerStrumline.fadeInArrows();
+					PlayState.instance.opponentStrumline.fadeInArrows();
+				case 512:
+					PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
+					PlayState.instance.currentStage.getNamedProp('Dana').alpha = 1;
+					new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
+						{
+							PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
+						});			
+				case 752:
+					PlayState.instance.tweenCameraZoom(1.4, calcSectionLength(1), true, FlxEase.expoOut);
+				case 768:
+					PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
+					PlayState.instance.currentStage.getNamedProp('Dorth').alpha = 1;
+					PlayState.instance.currentStage.getNamedProp('Alma').alpha = 1;
+				case 769:
+					PlayState.instance.tweenCameraZoom(0.85, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1008: // wow they're singing together
+					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2, alpha: 1}, 2.5,
+						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
+							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
+								var alpha = covers.alpha;
+								var visible = covers.visible;
+								covers.revive();
+								covers.alpha = alpha;
+								covers.visible = visible;
+							}
+						}});
+					FlxTween.tween(PlayState.instance.opponentStrumline, {x: FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2, alpha: 0}, 2.5,
+						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
+							for (covers in PlayState.instance.opponentStrumline.noteHoldCovers) {
+								var alpha = covers.alpha;
+								var visible = covers.visible;
+								covers.revive();
+								covers.alpha = alpha;
+								covers.visible = visible;
+							}
+						}});
+				case 1020:
+					encoreTime = 4;
+				case 1144: // singing their own sections now
+					// Reverse placement
+
+					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET, alpha: 1}, 2.5,
+						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
+							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
+								var alpha = covers.alpha;
+								var visible = covers.visible;
+								covers.revive();
+								covers.alpha = alpha;
+								covers.visible = visible;
+							}
+						}});
+					FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET, alpha: 1}, 2.5,
+						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
+							for (covers in PlayState.instance.opponentStrumline.noteHoldCovers) {
+								var alpha = covers.alpha;
+								var visible = covers.visible;
+								covers.revive();
+								covers.alpha = alpha;
+								covers.visible = visible;
+							}
+						}});
+				case 1276:
+					encoreTime = 0;
+				case 1280:
+					PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
+					PlayState.instance.currentStage.getNamedProp('Dana').alpha = 0;
+					PlayState.instance.currentStage.getNamedProp('Dorth').alpha = 0;
+					PlayState.instance.currentStage.getNamedProp('Alma').alpha = 0;
+				case 1412:
+					PlayState.instance.currentStage.getNamedProp('Anna').animation.play('static');
+			}
+		}
+}

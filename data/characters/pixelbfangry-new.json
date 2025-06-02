@@ -1,0 +1,111 @@
+{
+    "version": "1.0.0",
+    "name": "Angry DDTO Boyfriend (Pixel)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/bfPixelangryNew",
+    "flipX": true,
+    "healthIcon": {
+        "id": "pixelbfdokiangry"
+      },
+    "singTime": 4,
+    "death": {
+        "cameraOffsets": [-150, 50]
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "BFPISSEDIdle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "BFPISSED Left Miss",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "BFPISSEDLeft",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "BFPISSED Up Miss",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "BFPISSEDUp",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "BFPISSEDDown",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "BFPISSED Right Miss",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "BFPISSEDRight",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "BFPISSED Down Miss",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "BF Dies pixel",
+            "assetPath": "characters/bfPixelsDEAD",
+            "offsets": [25, -10]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "Retry Loop",
+            "assetPath": "characters/bfPixelsDEAD",
+            "looped": true,
+            "offsets": [20, -12.5]
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "RETRY CONFIRM",
+            "assetPath": "characters/bfPixelsDEAD",
+            "offsets": [20, -12.5]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": true,
+    "scale": 6,
+    "Made_With": "the cigs Converter"
+}

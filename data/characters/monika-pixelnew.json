@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "name": "Pixel Monika",
+  "assetPath": "characters/monikanew",
+  "singTime": 8.0,
+  "isPixel": true,
+  "scale": 6,
+  "healthIcon": {
+    "isPixel": true
+  },
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "MkaIdle",
+      "offsets": [1, 0]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "MkaLeft",
+      "offsets": [1, 0]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "MkaDown",
+      "offsets": [-1, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "MkaUp",
+      "offsets": [-1, 0]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "MkaRight",
+      "offsets": [1, 0]
+    },
+    {
+      "name": "idle-alt",
+      "prefix": "Mka Alt Idle",
+      "offsets": [1, 0]
+    },
+    {
+      "name": "singLEFT-alt",
+      "prefix": "Mka Alt Left",
+      "offsets": [1, 0]
+    },
+    {
+      "name": "singDOWN-alt",
+      "prefix": "Mka Alt Down",
+      "offsets": [-1, 0]
+    },
+    {
+      "name": "singUP-alt",
+      "prefix": "Mka Alt Up",
+      "offsets": [-1, 0]
+    },
+    {
+      "name": "singRIGHT-alt",
+      "prefix": "Mka Alt Right",
+      "offsets": [1, 0]
+    },
+    {
+      "name": "singLEFTmiss",
+      "prefix": "Mka Miss Left",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "Mka Miss Down",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUPmiss",
+      "prefix": "Mka Miss Up",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "Mka Miss Right",
+      "offsets": [0, 0]
+    }
+  ]
+}

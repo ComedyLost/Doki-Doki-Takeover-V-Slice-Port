@@ -1,0 +1,47 @@
+{
+  "version": "2.2.4",
+  "songName": "Dual Demise",
+  "artist": "Stardust Tunes",
+  "charter": "Unknown",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    },
+    "altVocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokisall",
+    "songVariations": [    ],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "pixelbfangry-new",
+      "girlfriend": "nogf-pixel",
+      "opponent": "monika-angry",
+      "instrumental": "",
+      "altInstrumentals": [      ]
+    },
+    "album": "takeover",
+    "stage": "schoolEvilDDTO",
+    "noteStyle": "ddtopixel",
+    "ratings": {
+      "normal": 4
+    },
+    "previewStart": 0,
+    "previewEnd": 15000
+  },
+  "generatedBy": "Friday Night Funkin' - v0.5.3",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 190,
+      "n": 4,
+      "d": 4
+    }
+  ]
+}

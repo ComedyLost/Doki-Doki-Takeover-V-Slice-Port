@@ -1,0 +1,74 @@
+{
+	"version": "1.0.0",
+	"renderType": "sparrow",
+	"Made_With": "the cigs Converter",
+	"danceEvery": 1,
+	"scale": 1,
+	"name": "Yuri (Crazy)",
+	"flipX": false,
+	"singTime": 6,
+	"isPixel": false,
+	"assetPath": "characters/Doki_Crazy_Yuri_Assets",
+	"animations": [
+		{
+			"flipY": false,
+			"offsets": [
+				0,
+				0
+			],
+			"frameRate": 24,
+			"prefix": "Yuri Crazy Idle",
+			"flipX": false,
+			"looped": false,
+			"name": "idle"
+		},
+		{
+			"flipY": false,
+			"offsets": [
+				153,
+				11
+			],
+			"frameRate": 24,
+			"prefix": "Yuri Crazy Left",
+			"flipX": false,
+			"looped": false,
+			"name": "singLEFT"
+		},
+		{
+			"flipY": false,
+			"offsets": [
+				-51,
+				-9
+			],
+			"frameRate": 24,
+			"prefix": "Yuri Crazy Right",
+			"flipX": false,
+			"looped": false,
+			"name": "singRIGHT"
+		},
+		{
+			"flipY": false,
+			"offsets": [
+				-3,
+				-40
+			],
+			"frameRate": 24,
+			"prefix": "Yuri Crazy Down",
+			"flipX": false,
+			"looped": false,
+			"name": "singDOWN"
+		},
+		{
+			"flipY": false,
+			"offsets": [
+				55,
+				60
+			],
+			"frameRate": 24,
+			"prefix": "Yuri Crazy Up",
+			"flipX": false,
+			"looped": false,
+			"name": "singUP"
+		}
+	]
+}

@@ -1,0 +1,77 @@
+{
+  "version": "2.0.0",
+  "scrollSpeed": {
+    "normal": 1.7
+  },
+  "events": [
+    {
+      "t": 0,
+      "e": "FocusCamera",
+      "v": {
+	"x": 180,
+	"duration": 4,
+	"y": 0,
+	"char": 1,
+	"ease": "INSTANT"
+}
+    },
+    {
+      "t": 1821.42857142857,
+      "e": "PlayAnimation",
+      "v": {
+	"target": "boyfriend",
+	"anim": "hit",
+	"force": true
+}
+    },
+    {
+      "t": 7071.42857142857,
+      "e": "PlayAnimation",
+      "v": {
+	"force": true,
+	"anim": "fakeDeath",
+	"target": "boyfriend"
+}
+    }
+  ],
+  "notes": {
+    "normal": [
+      {
+        "t": 857.142857142857,
+        "d": 4,
+        "l": 0
+      },
+      {
+        "t": 1178.57142857143,
+        "d": 7,
+        "l": 0
+      },
+      {
+        "t": 3535.71428571429,
+        "d": 1,
+        "l": 750
+      },
+      {
+        "t": 5142.85714285714,
+        "d": 2,
+        "l": 0
+      },
+      {
+        "t": 5250,
+        "d": 0,
+        "l": 0
+      },
+      {
+        "t": 5357.14285714286,
+        "d": 1,
+        "l": 0
+      },
+      {
+        "t": 5464.28571428571,
+        "d": 3,
+        "l": 321.428571428571
+      }
+    ]
+  },
+  "generatedBy": "Friday Night Funkin' - v0.3.3"
+}

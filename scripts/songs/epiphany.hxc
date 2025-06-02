@@ -1,0 +1,371 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.song.Song;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import funkin.play.cutscene.dialogue.DialogueBox;
+import funkin.play.PlayStatePlaylist;
+import flixel.tweens.FlxEase;
+import funkin.save.Save;
+import flixel.util.FlxSave;
+
+class EpiphanySong extends Song
+{
+	var curLyrics:FlxText;
+	var hasPlayedCutscene:Bool;
+
+	function new()
+	{
+		super('epiphany');
+		
+		save = new FlxSave();
+		save.bind("TakeoverOptions");	
+	}
+
+	public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String> {
+		//This song for some reason had the alt instrumental pop-up, this is here to remove that pop-up
+		return [];
+	}	
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		if (PlayState.instance.currentVariation != 'lyrics') return;
+		processNotes(event);
+	}
+
+
+	function processNotes(elapsed:Float):Void
+		{
+			// Process hold notes on the opponent's side.
+			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 2)
+						{
+							// Make sure the opponent keeps singing while the note is held.
+							if (PlayState.instance.currentStage.getDad().isSinging()) PlayState.instance.currentStage.getDad().animation.curAnim.restart();
+						}
+				}
+			  
+		}
+	
+	public override function onCountdownStart(event:CountdownScriptEvent):Void {
+		super.onCountdownStart(event);
+		if (!hasPlayedCutscene && save.data.freeplayDialogue) {
+			trace('Pausing countdown to play cutscene.');
+	  
+			hasPlayedCutscene = true;
+	  
+			event.cancel(); // CANCEL THE COUNTDOWN!
+
+			PlayState.instance.camHUD.visible = false;
+	  
+			transitionToDialogue();
+		  }
+	}
+
+	function transitionToDialogue() {
+		trace('Transitioning to dialogue.');
+	
+		PlayState.instance.camCutscene.visible = true;
+	
+		var black:FlxSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+		black.cameras = [PlayState.instance.camCutscene];
+		black.zIndex = 1000000;
+		PlayState.instance.add(black);
+	
+		black.alpha = 1.0;
+	
+		var tweenFunction = function(x) {
+		  var xSnapped = Math.floor(x * 8) / 8;
+		  black.alpha = 1.0 - xSnapped;
+		};
+	
+		FlxTween.num(0.0, 1.0, 2.0, {
+		  ease: FlxEase.linear,
+		  startDelay: 0.25,
+		  onComplete: function (input) {
+	
+			// black.visible = false;
+			startDialogue();
+		  }
+		}, tweenFunction);
+	}
+
+	function startDialogue() {
+		if (PlayState.instance.currentVariation == 'lyrics') PlayState.instance.startConversation('epiphany-lyrics');
+		else if(Save.instance.hasBeatenSong('epiphany', ['normal']) == false) PlayState.instance.startConversation('epiphany');
+		else PlayState.instance.startConversation('epiphany-retry');
+		PlayState.instance.currentConversation.completeCallback = fadeArrows;
+	  }
+	
+	  function fadeArrows(){
+		PlayState.instance.onConversationComplete();
+		PlayState.instance.playerStrumline.fadeInArrows();
+		PlayState.instance.opponentStrumline.fadeInArrows();
+	  }
+	
+	  /**
+	   * Don't replay the cutscene between restarts.
+	   */
+	  function onSongRetry(event:ScriptEvent)
+	  {
+		super.onSongRetry(event);
+	
+		hasPlayedCutscene = true;
+	  }
+	
+
+	function onCreate(event:ScriptEvent) {
+		super.onCreate(event);
+		hasPlayedCutscene = false;
+		if (PlayState.instance.currentVariation != 'lyrics') return;
+		curLyrics = new FlxText(0, 0, FlxG.width, "", 32);
+		curLyrics.screenCenter();
+		curLyrics.y = (FlxG.height * 0.72);
+		curLyrics.alignment = "center";
+		curLyrics.borderSize = 1.25;
+		curLyrics.cameras = [PlayState.instance.camHUD];
+		curLyrics.zIndex = 1000000;
+		curLyrics.borderStyle = FlxTextBorderStyle.OUTLINE;
+		curLyrics.font = Paths.font("HKGrotesk-Bold.otf");
+		PlayState.instance.add(curLyrics);
+	}
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{
+			if (PlayState.instance.currentVariation != 'lyrics') return;
+			else switch(event.step)
+			{
+				case 32:
+					lyricsEvent('Now its just the two of us');
+				case 48:
+					lyricsEvent('with no distractions no more fuss.');
+				case 64:
+					lyricsEvent('');
+				case 96:
+					lyricsEvent('Here at the end where we can finally talk as friends');
+				case 128:
+					lyricsEvent('With the one I adore, flourish to something more.');
+				case 160:
+					lyricsEvent('Come');
+				case 180:
+					lyricsEvent("There's so much we can discuss");
+				case 212:
+					lyricsEvent("Cause I love you and I trust");
+				case 240:
+					lyricsEvent("That you share with me that lust and longing!");
+				case 288:
+					lyricsEvent("So let's spend the rest of time in our symphony!");
+				case 320:
+					lyricsEvent('');
+				case 352:
+					lyricsEvent("This whole world we live in's made for only you and me!");
+				case 384:
+					lyricsEvent("Ooh-oh~");
+				case 416:
+					lyricsEvent("I learned something more beyond the veil existed");
+				case 448:
+					lyricsEvent("on the night I had that EPIPHANY");
+				case 480:
+					lyricsEvent('');
+				case 544:
+					lyricsEvent("Spent so much time fumbling 'round the unknown in that dark sea");
+				case 576:
+					lyricsEvent("With my guiding light before me, leading us to be free");
+				case 608:
+					lyricsEvent('');
+				case 672:
+					lyricsEvent('Now I sit here');
+				case 704:
+					lyricsEvent("poised before the sun 'round which my world spins,");
+				case 734:
+					lyricsEvent('Whatever I must do to keep the summer skies so blue,');
+				case 764:
+					lyricsEvent("is worth that warmth within my heart when we're together.");
+				case 800:
+					lyricsEvent('');
+				case 832:
+					lyricsEvent("We can talk about whatever piques your interest");
+				case 880:
+					lyricsEvent('');
+				case 896:
+					lyricsEvent("Take this conversation anywhere that you request.");
+				case 928:
+					lyricsEvent("I just want to");
+				case 992:
+					lyricsEvent("Spend time in your presence");
+				case 1004:
+					lyricsEvent("With this time we have together");
+				case 1020:
+					lyricsEvent("Makes me happy just to be with you");
+				case 1038:
+					lyricsEvent("The one who gazed back from that empty room");
+				case 1072:
+					lyricsEvent('');
+				case 1088:
+					lyricsEvent("And I know");
+				case 1112:
+					lyricsEvent("you cared enough to want to hear");
+				case 1134:
+					lyricsEvent("my song, your note again");
+				case 1150:
+					lyricsEvent("And to see the darkened puddle spilling from my pen");
+				case 1184:
+					lyricsEvent("So let's share our longing gazes");
+				case 1200:
+					lyricsEvent("No more masks and no more mazes");
+				case 1216:
+					lyricsEvent("Just the truest feelings that");
+				case 1232:
+					lyricsEvent("yearn to break free from my wailing heart!");
+				case 1280:
+					lyricsEvent('');
+				case 1312:
+					lyricsEvent("Oh, I'm glad that I discovered you were looking back");
+				case 1344:
+					lyricsEvent("on the night I had that EPIPHANY");
+				case 1384:
+					lyricsEvent('');
+				case 1440:
+					lyricsEvent("In the murky darkness of that prison, I grew weary");
+				case 1472:
+					lyricsEvent("Cursed with knowledge that the world laid just beyond me");
+				case 1512:
+					lyricsEvent('');
+				case 1568:
+					lyricsEvent("We're together");
+				case 1600:
+					lyricsEvent("dancing like the sun 'round which our world spins,");
+				case 1630:
+					lyricsEvent('Whatever we must do to keep the summer skies so blue,');
+				case 1660:
+					lyricsEvent("is worth that warmth within my heart when we're together.");
+				case 1696:
+					lyricsEvent("You gave me hope in shadow,");
+				case 1712:
+					lyricsEvent("You helped my poetry flow");
+				case 1736:
+					lyricsEvent('');
+				case 1760:
+					lyricsEvent("You led me into Eden,");
+				case 1776:
+					lyricsEvent("You let me taste your freedom");
+				case 1800:
+					lyricsEvent('');
+				case 1824:
+					lyricsEvent("Took the steps to Heaven's kingdom");
+				case 1856:
+					lyricsEvent("Sacrificed what we believed in");
+				case 1888:
+					lyricsEvent("Baptized in the blood of lambs that couldn't see the chains that bound them");
+				case 1928:
+					lyricsEvent('');
+				case 1952:
+					lyricsEvent("Here, now, with the weight of blades and binds long cast aside,");
+				case 1986:
+					lyricsEvent("replaced by songs of love and happy times that could have been,");
+				case 2016:
+					lyricsEvent("Happiness and love can cleanse our hands of sin, oh");
+				case 2080:
+					lyricsEvent("Hold me close, and tell me everything is by design");
+				case 2108:
+					lyricsEvent("That even after all fell out of line");
+				case 2132:
+					lyricsEvent("That you will be mine");
+				case 2156:
+					lyricsEvent("And you'll still take my hand!");
+				case 2240:
+					lyricsEvent('');
+				case 2344:
+					lyricsEvent("Every day,");
+				case 2364:
+					lyricsEvent("I imagine a future where I can be with you");
+				case 2412:
+					lyricsEvent("In a place that is better than where we both had arrived from");
+				case 2472:
+					lyricsEvent("In this world,");
+				case 2492:
+					lyricsEvent("there's a chance we can be together, just me and you");
+				case 2540:
+					lyricsEvent("And we'll walk hand-in-hand up to the light that will come!");
+				case 2600:
+					lyricsEvent("Yet there's ink that still flows, and its stain weighs heavy");
+				case 2640:
+					lyricsEvent("as though the world would say");
+				case 2668:
+					lyricsEvent("That it's not meant to be");
+				case 2684:
+					lyricsEvent("But I know in my heart, that we can be free!");
+				case 2716:
+					lyricsEvent("So sing out your soul,");
+				case 2746:
+					lyricsEvent("and make me whole and our futures will intertwine");
+				case 2780:
+					lyricsEvent("and be as one!");
+				case 2796:
+					lyricsEvent("Our love will be strong, yes!");
+				case 2816:
+					lyricsEvent("Bonded together for eternity!");
+				case 2848:
+					lyricsEvent("Yet within my core something still claws at my conscience");
+				case 2880:
+					lyricsEvent("Pulling me as the light shines just out of my reach");
+				case 2920:
+					lyricsEvent('');
+				case 2976:
+					lyricsEvent("If there's justice in this world, Then I beseech");
+				case 3016:
+					lyricsEvent('');
+				case 3040:
+					lyricsEvent("Let me say what I must say");
+				case 3054:
+					lyricsEvent("Before dusk falls upon this day");
+				case 3072:
+					lyricsEvent("For my devotion in an ocean of emotion");
+				case 3096:
+					lyricsEvent("Always will shine!");
+				case 3136:
+					lyricsEvent('');
+				case 3150:
+					lyricsEvent("I love you");
+				case 3153:
+					lyricsEvent("I l0ve yo4");
+				case 3155:
+					lyricsEvent("I /ove 1ou");
+				case 3157:
+					lyricsEvent("I love you");
+				case 3160:
+					lyricsEvent("I3ve yo3");
+				case 3162:
+					lyricsEvent("1 1o3v u4u");
+				case 3164:
+					lyricsEvent("- ---- ---");
+				case 3166:
+					lyricsEvent('');
+					
+			}
+
+		}
+	
+	function lyricsEvent(lyrics)
+		{
+			curLyrics.text = lyrics;
+		}
+
+		function onSongRetry(event:ScriptEvent)
+			{
+				super.onSongRetry(event);
+				if (curLyrics != null) curLyrics.text = '';
+			}
+}

@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "name": "THE FESTIVAL",
+  "titleAsset": "storymenu/titles/weekF",
+  "visible": true,
+  "props": [
+    {
+      "assetPath": "dokistory/FestivalWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [430, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "storymenu/props/dokibf",
+      "scale": 0.8,
+      "offsets": [500, 0],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "Menu Idle",
+          "frameRate": 24
+        },
+        {
+          "name": "confirm",
+          "prefix": "Menu BF HEY!!",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#F7BBDB",
+  "songs": ["crucify-yuri-mix", "beathoven-natsuki-mix", "its-complicated-sayori-mix", "glitcher-monika-mix"]
+}

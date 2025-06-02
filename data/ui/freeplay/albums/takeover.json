@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "name": "Doki Doki Takeover Plus",
+  "artists": ["Matt$"],
+  "albumArtAsset": "freeplay/albumRoll/takeover",
+  "albumTitleAsset": "freeplay/albumRoll/takeover-text"
+}

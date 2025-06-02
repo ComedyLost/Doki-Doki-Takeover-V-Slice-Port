@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "yuric",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "natsukiright",
+      "speakerAnimation": "sick",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"Hah... what was that about you not hitting fast notes, Yuri..?\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"Huff... I see... I was correct about your conviction, though. No melody is too difficult for you.\""]
+    },
+    {
+      "speaker": "sayorileft",
+      "speakerAnimation": "ehh",
+      "box": "doki",
+      "boxAnimation": "sayo",
+      "text": ["\"Ehehe... You guys must be exhausted after that. Ooo! How about some tea and cookies?\""]
+    },
+    {
+      "speaker": "yurileft",
+      "speakerAnimation": "happy",
+      "box": "doki",
+      "boxAnimation": "yuri",
+      "text": ["\"Uhu... sounds lovely.\""]
+    },
+    {
+      "speaker": "natsukiright",
+      "speakerAnimation": "happy",
+      "box": "doki",
+      "boxAnimation": "natsu",
+      "text": ["\"That... would be great.\""]
+    }
+  ]
+}

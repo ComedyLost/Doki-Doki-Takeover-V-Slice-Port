@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "New Club Activity",
+  "titleAsset": "storymenu/titles/weekS",
+  "visible": false,
+  "props": [],
+  "background": "#A1F9FF",
+  "songs": ["dokidoggle"]
+}

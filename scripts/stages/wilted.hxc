@@ -1,0 +1,264 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import flixel.addons.display.FlxBackdrop; 
+import flixel.tweens.FlxEase;
+import funkin.Conductor;
+import flixel.util.FlxTimer;
+import funkin.modding.module.ModuleHandler;
+import funkin.modding.base.ScriptedFlxRuntimeShader;
+import openfl.filters.ShaderFilter;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import flixel.addons.display.FlxRuntimeShader;
+import openfl.utils.Assets;
+import flixel.FlxCamera;
+import funkin.graphics.FunkinCamera;
+import flixel.util.FlxTimer;
+import funkin.data.notestyle.NoteStyleRegistry;
+import funkin.play.notes.NoteSplash;
+import funkin.play.notes.NoteHoldCover;
+import funkin.play.notes.NoteSprite;
+import funkin.play.notes.notestyle.NoteStyle;
+import funkin.play.notes.Strumline;
+import funkin.util.Constants;
+import funkin.Preferences;
+import funkin.Highscore;
+import flixel.FlxCameraFollowStyle;
+
+class WiltedStage extends Stage
+{
+	function new()
+	{
+		super('wilted');
+	}
+
+	var time:Float;
+	var dokiBackdrop:FlxBackdrop;
+	var creditsBG:FlxBackdrop;
+	var wiltedhey:FlxSprite;
+	var wiltedhey_senpai:FlxSprite;
+	var whiteflash:FlxSprite;
+	var camBG:FunkinCamera;
+	var fish = new FlxRuntimeShader(Assets.getText(Paths.frag("FishEyeShader")));
+    var fishshader = new ShaderFilter(fish);
+
+	var staticShader = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
+    var shader = new ShaderFilter(staticShader);
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		time++;
+		staticShader.setFloat('iTime', time);
+
+		camBG.zoom = PlayState.instance.camGame.zoom;
+        camBG.targetOffset = FlxG.camera.targetOffset;
+	}
+
+	function resetCams() {
+		FlxG.cameras.remove(PlayState.instance.camGame, false);
+		FlxG.cameras.add(PlayState.instance.camGame, true);
+		PlayState.instance.camGame.bgColor = 0x00000000;
+
+		FlxG.cameras.remove(PlayState.instance.camHUD, false);
+		FlxG.cameras.add(PlayState.instance.camHUD, false);	
+
+		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
+		FlxG.cameras.add(PlayState.instance.camCutscene, false);
+	}
+
+	override function buildStage()
+		{
+			super.buildStage();
+	        camBG = new FunkinCamera('playStateCamBG');
+			FlxG.cameras.add(camBG, false);
+	        camBG.bgColor = 0x000000;
+
+			camBG.follow(PlayState.instance.cameraFollowPoint, FlxCameraFollowStyle.LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
+			camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
+	
+			resetCams();
+			FunkinSprite.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
+			/*
+			*Old Monika caching system (Here for safe keeping in case the costume system breaks in the future)
+			FunkinSprite.cacheTexture(Paths.image('characters/monikanew'));
+			FunkinSprite.cacheTexture(Paths.image('characters/Doki_MonikaNonPixel_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_Monika_SenpaiOutfit_Pixel_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaCasual_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaCasualLong_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaHex_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaNonPixel_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaNonPixel_blueskies_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaValentine_Assets'));
+			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaVigilante_Assets'));*/
+			getNamedProp('solid').cameras = [camBG];
+			dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG'));
+			dokiBackdrop.scrollFactor.set(0.1, 0.1);
+			dokiBackdrop.velocity.set(-10, 0);
+			dokiBackdrop.alpha = 0.3;
+			dokiBackdrop.zIndex = 10;
+			add(dokiBackdrop);
+			dokiBackdrop.cameras = [camBG];	
+
+			creditsBG = new FlxBackdrop(Paths.image('credits/pocBackground'));
+			creditsBG.scrollFactor.set(0.1, 0.1);
+			creditsBG.velocity.set(-50, 0);
+			creditsBG.zIndex = 20;
+			add(creditsBG);
+			creditsBG.cameras = [camBG];	
+
+			var scanline:FlxBackdrop = new FlxBackdrop(Paths.image('credits/scanlines'));
+			scanline.scrollFactor.set(0.1, 0.1);
+			scanline.velocity.set(0, 20);
+			add(scanline);
+			scanline.cameras = [camBG];	
+			
+			var gradient:FlxSprite = new FlxSprite().loadGraphic(Paths.image('credits/gradent'));
+			gradient.scrollFactor.set(0.1, 0.1);
+			gradient.screenCenter();
+			gradient.setGraphicSize(Std.int(gradient.width * 1.6));
+			add(gradient);
+			gradient.cameras = [camBG];	
+
+			wiltedhey = FunkinSprite.createSparrow(0, 0, 'wilt/hoii');
+			wiltedhey.animation.addByPrefix('Hey', 'Hey', 24, false);
+			wiltedhey.zIndex = 500;
+			wiltedhey.y = 40;
+			wiltedhey.x = 780;
+			wiltedhey.alpha = 0;
+			wiltedhey.scale.set(1.25, 1.25);
+			add(wiltedhey);
+
+			wiltedhey_senpai = FunkinSprite.createSparrow(0, 0, 'wilt/hoii_senpai');
+			wiltedhey_senpai.animation.addByPrefix('Hey_Senpai', 'Hey_Senpai', 24, false);
+			wiltedhey_senpai.zIndex = 400;
+			wiltedhey_senpai.y = 90;
+			wiltedhey_senpai.x = 90;
+			wiltedhey_senpai.alpha = 0;
+			wiltedhey_senpai.scale.set(1.25, 1.25);
+			add(wiltedhey_senpai);
+
+			wiltedHmph = FunkinSprite.createSparrow(0, 0, 'wilt/hmhphph');
+			wiltedHmph.animation.addByPrefix('Hmph', 'Hmph', 24, false);
+			wiltedHmph.zIndex = 600;
+			wiltedHmph.y = 29;
+			wiltedHmph.x = 190;
+			wiltedHmph.alpha = 0;
+			wiltedHmph.scale.set(1.25, 1.25);
+			add(wiltedHmph);
+		}
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
+		camBG.filters = [fishshader];
+		camBG.zoom = 0.7;
+		fish.setFloat('warp', -1.5);
+		fish.setFloat('scan', 0);
+		PlayState.instance.cameraFollowPoint.setPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y);
+		FlxG.camera.follow(PlayState.instance.cameraFollowPoint, null, 1);
+		//FlxG.camera.follow(PlayState.instance.currentStage.getGirlfriend(), null, 1);
+		PlayState.instance.currentStage.getGirlfriend().alpha = 0;
+	}	
+
+	function glitchEffect(){
+		//I got the real shaders to work
+		PlayState.instance.camGame.filters = [shader];
+		new FlxTimer().start(0.2, function(e:FlxTimer){
+			PlayState.instance.camGame.filters = [];
+		});	  
+	}
+
+	function onSongLoaded(event:ScriptEvent)
+		{
+			super.onSongLoaded(event);
+			if (PlayState.instance.playerStrumline.noteStyle.id.toLowerCase() != 'ddto'){
+				ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapPlayerStrumlines', ['ddto']);
+				PlayState.instance.playerStrumline.fadeInArrows();
+			}
+			if (PlayState.instance.opponentStrumline.noteStyle.id.toLowerCase() != 'ddtopixel'){
+				ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapOpponentStrumlines', ['ddtopixel']);
+				PlayState.instance.opponentStrumline.fadeInArrows();
+			}
+		}
+	
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{
+			if (PlayState.instance == null) return;
+			switch(event.step)
+			{
+				case 16:
+					ModuleHandler.getModule('Credits').scriptCall('manualCreditsSummon');
+				case 512:
+					glitchEffect();
+				case 516:
+					glitchEffect();
+					//addcharacter("senpai-angry", 1);
+				case 520:
+					glitchEffect();
+					getNamedProp('Wilted Window').loadGraphic(Paths.image('wilt/p2'));
+				case 656:
+					//PlayState.instance.currentCameraZoom = 0.8;
+					getNamedProp('Wilted BG').loadGraphic(Paths.image('wilt/bg2'));
+					PlayState.instance.camHUD.flash(0xFFFFFF,0.5);
+				case 841:
+					//PlayState.instance.currentStage.getDad().animation.play('swap');
+				case 848:
+					//addcharacter("senpai-angynonpixel", 1);
+				case 912:
+					wiltedhey.alpha = 1;
+					wiltedhey.animation.play('Hey');
+					wiltedhey_senpai.alpha = 1;
+					wiltedhey_senpai.animation.play('Hey_Senpai');
+				case 928:
+					PlayState.instance.camHUD.flash(0xFFFFFF,0.5);
+					wiltedhey_senpai.alpha = 0;
+					wiltedhey.alpha = 0;
+					getNamedProp('Wilted BG').loadGraphic(Paths.image('wilt/bg'));
+				case 1056:
+					// Start final thing
+					wiltedHmph.alpha = 1;
+					wiltedHmph.animation.play('Hmph');
+					new FlxTimer().start(1, function(tmr) {
+						getNamedProp('Wilted BG').alpha = 0;
+						getNamedProp('Wilted Window').alpha = 0;
+						PlayState.instance.currentStage.getBoyfriend().alpha = 0;
+						PlayState.instance.currentStage.getDad().alpha = 0;
+					});		
+				case 1100:
+					// Fade to black
+					FlxG.camera.fade(0xFF000000, 0.7);
+			}
+		}
+	function onSongRetry(event:ScriptEvent)
+		{
+			super.onSongRetry(event);
+			if (PlayState.instance.playerStrumline.noteStyle.id.toLowerCase() != 'ddto')
+				ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapPlayerStrumlines', ['ddto']);
+			if (PlayState.instance.opponentStrumline.noteStyle.id.toLowerCase() != 'ddtopixel')
+				ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapOpponentStrumlines', ['ddtopixel']);
+			FlxG.camera.fade(0xFF000000, 0.7, true);
+			getNamedProp('Wilted Window').loadGraphic(Paths.image('wilt/p1'));
+			getNamedProp('Wilted BG').loadGraphic(Paths.image('wilt/bg'));
+			getNamedProp('Wilted BG').alpha = 1;
+			getNamedProp('Wilted Window').alpha = 1;
+			wiltedhey.alpha = 0;
+			wiltedhey_senpai.alpha = 0;
+			wiltedHmph.alpha = 0;
+			PlayState.instance.currentStage.getBoyfriend().alpha = 1;
+			PlayState.instance.currentStage.getDad().alpha = 1;
+			if (wiltedhey.animation.curAnim = 'Hey'){
+				wiltedhey.animation.curAnim.stop();
+			}
+			if (wiltedhey_senpai.animation.curAnim = 'Hey_Senpai'){
+				wiltedhey_senpai.animation.curAnim.stop();
+			}
+			if (wiltedHmph.animation.curAnim = 'Hmph'){
+				wiltedHmph.animation.curAnim.stop();
+			}
+		}
+}

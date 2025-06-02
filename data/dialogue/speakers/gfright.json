@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "GF (Right)",
+  "assetPath": "dialogue/senpai",
+  "flipX": false,
+  "isPixel": false,
+  "scale": 0,
+  "offsets": [0, 0],
+  "animations": [
+    {
+      "name": "ehh",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "giggle",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "neutral",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "peace",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "scared",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "spook",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "yeah",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    }
+  ]
+}

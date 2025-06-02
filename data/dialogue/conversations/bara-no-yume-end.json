@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "Lunchbox",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "none"
+  },
+
+  "dialogue": [
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["First you steal my things, and then you pull something like that?"]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "idle",
+
+      "text": ["Who do you think you are?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Now, step aside."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_sad",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["..."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_uhoh",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["...ahaha."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_uhoh",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["I don't think I will."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_uhoh",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["You on the other hand-"]
+    },
+    {
+      "speaker": "senpai-angry",
+      "speakerAnimation": "talk",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["What are you-"]
+    }
+  ]
+}

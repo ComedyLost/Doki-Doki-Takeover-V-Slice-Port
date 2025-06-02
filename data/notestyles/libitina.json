@@ -1,0 +1,173 @@
+{
+  "version": "1.1.0",
+  "name": "Libitina",
+  "author": "Comedy Lost",
+  "fallback": "funkin",
+  "assets": {
+    "note": {
+      "assetPath": "shared:notestyle/libitina/NOTE_assetsLibitina",
+      "scale": 0.7,
+      "data": {
+        "left": { "prefix": "purple0" },
+        "down": { "prefix": "blue0" },
+        "up": { "prefix": "green0" },
+        "right": { "prefix": "red0" }
+      }
+    },
+    "noteStrumline": {
+      "assetPath": "shared:notestyle/libitina/NOTE_assetsLibitina",
+      "scale": 0.7,
+      "offsets": [27, 25],
+      "data": {
+        "leftStatic": { "prefix": "arrowLEFT0" },
+        "leftPress": { "prefix": "left press0" },
+        "leftConfirm": { "prefix": "left confirm0" },
+        "leftConfirmHold": { "prefix": "loop left confirm0" },
+        "downStatic": { "prefix": "arrowDOWN0" },
+        "downPress": { "prefix": "down press0" },
+        "downConfirm": { "prefix": "down confirm0" },
+        "downConfirmHold": { "prefix": "loop down confirm0" },
+        "upStatic": { "prefix": "arrowUP0" },
+        "upPress": { "prefix": "up press0" },
+        "upConfirm": { "prefix": "up confirm0" },
+        "upConfirmHold": { "prefix": "loop up confirm0" },
+        "rightStatic": { "prefix": "arrowRIGHT0" },
+        "rightPress": { "prefix": "right press0" },
+        "rightConfirm": { "prefix": "right confirm0" },
+        "rightConfirmHold": { "prefix": "loop right confirm0" }
+      }
+    },
+    "holdNote": {
+      "assetPath": "shared:notestyle/libitina/LibbieHoldNotes",
+      "scale": 0.7,
+      "offsets": [1, 0],
+      "data": {}
+    },
+    "noteSplash": {
+      "offsets": [27, 0],
+      "assetPath": "shared:notestyle/libitina/libbie_Splash",
+      "data": {
+        "enabled": true,
+        "leftSplashes": [
+          { "prefix": "note splash purple 1 instance 1" }
+        ],
+        "rightSplashes": [
+          { "prefix": "note splash red 1 instance 1" }
+        ],
+        "upSplashes": [
+          { "prefix": "note splash green 1 instance 1" }
+        ],
+        "downSplashes": [
+          { "prefix": "note splash blue 1 instance 1" }
+        ]
+      }
+    },
+    "holdNoteCover": {
+      "assetPath": "",
+      "offsets": [0, 0],
+      "data": {
+        "enabled": false
+      }
+    },
+    "countdownThree": {
+      "data": {
+        "audioPath": "shared:gameplay/countdown/funkin/introTHREE"
+      },
+      "assetPath": null
+    },
+    "countdownTwo": {
+      "data": {
+        "audioPath": "shared:gameplay/countdown/funkin/introTWO"
+      },
+      "assetPath": "shared:ui/countdown/doki/ready",
+      "scale": 0.7,
+      "isPixel": false
+    },
+    "countdownOne": {
+      "data": {
+        "audioPath": "shared:gameplay/countdown/funkin/introONE"
+      },
+      "assetPath": "shared:ui/countdown/doki/set",
+      "scale": 0.7,
+      "isPixel": false
+    },
+    "countdownGo": {
+      "data": {
+        "audioPath": "shared:gameplay/countdown/funkin/introGO"
+      },
+      "assetPath": "shared:ui/countdown/doki/go",
+      "scale": 0.7,
+      "isPixel": false
+    },
+    "judgementSick": {
+      "assetPath": "default:ui/popup/doki/sick",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "judgementGood": {
+      "assetPath": "default:ui/popup/doki/good",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "judgementBad": {
+      "assetPath": "default:ui/popup/doki/bad",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "judgementShit": {
+      "assetPath": "default:ui/popup/doki/shit",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "comboNumber0": {
+      "assetPath": "default:ui/popup/doki/num0",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber1": {
+      "assetPath": "default:ui/popup/doki/num1",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber2": {
+      "assetPath": "default:ui/popup/doki/num2",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber3": {
+      "assetPath": "default:ui/popup/doki/num3",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber4": {
+      "assetPath": "default:ui/popup/doki/num4",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber5": {
+      "assetPath": "default:ui/popup/doki/num5",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber6": {
+      "assetPath": "default:ui/popup/doki/num6",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber7": {
+      "assetPath": "default:ui/popup/doki/num7",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber8": {
+      "assetPath": "default:ui/popup/doki/num8",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber9": {
+      "assetPath": "default:ui/popup/doki/num9",
+      "isPixel": false,
+      "scale": 0.45
+    }
+  }
+}

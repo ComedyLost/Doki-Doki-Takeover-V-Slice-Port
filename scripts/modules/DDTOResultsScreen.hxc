@@ -1,0 +1,240 @@
+import flixel.FlxG;
+import flixel.util.FlxTimer;
+
+import funkin.Paths;
+import funkin.Highscore;
+import funkin.graphics.FunkinSprite;
+import funkin.play.ResultState;
+import funkin.play.PlayState;
+import funkin.modding.module.Module;
+import flixel.addons.display.FlxBackdrop; 
+import flixel.FlxSprite;
+import funkin.audio.FunkinSound;
+import flixel.FlxCamera;
+import funkin.graphics.FunkinCamera;
+import funkin.play.scoring.Scoring;
+import funkin.util.Constants;
+import flixel.effects.FlxFlicker;
+import StringTools;
+
+class DDTOResults extends Module {
+    public function new() {
+        super("DDTOResultsScreen");
+    }
+
+    var state = null;
+    var whiteBackground:FlxSprite;
+	var dokiBackdrop:FlxBackdrop;
+	var creditsBG:FlxBackdrop;
+	var scanline:FlxBackdrop;
+	var gradient:FlxSprite;
+    var swapMusic:Bool;
+    var isDoki:Bool;
+    var camScrollNew:FunkinCamera;
+    var rank:String;
+    /* Currently disabled until the rest of the Doki Results music are done
+    override function onUpdate(event) 
+		{
+			super.onUpdate(event);
+            if (isDoki && (state != null && Std.isOfType(state, ResultState))){
+                if (state.introMusicAudio != null){
+                    state.introMusicAudio = null;
+                    FunkinSound.stopAllAudio();
+                    FunkinSound.playMusic("resultsNORMAL-doki",
+                    {
+                      startingVolume: 1.0,
+                      overrideExisting: true,
+                      restartTrack: true
+                    });          
+                    swapMusic = false;
+                }
+                if (FlxG.sound.music != null && swapMusic) {
+                    FlxG.sound.music.stop();
+                    FunkinSound.playMusic("resultsNORMAL-doki",
+                    {
+                      startingVolume: 1.0,
+                      overrideExisting: true,
+                      restartTrack: true
+                    });          
+                    swapMusic = false;
+                }
+            }
+        }
+    */
+
+    function displayRankText(){
+        var rankTextVert:FlxBackdrop = new FlxBackdrop(Paths.image("resultScreen/rankText/Doki/rankText" + getRank()), 0x10, 0, 30);
+        rankTextVert.x = FlxG.width - 44;
+        rankTextVert.y = 100;
+        rankTextVert.zIndex = 995;
+        state.add(rankTextVert);
+    
+        FlxFlicker.flicker(rankTextVert, 2 / 24 * 3, 2 / 24, true);
+    
+        // Scrolling.
+        new FlxTimer().start(30 / 24, _ -> {
+          rankTextVert.velocity.y = -80;
+        });
+
+        for (i in 0...12)
+            {
+            
+                var rankTextBack:FlxBackdrop = new FlxBackdrop(Paths.image("resultScreen/rankText/Doki/rankScroll" + getRank()), 0x01, 10, 0);
+                rankTextBack.x = FlxG.width / 2 - 320;
+                rankTextBack.y = 50 + (135 * i / 2) + 10;
+                // rankTextBack.angle = -3.8;
+                rankTextBack.zIndex = 100;
+                rankTextBack.alpha = 0.5;
+                rankTextBack.cameras = [camScrollNew];
+                state.add(rankTextBack);
+          
+                // Scrolling.
+                rankTextBack.velocity.x = (i % 2 == 0) ? -7.0 : 7.0;  
+            }
+        state.refresh();
+    }
+
+    function getRank(){
+        var rank:String = Std.string(Scoring.calculateRank(state.params.scoreData));
+        if (rank == "PERFECT_GOLD") return "PERFECT";
+        else if (rank == "SHIT") return "LOSS";
+        else return rank;
+    }
+
+    public function getBFDelay():Float
+        {
+          switch (getRank())
+          {
+            case "PERFECT_GOLD", "PERFECT":
+              // return 2.5;
+              return 95 / 24;
+            case "EXCELLENT":
+              return 97 / 24;
+            case "GREAT":
+              return 95 / 24;
+            case "GOOD":
+              return 95 / 24;
+            case "LOSS":
+              return 95 / 24;
+            default:
+              return 3.5;
+          }
+        }      
+
+    public function getFlashDelay():Float
+        {
+          switch (getRank())
+          {
+            case "PERFECT_GOLD", "PERFECT":
+              // return 2.5;
+              return 129 / 24;
+            case "EXCELLENT":
+              return 122 / 24;
+            case "GREAT":
+              return 109 / 24;
+            case "GOOD":
+              return 107 / 24;
+            case "LOSS":
+              return 186 / 24;
+            default:
+              return 3.5;
+          }
+        }      
+         
+    override function onSubStateOpenEnd(event) {
+        super.onSubStateOpenEnd(event);
+
+        if (Std.isOfType(event.targetState, ResultState)) {
+            if (!isDoki) return;
+            camScrollNew = new FunkinCamera('resultsScroll');
+            camScrollNew.angle = -3.8;
+            camScrollNew.bgColor = 0x000000;
+    
+            FlxG.cameras.add(camScrollNew, false);
+    
+            FlxG.cameras.remove(state.cameraScroll, false);
+    
+            FlxG.cameras.remove(state.cameraEverything, false);
+            FlxG.cameras.add(state.cameraEverything, false);
+
+            new FlxTimer().start(getFlashDelay(), _ -> {
+                displayRankText();
+            });
+
+            if (!StringTools.contains(state.params.characterId, "bf")){
+                var dokis:FunkinSprite = FunkinSprite.createSparrow(310, -200, "menuCharacters/dokitogether");
+                dokis.scale.set(0.6, 0.6);
+                dokis.animation.addByPrefix('idle', 'Doki together club', 24, true, false, false);
+                dokis.animation.play('idle', true, false, 0);
+                dokis.visible = false;
+                state.add(dokis);
+                state.refresh();        
+                new FlxTimer().start(getFlashDelay(), _ -> {
+                    dokis.visible = true;
+                });    
+                for (sprite in state.characterSparrowAnimations)
+                    {
+                        sprite.sprite.alpha = 0;
+                    }                    
+                for (atlas in state.characterAtlasAnimations)
+                    {
+                        atlas.sprite.alpha = 0;
+                    }            
+            }
+        }
+    }
+
+    public function onSubStateOpenBegin(event) {
+        super.onSubStateOpenBegin(event);
+        if (Std.isOfType(event.targetState, ResultState)) {
+            state = event.targetState;
+            isDoki = switch (state.params.characterId) {
+                case "bf-doki", "pixelbf-new", "pixelbfangry-new", "bf-pixelbar", "monika", "sayori", "yuri", "natsuki", "protag": true;
+                default: false;
+            }
+            if (!isDoki) return;
+            //swapMusic = true;
+            state.rankBg.alpha = 0;
+            state.resultsAnim = FunkinSprite.createSparrow(-200, -10, "resultScreen/resultsDoki");
+            //Background
+			whiteBackground = new FlxSprite();
+			whiteBackground.makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
+			whiteBackground.screenCenter();
+            whiteBackground.zIndex = 11;
+            whiteBackground.cameras = [state.cameraBG];
+			whiteBackground.alpha = 1;
+
+			dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG'));
+			dokiBackdrop.scrollFactor.set(0.1, 0.1);
+			dokiBackdrop.velocity.set(-10, 0);
+            dokiBackdrop.zIndex = 12;
+            dokiBackdrop.cameras = [state.cameraBG];
+			dokiBackdrop.alpha = 0.3;
+
+			creditsBG = new FlxBackdrop(Paths.image('credits/pocBackground'));
+			creditsBG.scrollFactor.set(0.1, 0.1);
+            creditsBG.zIndex = 13;
+            creditsBG.cameras = [state.cameraBG];
+			creditsBG.velocity.set(-50, 0);
+
+			scanline = new FlxBackdrop(Paths.image('credits/scanlines'));
+			scanline.scrollFactor.set(0.1, 0.1);
+            scanline.zIndex = 14;
+            scanline.cameras = [state.cameraBG];
+			scanline.velocity.set(0, 20);
+
+			gradient = new FlxSprite().loadGraphic(Paths.image('credits/gradent'));
+			gradient.scrollFactor.set(0.1, 0.1);
+			gradient.screenCenter();
+            gradient.zIndex = 15;
+            gradient.cameras = [state.cameraBG];
+			gradient.setGraphicSize(Std.int(gradient.width * 1.6));	
+
+            state.add(whiteBackground);
+            state.add(dokiBackdrop);
+            state.add(creditsBG);
+            state.add(scanline);
+            state.add(gradient);    
+        }
+    }
+}

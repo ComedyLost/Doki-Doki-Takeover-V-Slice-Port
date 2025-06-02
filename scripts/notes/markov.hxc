@@ -1,0 +1,131 @@
+import funkin.modding.module.Module;
+import funkin.play.PlayState;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import funkin.Preferences;
+import funkin.util.Constants;
+import funkin.Highscore;
+import funkin.play.scoring.Scoring;
+import funkin.play.notes.Strumline;
+import flixel.util.FlxSave;
+
+class MarkovNotes extends Module
+{
+    function new(){
+        super("markov");
+
+		save = new FlxSave();
+		save.bind("TakeoverOptions");	
+    }
+
+	var missedCount:Int = 0;
+	var hasUsedMarkovNoteHold:Bool = false;
+
+	function onCreate(event:ScriptEvent){
+
+	}
+	
+	function onNoteHit(callback)
+	{
+		if (callback.judgement == "perfect") {
+			return;
+		}
+
+		if (callback.note.noteData.kind == "markov")
+		{
+			if (callback.note.noteData.getStrumlineIndex() > 0)
+			{
+				callback.cancelEvent();
+				return;
+			}
+			PlayState.instance.health = -1;
+		}
+	}
+	
+	function onNoteIncoming(callback)
+	{
+		if (callback.note.noteData.kind == "markov")
+		{
+			callback.note.lowPriority = true;
+			if (!save.data.markov) {
+				if (callback.note.noteData.getStrumlineIndex() == 0){
+					Highscore.tallies.totalNotes--;
+					callback.note.kill();
+				}
+				return;	
+			} else if (save.data.random) {
+				if (callback.note.noteData.getStrumlineIndex() == 0) Highscore.tallies.totalNotes--;
+				callback.note.kill();
+				return;	
+			}
+			if (callback.note.get_isHoldNote() && (PlayState.instance.playerStrumline.noteStyle.id != 'ddtopixel' || PlayState.instance.playerStrumline.noteStyle.id != 'pixel'))
+				{
+					//set correct color for sustain
+					hasUsedMarkovNoteHold = true;
+					callback.note.holdNoteSprite.loadGraphic(Paths.image('markovHold'));
+		
+					callback.note.holdNoteSprite.updateColorTransform();
+					callback.note.holdNoteSprite.updateClipping();
+					callback.note.holdNoteSprite.updateHitbox();
+				}
+			if (PlayState.instance.playerStrumline.noteStyle.id == 'ddtopixel' || PlayState.instance.playerStrumline.noteStyle.id == 'pixel') { 
+				callback.note.frames = Paths.getSparrowAtlas('markovPixel');
+			} else {
+				callback.note.frames = Paths.getSparrowAtlas('markovNotes');
+				callback.note.x -= 4;
+			}
+			callback.note.animation.addByPrefix('greenScroll', 'green0', 24, true);
+			callback.note.animation.addByPrefix('redScroll', 'red0', 24, true);
+			callback.note.animation.addByPrefix('blueScroll', 'blue0', 24, true);
+			callback.note.animation.addByPrefix('purpleScroll', 'purple0', 24, true);
+
+			callback.note.updateHitbox();
+
+			var penis:String;
+
+			if(callback.note.noteData.data % 4 == 0)
+				penis = "purpleScroll";
+			if(callback.note.noteData.data % 4 == 1)
+				penis = "blueScroll";
+			if(callback.note.noteData.data % 4 == 2)
+				penis = "greenScroll";
+			if(callback.note.noteData.data % 4 == 3)
+				penis = "redScroll";
+
+			if (callback.note.animation.curAnim == null){
+				callback.note.active = true;
+				callback.note.animation.play(penis);
+			}
+		} else if (callback.note.get_isHoldNote() && hasUsedMarkovNoteHold){
+			if (PlayState.instance.playerStrumline.noteStyle.id == 'ddto') callback.note.holdNoteSprite.loadGraphic(Paths.image('DokiHoldNotes'));
+			else if (PlayState.instance.playerStrumline.noteStyle.id == 'funkin') callback.note.holdNoteSprite.loadGraphic(Paths.image('NOTE_hold_assets'));
+			callback.note.holdNoteSprite.updateColorTransform();
+			callback.note.holdNoteSprite.updateClipping();
+			callback.note.holdNoteSprite.updateHitbox();
+		}
+	}
+	
+	function onNoteMiss(callback)
+	{
+		if (callback.note.noteData.kind == "markov")
+		{
+			missedCount++;
+			callback.cancelEvent();
+
+		}
+	}
+
+	override function onSongEnd(event: ScriptEvent): Void
+		{
+			super.onSongEnd(event);
+			var realTotalNotes = Highscore.tallies.totalNotes - missedCount;
+			Highscore.tallies.totalNotes = realTotalNotes;
+		}
+
+	override function onCountdownStart(event:CountdownScriptEvent):Void
+    	{
+        	super.onCountdownStart(event);
+			hasUsedMarkovNoteHold = false;
+			missedCount = 0;
+   		}	
+}

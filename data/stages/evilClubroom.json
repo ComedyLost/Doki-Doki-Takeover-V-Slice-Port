@@ -1,0 +1,69 @@
+{
+  "props": [
+    {
+      "zIndex": 20,
+      "position": [-260, -285],
+      "scale": [1.1, 1.1],
+      "animType": "sparrow",
+      "name": "Epiphany BG",
+      "isPixel": false,
+      "assetPath": "bigmonika/BG",
+      "scroll": [0.8, 0.8],
+      "animations": []
+    },
+    {
+      "zIndex": 110,
+      "position": [-260, -235],
+      "scale": [1.1, 1.1],
+      "animType": "sparrow",
+      "name": "Epiphany FG",
+      "isPixel": false,
+      "assetPath": "bigmonika/FG",
+      "scroll": [0.8, 0.8],
+      "animations": []
+    },
+    {
+      "zIndex": 40,
+      "position": [-260, -285],
+      "scale": [1.1, 1.1],
+      "animType": "sparrow",
+      "name": "Epiphany Main Lights",
+      "isPixel": false,
+      "assetPath": "bigmonika/lights",
+      "scroll": [0.8, 0.8],
+      "animations": []
+    },
+    {
+      "zIndex": 50,
+      "position": [-260, -285],
+      "scale": [1.1, 1.1],
+      "animType": "sparrow",
+      "name": "Epiphany Window Lights",
+      "isPixel": false,
+      "alpha": 1,
+      "assetPath": "bigmonika/WindowLight",
+      "scroll": [0.8, 0.8],
+      "animations": []
+    }
+  ],
+  "cameraZoom": 0.75,
+  "version": "1.0.0",
+  "characters": {
+    "bf": {
+      "zIndex": 0,
+      "position": [760, 655],
+      "cameraOffsets": [-50, 0]
+    },
+    "dad": {
+      "zIndex": 120,
+      "position": [760, 655],
+      "cameraOffsets": [-50, 0]
+    },
+    "gf": {
+      "zIndex": 0,
+      "cameraOffsets": [0, 0],
+      "position": [760, 655]
+    }
+  },
+  "name": "The Space Clubroom"
+}

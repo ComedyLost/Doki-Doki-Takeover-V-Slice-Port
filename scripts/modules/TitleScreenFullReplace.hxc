@@ -1,0 +1,54 @@
+import flixel.FlxG;
+
+import flixel.addons.transition.FlxTransitionableState;
+
+import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop; 
+
+import funkin.ui.mainmenu.MainMenuState;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.ui.options.OptionsState;
+import funkin.ui.title.TitleState;
+import funkin.ui.MusicBeatState;
+import funkin.ui.story.StoryMenuState;
+import flixel.util.FlxSave;
+import funkin.Conductor;
+import funkin.ui.title.AttractState;
+
+import funkin.audio.FunkinSound;
+
+import funkin.modding.base.ScriptedMusicBeatState;
+import funkin.modding.base.MusicBeatState;
+import funkin.modding.module.Module;
+
+import funkin.Paths;
+
+import Std;
+class TitleScreenReplace extends Module
+{
+
+	public function new()
+	{
+		super('TitleScreenReplace');
+
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+	}
+
+	var initialized:Bool = false;
+	
+	function setInitialized(bool:Bool){
+		initialized = bool; //Too fucking lazy to figure it out
+	}
+
+	function onStateChangeEnd(event:StateChangeScriptEvent)
+		{
+			super.onStateChangeEnd(event);
+			if (Std.isOfType(FlxG.state, TitleState) && save.data.titlescreen) {
+				if (FlxG.sound.music != null) FlxG.sound.music.stop();
+				FlxG.switchState(ScriptedMusicBeatState.init("DokiTitleState"));
+			} else if ((Std.isOfType(FlxG.state, MainMenuState) || Std.isOfType(FlxG.state, AttractState)) && save.data.titlescreen){
+				initialized = true; //Make sure to instantly skip intro in case someone F4s out of the Title State
+			}
+		}
+}

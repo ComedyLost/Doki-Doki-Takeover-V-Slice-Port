@@ -1,0 +1,127 @@
+{
+    "version": "1.0.0",
+    "name": "Tankman (Doki)",
+    "renderType": "multisparrow",
+    "assetPath": "characters/DDLCTankman",
+    "flipX": true,
+    "singTime": 4,
+    "cameraOffsets": [0, 60],
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Tankman Idle Dance",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Tankman UP note",
+            "offsets": [
+                28,
+                54
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Tankman DOWN note",
+            "offsets": [
+                66,
+                -107
+            ]
+        },
+        {
+            "name": "singUP-alt",
+            "prefix": "TANKMAN UGH",
+            "offsets": [
+                -12,
+                -8
+            ]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "Tankman MISS UP note",
+            "offsets": [
+                28,
+                54
+            ]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "Tankman MISS DOWN note",
+            "offsets": [
+                66,
+                -120
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Tankman Right Note",
+            "offsets": [
+                -25,
+                -12
+            ]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "Tankman MISS Right Note",
+            "offsets": [
+                -35,
+                -18
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Tankman Note Left",
+            "offsets": [
+                143,
+                -31
+            ]
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "Tankman MISS Note Left",
+            "offsets": [
+                157,
+                -30
+            ]
+        },
+        {
+            "name": "hey",
+            "prefix": "Tankman Taunt",
+            "offsets": [
+                169,
+                -24
+            ]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "Tankman Gameover Start",
+            "offsets": [
+                14,
+                11
+            ]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "Tankman Gameover Idle",
+            "offsets": [
+                8,
+                0
+            ]
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "Tankman Gameover Confirm",
+            "offsets": [
+                8,
+                65
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

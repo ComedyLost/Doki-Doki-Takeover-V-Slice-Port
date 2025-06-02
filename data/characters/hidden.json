@@ -1,0 +1,54 @@
+{
+    "version": "1.0.0",
+    "name": "Hidden",
+    "renderType": "sparrow",
+    "assetPath": "characters/hidden",
+    "flipX": false,
+    "singTime": 4,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "none",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "none",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "none",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "none",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "none",
+            "offsets": [
+                0,
+                0
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="yuripixel.png">
+<SubTexture name="confirm0000" x="42" y="0" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0001" x="0" y="46" width="44" height="44" frameX="-4" frameY="-6" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0002" x="0" y="0" width="42" height="46" frameX="-4" frameY="-2" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0003" x="84" y="0" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm-hold0000" x="84" y="0" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="idle0000" x="42" y="0" width="42" height="45" frameX="-5" frameY="-4" frameWidth="50" frameHeight="50" />
+</TextureAtlas>

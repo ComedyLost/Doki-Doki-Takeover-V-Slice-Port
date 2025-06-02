@@ -1,0 +1,65 @@
+import funkin.play.character.SparrowCharacter;
+import funkin.play.character.CharacterType;
+import funkin.play.PlayState;
+
+
+// player offset fix by cyn0x8
+class PixelMonikaNewCharacter extends SparrowCharacter {
+	function new() {
+		super('monika-pixelnew');
+	}
+
+	override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {
+		var output:FlxPoint = super.getScreenPosition(result, camera);
+		if (flipX) {output.x += (animOffsets[0] * 2 + width - frameWidth) * (scale.x / (isPixel ? 6 : 1));}
+		if (flipY) {output.y += (animOffsets[1] * 2 + height - frameHeight) * (scale.y / (isPixel ? 6 : 1));}
+		return output;
+	}
+	
+	override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void {
+		if (flipX) {
+			if (dir == 0) {dir = 3;} else if (dir == 3) {dir = 0;}
+		}
+	
+		super.playSingAnimation(dir, miss, suffix);
+	}	
+
+	function onNoteHit(event:NoteScriptEvent)
+		{
+			// Override the hit note animation.
+			switch(event.note.kind) {
+				case "markov":
+					return;
+				default:
+					if (!event.note.noteData.getMustHitNote() && characterType == CharacterType.DAD) {
+						// Override the hit note animation.
+						if (PlayState.instance.currentSong.id.toLowerCase() == "your-demise" || PlayState.instance.currentSong.id.toLowerCase() == "your-demise"){
+							holdTimer = 0;
+							this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
+							
+							return;
+						} 
+					} else if (event.note.noteData.getMustHitNote() && characterType == CharacterType.BF) {
+						// Override the hit note animation.
+						if (PlayState.instance.currentSong.id.toLowerCase() == "wilted" || PlayState.instance.currentSong.id.toLowerCase() == "your-demise"){
+							holdTimer = 0;
+							this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
+							
+							return;
+						} 
+					}
+					super.onNoteHit(event);
+			}
+		}
+
+	override function onAdd() {
+		switch (PlayState.instance.currentSong.id.toLowerCase()) {
+			case 'your-demise':
+				this.idleSuffix = '-alt';
+			case 'wilted':
+				this.idleSuffix = '-alt';
+				this.x -= 600;
+				this.y += 50;
+		}
+	}
+}

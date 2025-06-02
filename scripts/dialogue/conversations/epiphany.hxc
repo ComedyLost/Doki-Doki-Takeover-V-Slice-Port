@@ -1,0 +1,84 @@
+import funkin.play.cutscene.dialogue.Conversation;
+import funkin.play.PlayState;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import flixel.FlxG;
+import haxe.Unserializer;
+import Std;
+import StringTools;
+import funkin.util.PlatformUtil;
+import flixel.util.FlxSave;
+import funkin.save.Save;
+import io.newgrounds.NG;
+
+class EpiphanyConversation extends Conversation {
+
+  var recording:Bool;
+  var reachedSection:Bool;
+  var programList:Array<String> = [
+		'obs',
+		'bdcam',
+		'fraps',
+		'xsplit', // TIL c# program
+		'hycam2', // hueh
+		'twitchstudio' // why
+	];
+  
+  function new() {
+    super('epiphany');
+
+    save = new FlxSave();
+    save.bind("TakeoverOptions");
+  }
+
+  override function onCreate(event){
+    super.onCreate(event);
+    recording = isRecording();
+    reachedSection = false;
+  }
+
+  function isRecording(){
+    Sys = Unserializer.DEFAULT_RESOLVER.resolveClass('Sys');
+    Process = Unserializer.DEFAULT_RESOLVER.resolveClass('sys.io.Process');
+    switch (Sys.systemName()) {
+      case "Linux", "BSD", "Mac": var taskList:Process = new Process('ps --no-headers');
+      case "Windows": var taskList:Process = new Process('tasklist');
+  }
+    var readableList:String = taskList.stdout.readAll().toString().toLowerCase();
+
+    for (i in 0...programList.length)
+    {
+      if (StringTools.contains(readableList, programList[i])) return true;
+      else return false;
+    }
+  }
+
+  function getUsername(){
+		Sys = Unserializer.DEFAULT_RESOLVER.resolveClass('Sys');
+		return Sys.environment()["USERNAME"];
+	}
+  
+  override function onUpdate(event) {
+    super.onUpdate(event);
+    if (currentDialogueEntry == 4 && !reachedSection) {
+      NG = Unserializer.DEFAULT_RESOLVER.resolveClass('io.newgrounds.NG');
+      reachedSection = true;
+      if (!save.data.selfaware){       
+        //Make Monika say the player's Newgrounds name if they are logged in
+        if (NG.core.loggedIn){
+          currentDialogueBox.set_text("\"Isn't that right, " + NG.core.user.name + "?\"");
+        } else {
+          currentDialogueBox.set_speed(3);
+          currentDialogueBox.set_text("\"...\"");  
+        }
+      }
+      else if (recording) currentDialogueBox.set_text("\"And everyone tuning in can watch too. Are you excited, viewers?\"");
+      else if (!recording) currentDialogueBox.set_text("\"Isn't that right, " + getUsername() + "?\"");
+    } else if (currentDialogueEntry > 4 && reachedSection){
+      reachedSection = false;
+      if (!save.data.selfaware){
+        currentDialogueBox.set_speed(1);
+      }
+    }
+  }
+}

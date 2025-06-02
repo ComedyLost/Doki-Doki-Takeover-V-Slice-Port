@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "name": "GF (Left)",
+  "assetPath": "dialogue/senpai",
+  "flipX": false,
+  "isPixel": false,
+  "scale": 0,
+  "offsets": [0, 0],
+  "animations": [
+    {
+      "name": "concern",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "ehh",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "grumpy",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "happ",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "neutral",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "ooh",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "wah",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "yeah",
+      "prefix": "senpai_neutral",
+      "offsets": [0, 0]
+    }
+  ]
+}

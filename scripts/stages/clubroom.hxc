@@ -1,0 +1,98 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import funkin.play.Countdown;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import flixel.FlxCamera;
+import flixel.util.FlxTimer;
+
+import Std;
+
+class ClubroomStage extends Stage
+{
+	function new()
+	{
+		super('clubroom');
+	}
+
+	function setDokiPosition(character:String){
+		natsuki.alpha = 1;
+		yuri.alpha = 1;
+		monika.alpha = 0;
+		sayori.alpha = 1;
+		protag.alpha = 0;
+		if (PlayState.instance.currentSong.id.toLowerCase() == "neet") monika.alpha = 1;
+		switch (character) {
+			case "natsuki":
+				{
+					natsuki.alpha = 0;
+					sayori.setPosition(-49, 247);
+					yuri.setPosition(1044, 178);
+					protag.setPosition(379, 152);
+					monika.setPosition(1207, 173);
+				}
+			case "yuri", "yuri-crazy":
+				{
+					yuri.alpha = 0;
+					sayori.setPosition(-49, 247);
+					natsuki.setPosition(1044, 290);
+					protag.setPosition(379, 152);
+					monika.setPosition(1207, 173);
+				}
+			case "sayori":
+				{
+					sayori.alpha = 0;
+					yuri.setPosition(-74, 176);
+					natsuki.setPosition(1044, 290);
+					protag.setPosition(379, 152);
+					monika.setPosition(1207, 173);
+				}
+			case "monika":
+				{
+					monika.alpha = 0;
+					sayori.setPosition(-49, 247);
+					yuri.setPosition(1044, 178);
+					natsuki.setPosition(1247, 303);
+					protag.setPosition(150, 152);
+				}
+		}
+
+	}
+
+	override function buildStage()
+		{
+			super.buildStage();
+			sayori = getNamedProp('BG Sayori');
+			natsuki = getNamedProp('BG Natsuki');		
+			yuri = getNamedProp('BG Yuri');
+			monika = getNamedProp('BG Monika');
+			protag = getNamedProp('BG Protag');
+			getNamedProp('Club Lights').blend = 12;
+		}
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+		{
+			super.onSongEvent(scriptEvent);
+			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL")
+			{
+				var eventProps = scriptEvent.eventData.value;
+				setDokiPosition(eventProps.newchar.toLowerCase());
+			}
+		}
+
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		setDokiPosition(PlayState.instance.currentChart.characters.opponent.toLowerCase());
+		switch (PlayState.instance.currentSong.id.toLowerCase()){
+			case "dokidoggle", "catfight", "obsession":
+				getNamedProp('BG Sayori').alpha = 0;
+				getNamedProp('BG Natsuki').alpha = 0;
+				getNamedProp('BG Yuri').alpha = 0;	
+		}
+	}
+}

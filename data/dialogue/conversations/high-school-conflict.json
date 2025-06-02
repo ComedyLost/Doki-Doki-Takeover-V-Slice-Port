@@ -1,0 +1,127 @@
+{
+  "version": "1.0.0",
+
+  "backdrop": {
+    "type": "solid",
+    "fadeTime": 2.0,
+    "color": "#BFB3DFD8"
+  },
+
+  "music": {
+    "asset": "Lunchbox",
+    "fadeTime": 2.0,
+    "looped": true
+  },
+
+  "outro": {
+    "type": "fade",
+    "fadeTime": 1.0
+  },
+
+  "dialogue": [
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["...huh?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["I thought... they deleted me. After what I did to my friends."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["-but where am I now?"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Beep!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["-Oh! Hello?"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Skee dep boop!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["You wanna sing?"]
+    },
+    {
+      "speaker": "bf",
+      "speakerAnimation": "bf_neutral",
+      "box": "rosesClassic",
+      "boxAnimation": "enter",
+
+      "text": ["Beep dai!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "enter",
+
+      "text": ["...Things are happening really fast."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_neutral",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["-but you know what?"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_happy",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["I'd love to!"]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_neutral",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["Usually I'd play piano while I sing, but this isn't a bad change of pace."]
+    },
+    {
+      "speaker": "monika",
+      "speakerAnimation": "monika_gasp",
+      "box": "ddlcpixel",
+      "boxAnimation": "speaking",
+
+      "text": ["So... Yeah!"]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+import flixel.FlxG;
+import flixel.FlxSprite;
+import funkin.ui.story.StoryMenuState;
+import funkin.graphics.FunkinSprite;
+import funkin.modding.module.Module;
+import funkin.Paths;
+import Std;
+import funkin.Preferences;
+import funkin.util.Constants;
+import flixel.FlxCamera;
+import funkin.graphics.FunkinCamera;
+
+class CameraShaderFix extends Module
+{
+
+	//Fixes the shader effects being offset on songs that uses filters when switching to fullscreen and back
+	//Code from Laztrix's Missingno code
+
+	public function new()
+	{
+		super('CameraShaderFix');
+	}
+
+	override function onDestroy(event) {
+        super.onDestroy(event);
+		if (FlxG.signals.gameResized.has(fixShaderCoordFix)) FlxG.signals.gameResized.remove(fixShaderCoordFix);
+	}
+
+	function fixShaderCoordFix(){
+		for (cameras in FlxG.cameras.list){
+			resetCamCache(cameras.flashSprite);
+		}
+	}
+
+	function resetCamCache(?spr){
+		if (spr == null || spr.filters == null) return;
+		spr.__cacheBitmap = null;
+		spr.__cacheBitmapData3 = spr.__cacheBitmapData2 = spr.__cacheBitmapData = null;
+		spr.__cacheBitmapColorTransform = null;
+	}
+
+	override public function onSongLoaded(event)
+		{
+			super.onSongLoaded(event);					
+			FlxG.signals.gameResized.add(fixShaderCoordFix);
+			fixShaderCoordFix();	
+		}	
+}

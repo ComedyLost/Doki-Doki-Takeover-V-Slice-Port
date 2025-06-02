@@ -1,0 +1,69 @@
+import funkin.modding.module.Module;
+import funkin.ui.mainmenu.MainMenuState;
+import funkin.modding.base.ScriptedMusicBeatState;
+import flixel.FlxSprite;
+
+import funkin.ui.freeplay.FreeplayState;
+import funkin.ui.story.StoryMenuState;
+import funkin.ui.Prompt;
+import flixel.addons.transition.FlxTransitionableState;
+import funkin.ui.AtlasMenuItem;
+
+import funkin.Paths;
+import Std;
+
+import flixel.FlxG;
+
+class CostumeButton extends Module {
+	
+  	public function onStateChangeEnd(event) {
+		currentState = event.targetState;
+		if (Std.isOfType(currentState, MainMenuState)) {
+			var menuItem = createMenuItem('costumes', 'mainmenu/PleaseKrillMe', 2,
+			function() {
+				currentState.startExitState(ScriptedMusicBeatState.init('Costumes'));
+			}, false);
+			currentState.menuItems.addItem('costumes', menuItem);
+			// Then we can make sure the menu items are centered.
+			var item = currentState.menuItems.getItem('costumes');
+			currentState.menuItems.members.remove(item);
+			currentState.menuItems.members.insert(item.ID, item);
+			repositionMenuItems(currentState.menuItems);
+		
+			currentState.menuItems.selectItem(currentState.menuItems.selectedIndex);		
+		}
+	}
+	
+	function createMenuItem(name:String, atlas:String, id:Int, callback:Void->Void, fireInstantly:Bool):Void
+	{
+		var item = new AtlasMenuItem(0, 0, name, Paths.getSparrowAtlas(atlas), callback);
+		item.fireInstantly = fireInstantly;
+		item.ID = id;
+
+		item.scrollFactor.set(0, 0.4);
+
+		// Set the offset of the item so the sprite is centered on the origin.
+		item.centered = true;
+		item.changeAnim('idle');
+
+		return item;
+	}
+
+	function repositionMenuItems(menuItems:AtlasMenuList)
+	{
+		// Reset position of menu items.
+   		var spacing = 160;
+    	var top = (FlxG.height - (spacing * (menuItems.length - 1))) / 2;
+    	for (i in 0...menuItems.length)
+    	{
+      		var menuItem = menuItems.members[i];
+      		menuItem.x = FlxG.width / 2;
+      		menuItem.y = top + spacing * i;
+      		menuItem.scrollFactor.x = 0.0;
+      		// This one affects how much the menu items move when you scroll between them.
+      		menuItem.scrollFactor.y = 0.4;
+			menuItem.ID = i;
+			if (menuItem.ID != currentState.menuItems.selectedIndex) menuItem.idle();
+    	}
+	}
+} 

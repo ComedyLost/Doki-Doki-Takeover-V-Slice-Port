@@ -1,0 +1,129 @@
+{
+    "version": "1.0.0",
+    "name": "Senpai (Playable)",
+    "renderType": "sparrow",
+    "assetPath": "characters/playablesenpai",
+    "flipX": true,
+    "singTime": 4,
+    "offsets": [0, 3],
+    "cameraOffsets": [0, 100],
+    "death": {
+        "cameraOffsets": [-50, 70],
+        "cameraZoom": 0.9
+    },    
+    "healthIcon": {
+        "id": "senpai-ddto",
+        "isPixel": true
+    },    
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "Senpai Idle1",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "Senpai Idle2",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "SENPAI UP NOTE",
+            "offsets": [
+                0,
+                6
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "SENPAI RIGHT NOTE",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "SENPAI LEFT NOTE",
+            "offsets": [
+                5,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "SENPAI DOWN NOTE",
+            "offsets": [
+                2,
+                0
+            ]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "miss Senpai UP NOTE",
+            "offsets": [
+                0,
+                6
+            ]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "miss Senpai RIGHT NOTE",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "miss Senpai LEFT NOTE",
+            "offsets": [
+                5,
+                1
+            ]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "miss Senpai DOWN NOTE",
+            "offsets": [
+                2,
+                1
+            ]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "BF Dies pixel",
+            "offsets": [
+                4,
+                -25
+            ]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "senpai retry",
+            "offsets": [
+                4,
+                -25
+            ],
+            "looped": true
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "RETRY CONFIRM",
+            "offsets": [
+                4,
+                -25
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": true,
+    "scale": 6,
+    "Made_With": "the cigs Converter"
+}

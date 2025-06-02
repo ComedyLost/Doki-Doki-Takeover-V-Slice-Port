@@ -1,0 +1,22 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import flixel.util.FlxSave;
+import funkin.util.Constants;
+
+class DifficultySpriteFix extends Module
+{
+    function new()
+        {
+            super('DifficultySpriteFix');
+
+			Constants.DEFAULT_DIFFICULTY_LIST_FULL.push("alt");
+			Constants.DEFAULT_DIFFICULTY_LIST_FULL.push("lyrics");
+        }    
+
+}

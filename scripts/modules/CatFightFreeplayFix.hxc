@@ -1,0 +1,40 @@
+import funkin.modding.module.Module;
+import flixel.FlxG;
+import funkin.Paths;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.util.ReflectUtil;
+import funkin.ui.freeplay.SongMenuItem;
+import funkin.audio.FunkinSound;
+import funkin.modding.base.ScriptedMusicBeatSubState;
+
+class CatFightFreeplayFix extends Module {
+	public function new(){
+		super('CatFightFreeplayFix');
+	}
+
+	var isYuri:Bool;
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (Std.isOfType(FlxG.state.subState, FreeplayState)) {
+			var capsule = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
+			if (capsule != null && FlxG.state.subState.curSelected != 0 && capsule?.freeplayData?.data.id == 'catfight'){
+				//Override base game function to allow player to choose a doki
+				capsule.onConfirm = function() {
+					if (!FlxG.state.subState.busy) {
+						FlxG.state.subState.persistentUpdate = false;
+						FlxG.state.subState.busy = true;
+						FlxG.state.subState.openSubState(ScriptedMusicBeatSubState.init("CatfightPopup"));
+					}
+				};	
+			}
+		}		
+	}
+
+	function detectYuri(int:Int){
+		//Sets variable based on what player chose and runs the song loading code
+		isYuri = (int == 0 ? true : false);
+		if (isYuri) FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected].pixelIcon.setCharacter('natsuki');
+		FlxG.state.subState.capsuleOnConfirmDefault(FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected]);
+	}
+}

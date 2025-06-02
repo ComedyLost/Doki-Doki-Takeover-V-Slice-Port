@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="mcpixel.png">
+<SubTexture name="confirm0000" x="35" y="40" width="37" height="38" frameX="-9" frameY="-7" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0001" x="0" y="40" width="35" height="39" frameX="-10" frameY="-5" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0002" x="0" y="0" width="43" height="40" frameX="-4" frameY="-9" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0003" x="43" y="0" width="40" height="40" frameX="-6" frameY="-7" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm-hold0000" x="43" y="0" width="40" height="40" frameX="-6" frameY="-7" frameWidth="50" frameHeight="50" />
+<SubTexture name="idle0000" x="35" y="40" width="37" height="38" frameX="-9" frameY="-7" frameWidth="50" frameHeight="50" />
+</TextureAtlas>

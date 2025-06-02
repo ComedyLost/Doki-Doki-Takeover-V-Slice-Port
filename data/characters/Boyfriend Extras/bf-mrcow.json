@@ -1,0 +1,129 @@
+{
+    "version": "1.0.0",
+    "name": "Mr Cow",
+    "renderType": "multisparrow",
+    "assetPath": "characters/boyfriend/Mr Cow",
+    "flipX": true,
+    "singTime": 4,
+    "healthIcon": {"id": "mrcow"},
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "BF idle dance",
+            "frameIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "BF idle dance",
+            "frameIndices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28],
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "BF NOTE LEFT0",
+            "offsets": [
+                -74,
+                -10
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "BF NOTE DOWN0",
+            "offsets": [
+                -63,
+                -32
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "BF NOTE UP0",
+            "offsets": [
+                -82,
+                16
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "BF NOTE RIGHT0",
+            "offsets": [
+                -64,
+                -12
+            ]
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "BF NOTE LEFT MISS",
+            "offsets": [
+                -75,
+                -5
+            ]
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "BF NOTE DOWN MISS",
+            "offsets": [
+                -54,
+                -23
+            ]
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "BF NOTE UP MISS",
+            "offsets": [
+                -82,
+                16
+            ]
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "BF NOTE RIGHT MISS",
+            "offsets": [
+                -85,
+                -12
+            ]
+        },
+        {
+            "name": "hey",
+            "prefix": "BF HEY",
+            "offsets": [
+                -41,
+                10
+            ]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "BF dies0",
+            "offsets": [
+                53,
+                78
+            ]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "BF Dead Loop0",
+            "offsets": [
+                53,
+                64
+            ]
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "BF Dead confirm0",
+            "offsets": [
+                53,
+                78
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

@@ -1,0 +1,55 @@
+{
+    "version": "1.0.0",
+    "name": "Yuri (Crazy Picnic)",
+    "renderType": "sparrow",
+    "assetPath": "characters/yuri/Doki_Yuri_Picnic_Crazy_Assets",
+    "flipX": false,
+    "healthIcon": {"id": "yuri-crazy"},
+    "singTime": 6,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Yuri Crazy Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Yuri Crazy Left",
+            "offsets": [
+                150,
+                14
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Yuri Crazy Right",
+            "offsets": [
+                -54,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Yuri Crazy Down",
+            "offsets": [
+                -2,
+                -39
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Yuri Crazy Up",
+            "offsets": [
+                55,
+                61
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

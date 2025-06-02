@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "name": "man fuck i dont even know anymore",
+  "titleAsset": "storymenu/titles/weekS",
+  "visible": false,
+  "props": [
+    {
+      "assetPath": "dokistory/SayoriWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [435, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#A1F9FF",
+  "songs": ["mstsoobf"]
+}

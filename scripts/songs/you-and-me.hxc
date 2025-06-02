@@ -1,0 +1,543 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import flixel.addons.text.FlxTypeText;
+import flixel.text.FlxTextBorderStyle;
+import flixel.text.FlxText;
+import flixel.addons.display.FlxBackdrop; 
+import funkin.Conductor;
+import flixel.effects.FlxFlicker;
+import funkin.util.FlxTweenUtil;
+import funkin.Highscore;
+
+import funkin.audio.FunkinSound;
+import funkin.audio.VoicesGroup;
+import openfl.utils.Assets;
+
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.play.components.HealthIcon;
+import funkin.PlayerSettings;
+import funkin.save.Save;
+import flixel.util.FlxSave;
+
+class YouAndMeSong extends Song
+{
+	var vignette:FlxSprite;
+	var staticshock:FlxSprite;
+	var funnytext:FlxTypeText;
+	var blackbarTop:FunkinSprite;
+	var blackbarBottom:FunkinSprite;
+	var dokiBackdrop:FlxBackdrop;
+	var options:Array<FunkinSprite>;
+	var selectDokiSection:Bool = false;
+	var selectedDoki:Bool = false;
+	var chosenDoki:Int = 0;
+	var select:FlxSprite;
+	var bg:FlxSprite;
+	var huehTimer:FlxTimer;
+	var funnyChar:String = 'protag';
+	var whiteflash:FlxSprite;
+	var newVocals:FunkinSound;
+	var characterImages:Array<Dynamic>;
+	var moniCostumes:Array<String> = ['', '-casual', '-valentine', '-hex', '-senpai', '-blueskies', '-vigilante'];
+    var sayoCostumes:Array<String> = ['', '-casual', '-sleepwear', '-picnic', '-grace', '-zipper', '-blueskies'];
+    var sukiCostumes:Array<String> = ['', '-casual', '-skater', '-kapi', '-sunday', '-hank', '-blueskies'];
+	var yuriCostumes:Array<String> = ['', '-casual', '-derby', '-picnic', '-taki', '-tabi', '-blueskies'];
+
+	function new()
+	{
+		super('you-and-me');
+		save = new FlxSave();
+        save.bind("Costumes");
+	}
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		characterImages = [];
+
+		dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG')); 
+		dokiBackdrop.updateHitbox(); 
+		dokiBackdrop.zIndex = 55;
+		dokiBackdrop.velocity.set(-40, -40);
+		dokiBackdrop.alpha = 0; 
+		dokiBackdrop.screenCenter();
+		PlayState.instance.currentStage.add(dokiBackdrop); 
+
+		funnytext = new FlxTypeText(50, 255, 1250, "", 90);
+		funnytext.alignment = "left";
+		funnytext.borderSize = 0.3;
+		funnytext.borderStyle = FlxTextBorderStyle.OUTLINE;
+		funnytext.font = Paths.font("Journal.ttf");
+		funnytext.cameras = [PlayState.instance.camGame];
+		funnytext.scrollFactor.set(0, 0);
+		PlayState.instance.add(funnytext);
+
+		blackbarTop = FunkinSprite.create(0, -102, 'TightBars');
+		blackbarTop.updateHitbox(); 
+		blackbarTop.alpha = 0; 
+		blackbarTop.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(blackbarTop);
+
+		blackbarBottom = FunkinSprite.create(0, 822, 'TightBars');
+		blackbarBottom.updateHitbox(); 
+		blackbarBottom.alpha = 0;
+		blackbarBottom.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(blackbarBottom);
+
+		bg = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		bg.alpha = 0;
+		bg.scrollFactor.set();
+		bg.cameras = [PlayState.instance.camCutscene];
+		PlayState.instance.add(bg);
+		characterImages.push(bg);
+
+		whiteflash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+		whiteflash.scrollFactor.set();
+		whiteflash.alpha = 1;
+		whiteflash.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(whiteflash);
+
+		select = FunkinSprite.create(0, 0, 'extraui/selecttext');
+		select.scale.set(0.8, 0.8);
+		select.updateHitbox();
+		select.x = FlxG.width / 2 - select.width / 2;
+		select.y = -select.height;
+		select.cameras = [PlayState.instance.camCutscene];
+		PlayState.instance.add(select);
+		characterImages.push(select);
+
+		var charList:Array<String> = ['Yuri', 'Sayori', 'Monika', 'Natsuki'];
+		options = [];
+		for (i in 0...charList.length)
+		{
+			var funnyx:Int = 69;
+
+			var funnySprite:FlxSprite = new FlxSprite(funnyx + (i * 294), 164);
+			funnySprite.frames = Paths.getSparrowAtlas('extraui/' + charList[i] + 'Card');
+			switch (charList[i])
+			{
+				case 'Natsuki':
+					funnySprite.animation.addByPrefix('pop', 'NatCardAnim', 30, false);
+				case 'Monika':
+					funnySprite.animation.addByPrefix('pop', 'MonikaCardAnim', 30, false);
+				case 'Sayori':
+					funnySprite.animation.addByPrefix('pop', 'SayoCardAnim', 30, false);
+				case 'Yuri':
+					funnySprite.animation.addByPrefix('pop', 'YuriCardAnim', 30, false);
+			}
+			funnySprite.alpha = 0.001;
+			funnySprite.animation.play('pop');
+			options.push(funnySprite);
+			PlayState.instance.add(funnySprite);
+			funnySprite.cameras = [PlayState.instance.camCutscene];
+			characterImages.push(funnySprite);
+			PlayState.instance.currentStage.refresh();
+		}
+	}
+
+	function blackBars(inorout:Bool)
+		{
+			if (inorout)
+			{
+				blackbarTop.alpha = 1;
+				blackbarBottom.alpha = 1;
+	
+				FlxTween.tween(blackbarBottom, {y: 628}, 1.2, {ease: FlxEase.sineOut});
+				FlxTween.tween(blackbarTop, {y: 0}, 1.2, {ease: FlxEase.sineOut});
+			}
+			else
+			{
+				FlxTween.tween(blackbarBottom, {y: 822}, 1.2, {ease: FlxEase.sineIn});
+				FlxTween.tween(blackbarTop, {y: -102}, 1.2, {ease: FlxEase.sineIn});
+	
+				new FlxTimer().start(1.2, function(tmr:FlxTimer)
+				{
+					blackbarTop.alpha = 0;
+					blackbarBottom.alpha = 0;
+				});
+			}
+		}
+
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	function bringInThingie()
+		{
+			trace('plz wok for me <3');
+			if (middleScroll)
+				waitin.screenCenter(X);
+	
+			waitin.alpha = 1;
+			FlxTween.tween(waitin, {y: 367}, 1.2, {
+				ease: FlxEase.quadOut,
+				onComplete: function(twn:FlxTween)
+				{
+					FlxTween.tween(waitin, {y: 981}, 1.2, {ease: FlxEase.quadIn, startDelay: 3});
+				}
+			});
+		}
+	
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 14:
+					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 15, {ease: FlxEase.linear});
+				case 16:
+					FlxTween.tween(whiteflash, {alpha: 0}, 3, {ease: FlxEase.sineOut});
+					//FlxTween.tween(whiteflash, {alpha: 0.001}, 3, {ease: FlxEase.sineOut});
+				case 19:
+					funnytext.resetText("A few days passed since Boyfriend and Girlfriend’s last visit to the club.");
+					funnytext.start(0.04);
+				case 84:
+					funnytext.resetText("The Literature Club returned to its original 5 members.");
+					funnytext.start(0.04);
+				case 141:
+					funnytext.resetText("The days continued as normal, with club meetings filled with stories, sweets, and singing.");
+					funnytext.start(0.04);
+				case 208:
+					funnytext.resetText("Things were going well, especially for a certain someone-");
+					funnytext.start(0.04);
+				case 252:
+					FlxTween.tween(funnytext, {alpha: 0}, 0.5, {ease: FlxEase.sineIn});
+				case 240:
+					FlxTween.tween(PlayState.instance.iconP1, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+					FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+
+					var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+					if (playerStrumline != null)
+					{
+						for (arrow in playerStrumline.members)
+						{
+							arrow.visible = true;
+						}
+					}		
+					PlayState.instance.playerStrumline.fadeInArrows();
+				case 248:
+					blackBars(true);
+					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
+						ease: FlxEase.linear,
+					});
+				case 336:
+					//if (mirrormode)
+					//	bringInThingie();
+				case 520:
+					PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
+				case 784:
+					if (dokiBackdrop != null)
+					{
+						FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {
+							ease: FlxEase.sineIn,
+							onComplete: function(tween:FlxTween)
+							{
+								PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
+							}
+						});
+					}
+				case 1068:
+					PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+					if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
+				case 1122:
+					blackBars(false);
+					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 5, {ease: FlxEase.linear});
+				case 1134:
+					FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineOut});
+				case 1156:
+					for (i in 0...characterImages.length){
+						characterImages[i].alpha = 1;
+					}
+					PlayState.instance.disableKeys = true;
+					PlayState.instance.mayPauseGame = false;
+					select.alpha = 1;
+					FlxTween.tween(select, {y: 40}, 0.5, {ease: FlxEase.sineOut});
+					bg.alpha = 0;
+					FlxTween.tween(bg, {alpha: 0.3}, 0.4, {ease: FlxEase.quartInOut});
+					for (i in 0...options.length)
+					{
+						options[i].visible = true;
+						options[i].y = 164;
+						options[i].alpha = 1;
+						options[i].animation.play('pop');
+					}
+					huehTimer = new FlxTimer().start(8, function(swagTimer:FlxTimer)
+						{
+							selectDokiSection = false;
+							charSelected('protag');
+						});
+					new FlxTimer().start(0.5, function(tmr:FlxTimer)
+						{
+							selectDokiSection = true;
+						});				
+				case 1252:
+					var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+					if (opponentStrumline != null)
+					{
+						for (arrow in opponentStrumline.members)
+						{
+							arrow.visible = true;
+						}
+					}		
+					PlayState.instance.opponentStrumline.fadeInArrows();
+					blackBars(true);
+					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
+						ease: FlxEase.linear,
+					});
+				case 1776:
+					PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
+				case 1904:
+					if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {ease: FlxEase.sineIn});
+					PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+				case 2160:
+					blackBars(false);
+					if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
+				case 2638:
+					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 5, {ease: FlxEase.linear});
+					FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 2, {ease: FlxEase.sineOut});
+			}
+		}
+
+		function getNewChart(chart:String = 'normal'){
+			var playerNoteData:Array<SongNoteData> = [];
+			var opponentNoteData:Array<SongNoteData> = [];
+			var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty(chart);
+			if (animChart == null) {
+				trace('Swapping song chart failed; chosen Doki chart not found for this song.');
+				return;
+			}
+			for (notes in animChart.notes){
+				switch (notes.getStrumlineIndex()){
+					case 0:
+						playerNoteData.push(notes);
+						Highscore.tallies.totalNotes++;
+					case 1:
+						opponentNoteData.push(notes);
+				}
+			}
+			PlayState.instance.playerStrumline.applyNoteData(playerNoteData);
+			PlayState.instance.opponentStrumline.applyNoteData(opponentNoteData);	
+		}
+
+		function selectChar(who:String = 'protag', num:Int)
+			{
+				huehTimer.cancel();
+				PlayState.instance.mayPauseGame = true;
+				PlayState.instance.disableKeys = false;
+				//tween the cards away except the selected card
+				selectDokiSection = false;
+				funnyChar = who;
+				chosenDoki = num;
+				FlxG.sound.play(Paths.sound('confirmMenu'), 1);
+		
+				for (i in 0...options.length)
+					{
+						if (i != chosenDoki) 
+							FlxTween.tween(options[i], {y: 1280}, 1, {ease: FlxEase.circIn});
+						if (i == chosenDoki){
+							FlxFlicker.flicker(options[i], 1, 0.1, false, false);
+						}
+					}
+			
+				huehTimer = new FlxTimer().start(1, function(swagTimer:FlxTimer)
+				{
+					charSelected(funnyChar);
+				});
+			}		
+
+		function changeOppCharacter(doki:String){
+			var character = switch (doki) {
+				case 'monika': (save.data.selectedMoniCostume == 0) ? 'monika' : 'Monika Extras/monika'+moniCostumes[save.data.selectedMoniCostume];
+				case 'sayori': (save.data.selectedSayoCostume == 0) ? 'sayori' : 'Sayori Extras/sayori'+sayoCostumes[save.data.selectedSayoCostume];
+				case 'natsuki': (save.data.selectedSukiCostume == 0) ? 'natsuki' : 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
+				case 'yuri': (save.data.selectedYuriCostume == 0) ? 'yuri' : 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
+				default: doki;
+			}
+			var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
+			if (oppZIndex == null) oppZIndex = 0;
+			var opponentCharData = CharacterDataParser.parseCharacterData(character);
+			CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = opponentCharData;
+	
+			PlayState.instance.currentStage.getDad().destroy();
+	
+			var dad = CharacterDataParser.fetchCharacter(character);
+			if (dad != null) {
+				dad.set_characterType(CharacterType.DAD);
+				dad.initHealthIcon(true);
+				PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
+				PlayState.instance.currentStage.getDad().zIndex = oppZIndex;
+			}
+			PlayState.instance.currentStage.refresh();
+			//newVocals = FunkinSound.load(Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '-' + doki));
+			//newVocals.play(true, Conductor.instance.songPosition);
+			if (PlayState.instance.vocals != null) PlayState.instance.vocals.stop();
+			PlayState.instance.vocals = buildVocals();
+			new FlxTimer().start(1, function(tmr:FlxTimer)
+				{
+					resyncVocals();			
+				});
+		}
+
+		function resyncVocals():Void
+			{
+			  if (PlayState.instance.vocals == null) return;
+		  
+			  // Skip this if the music is paused (GameOver, Pause menu, start-of-song offset, etc.)
+			  if (FlxG.sound.music == null) return;
+		  
+			  var timeToPlayAt:Float = Math.min(FlxG.sound.music.length, Math.max(0, Conductor.instance.songPosition - Conductor.instance.combinedOffset));
+			  trace('Resyncing vocals to ' + timeToPlayAt);
+			  FlxG.sound.music.pause();
+			  PlayState.instance.vocals.pause();
+		  
+			  FlxG.sound.music.time = timeToPlayAt;
+			  FlxG.sound.music.play(false, timeToPlayAt);
+		  
+			  PlayState.instance.vocals.time = timeToPlayAt;
+			  PlayState.instance.vocals.play(false, timeToPlayAt);
+			}		  
+
+		public function buildVocals():VoicesGroup
+			{
+			  var result:VoicesGroup = new VoicesGroup();
+		  
+			  var playerVoiceList:Array<String> = buildPlayerVoiceList();
+		  
+			  // Add player vocals.
+			  for (playerVoice in playerVoiceList)
+			  {
+				result.addPlayerVoice(FunkinSound.load(playerVoice));
+			  }
+		  
+			  result.playerVoicesOffset = PlayState.instance.currentChart.offsets.getVocalOffset(PlayState.instance.currentChart.characters.player, '');
+		  
+			  return result;
+			}
+		
+		public function buildPlayerVoiceList():Array<String>
+			{		  
+			  // Automatically resolve voices by removing suffixes.
+			  // For example, if `Voices-bf-car-erect.ogg` does not exist, check for `Voices-bf-erect.ogg`.
+			  // Then, check for  `Voices-bf-car.ogg`, then `Voices-bf.ogg`.
+		  
+			  var playerVoice:String = Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '_' + funnyChar);
+				  
+			  return playerVoice != null ? [playerVoice] : [];
+			}		  
+		
+		function charSelected(who:String)
+			{
+				if (who == 'protag') {
+					PlayState.instance.mayPauseGame = false;
+					PlayState.instance.disableKeys = false;
+					for (i in 0...characterImages.length){
+						FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
+					}
+					FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+					new FlxTimer().start(2, function(tmr:FlxTimer)
+						{
+							PlayState.instance.health = -1;
+						});		
+					return;
+				}
+				getNewChart(who);
+				changeOppCharacter(who);
+				for (i in 0...options.length)
+				{
+					FlxTween.tween(options[i], {alpha: 0}, 0.5, {ease: FlxEase.circIn, onComplete: function(twn:FlxTween){}});
+				}
+				FlxTween.tween(select, {alpha: 0}, 1, {ease: FlxEase.linear});
+				//tween selected card with alpha
+				new FlxTimer().start(0.5, function(tmr:FlxTimer)
+				{
+					for (i in 0...characterImages.length){
+						FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
+					}
+					FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+				});
+				new FlxTimer().start(1, function(tmr:FlxTimer)
+					{
+						FlxTween.tween(PlayState.instance.iconP2, {alpha: 1}, 2, {ease: FlxEase.sineIn});
+					});	
+			}		
+
+		override function onUpdate(event:UpdateScriptEvent) {
+			super.onUpdate(event);
+			if (!selectDokiSection) return;
+			if (PlayerSettings.player1.controls.NOTE_LEFT_P) {
+				selectChar('yuri', 0);
+			} else if (PlayerSettings.player1.controls.NOTE_DOWN_P) {
+				selectChar('sayori', 1);
+			} else if (PlayerSettings.player1.controls.NOTE_UP_P){
+				selectChar('monika', 2);
+			} else if (PlayerSettings.player1.controls.NOTE_RIGHT_P) {
+				selectChar('natsuki', 3);
+			}
+		}	
+		
+		public function onCountdownStart(event):Void {
+			super.onCountdownStart(event);
+			PlayState.instance.currentStage.getGirlfriend().originalPosition.x = 589;
+			PlayState.instance.currentStage.getGirlfriend().originalPosition.y = -3004;
+			FlxTweenUtil.pauseTweensOf(PlayState.instance.cameraFollowPoint);
+			select.y = -select.height;
+			whiteflash.alpha = 1;
+			dokiBackdrop.alpha = 0;
+			bg.alpha = 0;
+			var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+			if (opponentStrumline != null)
+			{
+				for (arrow in opponentStrumline.members)
+				{
+					arrow.visible = false;
+				}
+			}
+			var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+			if (playerStrumline != null)
+			{
+				for (arrow in playerStrumline.members)
+				{
+					arrow.visible = false;
+				}
+			}
+			PlayState.instance.camHUD.alpha = 1;
+			selectDokiSection = false;
+			funnytext.alpha = 1;
+			funnytext.resetText("");
+			funnytext.start(0.04);
+			if (blackbarBottom.y != 822) blackbarBottom.y = 822;
+			if (blackbarTop.y != -102) blackbarTop.y = -102;
+			PlayState.instance.iconP2.alpha = 0;
+			PlayState.instance.iconP1.alpha = 0;
+			PlayState.instance.healthBar.alpha = 0;
+			PlayState.instance.healthBarBG.alpha = 0;
+			PlayState.instance.scoreText.alpha = 0;
+
+			PlayState.instance.cameraFollowPoint.setPosition(589, -3004);
+			PlayState.instance.tweenCameraToPosition(589, -3004, 0);
+			new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
+				{
+					Countdown.skipCountdown();
+				});
+		}
+}

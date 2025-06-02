@@ -1,0 +1,31 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import funkin.play.Countdown;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.tweens.FlxTween;
+import flixel.FlxCamera;
+import flixel.util.FlxTimer;
+
+import Std;
+
+class MusicRoomStage extends Stage
+{
+	function new()
+	{
+		super('musicroom');
+	}
+
+	override function buildStage() {
+		super.buildStage();
+		switch (PlayState.instance.currentSong.id.toLowerCase()){
+		case "love-n-funkin":
+			if (PlayState.instance.currentVariation == 'alt') getNamedProp('Music Room BG').loadGraphic(Paths.image('musicroom/Music_RoomSpooky'));
+			else getNamedProp('Music Room BG').loadGraphic(Paths.image('musicroom/Music_RoomLNF'));
+		}
+	}
+
+}

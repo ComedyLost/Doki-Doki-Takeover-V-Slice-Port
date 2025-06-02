@@ -1,0 +1,76 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.graphics.shaders.WiggleEffectRuntime;
+import funkin.graphics.shaders.WiggleEffectType;
+import flixel.addons.effects.FlxTrail;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import funkin.play.PlayStatePlaylist;
+
+class HotAirBalloonSong extends Song
+{
+	function new()
+	{
+		super('hot-air-balloon');
+	}
+
+	var bakaOverlay:FlxSprite;
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		
+		bakaOverlay = new FlxSprite(0, 0);
+		bakaOverlay.frames = Paths.getSparrowAtlas('clubroom/BakaBGDoodles');
+		bakaOverlay.animation.addByPrefix('normal', 'Normal Overlay', 24, true);
+		bakaOverlay.animation.addByPrefix('party rock is', 'Rock Overlay', 24, true);
+		bakaOverlay.animation.addByPrefix('FUCK', 'Tank Overlay', 24, true);
+		bakaOverlay.animation.play('normal');
+		bakaOverlay.scrollFactor.set();
+		bakaOverlay.zIndex = 400;
+		bakaOverlay.alpha = 0;
+		bakaOverlay.cameras = [PlayState.instance.camHUD];
+		bakaOverlay.setGraphicSize(Std.int(FlxG.width));
+		bakaOverlay.updateHitbox();
+		bakaOverlay.screenCenter();
+		PlayState.instance.add(bakaOverlay);
+	}
+
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+	function onSongRetry(event:ScriptEvent)
+		{
+		  super.onSongRetry(event);
+	  		FlxTween.cancelTweensOf(bakaOverlay);
+			bakaOverlay.alpha = 0;
+			bakaOverlay.animation.play('normal');
+		}	  
+
+	function onStepHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.step)
+			{
+				case 1024:
+					//defaultCamZoom = 1.35;
+					FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(), {ease: FlxEase.sineIn});
+				case 1280:
+					//defaultCamZoom = 1;
+					FlxTween.tween(bakaOverlay, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
+			}
+		}
+}

@@ -1,0 +1,30 @@
+{
+    "version": "1.0.0",
+    "name": "SPEAKER_ass_sets",
+    "renderType": "sparrow",
+    "assetPath": "characters/SPEAKER_ass_sets",
+    "flipX": false,
+    "singTime": 4,
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "GF Dancing Beat",
+            "offsets": [
+                0,
+                -9
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "GF Dancing Beat",
+            "offsets": [
+                0,
+                -9
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

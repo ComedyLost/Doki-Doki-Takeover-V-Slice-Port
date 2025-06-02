@@ -1,0 +1,51 @@
+import funkin.modding.module.Module;
+import funkin.play.PlayState;
+import funkin.graphics.FunkinSprite;
+import funkin.Paths;
+import funkin.Preferences;
+import funkin.util.Constants;
+import funkin.Highscore;
+import funkin.play.scoring.Scoring;
+import funkin.play.notes.Strumline;
+import flixel.util.FlxSave;
+import flixel.FlxG;
+
+class RandomizeNotes extends Module
+{
+    function new(){
+        super("randomnotes");
+
+		save = new FlxSave();
+		save.bind("TakeoverOptions");	
+    }
+
+	var playerPrevNote;
+	var opponentPrevNote;
+
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		if (!save.data.random) return;
+		if (playerPrevNote != null) playerPrevNote = null;
+		if (opponentPrevNote != null) opponentPrevNote = null;
+
+		var ogPlayerNotes:Array<SongNoteData> = PlayState.instance.playerStrumline.noteData;
+		var ogOpponentNotes:Array<SongNoteData> = PlayState.instance.opponentStrumline.noteData;
+		for (notes in ogPlayerNotes) {
+			notes.data = FlxG.random.int(0, 3);
+			if (playerPrevNote != null && playerPrevNote.time == notes.time && playerPrevNote.data == notes.data) notes.data = FlxG.random.int(0, 3, notes.data);
+			if (playerPrevNote != null && playerPrevNote.data == notes.data) notes.data = FlxG.random.int(0, 3, notes.data);
+			playerPrevNote = notes;
+		}
+		for (notes in ogOpponentNotes) {
+			notes.data = FlxG.random.int(4, 7);
+			if (opponentPrevNote != null && opponentPrevNote.time == notes.time && opponentPrevNote.data == notes.data) notes.data = FlxG.random.int(4, 7, notes.data);
+			if (opponentPrevNote != null && opponentPrevNote.data == notes.data) notes.data = FlxG.random.int(4, 7, notes.data);
+			opponentPrevNote = notes;
+		}
+		PlayState.instance.playerStrumline.applyNoteData(ogPlayerNotes);
+		PlayState.instance.opponentStrumline.applyNoteData(ogOpponentNotes);				
+	}
+}

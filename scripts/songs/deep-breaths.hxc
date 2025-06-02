@@ -1,0 +1,108 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.util.Constants;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import flixel.addons.display.FlxBackdrop; 
+import flixel.FlxCamera;
+import funkin.save.Save;
+
+class DeepBreathsSong extends Song
+{
+	function new()
+	{
+		super('deep-breaths');
+	}
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
+	var sparkleBG:FlxBackdrop;
+	var sparkleFG:FlxBackdrop;
+	var pinkOverlay:FlxSprite;
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		sparkleBG = new FlxBackdrop(Paths.image('clubroom/YuriSparkleBG'));
+		sparkleBG.scrollFactor.set(0.1, 0);
+		sparkleBG.velocity.set(-16, 0);
+		sparkleBG.alpha = 0;
+		sparkleBG.setGraphicSize(Std.int(sparkleBG.width / FlxCamera.defaultZoom));
+		sparkleBG.updateHitbox();
+		sparkleBG.zIndex = 45;
+		sparkleBG.screenCenter();
+		PlayState.instance.currentStage.add(sparkleBG);
+
+		sparkleFG = new FlxBackdrop(Paths.image('clubroom/YuriSparkleFG'));
+		sparkleFG.scrollFactor.set(0.1, 0);
+		sparkleFG.velocity.set(-48, 0);
+		sparkleFG.setGraphicSize(Std.int((sparkleFG.width * 1.2) / FlxCamera.defaultZoom));
+		sparkleFG.updateHitbox();
+		sparkleFG.alpha = 0;
+		sparkleFG.zIndex = 150;
+		sparkleFG.screenCenter();
+		PlayState.instance.add(sparkleFG);
+
+		pinkOverlay = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFF281F2);
+		pinkOverlay.alpha = 0;
+		pinkOverlay.zIndex = 200;
+		pinkOverlay.blend = 12;
+		pinkOverlay.scrollFactor.set();
+		PlayState.instance.add(pinkOverlay);
+		PlayState.instance.currentStage.refresh();
+	}
+
+	function calcSectionLength(duration:Int){
+		if (duration == null) duration = 1;
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+		return durSeconds;
+	}
+
+
+	function onBeatHit(event:SongTimeScriptEvent):Void
+		{	
+			switch(event.beat)
+			{
+				case 104:
+					PlayState.instance.camHUD.flash(0xFFF281F2, calcSectionLength(0.2));
+					sparkleBG.alpha = 1;
+					sparkleFG.alpha = 1;
+					pinkOverlay.alpha = 0.2;
+				case 200:
+					FlxTween.tween(sparkleBG, {alpha: 0}, calcSectionLength(), {ease: FlxEase.sineOut});
+					FlxTween.tween(sparkleFG, {alpha: 0}, calcSectionLength(), {ease: FlxEase.sineOut});
+					FlxTween.tween(pinkOverlay, {alpha: 0}, calcSectionLength(), {ease: FlxEase.sineOut});
+				case 232:
+					PlayState.instance.camHUD.flash(0xFFF281F2, calcSectionLength(0.2));
+					sparkleBG.alpha = 1;
+					sparkleFG.alpha = 1;
+					pinkOverlay.alpha = 0.2;
+				case 288:
+					FlxTween.tween(sparkleBG, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
+					FlxTween.tween(sparkleFG, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
+					FlxTween.tween(pinkOverlay, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
+
+			}
+		}
+	
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		sparkleBG.alpha = 0;
+		sparkleFG.alpha = 0;
+		pinkOverlay.alpha = 0;
+	}
+}

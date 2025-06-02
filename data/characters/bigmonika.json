@@ -1,0 +1,78 @@
+{
+    "version": "1.0.0",
+    "name": "Epiphany Monika",
+    "renderType": "multisparrow",
+    "assetPath": "characters/big_monikia_base",
+    "flipX": false,
+    "singTime": 6,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Big Monika Idle",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Big Monika Sing Up",
+            "offsets": [
+                1,
+                13
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Big Monika Sing Right",
+            "offsets": [
+                -22,
+                1
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Big Monika Sing Down",
+            "offsets": [
+                1,
+                -54
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Big Monika Sing Left",
+            "offsets": [
+                87,
+                -15
+            ]
+        },
+        {
+            "name": "lastNOTE_start",
+            "prefix": "Big Monika Last Note0",
+            "offsets": [
+                4,
+                -1
+            ]
+        },
+        {
+            "name": "lastNOTE_end",
+            "prefix": "Big Monika Last Note First",
+            "offsets": [
+                272,
+                29
+            ]
+        },
+        {
+            "name": "lastNOTE_retry",
+            "prefix": "Big Monika Last Note Shrug",
+            "offsets": [
+                273,
+                19
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 1,
+    "Made_With": "the cigs Converter"
+}

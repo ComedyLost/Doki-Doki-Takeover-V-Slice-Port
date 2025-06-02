@@ -1,0 +1,83 @@
+import funkin.play.cutscene.dialogue.Conversation;
+import funkin.play.PlayState;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import haxe.Unserializer;
+import Std;
+import StringTools;
+import funkin.util.PlatformUtil;
+import flixel.util.FlxSave;
+import funkin.graphics.FunkinSprite;
+import StringTools;
+
+class RainCloudsConversation extends Conversation {
+
+  function new() {
+    super('rain-clouds');
+  }
+
+  var leftSpeaker:FunkinSprite;
+  var rightSpeaker:FunkinSprite;
+
+  override public function onDialogueLine(event:DialogueScriptEvent):Void
+    {
+      super.onDialogueLine(event);
+      if (currentDialogueEntry == 33) rightSpeaker.visible = false;
+    }    
+
+  override function playSpeakerAnimation(){
+    super.playSpeakerAnimation();
+    var nextSpeakerAnimation:String = currentDialogueEntryData.speakerAnimation;
+    var nextSpeakerId:String = currentDialogueEntryData.speaker;
+
+    var character:String = switch (nextSpeakerId) {
+      case 'yurileft', 'yuriright': 'yuri_';
+      case 'sayorileft', 'sayoriright': 'sayori_';
+      case 'natsukileft', 'natsukiright': 'natsuki_';
+      case 'monikaleft', 'monikaright': 'monika_';
+      case 'bfleft', 'bfright': 'bf_';
+      case 'gfleft', 'gfright': 'gf_';
+
+    }
+    if (StringTools.contains(nextSpeakerId, 'left')) {
+      if (leftSpeaker.visible == false) leftSpeaker.visible = true;
+      if (StringTools.contains(nextSpeakerId, 'bf') || StringTools.contains(nextSpeakerId, 'gf') || StringTools.contains(nextSpeakerId, 'mc') || StringTools.contains(nextSpeakerId, 'monika')) leftSpeaker.flipX = true;
+      else leftSpeaker.flipX = false;
+      leftSpeaker.loadGraphic(Paths.image('dialogue/portraits/' + character + nextSpeakerAnimation));
+    }
+    else {
+      if (rightSpeaker.visible == false) rightSpeaker.visible = true;
+      if (StringTools.contains(nextSpeakerId, 'bf') || StringTools.contains(nextSpeakerId, 'gf') || StringTools.contains(nextSpeakerId, 'mc') || StringTools.contains(nextSpeakerId, 'monika')) rightSpeaker.flipX = false;
+      else rightSpeaker.flipX = true;
+      rightSpeaker.loadGraphic(Paths.image('dialogue/portraits/' + character + nextSpeakerAnimation));
+    }
+  }
+
+  public function onDialogueStart(event:DialogueScriptEvent):Void {
+    super.onDialogueStart(event);
+    if (leftSpeaker != null) leftSpeaker.visible = false;
+    if (rightSpeaker != null) rightSpeaker.visible = false;
+  }
+
+  override function onCreate(event){
+    super.onCreate(event);
+    leftSpeaker = FunkinSprite.create(150, 50);
+    leftSpeaker.setGraphicSize(Std.int(leftSpeaker.width * .9));
+    leftSpeaker.zIndex = 290;
+    leftSpeaker.updateHitbox();
+    leftSpeaker.visible = false;
+    leftSpeaker.scrollFactor.set();
+    add(leftSpeaker);
+    rightSpeaker = FunkinSprite.create(600, 50);
+    rightSpeaker.setGraphicSize(Std.int(rightSpeaker.width * .9));
+    rightSpeaker.zIndex = 290;
+    rightSpeaker.flipX = true;
+    rightSpeaker.updateHitbox();
+    rightSpeaker.visible = false;
+    rightSpeaker.scrollFactor.set();
+    add(rightSpeaker);
+    refresh();
+  }
+}

@@ -1,0 +1,99 @@
+{
+    "version": "1.0.0",
+    "name": "Jill",
+    "renderType": "sparrow",
+    "assetPath": "characters/Jill_smoke",
+    "flipX": false,
+    "singTime": 4,
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "jill_idle_bop",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "idle-hold",
+            "prefix": "jill_idle-loop",
+            "offsets": [
+                0,
+                0
+            ],
+			"looped": true
+        },
+        {
+            "name": "singUP",
+            "prefix": "jill_up",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singUP-hold",
+            "prefix": "jill_up",
+            "offsets": [
+                0,
+                0
+            ],
+			"frameIndices": [3,5,7,9,11,13,15]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "jill_right",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singRIGHT-hold",
+            "prefix": "jill_right",
+            "offsets": [
+                0,
+                0
+            ],
+			"frameIndices": [3,5,7,9,11,13,15]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "jill_left",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT-hold",
+            "prefix": "jill_left",
+            "offsets": [
+                0,
+                0
+            ],
+			"frameIndices": [3,5,7,9,11,13,15]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "jill_down",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singDOWN-hold",
+            "prefix": "jill_down",
+            "offsets": [
+                0,
+                0
+            ],
+			"frameIndices": [3,5,7,9,11,13,15]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": true,
+    "scale": 6,
+    "Made_With": "the cigs Converter"
+}
