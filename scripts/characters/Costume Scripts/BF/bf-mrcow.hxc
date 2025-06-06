@@ -8,7 +8,7 @@ import flixel.FlxG;
 
 class MrCowCharacter extends MultiSparrowCharacter {
 	function new() {
-		super('Boyfriend Extras/bf-mrcow');
+		super('costumes/mrcow');
 	}
 
 	function onCreate(event:ScriptEvent) {

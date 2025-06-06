@@ -11,7 +11,7 @@ import StringTools;
 class YuriDerbyCharacter extends MultiSparrowCharacter {
 
 	function new() {
-		super('Yuri Extras/yuri-derby');
+		super('costumes/yuri-derby');
 	}
 
 	// player offset fix by cyn0x8

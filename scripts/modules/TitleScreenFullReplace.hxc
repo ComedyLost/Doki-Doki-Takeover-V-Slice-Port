@@ -45,6 +45,7 @@ class TitleScreenReplace extends Module
 		{
 			super.onStateChangeEnd(event);
 			if (Std.isOfType(FlxG.state, TitleState) && save.data.titlescreen) {
+				TitleState.initialized = true;
 				if (FlxG.sound.music != null) FlxG.sound.music.stop();
 				FlxG.switchState(ScriptedMusicBeatState.init("DokiTitleState"));
 			} else if ((Std.isOfType(FlxG.state, MainMenuState) || Std.isOfType(FlxG.state, AttractState)) && save.data.titlescreen){

@@ -22,15 +22,13 @@ import funkin.modding.module.ModuleHandler;
 import funkin.modding.module.Module;
 import funkin.graphics.FunkinCamera;
 import flixel.group.FlxTypedSpriteGroup;
+import funkin.modding.module.Module;
 
 class OurHarmonySong extends Song
 {
 	function new()
 	{
 		super('our-harmony');
-
-		save = new FlxSave();
-        save.bind("Costumes");
 
 		options = new FlxSave();
 		options.bind("TakeoverOptions");	
@@ -40,8 +38,6 @@ class OurHarmonySong extends Song
 	var oppStrumDefaultPos = [];
 	var yuri;
 	var natsuki;
-    var sukiCostumes:Array<String> = ['', '-casual', '-skater', '-kapi', '-sunday', '-hank', '-blueskies'];
-	var yuriCostumes:Array<String> = ['', '-casual', '-derby', '-picnic', '-taki', '-tabi', '-blueskies'];
 	var lyricData:Array<Dynamic>;
 	var cg1:FlxSprite;
 	var cg2:FlxSprite;
@@ -224,8 +220,10 @@ class OurHarmonySong extends Song
 	}
 	function createDokis(){
 		if (yuri != null || natsuki != null) return;
-		var natsukiName = (save.data.selectedSukiCostume == 0) ? 'natsuki' : 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
-		var yuriName = (save.data.selectedYuriCostume == 0) ? 'yuri' : 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
+		var costume = ModuleHandler.getModule("CostumeSwapper");
+
+		var natsukiName = costume.scriptCall('getCostumeName', ['natsuki']);
+		var yuriName = costume.scriptCall('getCostumeName', ['yuri']);
 
 		yuri = CharacterDataParser.fetchCharacter(yuriName);
 		if (yuri != null) {

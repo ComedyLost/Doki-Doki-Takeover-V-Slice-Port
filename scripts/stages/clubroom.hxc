@@ -89,7 +89,7 @@ class ClubroomStage extends Stage
 		super.onCountdownStart(event);
 		setDokiPosition(PlayState.instance.currentChart.characters.opponent.toLowerCase());
 		switch (PlayState.instance.currentSong.id.toLowerCase()){
-			case "dokidoggle", "catfight", "obsession":
+			case "dokidoggle", "catfight", "obsession", 'constricted':
 				getNamedProp('BG Sayori').alpha = 0;
 				getNamedProp('BG Natsuki').alpha = 0;
 				getNamedProp('BG Yuri').alpha = 0;	

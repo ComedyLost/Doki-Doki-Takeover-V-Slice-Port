@@ -62,6 +62,39 @@
             ]
         }
     ],
+    "costumes": "yuri",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"yuri-blueskies"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"yuri-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "picnic",
+			"charFile":"yuri-picnic"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "taki",
+			"charFile":"yuri-taki"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "derby",
+			"charFile":"yuri-derby"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "tabi",
+			"charFile":"yuri-tabi"
+		}
+	],
     "startingAnimation": "",
     "isPixel": false,
     "scale": 1,

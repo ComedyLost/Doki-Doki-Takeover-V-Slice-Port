@@ -39,25 +39,21 @@ class DokiDoggleSong extends Song
 	{
 		super('dokidoggle');
 
-		save = new FlxSave();
-        save.bind("Costumes");
+		options = new FlxSave();
+		options.bind("TakeoverOptions");	
 	}
 
 	var extraOpp;
 	var bfStartingX;
-	var yuriCostumes:Array<String> = ['', '-casual', '-derby', '-picnic', '-taki', '-tabi', '-blueskies'];
     var extraOpp;
 	var iconP3:HealthIcon;
     var extraStrumline;
 
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);
-		var yuri = switch (save.data.selectedYuriCostume) {
-			case 0:
-				'yuri';
-			default:
-				'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
-		}
+		var costume = ModuleHandler.getModule("CostumeSwapper");
+
+		var yuri = costume.scriptCall('getCostumeName', ['yuri']);
 		createExtraOpp(yuri);
 		summonExtraStrumline();
 		if (bfStartingX == null) bfStartingX = PlayState.instance.currentStage.getBoyfriend().originalPosition.x;
@@ -107,7 +103,7 @@ class DokiDoggleSong extends Song
 			}
 		}
 		//The Extra Strumline
-		var noteStyleIdPlayer:String = (PlayState.instance.currentSong.id.toLowerCase() == "dokidoggle") ? 'ddto' : PlayState.instance.playerStrumline.noteStyle.id;
+		var noteStyleIdPlayer:String = PlayState.instance.playerStrumline.noteStyle.id;
 		var noteStylePlayer:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleIdPlayer);
 		extraStrumline = new Strumline(noteStylePlayer, false);
     	extraStrumline.onNoteIncoming.add(PlayState.instance.onStrumlineNoteIncoming);
@@ -257,6 +253,23 @@ class DokiDoggleSong extends Song
 		return durSeconds;
 	}
 
+	function stutterNotes(elapsed:Float):Void
+		{
+			if (extraStrumline == null || extraStrumline.notes.members == null) return;
+
+			// Process hold notes on the opponent's side.
+			for (holdNote in extraStrumline.holdNotes.members)
+				{
+					if (holdNote == null || !holdNote.alive) continue;
+					
+					// While the hold note is being hit, and there is length on the hold note...
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+						{
+							if (extraOpp.isSinging()) extraOpp.animation.curAnim.restart();
+						}
+				}  
+		}
+
 	function onSongRetry(event:ScriptEvent)
 		{
 			super.onSongRetry(event);
@@ -279,6 +292,8 @@ class DokiDoggleSong extends Song
 
 	function onStepHit(event:SongTimeScriptEvent):Void
 		{	
+			if (options.data.psychholds) stutterNotes();	
+
 			switch(event.step)
 			{
 				case 192:

@@ -11,7 +11,7 @@ import StringTools;
 class CrazyYuriDerbyCharacter extends SparrowCharacter {
 
 	function new() {
-		super('Yuri Extras/yuri-crazy-derby');
+		super('costumes/yuri-crazy-derby');
 	}
 
 	var defaultColor;

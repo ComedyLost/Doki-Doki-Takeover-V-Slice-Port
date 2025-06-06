@@ -1,0 +1,107 @@
+{
+    "version": "1.0.0",
+    "name": "Zipper",
+    "assetPath": "characters/zipper",
+    "singTime": 4,
+    "isPixel": false,
+    "scale": 1,
+    "healthIcon": {
+        "id": "zipper",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Idle",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP",
+            "prefix": "Sing Up",
+            "offsets": [
+                113,
+                44
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Sing Left",
+            "offsets": [
+                220,
+                -85
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Sing Right",
+            "offsets": [
+                0,
+                -10
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Sing Down",
+            "offsets": [
+                90,
+                -120
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP-alt",
+            "prefix": "scream",
+            "offsets": [
+                240,
+                -30
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFT-alt",
+            "prefix": "scream",
+            "offsets": [
+                240,
+                -30
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT-alt",
+            "prefix": "scream",
+            "offsets": [
+                240,
+                -30
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN-alt",
+            "prefix": "scream",
+            "offsets": [
+                240,
+                -30
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        }
+    ],
+    "flipX": false
+}

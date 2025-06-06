@@ -56,6 +56,44 @@
             ]
         }
     ],
+	"costumes": "natsuki",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"natsuki-blueskies"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "buff",
+			"charFile":"natsuki-buff"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"natsuki-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "hank",
+			"charFile":"natsuki-hank"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "kapi",
+			"charFile":"natsuki-kapi"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "sunday",
+			"charFile":"natsuki-sunday"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "skater",
+			"charFile":"natsuki-skater"
+		}
+	],
     "startingAnimation": "",
     "isPixel": false,
     "scale": 1,

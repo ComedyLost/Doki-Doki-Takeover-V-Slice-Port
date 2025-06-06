@@ -1,0 +1,28 @@
+import funkin.play.character.SparrowCharacter;
+import funkin.play.PlayState;
+import funkin.play.GameOverSubState;
+import funkin.play.PauseSubState;
+import funkin.Paths;
+import flixel.FlxSprite;
+import flixel.FlxG;
+
+class SoftBFClassicCharacter extends SparrowCharacter {
+	function new() {
+		super('costumes/bf-soft-classic');
+	}
+
+	function onCreate(event:ScriptEvent) {
+		super.onCreate(event);
+
+		GameOverSubState.musicSuffix = '-doki';
+		GameOverSubState.blueBallSuffix = '';
+
+		PauseSubState.musicSuffix = '-doki';
+	}
+
+	function onNoteMiss(event:NoteScriptEvent)
+		{
+			if (event.eventCanceled) return;
+			super.onNoteMiss(event);
+		}
+}

@@ -47,6 +47,44 @@
             ]
         }
     ],
+	"costumes": "monika",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"monika-blueskies"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "valentine",
+			"charFile":"monika-valentine"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "hex",
+			"charFile":"monika-hex"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "senpai",
+			"charFile":"monika-senpai"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "vigilante",
+			"charFile":"monika-vigilante"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"monika-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "casuallong",
+			"charFile":"monika-casuallong"
+		}
+	],
     "startingAnimation": "",
     "isPixel": false,
     "scale": 0.9,

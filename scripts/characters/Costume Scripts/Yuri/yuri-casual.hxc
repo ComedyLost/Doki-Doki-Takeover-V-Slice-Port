@@ -12,7 +12,7 @@ import StringTools;
 class YuriCasualCharacter extends MultiSparrowCharacter {
 
 	function new() {
-		super('Yuri Extras/yuri-casual');
+		super('costumes/yuri-casual');
 	}
 
 	// player offset fix by cyn0x8

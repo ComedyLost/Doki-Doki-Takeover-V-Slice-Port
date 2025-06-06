@@ -21,7 +21,7 @@ class CostumeButton extends Module {
 		if (Std.isOfType(currentState, MainMenuState)) {
 			var menuItem = createMenuItem('costumes', 'mainmenu/PleaseKrillMe', 2,
 			function() {
-				currentState.startExitState(ScriptedMusicBeatState.init('Costumes'));
+				currentState.startExitState(ScriptedMusicBeatState.init('CostumeSelectState'));
 			}, false);
 			currentState.menuItems.addItem('costumes', menuItem);
 			// Then we can make sure the menu items are centered.

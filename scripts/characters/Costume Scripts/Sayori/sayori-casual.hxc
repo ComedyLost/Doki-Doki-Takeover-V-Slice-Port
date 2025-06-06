@@ -15,7 +15,7 @@ import StringTools;
 class SayoriCasualCharacter extends SparrowCharacter {
 
 	function new() {
-		super('Sayori Extras/sayori-casual');
+		super('costumes/sayori-casual');
 	}
 
     var defaultColor;

@@ -62,5 +62,53 @@
       "frameIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       "offsets": [2, -21]
     }
+  ],
+	"costumes": "gf",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "soft",
+			"charFile":"gf-soft"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "christmas",
+			"charFile":"gf-christmas"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"gf-blueskies"
+		},
+		{
+			"subfolder":false,
+			"internal_Name": "casual",
+			"charFile":"gf-classic"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "minus",
+			"charFile":"gf-minus"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "soft",
+			"charFile":"gf-soft"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "holofunk",
+			"charFile":"gf-nene"
+		},
+		{
+			"subfolder":false,
+			"internal_Name": "sayo",
+			"charFile":"sayo-speaker"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "tbd",
+			"charFile":"tbdtan"
+		}
   ]
 }

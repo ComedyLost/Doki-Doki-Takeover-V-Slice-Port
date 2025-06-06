@@ -108,6 +108,11 @@ class FestivalClubroomGlitcherStage extends Stage
 			}
 		}
 
+	public function onGameOver(event):Void {
+		super.onGameOver(event);
+		getBoyfriend().color = 0xFFFFFFFF;
+		PlayState.instance.camGame.filters = [];
+	}
 
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);

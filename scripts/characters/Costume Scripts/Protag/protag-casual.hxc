@@ -15,7 +15,7 @@ import StringTools;
 class ProtagCasualCharacter extends MultiSparrowCharacter {
 
 	function new() {
-		super('Protag Extras/protag-casual');
+		super('costumes/protag-casual');
 	}
 
     var defaultColor;

@@ -70,5 +70,38 @@
 			"looped": false,
 			"name": "singUP"
 		}
+	],
+	"costumes": "yuri",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"yuri-crazy-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"yuri-crazy-blueskies"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "taki",
+			"charFile":"yuri-crazy-taki"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "derby",
+			"charFile":"yuri-crazy-derby"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "tabi",
+			"charFile":"yuri-crazy-tabi"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "picnic",
+			"charFile":"yuri-crazy-picnic"
+		}
 	]
 }

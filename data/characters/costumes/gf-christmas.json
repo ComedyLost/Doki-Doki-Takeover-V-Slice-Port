@@ -1,0 +1,188 @@
+{
+    "version": "1.0.0",
+    "name": "Gf Christmas",
+    "assetPath": "characters/girlfriend/gfChristmas",
+    "singTime": 4,
+    "isPixel": false,
+    "offsets": [-11, 33],
+    "cameraOffsets": [0, -20],
+    "scale": 1,
+    "healthIcon": {
+        "id": "gf",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "animations": [
+        {
+            "name": "danceLeft",
+            "prefix": "GF Dancing Beat",
+            "offsets": [
+                0,
+                -9
+            ],
+            "frameRate": 24,
+            "frameIndices": [
+                30,
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "GF Dancing Beat",
+            "offsets": [
+                0,
+                -9
+            ],
+            "frameRate": 24,
+            "frameIndices": [
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29
+            ]
+        },
+        {
+            "name": "sad",
+            "prefix": "gf sad",
+            "offsets": [
+                0,
+                -21
+            ],
+            "frameRate": 24,
+            "frameIndices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+            ]
+        },
+        {
+            "name": "countdownThree",
+            "prefix": "GF countdown",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "name": "countdownTwo",
+            "prefix": "GF countdown",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": [
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+            ]
+        },
+        {
+            "name": "countdownOne",
+            "prefix": "GF countdown",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": [
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23
+            ]
+        },
+        {
+            "name": "countdownGo",
+            "prefix": "GF countdown",
+            "offsets": [
+                0,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": [
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34
+            ]
+        },
+        {
+            "name": "GF Necksnap",
+            "prefix": "GF NECKSNAP",
+            "looped": true,
+            "offsets": [
+                0,
+                -62
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        }
+    ],
+    "flipX": false
+}

@@ -1,0 +1,334 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.util.FlxSave;
+import flixel.util.FlxTimer;
+
+import flixel.FlxG;
+
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.play.components.HealthIcon;
+import funkin.graphics.FunkinSprite;
+
+import funkin.Paths;
+import openfl.utils.Assets;
+import haxe.Json;
+
+import funkin.util.assets.DataAssets;
+
+typedef CostumeList =
+{
+	var subfolder:Bool;
+	var internal_Name:String;
+	var charFile:String;
+}
+
+//This code fucking sucks ass 😭
+
+class CostumeSwapper extends Module {
+
+	var SaveData:FlxSave;
+
+	public var playerCostumeArray:Array<CostumeList> = [];
+	public var girlfriendCostumeArray:Array<CostumeList> = [];
+	public var dadCostumeArray:Array<CostumeList> = [];
+
+	public function new() {
+		super('CostumeSwapper');
+		any = new FlxSave();
+		any.bind("TakeoverOptions");
+		save = new FlxSave();
+		save.bind("CostumesV2");
+
+		SaveData = save.data;
+	}
+
+	public function onSongRetry(event):Void {
+		super.onSongRetry(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		songLoadCostumeSwap();
+	}
+
+	function songLoadCostumeSwap(){ // Does the costume swap on song load, fixes the default characters showing up on restart
+		switch (PlayState.instance.currentSong.id.toLowerCase()) {
+			case "mstsoobf", "epiphany-with-lyrics", "epiphany", "tutorial": return; //Force default characters since those songs might break with costumes
+			default: //Nothing
+		}
+		var playerJSON = jsonLoad(PlayState.instance.currentChart.characters.player);
+		var girlfriendJSON = jsonLoad(PlayState.instance.currentChart.characters.girlfriend);
+		var dadJSON = jsonLoad(PlayState.instance.currentChart.characters.opponent);
+
+		if (any.data.costumesanywhere){
+			if (PlayState.instance.currentChart.characters.player == 'bf') playerJSON = jsonLoad('bf-doki');
+			if (PlayState.instance.currentChart.characters.girlfriend == 'gf') girlfriendJSON = jsonLoad('gf-realdoki');
+			if (PlayState.instance.currentChart.characters.opponent == 'gf') dadJSON = jsonLoad('gf-realdoki');
+		}
+
+		if (playerJSON?.costumes != null) playerCostumeArray = playerJSON.costumelist;
+		if (girlfriendJSON?.costumes != null) girlfriendCostumeArray = girlfriendJSON.costumelist;
+		if (dadJSON?.costumes != null) dadCostumeArray = dadJSON.costumelist;
+		
+		var playerCostume = checkCostume(playerJSON);
+		var girlfriendCostume = checkCostume(girlfriendJSON);
+		var dadCostume = checkCostume(dadJSON);
+		
+		if (playerCostume != ''){
+			for (costume in playerCostumeArray) {
+				var internal_name:String = '' + costume.internal_Name;
+				var charafile:String = '' + costume.charFile;
+				var subfolder:Bool = costume.subfolder;
+
+				if (internal_name != playerCostume)
+					continue;
+
+				trace('found costume!');
+				if (subfolder)
+					changeCharacter("costumes/" + charafile, 'bf');
+				else
+					changeCharacter(charafile, 'bf');
+			}	
+		}
+		if (girlfriendCostume != ''){
+			for (costume in girlfriendCostumeArray) {
+				var internal_name:String = '' + costume.internal_Name;
+				var charafile:String = '' + costume.charFile;
+				var subfolder:Bool = costume.subfolder;
+
+				if (internal_name != girlfriendCostume)
+					continue;
+
+				trace('found costume!');
+				if (subfolder)
+					changeCharacter("costumes/" + charafile, 'gf');
+				else
+					changeCharacter(charafile, 'gf');
+			}	
+		}
+		if (dadCostume != ''){
+			for (costume in dadCostumeArray) {
+				var internal_name:String = '' + costume.internal_Name;
+				var charafile:String = '' + costume.charFile;
+				var subfolder:Bool = costume.subfolder;
+
+				if (internal_name != dadCostume)
+					continue;
+
+				trace('found costume!');
+				if (subfolder)
+					changeCharacter("costumes/" + charafile, 'dad');
+				else
+					changeCharacter(charafile, 'dad');
+			}	
+		}
+	}
+
+	function getCostumeName(character:String){ //For use in songs that add characters manually
+		var json = jsonLoad(character);
+
+		if (json.costumes != null) var costumeArray = json.costumelist;
+		else return character;
+		
+		var costumeName = checkCostume(json);
+		
+		if (costumeName != ''){
+			for (costume in costumeArray) {
+				var internal_name:String = '' + costume.internal_Name;
+				var charafile:String = '' + costume.charFile;
+				var subfolder:Bool = costume.subfolder;
+
+				if (internal_name != costumeName)
+					continue;
+
+				trace('found costume!');
+				if (subfolder)
+					return "costumes/" + charafile;
+				else
+					return charafile;
+			}	
+		} 
+		else return character;
+	}
+
+	function costumeSwap(name:String, replace:String){
+		var json = jsonLoad(name);
+
+		if (json.costumes != null) var costumeArray = json.costumelist;
+		else return;
+		
+		var costumeName = checkCostume(json);
+		
+		if (costumeName != ''){
+			for (costume in costumeArray) {
+				var internal_name:String = '' + costume.internal_Name;
+				var charafile:String = '' + costume.charFile;
+				var subfolder:Bool = costume.subfolder;
+
+				if (internal_name != costumeName)
+					continue;
+
+				trace('found costume!');
+				if (subfolder)
+					changeCharacter("costumes/" + charafile, replace);
+				else
+					changeCharacter(charafile, replace);
+			}	
+		}
+	}
+
+	function checkCostume(jsonFile){
+		var costumeoverride;
+		if (jsonFile == null) return '';
+		switch (jsonFile.costumes){
+			case 'protag':
+				costumeoverride = SaveData.protagcostume;
+			case 'monika':
+				costumeoverride = SaveData.monikacostume;
+			case 'yuri':
+				costumeoverride = SaveData.yuricostume;
+			case 'sayori':
+				costumeoverride = SaveData.sayoricostume;
+			case 'natsuki':
+				costumeoverride = SaveData.natsukicostume;
+			case 'gf':
+				costumeoverride = SaveData.gfcostume;
+			case 'bf':
+				costumeoverride = SaveData.bfcostume;
+		}
+		if (costumeoverride == 'hueh')
+			return '';
+		else
+			return costumeoverride;
+	}
+
+	function jsonLoad(chara:String)
+	{
+		var path:String = '';
+
+		path = Paths.json('characters/' + chara);
+
+		if (!Assets.exists(path))
+		{
+			return null;
+		}
+
+		var rawJson = Assets.getText(path);
+		return Json.parse(rawJson);
+	}
+
+
+	//Cache costume textures to prevent lag
+	override function onSongLoaded(event) {
+		super.onSongLoaded(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+		songLoadCostumeSwap();
+		for (events in event.events){
+			if (events.eventKind == 'ChangeCharacterCL'){
+				var json = jsonLoad(events.value.newchar);
+				if (json.costumes == null) continue;
+
+				if (checkCostume(json) == '') continue;
+				var costumeArray = json.costumelist;
+
+				var character:String;
+
+				for (costume in costumeArray) {
+					var internal_name:String = '' + costume.internal_Name;
+					var charafile:String = '' + costume.charFile;
+					var subfolder:Bool = costume.subfolder;
+
+					if (internal_name != checkCostume(json))
+						continue;
+
+					trace('found costume!');
+					if (subfolder)
+						character = "costumes/" + charafile;
+					else
+						character = charafile;
+				}	
+
+				var charData = CharacterDataParser.parseCharacterData(character);
+				CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
+
+				var _data = CharacterDataParser.fetchCharacter(character);
+				FunkinSprite.cacheSparrow(_data.assetPath);
+				if (Std.string(_data.renderType) == 'MultiSparrow'){
+					var assetList = [];
+					for (anim in _data.animations) {
+						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){
+							assetList.push(anim.assetPath);
+							FunkinSprite.cacheSparrow(anim.assetPath);
+						}
+					}
+				}
+			}
+		}
+	}	
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+		{
+			var script = scriptEvent;
+			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter")
+			{
+				var eventProps = scriptEvent.eventData.value;
+				var json = jsonLoad(eventProps.newchar);
+				if (json.costumes == null || checkCostume(json) == '') return;
+				new FlxTimer().start(0.0001, _ -> { //Add a little delay to stop character glitching when swapping out characters (I have no idea why this fixes it)
+					script.cancel();
+					costumeSwap(eventProps.newchar, eventProps.character.toLowerCase());
+				});
+			}
+		}
+
+	function changeCharacter(newName:String, character:String){
+		var charData = CharacterDataParser.parseCharacterData(newName);
+		CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
+
+		switch (character){
+			case 'bf':
+				var bfZIndex = PlayState.instance.currentStage.getBoyfriend().zIndex;
+				if (bfZIndex == null) bfZIndex = 0;
+		
+				PlayState.instance.currentStage.getBoyfriend().destroy();
+		
+				var boyfriend = CharacterDataParser.fetchCharacter(newName);
+				if (boyfriend != null) {
+					boyfriend.set_characterType(CharacterType.BF);
+					boyfriend.initHealthIcon(false);
+					PlayState.instance.currentStage.addCharacter(boyfriend, CharacterType.BF);
+					PlayState.instance.currentStage.getBoyfriend().zIndex = bfZIndex;
+				}
+			case 'gf':
+				var gfZIndex = PlayState.instance.currentStage.getGirlfriend().zIndex;
+				if (gfZIndex == null) gfZIndex = 0;
+		
+				PlayState.instance.currentStage.getGirlfriend().destroy();
+		
+				var girlfriend = CharacterDataParser.fetchCharacter(newName);
+				if (girlfriend != null) {
+					girlfriend.set_characterType(CharacterType.GF);
+					PlayState.instance.currentStage.addCharacter(girlfriend, CharacterType.GF);
+					PlayState.instance.currentStage.getGirlfriend().zIndex = gfZIndex;
+				}
+			case 'dad':
+				var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
+				if (oppZIndex == null) oppZIndex = 0;
+		
+				PlayState.instance.currentStage.getDad().destroy();
+		
+				var dad = CharacterDataParser.fetchCharacter(newName);
+				if (dad != null) {
+					dad.set_characterType(CharacterType.DAD);
+					dad.initHealthIcon(true);
+					PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
+					PlayState.instance.currentStage.getDad().zIndex = oppZIndex;
+				}
+		}
+		PlayState.instance.currentStage.refresh();
+	}
+}

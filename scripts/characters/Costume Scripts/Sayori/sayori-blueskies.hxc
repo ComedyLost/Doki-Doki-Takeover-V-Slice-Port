@@ -15,7 +15,7 @@ import StringTools;
 class SayoriBlueSkiesCharacter extends SparrowCharacter {
 
 	function new() {
-		super('Sayori Extras/sayori-blueskies');
+		super('costumes/sayori-blueskies');
 	}
 
     var defaultColor;

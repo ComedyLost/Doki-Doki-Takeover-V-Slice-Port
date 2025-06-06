@@ -80,6 +80,34 @@
             ]
         }
     ],
+	"costumes": "protag",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"protag-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "hotline",
+			"charFile":"protag-hotline"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "henry",
+			"charFile":"protag-henry"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "fanon",
+			"charFile":"protag-fanon"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"protag-blueskies"
+		}
+	],
     "startingAnimation": "",
     "isPixel": false,
     "scale": 0.98,

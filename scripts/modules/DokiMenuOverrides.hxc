@@ -1,0 +1,55 @@
+import flixel.FlxG;
+
+import flixel.addons.transition.FlxTransitionableState;
+
+import flixel.FlxSprite;
+import flixel.addons.display.FlxBackdrop; 
+
+import funkin.ui.mainmenu.MainMenuState;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.ui.options.OptionsState;
+import funkin.ui.title.TitleState;
+import funkin.ui.MusicBeatState;
+import funkin.ui.story.StoryMenuState;
+import flixel.util.FlxSave;
+import funkin.Conductor;
+import funkin.ui.title.AttractState;
+
+import funkin.audio.FunkinSound;
+
+import funkin.modding.base.ScriptedMusicBeatState;
+import funkin.modding.base.MusicBeatState;
+import funkin.modding.module.Module;
+
+import funkin.Paths;
+
+import Std;
+class DokiMenuOverrides extends Module
+{
+
+	public function new()
+	{
+		super('DokiMenuOverrides');
+
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+
+		active = false; //Scrapped due to too many issues
+	}
+
+	function onStateChangeEnd(event:StateChangeScriptEvent)
+		{
+			super.onStateChangeEnd(event);
+			if ((Std.isOfType(FlxG.state, MainMenuState)) && save.data.menus){
+				FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
+			} else if ((Std.isOfType(FlxG.state, MainMenuState)) && save.data.menus){
+				var exitToDokiMenu = function () {
+					FlxG.state.optionsCodex.currentPage.enabled = false;
+    				// TODO: Animate this transition?
+    				FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
+				}
+				FlxG.state.options.onExit.removeAll();
+				FlxG.state.options.onExit.add(exitToMainMenu);
+			}
+		}
+}

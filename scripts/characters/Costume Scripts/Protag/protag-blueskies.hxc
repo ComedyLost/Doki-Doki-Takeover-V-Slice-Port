@@ -15,7 +15,7 @@ import StringTools;
 class ProtagBlueSkiesCharacter extends MultiSparrowCharacter {
 
 	function new() {
-		super('Protag Extras/protag-blueskies');
+		super('costumes/protag-blueskies');
 	}
 
     var defaultColor;

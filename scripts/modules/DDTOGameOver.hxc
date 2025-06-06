@@ -1,0 +1,74 @@
+import flixel.FlxG;
+import flixel.util.FlxTimer;
+
+import funkin.Paths;
+import funkin.Highscore;
+import funkin.graphics.FunkinSprite;
+import funkin.play.PlayState;
+import funkin.modding.module.Module;
+import flixel.FlxSprite;
+import funkin.audio.FunkinSound;
+import funkin.play.PauseSubState;
+import funkin.util.FlxTweenUtil;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.text.FlxTextBorderStyle;
+import flixel.text.FlxText;
+import funkin.PlayerSettings;
+import flixel.math.FlxMath;
+import StringTools;
+import funkin.play.GameOverSubState;
+import funkin.play.character.CharacterDataParser;
+
+class DDTOGameOver extends Module {
+
+	public function new() {
+		super("DDTOGameOver");
+	}
+
+	var doki = ['sayori', 'monika', 'natsuki', 'yuri', 'yuri-crazy'];
+
+	//Switches game over to BF's game over if it's a doki AND not mirror mode
+	override function onSubStateOpenEnd(event:StateChangeScriptEvent)
+		{
+			super.onSubStateOpenEnd(event);
+			if (Std.isOfType(event.targetState, GameOverSubState)) {
+				if (!doki.contains(PlayState.instance.currentChart.characters.player))
+					return;
+		
+				//Holy shit
+				var boyfriend = CharacterDataParser.fetchCharacter('bf-doki');
+				if (boyfriend != null) {
+					var stageCharData = PlayState.instance.currentStage._data.characters.bf;
+
+					GameOverSubState.instance.boyfriend.destroy();
+					boyfriend.resetCharacter();
+					
+					boyfriend.flipX = !boyfriend.getDataFlipX();
+
+					boyfriend.x = stageCharData.position[0] - boyfriend.characterOrigin.x;
+					boyfriend.y = stageCharData.position[1] - boyfriend.characterOrigin.y;
+
+					boyfriend.originalPosition.set(boyfriend.x, boyfriend.y);
+
+					var finalScale = boyfriend.getBaseScale() * stageCharData.scale;
+					boyfriend.setScale(finalScale); // Don't use scale.set for characters!
+					boyfriend.cameraFocusPoint.x += stageCharData.cameraOffsets[0];
+					boyfriend.cameraFocusPoint.y += stageCharData.cameraOffsets[1];
+
+					boyfriend.scrollFactor.x = stageCharData.scroll[0];
+					boyfriend.scrollFactor.y = stageCharData.scroll[1];
+
+					boyfriend.alpha = stageCharData.alpha;
+					boyfriend.angle = stageCharData.angle;
+
+        			boyfriend.canPlayOtherAnims = true;
+        			boyfriend.isDead = true;
+
+					GameOverSubState.instance.boyfriend = boyfriend;
+					GameOverSubState.instance.add(GameOverSubState.instance.boyfriend);
+					GameOverSubState.instance.setCameraTarget();
+				}
+   			}
+		}    
+}

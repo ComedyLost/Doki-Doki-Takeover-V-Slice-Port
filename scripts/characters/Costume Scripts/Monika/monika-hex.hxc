@@ -20,10 +20,9 @@ import funkin.graphics.FunkinSprite;
 class MonikaHexCharacter extends SparrowCharacter {
 
 	function new() {
-		super('Monika Extras/monika-hex');
+		super('costumes/monika-hex');
 	}
 
-    var deathSpriteRetry:FunkinSprite;
     var defaultColor;
     var missColor;
   
@@ -31,27 +30,15 @@ class MonikaHexCharacter extends SparrowCharacter {
     	super.onCreate(event);
       if (PlayState.instance.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
       else var isFestival = false;
-		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
-		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
-	}
+      defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
+      missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+    }
   
     public function onCountdownStart(event):Void {
         super.onCountdownStart(event);
         if (characterType != CharacterType.BF) return;
         this.cameraFocusPoint.y += 100;
     }  
-
-    function createDeathSprites() {
-		deathSpriteRetry = FunkinSprite.createSparrow(0, 0, "characters/DokiGameOver");
-		deathSpriteRetry.animation.addByPrefix('firstDeath', "DokiGameOverIntro", 24, false);
-        deathSpriteRetry.animation.addByPrefix('deathLoop', "DokiGameOverLoop", 24, true);
-		deathSpriteRetry.animation.addByPrefix('deathConfirm', "DokiGameOverConfirm", 24, false);
-        deathSpriteRetry.x = this.x + 150;
-        deathSpriteRetry.y = this.y + 50;
-        this.alpha = 0;
-
-        deathSpriteRetry.animation.finishCallback = function (s:String) {if (s == 'firstDeath') {GameOverSubState.instance.startDeathMusic(1.0, false); GameOverSubState.instance.boyfriend.playAnimation('deathLoop');}};
-	}
 
     override function onAdd() {
       if (characterType != CharacterType.BF) return;
@@ -86,16 +73,6 @@ class MonikaHexCharacter extends SparrowCharacter {
 		{
 		  // FlxG.watch.addQuick('playAnim(${characterName})', name);
 		  if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
-          if (name == "firstDeath"){
-            createDeathSprites();
-
-            GameOverSubState.instance.add(deathSpriteRetry);
-          }
-          if (deathSpriteRetry != null) deathSpriteRetry.animation.play(name);
-          if (name == "deathConfirm") {
-            deathSpriteRetry.x += 4;
-            deathSpriteRetry.y -= 2;
-          }
 		  super.playAnimation(name, restart, ignoreOther, reversed);
 		}
 }

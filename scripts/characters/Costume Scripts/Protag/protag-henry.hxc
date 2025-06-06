@@ -15,7 +15,7 @@ import StringTools;
 class ProtagHenryCharacter extends MultiSparrowCharacter {
 
 	function new() {
-		super('Protag Extras/protag-henry');
+		super('costumes/protag-henry');
 	}
 
     var defaultColor;

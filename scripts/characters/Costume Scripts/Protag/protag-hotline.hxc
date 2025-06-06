@@ -15,7 +15,7 @@ import StringTools;
 class ProtagHotlineCharacter extends MultiSparrowCharacter {
 
 	function new() {
-		super('Protag Extras/protag-hotline');
+		super('costumes/protag-hotline');
 	}
 
     var defaultColor;

@@ -12,7 +12,7 @@ import StringTools;
 class CrazyYuriCasualCharacter extends SparrowCharacter {
 
 	function new() {
-		super('Yuri Extras/yuri-crazy-casual');
+		super('costumes/yuri-crazy-casual');
 	}
 
 	var defaultColor;

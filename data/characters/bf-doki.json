@@ -113,5 +113,73 @@
       "prefix": "BF idle shaking",
       "offsets": [-6, 0]
     }
-  ]
+  ],
+  "costumes": "bf",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"bf-classic"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "christmas",
+			"charFile":"bf-christmas"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"bf-blueskies"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "holofunk",
+			"charFile":"aloe"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "aloe-classic",
+			"charFile":"aloe-classic"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "minus",
+			"charFile":"bf-minus"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "minus-mean",
+			"charFile":"bf-minus-mean"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "minus-yellow",
+			"charFile":"bf-minus-yellow"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "sutazu",
+			"charFile":"sutazu"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "soft",
+			"charFile":"bf-soft"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "soft-classic",
+			"charFile":"bf-soft-classic"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "mrcow",
+			"charFile":"mrcow"
+		},
+    {
+			"subfolder":true,
+			"internal_Name": "mcbf",
+			"charFile":"bf-mcbf"
+		}		
+	]
 }

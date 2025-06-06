@@ -16,10 +16,20 @@ class FreeplayFixes extends Module {
 	}
 
 	var ddtolevelids = ['DDTOWeek1', 'DDTOWeek2', 'DDTOWeek3', 'DDTOWeek4', 'DDTOWeek5', 'DDTOWeek6', 'DDTOWeek7', 'DDTOWeek8', 'DDTOWeekDoggle', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories', 'fuckidk'];
-	
+	var curSelected:Int;
+
 	override function onSubStateOpenEnd(event) {
         super.onSubStateOpenEnd(event);
         if (Std.isOfType(event.targetState, FreeplayState)) {
+			var state = event.targetState;
+			var reset = function () {{ //Needs to be called when DJ does its intro since the game resets the capsule stuff after
+				new FlxTimer().start(0.15, _ -> {
+					curSelected = 0;
+				});
+			}}
+			if (state.dj != null) {
+      			state.dj.onIntroDone.add(reset);
+			}
 			for (capsule in event.targetState.grpCapsules.members){
 				if (capsule?.freeplayData != null) {
 					if (ddtolevelids.contains(capsule.freeplayData.levelId)){ //Changed from checking albums since it would miss the check sometimes
@@ -92,8 +102,11 @@ class FreeplayFixes extends Module {
 		if (Std.isOfType(FlxG.state.subState, FreeplayState))
 			{
 				//Prevents from running if the Freeplay state is busy (Ex. Choosing an inst, choosing a Doki for Catfight, first load, currently loading a song)
-				var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
-				if (curCap?.freeplayData != null && curCap.freeplayData.data.id == 'our-harmony') curCap.pixelIcon.setCharacter('monika');
+				if (curSelected != FlxG.state.subState.curSelected){
+					curSelected = FlxG.state.subState.curSelected;
+					var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
+					if (curCap?.freeplayData != null && curCap.freeplayData.data.id == 'our-harmony') curCap.pixelIcon.setCharacter('monika');
+				}
 				if (!FlxG.state.subState.busy && (PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P || FlxG.keys.justPressed.Q || FlxG.keys.justPressed.E)){
 					new FlxTimer().start(0.1, _ -> {
 						for (capsule in FlxG.state.subState.grpCapsules.members){

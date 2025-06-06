@@ -1,0 +1,33 @@
+flag	content
+cmnDiff	Difficulty
+cmnEasy	Easy
+cmnNormal	Normal
+cmnHard	Hard
+cmnPB	Personal Best
+cmnScore	Score
+cmnNPS	NPS
+cmnMax	Max
+cmnComboBreak	Combo Breaks
+cmnBreaks	Breaks
+cmnAccuracy	Accuracy
+cmnRating	Rating
+cmnBotplay	Botplay
+cmnClear	Clear
+cmnEarly	Early
+cmnLate	Late
+cmnOn	On
+cmnOff	Off
+cmnYes	Yes
+cmnNo	No
+cmnOffset	Global Offset
+cmnAddOffset	Song Offset: <X> | Adds an additional offset to this song only. (Left or Right, Shift to go faster)
+cmnCategory	Please select a category. (Global Offset: Left or Right, Shift to go faster)
+cmnPractice	Practice Mode
+cmnLock	Locked
+cmnSpeed	Song Speed
+cmnCaching	Caching
+cmnLanguage	Language Select
+cmnDisableCaching	(press D to disable next boot)
+cmnCachingFinish	Finished caching!
+cmnDialogueSkip	Press ESCAPE to skip the dialogue.
+cmnExit	Are you sure you want to<N>exit the game?

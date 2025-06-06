@@ -13,10 +13,9 @@ import StringTools;
 
 class NatsukiKapiCharacter extends MultiSparrowCharacter {
 	function new() {
-		super('Natsuki Extras/natsuki-kapi');
+		super('costumes/natsuki-kapi');
 	}
 
-	var deathSpriteRetry:FunkinSprite;
     var defaultColor;
     var missColor;
   
@@ -26,18 +25,6 @@ class NatsukiKapiCharacter extends MultiSparrowCharacter {
 		else var isFestival = false;
 		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
 		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
-	}
-
-    function createDeathSprites() {
-		deathSpriteRetry = FunkinSprite.createSparrow(0, 0, "characters/DokiGameOver");
-		deathSpriteRetry.animation.addByPrefix('firstDeath', "DokiGameOverIntro", 24, false);
-        deathSpriteRetry.animation.addByPrefix('deathLoop', "DokiGameOverLoop", 24, true);
-		deathSpriteRetry.animation.addByPrefix('deathConfirm', "DokiGameOverConfirm", 24, false);
-        deathSpriteRetry.x = this.x;
-        deathSpriteRetry.y = this.y;
-        this.alpha = 0;
-
-        deathSpriteRetry.animation.finishCallback = function (s:String) {if (s == 'firstDeath') {GameOverSubState.instance.startDeathMusic(1.0, false); GameOverSubState.instance.boyfriend.playAnimation('deathLoop');}};
 	}
 
     override function onAdd() {
@@ -81,16 +68,6 @@ class NatsukiKapiCharacter extends MultiSparrowCharacter {
 		{
 		  // FlxG.watch.addQuick('playAnim(${characterName})', name);
 		  if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
-          if (name == "firstDeath"){
-            createDeathSprites();
-
-            GameOverSubState.instance.add(deathSpriteRetry);
-          }
-          if (deathSpriteRetry != null) deathSpriteRetry.animation.play(name);
-          if (name == "deathConfirm") {
-            deathSpriteRetry.x += 4;
-            deathSpriteRetry.y -= 2;
-          }
 		  super.playAnimation(name, restart, ignoreOther, reversed);
 		}
 	  

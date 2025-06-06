@@ -24,7 +24,7 @@
       "e": "FocusCamera",
       "v": {
 	"duration": 4,
-	"x": 0,
+	"x": -100,
 	"y": -150,
 	"char": 2,
 	"ease": "CLASSIC"
@@ -77,7 +77,7 @@
       "e": "FocusCamera",
       "v": {
 	"duration": 4,
-	"x": 0,
+	"x": -100,
 	"y": -150,
 	"char": 2,
 	"ease": "CLASSIC"
@@ -112,7 +112,7 @@
       "e": "FocusCamera",
       "v": {
 	"duration": 4,
-	"x": 0,
+	"x": -100,
 	"y": -150,
 	"char": 2,
 	"ease": "CLASSIC"
@@ -161,7 +161,7 @@
       "e": "FocusCamera",
       "v": {
 	"duration": 4,
-	"x": 0,
+	"x": -100,
 	"y": -150,
 	"char": 2,
 	"ease": "CLASSIC"

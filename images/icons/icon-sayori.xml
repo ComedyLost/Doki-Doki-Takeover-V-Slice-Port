@@ -2,13 +2,13 @@
 <TextureAtlas imagePath="icon-sayori.png">
 	<!-- Created with Adobe Animate version 22.0.5.191 -->
 	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="idle0000" x="0" y="0" width="151" height="150"/>
+	<SubTexture name="winning0000" x="152" y="0" width="151" height="151"/>
+	<SubTexture name="losing0000" x="304" y="0" width="151" height="150"/>
 	<SubTexture name="depression arc0000" x="0" y="152" width="151" height="151"/>
 	<SubTexture name="depression arc0001" x="0" y="152" width="151" height="151"/>
 	<SubTexture name="depression arc0002" x="152" y="152" width="151" height="151"/>
 	<SubTexture name="depression arc0003" x="152" y="152" width="151" height="151"/>
 	<SubTexture name="depression arc0004" x="304" y="152" width="151" height="151"/>
 	<SubTexture name="depression arc0005" x="304" y="152" width="151" height="151"/>
-	<SubTexture name="idle0000" x="0" y="0" width="151" height="150"/>
-	<SubTexture name="winning0000" x="152" y="0" width="151" height="151"/>
-	<SubTexture name="losing0000" x="304" y="0" width="151" height="150"/>
 </TextureAtlas>

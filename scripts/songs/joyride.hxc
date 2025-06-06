@@ -49,9 +49,7 @@ class JoyrideSong extends Song
 
 	override function onCountdownStart(event) {
 		super.onCountdownStart(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
-
+		sunshine.alpha = 0.001;
 	}
 
 	function calcSectionLength(duration:Int){
@@ -62,6 +60,7 @@ class JoyrideSong extends Song
 	function onSongRetry(event:ScriptEvent) {
 		super.onSongRetry(event);
 		encoreTime = 0;
+		sunshine.alpha = 0.001;
 	}	  
 
 	function onBeatHit(event:SongTimeScriptEvent):Void {	

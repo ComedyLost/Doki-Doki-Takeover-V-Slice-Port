@@ -29,6 +29,7 @@ import funkin.play.components.HealthIcon;
 import funkin.PlayerSettings;
 import funkin.save.Save;
 import flixel.util.FlxSave;
+import funkin.modding.module.ModuleHandler;
 
 class YouAndMeSong extends Song
 {
@@ -49,16 +50,10 @@ class YouAndMeSong extends Song
 	var whiteflash:FlxSprite;
 	var newVocals:FunkinSound;
 	var characterImages:Array<Dynamic>;
-	var moniCostumes:Array<String> = ['', '-casual', '-valentine', '-hex', '-senpai', '-blueskies', '-vigilante'];
-    var sayoCostumes:Array<String> = ['', '-casual', '-sleepwear', '-picnic', '-grace', '-zipper', '-blueskies'];
-    var sukiCostumes:Array<String> = ['', '-casual', '-skater', '-kapi', '-sunday', '-hank', '-blueskies'];
-	var yuriCostumes:Array<String> = ['', '-casual', '-derby', '-picnic', '-taki', '-tabi', '-blueskies'];
 
 	function new()
 	{
 		super('you-and-me');
-		save = new FlxSave();
-        save.bind("Costumes");
 	}
 
 	public override function isSongNew(currentDifficulty:String):Bool{
@@ -366,13 +361,8 @@ class YouAndMeSong extends Song
 			}		
 
 		function changeOppCharacter(doki:String){
-			var character = switch (doki) {
-				case 'monika': (save.data.selectedMoniCostume == 0) ? 'monika' : 'Monika Extras/monika'+moniCostumes[save.data.selectedMoniCostume];
-				case 'sayori': (save.data.selectedSayoCostume == 0) ? 'sayori' : 'Sayori Extras/sayori'+sayoCostumes[save.data.selectedSayoCostume];
-				case 'natsuki': (save.data.selectedSukiCostume == 0) ? 'natsuki' : 'Natsuki Extras/natsuki'+sukiCostumes[save.data.selectedSukiCostume];
-				case 'yuri': (save.data.selectedYuriCostume == 0) ? 'yuri' : 'Yuri Extras/yuri'+yuriCostumes[save.data.selectedYuriCostume];
-				default: doki;
-			}
+			var costume = ModuleHandler.getModule("CostumeSwapper");
+			var character = costume.scriptCall('getCostumeName', [doki]);
 			var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
 			if (oppZIndex == null) oppZIndex = 0;
 			var opponentCharData = CharacterDataParser.parseCharacterData(character);

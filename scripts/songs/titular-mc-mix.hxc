@@ -43,6 +43,7 @@ class TitularMCMixSong extends Song
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
 		
+		if (camGame2 == null || PlayState.instance.camGame == null) return;
         camGame2.zoom = PlayState.instance.camGame.zoom;
         camGame2.targetOffset = FlxG.camera.targetOffset;
     }    

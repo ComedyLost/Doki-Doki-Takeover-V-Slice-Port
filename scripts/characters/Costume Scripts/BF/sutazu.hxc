@@ -1,4 +1,4 @@
-import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.character.SparrowCharacter;
 import funkin.play.PlayState;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
@@ -6,9 +6,9 @@ import funkin.Paths;
 import flixel.FlxSprite;
 import flixel.FlxG;
 
-class AloeCharacter extends MultiSparrowCharacter {
+class SutazuCharacter extends SparrowCharacter {
 	function new() {
-		super('Boyfriend Extras/bf-aloe');
+		super('costumes/sutazu');
 	}
 
 	function onCreate(event:ScriptEvent) {

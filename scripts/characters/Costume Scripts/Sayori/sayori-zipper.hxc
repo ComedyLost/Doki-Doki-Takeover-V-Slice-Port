@@ -15,7 +15,7 @@ import StringTools;
 class SayoriZipperCharacter extends SparrowCharacter {
 
 	function new() {
-		super('Sayori Extras/sayori-zipper');
+		super('costumes/sayori-zipper');
 	}
 
     var defaultColor;

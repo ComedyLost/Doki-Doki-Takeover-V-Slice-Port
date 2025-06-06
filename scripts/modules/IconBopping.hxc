@@ -43,6 +43,13 @@ class IconBoppingModule extends Module
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
     if (PlayState.instance.isMinimalMode) return;
 
+    if (PlayState.instance.currentChart.characters.player == 'bf' && save.data.costumesanywhere && !PlayState.instance.iconP1.isLegacyStyle){
+      PlayState.instance.iconP1.isLegacyStyle = true;
+    }
+    if (PlayState.instance.currentChart.characters.opponent == 'gf' && save.data.costumesanywhere && PlayState.instance.iconP2.characterId != 'gf'){
+			PlayState.instance.iconP2.loadCharacter('gf');
+    }
+
     //Lock icon bopping fix to DDTO V-Slice only to prevent other V-Slice mod issues
 		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
     if (PlayState.instance.currentStage.getBoyfriend() != null && !PlayState.instance.iconP1.isLegacyStyle) PlayState.instance.iconP1.isLegacyStyle = true;

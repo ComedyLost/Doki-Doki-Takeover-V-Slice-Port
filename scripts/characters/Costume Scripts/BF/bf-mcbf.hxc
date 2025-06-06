@@ -10,7 +10,7 @@ import funkin.Conductor;
 
 class MCBFCharacter extends MultiSparrowCharacter {
 	function new() {
-		super('Boyfriend Extras/bf-mcbf');
+		super('costumes/bf-mcbf');
 	}
 
 	//Force Psych Engine Jitter Anims on this character

@@ -8,7 +8,7 @@ import flixel.FlxG;
 
 class SoftBFCharacter extends MultiSparrowCharacter {
 	function new() {
-		super('Boyfriend Extras/bf-soft');
+		super('costumes/bf-soft');
 	}
 
 	function onCreate(event:ScriptEvent) {

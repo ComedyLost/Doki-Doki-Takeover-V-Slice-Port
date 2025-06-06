@@ -19,6 +19,9 @@ import funkin.audio.FunkinSound;
 import funkin.modding.module.ModuleHandler;
 import funkin.modding.module.Module;
 import lime.app.Application;
+import funkin.modding.base.ScriptedMusicBeatState;
+import flixel.util.FlxSave;
+import flixel.input.gamepad.FlxGamepad;
 
 import StringTools;
 
@@ -42,6 +45,9 @@ class DokiTitleState extends MusicBeatState
 
   	override public function create():Void {
     	super.create();
+		save = new FlxSave();
+        save.bind("TakeoverOptions");
+
 		initialized = ModuleHandler.getModule("TitleScreenReplace").scriptGet("initialized", []);
 
 		Conductor.instance.update(0);
@@ -252,6 +258,17 @@ class DokiTitleState extends MusicBeatState
     	}
 
 		var pressedEnter:Bool = controls.ACCEPT || FlxG.mouse.justPressed;
+    	var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+
+    	if (gamepad != null) {
+      		if (gamepad.justPressed.START) pressedEnter = true;
+    	}
+
+    	if (pressedEnter && transitioning && skippedIntro) {
+			var targetState:NextState = () -> new MainMenuState(true);
+			//if (save.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
+      		FlxG.switchState(targetState);
+    	}
 
 		if (pressedEnter && !transitioning && skippedIntro)
 		{
@@ -263,6 +280,7 @@ class DokiTitleState extends MusicBeatState
 			transitioning = true;
 
 			var targetState:NextState = () -> new MainMenuState(true);
+			//if (save.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
         		FlxG.switchState(targetState);

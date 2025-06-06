@@ -64,6 +64,44 @@
             ]
         }
     ],
+	"costumes": "sayori",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"sayori-blueskies"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"sayori-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "picnic",
+			"charFile":"sayori-picnic"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "grace",
+			"charFile":"sayori-grace"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "minus",
+			"charFile":"sayori-minus"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "sleepwear",
+			"charFile":"sayori-sleepwear"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "zipper",
+			"charFile":"sayori-zipper"
+		}
+	],
     "startingAnimation": "danceRight",
     "isPixel": false,
     "scale": 1,

@@ -1,22 +1,30 @@
 import flixel.input.mouse.FlxMouseEventManager;
-import Controls.KeyboardScheme;
 import haxe.Json;
 import lime.utils.Assets;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
-import flixel.group.FlxGroup;
 import flixel.effects.FlxFlicker;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import shaders.ColorMaskShader;
+import flixel.group.FlxTypedSpriteGroup;
 import StringTools;
+import funkin.Conductor;
+import funkin.ui.MusicBeatState;
+import flixel.text.FlxTextBorderStyle;
+import funkin.util.Constants;
+import flixel.addons.transition.FlxTransitionableState;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.ui.story.StoryMenuState;
+import funkin.ui.transition.LoadingState;
+import funkin.data.song.SongRegistry;
+import funkin.play.song.Song;
+import funkin.Paths;
+import funkin.play.PlayStatePlaylist;
 
 typedef MenuCharacterData = 
 {
@@ -35,7 +43,7 @@ typedef MenuCharacterJSON =
 	var characters:Array<MenuCharacterData>;
 }
 
-class MainMenuState extends MusicBeatState
+class DokiMainMenuState extends MusicBeatState
 {
 	var curSelected:Int = 0;
 
@@ -46,9 +54,9 @@ class MainMenuState extends MusicBeatState
 	var mouseManager:FlxMouseEventManager = new FlxMouseEventManager();
 
 	var show:String = "";
-	var menuItems:FlxTypedGroup<FlxText>;
+	var menuItems:FlxTypedSpriteGroup<FlxText>;
 
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'gallery', 'credits', 'options', 'exit'];
+	var optionShit:Array<String> = ['Story Mode', 'Freeplay', 'Credits', 'Options', 'Exit Game'];
 
 	public static var firstStart:Bool = true;
 
@@ -63,87 +71,54 @@ class MainMenuState extends MusicBeatState
 	var logoBl:FlxSprite;
 	public static var menuCharJSON:MenuCharacterJSON;
 
-	public static var instance:MainMenuState;
+	public static var instance;
 
 	override function create()
 	{
-		Paths.clearStoredMemory();
-		Paths.clearUnusedMemory();
-
 		instance = this;
 
 		persistentUpdate = persistentDraw = true;
 
 		FlxG.mouse.visible = true;
 
-		if (!SaveData.beatPrologue)
-		{
-			SaveData.weekUnlocked = 1;
-			optionShit.remove('freeplay');
-		}
-
-		if (!SaveData.beatProtag)
-			optionShit.remove('credits');
-
-		if (!SaveData.beatSide)
-			optionShit.remove('gallery');
-
-		if (!SaveData.beatVA11HallA && SaveData.beatSide)
-			addVally = true;
-
-		#if debug
 		addVally = true;
-		#end
 
-		#if FEATURE_DISCORD
-		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
-		#end
-
-		if (!FlxG.sound.music.playing)
+		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
 		{
-			FlxG.sound.playMusic(Paths.music('freakyMenu'));
-			Conductor.changeBPM(120);
+			FunkinSound.playMusic('freakyMenu-DDTO', {
+       			startingVolume: 0.0,
+   	   			overrideExisting: true,
+   	   			restartTrack: false,
+   	   			// Continue playing this music between states, until a different music track gets played.
+   	   			persist: true
+   			});
 		}
 
 		backdrop = new FlxBackdrop(Paths.image('scrollingBG'));
 		backdrop.velocity.set(-40, -40);
-		backdrop.antialiasing = SaveData.globalAntialiasing;
-		backdrop.shader = new ColorMaskShader(0xFFFDFFFF, 0xFFFDDBF1);
 		add(backdrop);
 
 		var menuString:String = Assets.getText(Paths.json('menuCharacters'));
 		var jsonFound:Bool = true;
 
-		try {
-			menuCharJSON = cast Json.parse(menuString);
-		} catch (ex) {
-			jsonFound = false;
-			trace("Couldn't find that file. What a blunder!");
-		}
+		menuCharJSON = Json.parse(menuString);
 
 		var twenty:Array<String> = ['together1', 'yuri', 'natsuki', 'sayori', 'pixelmonika', 'senpai'];
 		var ten:Array<String> = ['sunnat', 'yuritabi', 'minusmonikapixel', 'yuriken', 'sayominus', 'cyrixstatic', 'zipori', 'nathaachama'];
 		var two:Array<String> = ['fumo'];
 
 		// Push certain strings into arrays after save checks here
-		if (SaveData.beatFestival)
-			twenty.push('protag');
+		twenty.push('protag');
 
-		if (SaveData.beatMonika)
-		{
-			ten.push('deeppoems');
-			ten.push('akimonika');
-			ten.push('indiehorror');
-		}
+		ten.push('deeppoems');
+		ten.push('akimonika');
+		ten.push('indiehorror');
 
-		if (SaveData.unlockAntipathyCostume)
-			ten.push('nathank');
+		ten.push('nathank');
 
-		if (SaveData.getFlixelSave('ShadowMario', 'VS Impostor')) // amogus
-			ten.push('sayomongus');
+		ten.push('sayomongus');
 
-		var random:Float = Random.randNF();
+		var random:Float = FlxG.random.float();
 		if (random < 0.60) // 60% chance
 			show = selectMenuCharacter(twenty);
 		else if (random >= 0.60 && random < 0.98) // 38% chance
@@ -180,13 +155,11 @@ class MainMenuState extends MusicBeatState
 			menu_character.scale.set(0.77, 0.77);
 			menu_character.animation.addByPrefix('play', "Doki together club", 21, false);
 		}
-		menu_character.antialiasing = SaveData.globalAntialiasing;
 		menu_character.updateHitbox();
 		menu_character.animation.play('play');
 		add(menu_character);
 
 		logo = new FlxSprite(-260, 0).loadGraphic(Paths.image('Credits_LeftSide'));
-		logo.antialiasing = SaveData.globalAntialiasing;
 		add(logo);
 		if (firstStart)
 			FlxTween.tween(logo, {x: -60}, 1.2, {
@@ -194,7 +167,7 @@ class MainMenuState extends MusicBeatState
 				onComplete: function(flxTween:FlxTween)
 				{
 					firstStart = false;
-					changeItem();
+					changeItem(0);
 				}
 			});
 		else
@@ -202,7 +175,6 @@ class MainMenuState extends MusicBeatState
 
 		logoBl = new FlxSprite(-160, -40);
 		logoBl.frames = Paths.getSparrowAtlas('DDLCStart_Screen_Assets');
-		logoBl.antialiasing = SaveData.globalAntialiasing;
 		logoBl.scale.set(0.5, 0.5);
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
@@ -214,21 +186,20 @@ class MainMenuState extends MusicBeatState
 				onComplete: function(flxTween:FlxTween)
 				{
 					firstStart = false;
-					changeItem();
+					changeItem(0);
 				}
 			});
 		else
 			logoBl.x = 40;
 
-		menuItems = new FlxTypedGroup<FlxText>();
+		menuItems = new FlxTypedSpriteGroup();
 		add(menuItems);
 
 		for (i in 0...optionShit.length)
 		{
-			var menuItem:FlxText = new FlxText(-350, 370 + (i * 50), 0, LangUtil.getString(optionShit[i], 'menu'));
-			menuItem.setFormat(LangUtil.getFont('riffic'), 27, FlxColor.WHITE, LEFT);
-			menuItem.antialiasing = SaveData.globalAntialiasing;
-			menuItem.setBorderStyle(OUTLINE, 0xFFFF7CFF, 2);
+			var menuItem:FlxText = new FlxText(-350, 370 + (i * 50), 0, optionShit[i]);
+			menuItem.setFormat(Paths.font("riffic.ttf"), 27, 0xFFFFFFFF, 'left');
+			menuItem.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFF7CFF, 2);
 			menuItem.ID = i;
 			menuItems.add(menuItem);
 
@@ -238,7 +209,7 @@ class MainMenuState extends MusicBeatState
 					onComplete: function(flxTween:FlxTween)
 					{
 						firstStart = false;
-						changeItem();
+						changeItem(0);
 					}
 				});
 			else
@@ -249,20 +220,17 @@ class MainMenuState extends MusicBeatState
 		}
 
 		shaker = new FlxSprite(1132, 538);
-		shaker.frames = Paths.getSparrowAtlas("shaker", 'preload');
+		shaker.frames = Paths.getSparrowAtlas("shaker");
 		shaker.animation.addByPrefix('play', "Shaker", 21, false);
-		shaker.antialiasing = SaveData.globalAntialiasing;
 		shaker.animation.play('play');
 		if (addVally)
 			add(shaker);
 
 		add(mouseManager);
 
-		var versionShit:FlxText = new FlxText(-350, FlxG.height - 24, 0, "v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(-350, FlxG.height - 24, 0, Constants.VERSION, 12);
 		versionShit.scrollFactor.set();
-		versionShit.antialiasing = SaveData.globalAntialiasing;
-		versionShit.setFormat(LangUtil.getFont('aller'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		versionShit.y += LangUtil.getFontOffset('aller');
+		versionShit.setFormat(Paths.font("aller.ttf"), 16, 0xFFFFFFFF, 'left', FlxTextBorderStyle.OUTLINE, 0xFF000000);
 		add(versionShit);
 
 		if (firstStart)
@@ -271,13 +239,13 @@ class MainMenuState extends MusicBeatState
 				onComplete: function(flxTween:FlxTween)
 				{
 					firstStart = false;
-					changeItem();
+					changeItem(0);
 				}
 			});
 		else
 			versionShit.x = 5;
 
-		changeItem();
+		changeItem(0);
 
 		super.create();
 	}
@@ -286,7 +254,7 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.sound.music.volume < 0.8)
+		if (FlxG.sound.music != null && FlxG.sound.music.volume < 0.8)
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 
 		if (!selectedSomethin && acceptInput)
@@ -294,35 +262,27 @@ class MainMenuState extends MusicBeatState
 			if (shaker != null && addVally && FlxG.mouse.overlaps(shaker) && FlxG.mouse.justPressed)
 				openSong();
 
-			if (controls.UP_P)
+			if (controls.UI_UP_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 				
-			if (controls.DOWN_P)
+			if (controls.UI_DOWN_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}	
 			
 			if (controls.RESET)
-				MusicBeatState.resetState();
-
-			#if debug
-			if (FlxG.keys.justPressed.O)
-				SaveData.unlockAll();
-
-			if (FlxG.keys.justPressed.P)
-				SaveData.unlockAll(false);
-			#end
+				FlxG.resetState();
 
 			if (controls.ACCEPT)
 				selectThing();
 		}
 
 		if (FlxG.sound.music != null)
-			Conductor.songPosition = FlxG.sound.music.time;
+			Conductor.instance.update();
 
 		super.update(elapsed);
 	}
@@ -333,22 +293,38 @@ class MainMenuState extends MusicBeatState
 
 		switch (daChoice)
 		{
-			case 'story mode':
-				MusicBeatState.switchState(new DokiStoryState());
+			case 'Story Mode':
+				var targetState:NextState = () -> new StoryMenuState();
+				FlxG.switchState(targetState);
 				trace("Story Menu Selected");
-			case 'freeplay':
-				MusicBeatState.switchState(new DokiFreeplayState());
+			case 'Freeplay':
+				persistentDraw = true;
+    			persistentUpdate = false;
+			    // Freeplay has its own custom transition
+    			FlxTransitionableState.skipNextTransIn = true;
+    			FlxTransitionableState.skipNextTransOut = true;
+
+    			var targetCharacter:Null<String> = null;
+
+    			FlxG.state.openSubState(new FreeplayState(
+        		{
+        			character: targetCharacter
+        		}));
 				trace("Freeplay Menu Selected");
-			case 'credits':
-				MusicBeatState.switchState(new CreditsState());
+			case 'Credits':
+				var targetState:NextState = () -> new funkin.ui.credits.CreditsState();
+				FlxG.switchState(targetState);
 				trace("Credits Menu Selected");
-			case 'gallery':
-				MusicBeatState.switchState(new GalleryArtState());
+			case 'Gallery':
+				return; //Does nothing
+				var targetState:NextState = () -> new StoryMenuState();
+				FlxG.switchState(targetState);
 				trace("La Galeria Selected");
-			case 'options':
-				MusicBeatState.switchState(new OptionsState());
-			case 'exit':
-				openSubState(new CloseGameSubState());
+			case 'Options':
+				var targetState:NextState = () -> new funkin.ui.options.OptionsState();
+				FlxG.switchState(targetState);
+			case 'Exit Game':
+				Application.current.window.close();
 		}
 	}
 
@@ -364,9 +340,9 @@ class MainMenuState extends MusicBeatState
 		menuItems.forEach(function(txt:FlxText)
 		{
 			if (txt.ID == curSelected)
-				txt.setBorderStyle(OUTLINE, 0xFFFFCFFF, 2);
+				txt.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFFCFFF, 2);
 			else
-				txt.setBorderStyle(OUTLINE, 0xFFFF7CFF, 2);
+				txt.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFF7CFF, 2);
 		});
 	}
 
@@ -390,20 +366,10 @@ class MainMenuState extends MusicBeatState
 			}
 			else
 			{
-				if (SaveData.flashing)
+				FlxFlicker.flicker(txt, 1, 0.06, false, false, function(flick:FlxFlicker)
 				{
-					FlxFlicker.flicker(txt, 1, 0.06, false, false, function(flick:FlxFlicker)
-					{
-						goToState();
-					});
-				}
-				else
-				{
-					new FlxTimer().start(1, function(tmr:FlxTimer)
-					{
-						goToState();
-					});
-				}
+					goToState();
+				});
 			}
 		});
 	}
@@ -426,7 +392,7 @@ class MainMenuState extends MusicBeatState
 				curSelected = spr.ID;
 		}
 
-		changeItem();
+		changeItem(0);
 	}
 
 	override function beatHit()
@@ -435,7 +401,7 @@ class MainMenuState extends MusicBeatState
 
 		logoBl.animation.play('bump', true);
 
-		if (!menu_character.animation.curAnim.looped && curBeat % 2 == 0)
+		if (!menu_character.animation.curAnim.looped && Conductor.instance.currentBeat % 2 == 0)
 			menu_character.animation.play('play', true);
 
 		if (shaker != null)
@@ -449,20 +415,37 @@ class MainMenuState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('va11hallaSelect'));
 		FlxFlicker.flicker(shaker, 1, 0.06, false, false);
 
-		new FlxTimer().start(1, function(tmr:FlxTimer)
-		{
-			PlayState.SONG = Song.loadFromJson('drinks on me', 'drinks on me');
-			PlayState.storyDifficulty = 1;
-			PlayState.isStoryMode = true;
-			LoadingState.loadAndSwitchState(new PlayState());
-		});
+    	var targetSong:Song = SongRegistry.instance.fetchEntry('drinks-on-me');
+    	var targetDifficultyId:String = 'normal';
+    	var targetVariation:String = targetSong.getFirstValidVariation(targetDifficultyId);
+    	PlayStatePlaylist.campaignId = 'drinks-on-me';
+    	var targetDifficulty:SongDifficulty = targetSong.getDifficulty(targetDifficultyId, targetVariation);
+    	// TODO: Change this with alternate instrumentals
+    	var targetInstId:String = targetDifficulty.characters.instrumental;
+    
+    	new FlxTimer().start(1, function(tmr:FlxTimer) {
+        	Paths.setCurrentLevel('drinks-on-me');
+        	LoadingState.loadPlayState({
+            	targetSong: targetSong,
+            	targetDifficulty: targetDifficultyId,
+            	targetVariation: targetVariation,
+            	targetInstrumental: targetInstId,
+            	practiceMode: false,
+            	minimalMode: false,
+            	botPlayMode: false,
+            	// TODO: Make these an option! It's currently only accessible via chart editor.
+            	// startTimestamp: 0.0,
+            	// playbackRate: 0.5,
+            	// botPlayMode: true,
+          	}, true);  
+      	});
 	}
 
 	function selectMenuCharacter(array:Array<String>):String
 	{
 		var index:Int = 0;
 		if (array.length >= 2)
-			index = Random.randUInt(0, array.length);
+			index = FlxG.random.int(0, array.length);
 
 		var char:String = '';
 		switch (array[index])
@@ -470,18 +453,15 @@ class MainMenuState extends MusicBeatState
 			default:
 				char = array[index];
 			case 'together1':
-				if (SaveData.beatMonika)
-					char = 'together';
+				char = 'together';
 			case 'pixelmonika':
-				if (SaveData.beatMonika)
-					char = 'monika';
+				char = 'monika';
 		}
 
 		// Just in case I messed something up
 		if (char == '')
 		{
-			if (SaveData.beatMonika) char = 'together';
-			else char = 'together1';
+			char = 'together';
 			return char;
 		}
 

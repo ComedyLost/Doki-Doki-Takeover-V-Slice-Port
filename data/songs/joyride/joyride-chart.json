@@ -96,7 +96,7 @@
       "e": "FocusCamera",
       "v": {
 	"duration": 64,
-	"x": 0,
+	"x": -100,
 	"y": -150,
 	"char": 2,
 	"ease": "smoothStepInOut"
@@ -200,7 +200,7 @@
       "t": 139233.870967742,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
+	"x": -100,
 	"duration": 32,
 	"y": -150,
 	"char": 2,
