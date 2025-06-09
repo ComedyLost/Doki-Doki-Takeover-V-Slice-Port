@@ -34,14 +34,9 @@ class MonikaVigilanteCharacter extends SparrowCharacter {
       missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
     }
   
-    public function onCountdownStart(event):Void {
-        super.onCountdownStart(event);
-        if (characterType != CharacterType.BF) return;
-        this.cameraFocusPoint.y += 100;
-    }  
-
     override function onAdd() {
       if (characterType != CharacterType.BF) return;
+      this.cameraFocusPoint.y += 100;
 		  GameOverSubState.musicSuffix = '-doki';
 		  GameOverSubState.blueBallSuffix = '-doki';
 

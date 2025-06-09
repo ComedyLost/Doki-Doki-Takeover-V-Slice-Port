@@ -5,6 +5,8 @@
     "singTime": 4,
     "isPixel": false,
     "scale": 1,
+    "offsets": [0, 10],
+    "cameraOffsets": [0, 20],
     "healthIcon": {
         "id": "sutazu",
         "isPixel": false,

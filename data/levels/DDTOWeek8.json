@@ -8,7 +8,7 @@
       "assetPath": "dokistory/ProtagWeek",
       "scale": 1,
       "danceEvery": 2,
-      "offsets": [430, 95],
+      "offsets": [427.5, 95],
       "animations": [
         {
           "name": "idle",

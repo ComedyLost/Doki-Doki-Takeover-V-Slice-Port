@@ -232,7 +232,7 @@ class OurHarmonySong extends Song
 		}
 		yuri.zIndex = PlayState.instance.currentStage.getDad().zIndex - 1;
 		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
-		yuri.x = (stageCharData.position[0] - yuri.characterOrigin.x) + 150;
+		yuri.x = (stageCharData.position[0] - yuri.characterOrigin.x) + 200;
 		yuri.y = (stageCharData.position[1] - yuri.characterOrigin.y) - 20;
 
 		yuri.originalPosition.set(yuri.x, yuri.y);  
@@ -244,7 +244,7 @@ class OurHarmonySong extends Song
 		}
 		natsuki.zIndex = PlayState.instance.currentStage.getDad().zIndex + 1;
 		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
-		natsuki.x = (stageCharData.position[0] - natsuki.characterOrigin.x) - 150;
+		natsuki.x = (stageCharData.position[0] - natsuki.characterOrigin.x) - 200;
 		natsuki.y = (stageCharData.position[1] - natsuki.characterOrigin.y) + 20;
 
 		natsuki.originalPosition.set(natsuki.x, natsuki.y);  

@@ -1,0 +1,140 @@
+{
+    "version": "1.0.0",
+    "name": "Pico (DDTO)",
+    "assetPath": "characters/DDLCPico",
+    "singTime": 4,
+    "isPixel": false,
+    "scale": 1,
+    "offsets": [30, 0],
+    "cameraOffsets": [0, 100],
+    "healthIcon": {
+        "id": "pico-doki",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Pico Idle Dance",
+            "offsets": [
+                3,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP",
+            "prefix": "pico Up note0",
+            "offsets": [
+                -5,
+                24
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Pico Down Note0",
+            "offsets": [
+                5,
+                -61
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "Pico Down Note MISS",
+            "offsets": [
+                13,
+                -64
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "pico Up note miss",
+            "offsets": [
+                0,
+                27
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Pico Note Right0",
+            "offsets": [
+                -4,
+                -3
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Pico NOTE LEFT0",
+            "offsets": [
+                3,
+                -15
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "Pico Note Right Miss",
+            "offsets": [
+                -2,
+                7
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "Pico NOTE LEFT miss",
+            "offsets": [
+                19,
+                2
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "Pico GameOver Start",
+            "offsets": [
+                -2,
+                5
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "Pico GameOver Loop",
+            "looped": true,
+            "offsets": [
+                -5,
+                0
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "Pico GameOver Confirm",
+            "offsets": [
+                -5,
+                29
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        }
+    ],
+    "flipX": true
+}

@@ -20,6 +20,7 @@ class DDTONoteKinds extends Module
         super.onStateChangeEnd(event);
         if (isInChartEditor()) {
 			ChartEditorDropdowns.NOTE_KINDS.set('alt','Alt Animation');
+            ChartEditorDropdowns.NOTE_KINDS.set('Monika','Monika Note');
 			ChartEditorDropdowns.NOTE_KINDS.set('noanimation','No Animation');
             ChartEditorDropdowns.NOTE_KINDS.set('markov','Markov Note');
             ChartEditorDropdowns.NOTE_KINDS.set('gf','GF Sing');

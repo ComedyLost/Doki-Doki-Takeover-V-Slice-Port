@@ -1,0 +1,47 @@
+{
+  "version": "2.2.4",
+  "songName": "Love n' Funkin'",
+  "artist": "DatDavi & Stardust Tunes",
+  "charter": "Unknown",
+  "divisions": 96,
+  "looped": false,
+  "offsets": {
+    "instrumental": 0,
+    "altInstrumentals": {    },
+    "vocals": {    },
+    "altVocals": {    }
+  },
+  "playData": {
+    "stickerPack": "dokisall",
+    "album": "takeover",
+    "songVariations": ["pico"],
+    "difficulties": [
+      "normal"
+    ],
+    "characters": {
+      "player": "playablegf",
+      "girlfriend": "nogf",
+      "opponent": "sayori",
+      "instrumental": "",
+      "altInstrumentals": ["pico"]
+    },
+    "stage": "musicroom",
+    "noteStyle": "ddto",
+    "ratings": {
+      "normal": 5
+    },
+    "previewStart": 0,
+    "previewEnd": 15000
+  },
+  "generatedBy": "Friday Night Funkin' - v0.6.4",
+  "timeFormat": "ms",
+  "timeChanges": [
+    {
+      "t": 0,
+      "b": 0,
+      "bpm": 128,
+      "n": 4,
+      "d": 4
+    }
+  ]
+}

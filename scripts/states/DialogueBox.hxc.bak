@@ -9,16 +9,15 @@ import flixel.math.FlxMatrix;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import openfl.utils.Assets;
 import openfl.geom.Point;
 import openfl.filters.ShaderFilter;
-import shaders.StaticShader;
 import haxe.Json;
 import lime.utils.Assets;
 import StringTools;
-
+import funkin.play.PlayStatePlaylist;
+import funkin.play.PlayState;
 typedef DialogueFile =
 {
 	var canSkip:Null<Bool>; //  Determines if this dialogue can be skipped (ex. disabled in obsession ending)
@@ -85,13 +84,13 @@ class DialogueBox extends FlxTypedSpriteGroup
 
 		active = false;
 
-		isEpiphany = PlayState.SONG.song.toLowerCase() == 'epiphany';
+		//isEpiphany = PlayState.instance.currentSong.id.toLowerCase() == 'epiphany';
 
-		var jsonDiaString:String = Assets.getText(Paths.json('dialogue/erb/TestDialogue'));
+		var jsonDiaString:String = Assets.getText(Paths.json('dialoguePsych/erb/TestDialogue'));
 		if (initdialogueData != null)
 			jsonDiaString = initdialogueData;
 		
-		dialogueData = cast Json.parse(jsonDiaString);
+		dialogueData = Json.parse(jsonDiaString);
 
 		isPixel = dialogueData.initStyle.toLowerCase() == 'pixel';
 

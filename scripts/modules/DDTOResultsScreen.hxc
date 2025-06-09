@@ -189,7 +189,7 @@ class DDTOResults extends Module {
         if (Std.isOfType(event.targetState, ResultState)) {
             state = event.targetState;
             isDoki = switch (state.params.characterId) {
-                case "bf-doki", "pixelbf-new", "pixelbfangry-new", "bf-pixelbar", "monika", "sayori", "yuri", "natsuki", "protag": true;
+                case "bf-doki", "pixelbf-new", "pixelbfangry-new", "bf-pixelbar", "monika", "sayori", "yuri", "natsuki", "protag", "pico-doki": true;
                 default: false;
             }
             if (!isDoki) return;

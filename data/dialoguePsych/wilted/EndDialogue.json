@@ -1,0 +1,94 @@
+{
+	"startingMusic": "",
+	"initStyle": "pixel",
+	"disableBGFade": true,
+	"dialogue": 
+	[
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "hmm",
+			"string": "...",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "I knew this little sidetrack would not be fruitful for you. The girl is set on her ways.",
+			"key": "wiltEnd1",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "Though this brief visit allowed me to learn something vital.",
+			"key": "wiltEnd2",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "It seems that those who reside in her world now have methods of escaping out of the digital space into the mortal world.",
+			"key": "wiltEnd3",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "And the stench of Daddy Dearest's kin... It permeates her world as well.",
+			"key": "wiltEnd4",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "That girl and her boyfriend were there, and they know something.",
+			"key": "wiltEnd5",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "With your new abilities, we can catch them the next time they try to enter the digital world.",
+			"key": "wiltEnd6",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "Then… I'll take that boy's body and escape this electronic prison. And you will be able to follow suit.",
+			"key": "wiltEnd7",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "There are hundreds more girls like her in the outside world, ones with the free spirit you desire.",
+			"key": "wiltEnd8",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "hmm",
+			"string": "...",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "spirit",
+			"string": "The time for revenge is nigh.",
+			"key": "wiltEnd9",
+			"side": "left"
+		}
+	]
+}

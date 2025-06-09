@@ -62,7 +62,7 @@ class SayoriBlueSkiesCharacter extends SparrowCharacter {
 		{
 			// Override the hit note animation.
 			switch(event.note.kind) {
-				case "Hurt Note", "GF Sing":
+				case "Hurt Note", "GF Sing", "Monika":
 					return;
 				default:
 					super.onNoteHit(event);

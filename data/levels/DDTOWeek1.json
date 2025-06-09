@@ -9,7 +9,7 @@
       "assetPath": "dokistory/PrologueWeek",
       "scale": 1,
       "danceEvery": 3,
-      "offsets": [430, 95],
+      "offsets": [427.5, 95],
       "animations": [
         {
           "name": "idle",

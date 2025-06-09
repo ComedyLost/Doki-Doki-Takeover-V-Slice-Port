@@ -1,0 +1,226 @@
+{
+	"startingMusic": "natsc",
+	"initStyle": "normal",
+	"disableBGFade": true,
+	"dialogue": 
+	[
+		{
+			"isCommand": true,
+			"name": "showbackgroundimage",
+			"string": "black"
+		},
+		{
+			"isCommand": false,
+			"name": "no_one",
+			"expression": "gone",
+			"string": "As fun as singing was, the Literature Club had soon gone back to their regular club activity of writing and poems when Boyfriend and Girlfriend departed.",
+			"key": "lnfIntro1",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "no_one",
+			"expression": "gone",
+			"string": "Though every so often, the two would make their visit, and the pleasant bouts of song would return to the clubroom.",
+			"key": "lnfIntro2",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "no_one",
+			"expression": "gone",
+			"string": "Today, however, was quite the unusual lineup of club attendees.",
+			"key": "lnfIntro3",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "no_one",
+			"expression": "gone",
+			"string": "The two boys were absent, leaving today's meeting consisting of the original four girls...",
+			"key": "lnfIntro4",
+			"side": ""
+		},
+		{
+			"isCommand": true,
+			"name": "showbackgroundimage",
+			"string": "lovenfunkin"
+		},
+		{
+			"isCommand": false,
+			"name": "no_one",
+			"expression": "gone",
+			"string": "and Girlfriend!",
+			"key": "lnfIntro5",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "natsuki",
+			"expression": "gone",
+			"string": "\"This is the first time I've ever seen you apart from your boyfriend.\"",
+			"key": "lnfIntro6",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "gf",
+			"expression": "gone",
+			"string": "*blank expression*",
+			"key": "lnfIntro7",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "yuri",
+			"expression": "gone",
+			"string": "\"I was told that Boyfriend is acting as a vocal coach for a certain someone now. They must be occupied with that.\"",
+			"key": "lnfIntro8",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "yuri",
+			"expression": "gone",
+			"string": "\"D-don't tell him I told you that though-!\"",
+			"key": "lnfIntro9",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gone",
+			"string": "\"Looks like it's just us today then!\"",
+			"key": "lnfIntro10",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gone",
+			"string": "\"Come to think of it, I honestly can't remember the last time we've had an all girls meeting.\"",
+			"key": "lnfIntro11",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "sayori",
+			"expression": "gone",
+			"string": "\"Oooh, yeah! Actually, I've been wondering about this for a while, but hey Girlfriend!\"",
+			"key": "lnfIntro12",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "gf",
+			"expression": "gone",
+			"string": "*surprised look*",
+			"key": "lnfIntro13",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "sayori",
+			"expression": "gone",
+			"string": "\"I don't think I've seen you participate in any of our club activities before. We'd love to have you get more involved!\"",
+			"key": "lnfIntro14",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gone",
+			"string": "\"You've been the quiet type, I've noticed. But I'm sure deep down there's so much you wanna say.\"",
+			"key": "lnfIntro15",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gone",
+			"string": "\"And this is the perfect place to write the way into your heart! Have you ever written a poem before?\"",
+			"key": "lnfIntro16",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "gf",
+			"expression": "gone",
+			"string": "*confused gaze*",
+			"key": "lnfIntro17",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "sayori",
+			"expression": "gone",
+			"string": "\"If you haven't, we can teach you! We're basically poetry experts by now.\"",
+			"key": "lnfIntro18",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "yuri",
+			"expression": "gone",
+			"string": "\"I wouldn't mind helping you to find your writing style. Writing your feelings down can help you express deep down what you may have trouble expressing vocally.\"",
+			"key": "lnfIntro19",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "natsuki",
+			"expression": "gone",
+			"string": "\"You've heard your boyfriend rap so much. Some of his rhymes had to have rubbed off on you.\"",
+			"key": "lnfIntro20",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "natsuki",
+			"expression": "gone",
+			"string": "\"Heck, I'm surprised I haven't heard you sing either considering how music centric he is.\"",
+			"key": "lnfIntro21",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gone",
+			"string": "\"That gives me another idea. Why not write a love song for Boyfriend? That way we can help you with writing and singing too!\"",
+			"key": "lnfIntro22",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "sayori",
+			"expression": "gone",
+			"string": "\"Yeah, yeah! And what better way to help you write a song than to teach you with a song! Does that sound good?\"",
+			"key": "lnfIntro23",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "gf",
+			"expression": "gone",
+			"string": "*cheering*",
+			"key": "lnfIntro24",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gone",
+			"string": "\"Okay, everyone! It's time for a lesson I'll call...\"",
+			"key": "lnfIntro25",
+			"side": ""
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gone",
+			"string": "\"Love n' Funkin'!\"",
+			"key": "lnfIntro26",
+			"side": ""
+		}
+	]
+}

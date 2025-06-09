@@ -156,8 +156,12 @@ class DDTOPauseMenu extends Module {
 			case "senpai-ddto": "senpai";
 			default: PlayState.instance.currentChart.characters.opponent;
 		}
-		if (PlayState.instance.currentChart.characters.player == "tankman-doki") pauseImg = "tankman";
-		if (PlayState.instance.currentChart.characters.player == "protag") pauseImg = "protag";
+		switch (PlayState.instance.currentChart.characters.player) {
+			case "tankman-doki": pauseImg = "tankman";
+			case "protag": pauseImg = "protag";
+			case "playablegf": pauseImg = "gf";
+			case "pico-doki": pauseImg = "pico";
+		}
 	}
 
 	function createVallMenu(){

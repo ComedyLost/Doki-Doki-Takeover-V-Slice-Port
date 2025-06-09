@@ -257,7 +257,7 @@ class CostumeSwapper extends Module {
 
 				var _data = CharacterDataParser.fetchCharacter(character);
 				FunkinSprite.cacheSparrow(_data.assetPath);
-				if (Std.string(_data.renderType) == 'MultiSparrow'){
+				if (Std.string(_data.renderType) == 'MultiSparrow'){ //Check if character uses multiple spritesheets, so we can cache them too
 					var assetList = [];
 					for (anim in _data.animations) {
 						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){

@@ -53,6 +53,10 @@ class FreeplayFixes extends Module {
 				case "our-harmony": cap.pixelIcon.setCharacter('monika');
 				case "you-and-me": cap.pixelIcon.setCharacter('protag');
 				case "libitina": cap.pixelIcon.setCharacter('libitina');
+				case 'love-n-funkin':
+					if (FlxG.state.subState.currentVariation == 'pico') cap.pixelIcon.setCharacter('pico');
+					else cap.pixelIcon.setCharacter('gf');
+
 			}
 			switch (cap.freeplayData.songCharacter){
 				case 'monika', 'monika-pixelnew', 'duetnew':
@@ -105,7 +109,14 @@ class FreeplayFixes extends Module {
 				if (curSelected != FlxG.state.subState.curSelected){
 					curSelected = FlxG.state.subState.curSelected;
 					var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
-					if (curCap?.freeplayData != null && curCap.freeplayData.data.id == 'our-harmony') curCap.pixelIcon.setCharacter('monika');
+					if (curCap?.freeplayData != null) {
+						switch (curCap.freeplayData.data.id) {
+							case 'our-harmony': curCap.pixelIcon.setCharacter('monika');
+							case 'love-n-funkin':
+								if (FlxG.state.subState.currentVariation == 'pico') curCap.pixelIcon.setCharacter('pico');
+								else curCap.pixelIcon.setCharacter('gf');
+						}
+					}
 				}
 				if (!FlxG.state.subState.busy && (PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P || FlxG.keys.justPressed.Q || FlxG.keys.justPressed.E)){
 					new FlxTimer().start(0.1, _ -> {

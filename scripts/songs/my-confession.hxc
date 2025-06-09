@@ -78,10 +78,10 @@ class MyConfessionSong extends Song
 			switch(event.step)
 			{
 				case 749:
-					if (PlayState.instance.currentStage.getDad().characterId == 'Sayori Extras/sayori-grace')
+					if (PlayState.instance.currentStage.getDad().characterId == 'costumes/sayori-grace')
 						PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
 				case 752:
-					if (PlayState.instance.currentStage.getDad().characterId != 'Sayori Extras/sayori-grace')
+					if (PlayState.instance.currentStage.getDad().characterId != 'costumes/sayori-grace')
 						PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
 					staticshock.visible = true;
 					vignette.alpha = 0.2;

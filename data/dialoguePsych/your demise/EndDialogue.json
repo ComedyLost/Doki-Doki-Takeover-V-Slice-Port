@@ -1,0 +1,248 @@
+{
+	"startingMusic": "",
+	"initStyle": "pixel",
+	"dialogue": 
+	[
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "hmm",
+			"string": "...",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "uhoh",
+			"string": "Ahaha, I should know better-",
+			"key": "ydEnd1",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "uhoh",
+			"string": "Trying to interfere with people's love lives again.",
+			"key": "ydEnd2",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "hmm",
+			"string": "I'll leave you be.",
+			"key": "ydEnd3",
+			"side": "left"
+		},
+		{
+			"isCommand": true,
+			"name": "startmusic",
+			"string": "pixelc"
+		},
+		{
+			"isCommand": true,
+			"name": "flash",
+			"duration": 0.5
+		},
+		{
+			"isCommand": true,
+			"name": "playcutscene",
+			"string": "pixelend",
+			"duration": 5
+		},
+		{
+			"isCommand": true,
+			"name": "showbackgroundimage",
+			"string": "ending0"
+		},
+		{
+			"isCommand": true,
+			"name": "fadeout",
+			"string": "hidedialogue",
+			"duration": 4
+		},
+		{
+			"isCommand": true,
+			"name": "showbackgroundimage",
+			"string": "ending3"
+		},
+		{
+			"isCommand": true,
+			"name": "fadein",
+			"string": "hidedialogue",
+			"duration": 4
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "hmm",
+			"string": "So, you weren't the one who stole my mic?",
+			"key": "ydEnd4",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "That blue-haired kid gave it to me when I showed up.",
+			"key": "ydEnd5",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "I don't know where he got it.",
+			"key": "ydEnd6",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "I don't even know how I got here, for that matter.",
+			"key": "ydEnd7",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "hmm",
+			"string": "Hmm-",
+			"key": "ydEnd8",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "hmm",
+			"string": "And what exactly happened after our... unintentional duet?",
+			"key": "ydEnd9",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "I... got rid of everyone.",
+			"key": "ydEnd10",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "Temporarily. It's something I can do, but that's a long story.",
+			"key": "ydEnd11",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "-and that included that kid's girlfriend.",
+			"key": "ydEnd12",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "uhoh",
+			"string": "Ahaha, old habits die hard, as they say.",
+			"key": "ydEnd13",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "hmm",
+			"string": "You got his girl too?",
+			"key": "ydEnd14",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "",
+			"string": "Hah! I bet you really pissed that worm off!",
+			"key": "ydEnd15",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "",
+			"string": "I wish I was there to see the look on his hideous baby face.",
+			"key": "ydEnd16",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "He was mad...",
+			"key": "ydEnd17",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "sad",
+			"string": "...",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "hmm",
+			"string": "...",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "",
+			"string": "Hey.",
+			"key": "ydEnd18",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gasp",
+			"string": "...hm?",
+			"key": "ydEnd19",
+			"side": "right"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "",
+			"string": "Your performance wasn't half bad earlier.",
+			"key": "ydEnd20",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "senpai",
+			"expression": "",
+			"string": "Care for another song?",
+			"key": "ydEnd21",
+			"side": "left"
+		},
+		{
+			"isCommand": false,
+			"name": "monika",
+			"expression": "gasp",
+			"string": "..!",
+			"side": "right"
+		}
+	]
+}
