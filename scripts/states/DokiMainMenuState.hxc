@@ -298,8 +298,8 @@ class DokiMainMenuState extends MusicBeatState
 				FlxG.switchState(targetState);
 				trace("Story Menu Selected");
 			case 'Freeplay':
-				persistentDraw = true;
-    			persistentUpdate = false;
+				FlxG.state.persistentDraw = true;
+				FlxG.state.persistentUpdate = false;
 			    // Freeplay has its own custom transition
     			FlxTransitionableState.skipNextTransIn = true;
     			FlxTransitionableState.skipNextTransOut = true;

@@ -19,7 +19,7 @@ class DDTOOptionsNew extends Module
 		save = new FlxSave();
         save.bind("TakeoverOptions");
 		save.data.titlescreen = (save.data.titlescreen != null) ? save.data.titlescreen : true;
-		//save.data.menus = (save.data.menus != null) ? save.data.menus : false; //Scrapped for being buggy
+		save.data.menus = (save.data.menus != null) ? save.data.menus : false; //Scrapped for being buggy
 		save.data.selfaware = (save.data.selfaware != null) ? save.data.selfaware : true;
 		save.data.gfCountdown = (save.data.gfCountdown != null) ? save.data.gfCountdown : true;
 		save.data.bloom = (save.data.bloom != null) ? save.data.bloom : true;
@@ -59,10 +59,10 @@ class DDTOOptionsNew extends Module
 				save.flush();
 			}, save.data.titlescreen);
 			//Scrapped due to being extremely buggy
-			/*preferencePage.createPrefItemCheckbox("DDTO Menus", "Changes the other menus to be the ones from DDTO.\n(NOT COMPATIBLE WITH OTHER MODS / BASE GAME)", (value) -> {
+			preferencePage.createPrefItemCheckbox("DDTO Menus", "Changes the other menus to be the ones from DDTO.\n(NOT COMPATIBLE WITH OTHER MODS / BASE GAME)", (value) -> {
 				save.data.menus = value;
 				save.flush();
-			}, save.data.menus);*/
+			}, save.data.menus);
 			preferencePage.createPrefItemCheckbox("Pixel Perfect Rendering", "Enables pixel perfect rendering for pixel sprites\nlike in pre 0.6.0 FNF versions.", (value) -> {
 				save.data.pixel = value;
 				save.flush();

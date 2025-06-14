@@ -1,0 +1,122 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+import funkin.Preferences;
+import funkin.ui.options.FunkinSoundTray;
+import funkin.Paths;
+import flixel.FlxG;
+import openfl.display.Bitmap;
+
+class DokiSoundTray extends Module
+{
+	public function new(){
+		super('DokiSoundTray');
+	}
+
+	//Only Doki Stages
+	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+	var graphicScale:Float = 0.30;
+	var resetSoundTray:Bool;
+
+	override function onCountdownStart(event:ScriptEvent)
+	{
+		super.onCountdownStart(event);
+		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+		resetSoundTray = true; //Don't do this on every destroy just in case another mod ends up using this
+		FlxG.sound.soundTray.volumeUpSound = Paths.sound("soundtray/VolupDoki");
+		FlxG.sound.soundTray.volumeDownSound = Paths.sound("soundtray/VoldownDoki");
+		FlxG.sound.soundTray.volumeMaxSound = Paths.sound("soundtray/VolMAXDoki");
+		FlxG.sound.soundTray.removeChildren();
+		var bg:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image("soundtrayDoki/volumebox")));
+		bg.scaleX = graphicScale;
+		bg.scaleY = graphicScale;
+		bg.smoothing = true;
+		FlxG.sound.soundTray.addChild(bg);
+
+		FlxG.sound.soundTray.y = -FlxG.sound.soundTray.height;
+		FlxG.sound.soundTray.visible = false;
+
+		// makes an alpha'd version of all the bars (bar_10.png)
+		var backingBar:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image("soundtrayDoki/bars_10")));
+		backingBar.x = 9;
+		backingBar.y = 5;
+		backingBar.scaleX = graphicScale;
+		backingBar.scaleY = graphicScale;
+		backingBar.smoothing = true;
+		FlxG.sound.soundTray.addChild(backingBar);
+		backingBar.alpha = 0.4;
+
+		// clear the bars array entirely, it was initialized
+		// in the super class
+		FlxG.sound.soundTray._bars = [];
+
+		// 1...11 due to how block named the assets,
+		// we are trying to get assets bars_1-10
+		for (i in 1...11) {
+	  		var bar:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image("soundtrayDoki/bars_" + i)));
+	  		bar.x = 9;
+	  		bar.y = 5;
+	  		bar.scaleX = graphicScale;
+	  		bar.scaleY = graphicScale;
+	  		bar.smoothing = true;
+			FlxG.sound.soundTray.addChild(bar);
+			FlxG.sound.soundTray._bars.push(bar);
+		}
+
+		FlxG.sound.soundTray.screenCenter();
+	}
+
+	function remakeOldSoundTray(){
+		resetSoundTray = false;
+		FlxG.sound.soundTray.volumeUpSound = Paths.sound("soundtray/Volup");
+		FlxG.sound.soundTray.volumeDownSound = Paths.sound("soundtray/Voldown");
+		FlxG.sound.soundTray.volumeMaxSound = Paths.sound("soundtray/VolMAX");
+		FlxG.sound.soundTray.removeChildren();
+		var bg:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image("soundtray/volumebox")));
+		bg.scaleX = graphicScale;
+		bg.scaleY = graphicScale;
+		bg.smoothing = true;
+		FlxG.sound.soundTray.addChild(bg);
+
+		FlxG.sound.soundTray.y = -FlxG.sound.soundTray.height;
+		FlxG.sound.soundTray.visible = false;
+
+		// makes an alpha'd version of all the bars (bar_10.png)
+		var backingBar:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image("soundtray/bars_10")));
+		backingBar.x = 9;
+		backingBar.y = 5;
+		backingBar.scaleX = graphicScale;
+		backingBar.scaleY = graphicScale;
+		backingBar.smoothing = true;
+		FlxG.sound.soundTray.addChild(backingBar);
+		backingBar.alpha = 0.4;
+
+		// clear the bars array entirely, it was initialized
+		// in the super class
+		FlxG.sound.soundTray._bars = [];
+
+		// 1...11 due to how block named the assets,
+		// we are trying to get assets bars_1-10
+		for (i in 1...11) {
+	  		var bar:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image("soundtray/bars_" + i)));
+	  		bar.x = 9;
+	  		bar.y = 5;
+	  		bar.scaleX = graphicScale;
+	  		bar.scaleY = graphicScale;
+	  		bar.smoothing = true;
+			FlxG.sound.soundTray.addChild(bar);
+			FlxG.sound.soundTray._bars.push(bar);
+		}
+
+		FlxG.sound.soundTray.screenCenter();
+	}
+
+	override function onDestroy(event:ScriptEvent)
+	{
+		super.onDestroy(event);
+		if (resetSoundTray) remakeOldSoundTray();
+	}
+}

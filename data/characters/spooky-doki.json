@@ -1,0 +1,197 @@
+{
+    "version": "1.0.0",
+    "name": "Spooky Kids (DDTO)",
+    "assetPath": "characters/DDLCSpookyKids",
+    "singTime": 4,
+    "death": {
+        "cameraOffsets": [-50, -60],
+        "cameraZoom": 0.9
+    },
+    "isPixel": false,
+    "scale": 1,
+    "offsets": [50, 50],
+    "cameraOffsets": [50, 100],
+    "healthIcon": {
+        "id": "spooky-doki",
+        "isPixel": false,
+        "flipX": false,
+        "scale": 1
+    },
+    "animations": [
+        {
+            "name": "singLEFT",
+            "prefix": "SkidPumpLeft0",
+            "offsets": [
+                200,
+                42
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "SkidPumpRight0",
+            "offsets": [
+                -70,
+                80
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "SkidPumpDown0",
+            "offsets": [
+                4,
+                51
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUP",
+            "prefix": "SkidPumpUp0",
+            "offsets": [
+                9,
+                125
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singLEFTmiss",
+            "prefix": "SkidPumpLeft MIZZ0",
+            "offsets": [
+                203,
+                116
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singRIGHTmiss",
+            "prefix": "SkidPumpRight MIZZ0",
+            "offsets": [
+                -56,
+                147
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singDOWNmiss",
+            "prefix": "SkidPumpDown MIZZ0",
+            "offsets": [
+                6,
+                111
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "singUPmiss",
+            "prefix": "SkidPumpUp MIZZ0",
+            "offsets": [
+                30,
+                158
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "danceLeft",
+            "prefix": "SkidPumpIdle0",
+            "offsets": [
+                0,
+                80
+            ],
+            "frameRate": 12,
+            "frameIndices": [
+                0,
+                2,
+                4,
+                6,
+                8,
+                10
+            ]
+        },
+        {
+            "name": "danceRight",
+            "prefix": "SkidPumpIdle0",
+            "offsets": [
+                0,
+                80
+            ],
+            "frameRate": 12,
+            "frameIndices": [
+                13,
+                15,
+                17,
+                19,
+                21
+            ]
+        },
+        {
+            "name": "danceLeft-alt",
+            "prefix": "SPOOKY DANCE",
+            "offsets": [
+                36,
+                89
+            ],
+            "frameRate": 12,
+            "frameIndices": [
+                0,
+                2,
+                4,
+                6
+            ]
+        },
+        {
+            "name": "danceRight-alt",
+            "prefix": "SPOOKY DANCE0",
+            "offsets": [
+                38,
+                89
+            ],
+            "frameRate": 12,
+            "frameIndices": [
+                8,
+                10,
+                12,
+                14
+            ]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "Game Over Start0",
+            "offsets": [
+                259,
+                96
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "deathLoop",
+            "looped": true,
+            "prefix": "Game Over Death0",
+            "offsets": [
+                259,
+                -245
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "Game Over Retry0",
+            "offsets": [
+                261,
+                -228
+            ],
+            "frameRate": 24,
+            "frameIndices": []
+        }
+    ],
+    "flipX": true
+}

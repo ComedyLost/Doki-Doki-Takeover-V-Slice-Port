@@ -1,0 +1,143 @@
+{
+	"version": "1.0.0",
+	"name": "Boyfriend (Christmas DDTO)",
+	"renderType": "multisparrow",
+	"assetPath": "characters/boyfriend/bfChristmas",
+	"singTime": 4,
+	"isPixel": false,
+	"scale": 1,
+	"healthIcon": {
+		"id": "bfdoki",
+		"isPixel": false,
+		"flipX": false,
+		"scale": 1
+	},
+	"animations": [
+		{
+			"name": "idle",
+			"prefix": "BF idle dance",
+			"offsets": [
+				0,
+				0
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singLEFT",
+			"prefix": "BF NOTE LEFT0",
+			"offsets": [
+				7,
+				-6
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singDOWN",
+			"prefix": "BF NOTE DOWN0",
+			"offsets": [
+				-5,
+				-55
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singUP",
+			"prefix": "BF NOTE UP0",
+			"offsets": [
+				-34,
+				28
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singRIGHT",
+			"prefix": "BF NOTE RIGHT0",
+			"offsets": [
+				-46,
+				-7
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singLEFTmiss",
+			"prefix": "BF NOTE LEFT MISS",
+			"offsets": [
+				14,
+				18
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singDOWNmiss",
+			"prefix": "BF NOTE DOWN MISS",
+			"offsets": [
+				-6,
+				-19
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singUPmiss",
+			"prefix": "BF NOTE UP MISS",
+			"offsets": [
+				-24,
+				27
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "singRIGHTmiss",
+			"prefix": "BF NOTE RIGHT MISS",
+			"offsets": [
+				-35,
+				22
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "hey",
+			"prefix": "BF HEY",
+			"offsets": [
+				1,
+				5
+			],
+			"frameRate": 24,
+			"frameIndices": []
+		},
+		{
+			"name": "firstDeath",
+			"prefix": "DokiGameOverIntro",
+			"assetPath": "characters/DokiGameOver",
+			"offsets": [-48, 151]
+		},
+		{
+	  		"name": "fakeDeath",
+	  		"prefix": "BF dies0",
+	  		"assetPath": "characters/THOT DIEDED",
+	  		"offsets": [27, 0]
+		},
+		{
+			"name": "deathLoop",
+			"prefix": "DokiGameOverLoop",
+	  		"assetPath": "characters/DokiGameOver",
+	  		"looped": true,
+	  		"offsets": [-72, 137]
+		},
+		{
+	  		"name": "deathConfirm",
+	  		"prefix": "DokiGameOverConfirm",
+	  		"assetPath": "characters/DokiGameOver",
+	  		"offsets": [-52, 153]
+		}
+	],
+	"flipX": true
+}

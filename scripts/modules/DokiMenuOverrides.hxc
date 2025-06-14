@@ -33,8 +33,6 @@ class DokiMenuOverrides extends Module
 
 		save = new FlxSave();
         save.bind("TakeoverOptions");
-
-		active = false; //Scrapped due to too many issues
 	}
 
 	function onStateChangeEnd(event:StateChangeScriptEvent)
@@ -49,7 +47,7 @@ class DokiMenuOverrides extends Module
     				FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
 				}
 				FlxG.state.options.onExit.removeAll();
-				FlxG.state.options.onExit.add(exitToMainMenu);
+				FlxG.state.options.onExit.add(exitToDokiMenu);
 			}
 		}
 }

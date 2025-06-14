@@ -31,6 +31,10 @@ class ShrinkingVioletSong extends Song
 	var sparkleBG:FlxBackdrop;
 	var sparkleFG:FlxBackdrop;
 	var pinkOverlay:FlxSprite;
+	//Alt
+	var curDokiLight;
+	var pastDokiLight;
+	var encoreTime:Int;
 
 	override function onCreate(event) {
 		super.onCreate(event);
@@ -65,6 +69,13 @@ class ShrinkingVioletSong extends Song
 		pinkOverlay.scrollFactor.set();
 		PlayState.instance.add(pinkOverlay);
 		PlayState.instance.currentStage.refresh();
+
+		if (PlayState.instance.currentVariation != 'alt') return;
+		encoreTime = 0;
+		sunshine = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/SayoSunshine'));
+		sunshine.alpha = 0.001;
+		sunshine.cameras = [PlayState.instance.camHUD];
+		PlayState.instance.add(sunshine);
 	}
 
 	function calcSectionLength(duration:Int){
@@ -86,17 +97,61 @@ class ShrinkingVioletSong extends Song
 				case 1024:
 					//defaultCamZoom = 1;
 				case 1040:
+					if (PlayState.instance.currentVariation == 'alt') {
+						encoreTime = 2;
+						PlayState.instance.currentStage.getBoyfriend().idleSuffix = '-alt';
+					}
 					FlxTween.tween(sparkleBG, {alpha: 0}, calcSectionLength(), {ease: FlxEase.sineOut});
 					FlxTween.tween(sparkleFG, {alpha: 0}, calcSectionLength(), {ease: FlxEase.sineOut});
 					FlxTween.tween(pinkOverlay, {alpha: 0}, calcSectionLength(), {ease: FlxEase.sineOut});
+				case 1296:
+					if (PlayState.instance.currentVariation == 'alt') {
+						encoreTime = 0;
+						PlayState.instance.currentStage.getBoyfriend().idleSuffix = '';
+					}
 			}
 		}
+
+	function onBeatHit(event:SongTimeScriptEvent):Void {	
+		super.onBeatHit(event);
+		var curBeat = event.beat;
+		switch (encoreTime)
+			{
+				default:
+					// none
+				case 1, 2:
+					if (curBeat % 2 == 0)
+					{
+						// Hi Tioder :)
+						// Set colors to an array
+						var dokiLights:Array<Int> = [0xff95E0FA, 0xff8CD465, 0xffFC95D3, 0xff9E72D2];
+	
+						// Randomize the colors, while excluding whatever was the past light
+						// so as not to repeat the same color
+						curDokiLight = FlxG.random.int(0, dokiLights.length - 1, [pastDokiLight]);
+						pastDokiLight = curDokiLight;
+	
+						var funnyFlash:FlxSprite;
+	
+						if (encoreTime == 2) // Can turn into a switch if need be
+							funnyFlash = sunshine;
+	
+						FlxTween.cancelTweensOf(funnyFlash);
+						funnyFlash.color = dokiLights[curDokiLight];
+						funnyFlash.alpha = 1;
+						FlxTween.tween(funnyFlash, {alpha: 0.001}, 1, {startDelay: 0.5});
+					}
+			}
+	}
 	
 	public function onSongRetry(event):Void {
 		super.onSongRetry(event);
 		for (yuri in [sparkleBG, sparkleFG, pinkOverlay]){
 			FlxTween.cancelTweensOf(yuri);
 		}
+		FlxTween.cancelTweensOf(sunshine);
+		encoreTime = 0;
+		sunshine.alpha = 0.001;
 		sparkleBG.alpha = 1;
 		sparkleFG.alpha = 1;
 		pinkOverlay.alpha = 0.2;

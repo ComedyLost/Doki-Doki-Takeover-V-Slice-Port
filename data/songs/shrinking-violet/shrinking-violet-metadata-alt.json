@@ -1,7 +1,9 @@
 {
   "version": "2.2.4",
-  "songName": "Shrinking Violet",
-  "artist": "HighPoweredKeyz & DatDavi",
+  "songName": "Shrinking Violet (Spooky Kids Mix)",
+  "artist": "DrazicallyDTM, DatDavi, HighPoweredKeyz",
+  "charter": "Unknown",
+  "divisions": 96,
   "looped": false,
   "offsets": {
     "instrumental": 0,
@@ -10,31 +12,26 @@
     "altVocals": {    }
   },
   "playData": {
-    "stickerPack": "dokisonly",
-    "album": "takeover",
-    "songVariations": ["alt"],
+    "stickerPack": "dokisall",
+    "songVariations": [    ],
     "difficulties": [
-      "normal"
+      "alt"
     ],
     "characters": {
-      "player": "monika",
+      "player": "spooky-doki",
       "girlfriend": "nogf",
       "opponent": "yuri",
-      "instrumental": "",
-      "opponentVocals": [
-        "yuri"
-      ],
-      "playerVocals": [
-        "monika"
-      ]
+      "instrumental": "alt",
+      "altInstrumentals": [      ]
     },
+    "album": "takeover",
     "stage": "musicroom",
     "noteStyle": "ddto",
     "ratings": {
-      "normal": 6
+      "alt": 6
     },
     "previewStart": 0,
-    "previewEnd": 0
+    "previewEnd": 15000
   },
   "generatedBy": "Friday Night Funkin' - v0.6.4",
   "timeFormat": "ms",
@@ -44,13 +41,7 @@
       "b": 0,
       "bpm": 140,
       "n": 4,
-      "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "d": 4
     }
   ]
 }

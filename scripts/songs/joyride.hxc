@@ -59,6 +59,7 @@ class JoyrideSong extends Song
 
 	function onSongRetry(event:ScriptEvent) {
 		super.onSongRetry(event);
+		FlxTween.cancelTweensOf(sunshine);
 		encoreTime = 0;
 		sunshine.alpha = 0.001;
 	}	  

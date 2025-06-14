@@ -49,15 +49,6 @@ class FreeplayFixes extends Module {
 		if (cap.songText.text == 'MSTSOOBF') cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/tf'); //TF?
 		else cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverText'); //Normal text	
 		if (cap.pixelIcon.animation.curAnim == null || cap.pixelIcon.animation.curAnim.name == 'idle'){
-			switch (cap.freeplayData.data.id){
-				case "our-harmony": cap.pixelIcon.setCharacter('monika');
-				case "you-and-me": cap.pixelIcon.setCharacter('protag');
-				case "libitina": cap.pixelIcon.setCharacter('libitina');
-				case 'love-n-funkin':
-					if (FlxG.state.subState.currentVariation == 'pico') cap.pixelIcon.setCharacter('pico');
-					else cap.pixelIcon.setCharacter('gf');
-
-			}
 			switch (cap.freeplayData.songCharacter){
 				case 'monika', 'monika-pixelnew', 'duetnew':
 					if (cap.freeplayData.data.id == 'your-demise') cap.pixelIcon.setCharacter('monika-epiphany');
@@ -66,6 +57,14 @@ class FreeplayFixes extends Module {
 					cap.pixelIcon.setCharacter('monika-epiphany');
 				case 'senpai-ddto', 'senpai-angry-ddto', 'senpai-nonpixel':
 					cap.pixelIcon.setCharacter('senpai');	
+			}
+			switch (cap.freeplayData.data.id){
+				case "our-harmony": cap.pixelIcon.setCharacter('monika');
+				case "you-and-me": cap.pixelIcon.setCharacter('protag');
+				case "libitina": cap.pixelIcon.setCharacter('libitina');
+				case 'love-n-funkin':
+					if (FlxG.state.subState.currentVariation == 'pico') cap.pixelIcon.setCharacter('pico');
+					else cap.pixelIcon.setCharacter('gf');
 			}
 		}
 	}
@@ -105,7 +104,6 @@ class FreeplayFixes extends Module {
 		super.onUpdate(event);
 		if (Std.isOfType(FlxG.state.subState, FreeplayState))
 			{
-				//Prevents from running if the Freeplay state is busy (Ex. Choosing an inst, choosing a Doki for Catfight, first load, currently loading a song)
 				if (curSelected != FlxG.state.subState.curSelected){
 					curSelected = FlxG.state.subState.curSelected;
 					var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
@@ -118,6 +116,7 @@ class FreeplayFixes extends Module {
 						}
 					}
 				}
+				//Prevents from running if the Freeplay state is busy (Ex. Choosing an inst, choosing a Doki for Catfight, first load, currently loading a song)
 				if (!FlxG.state.subState.busy && (PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P || FlxG.keys.justPressed.Q || FlxG.keys.justPressed.E)){
 					new FlxTimer().start(0.1, _ -> {
 						for (capsule in FlxG.state.subState.grpCapsules.members){

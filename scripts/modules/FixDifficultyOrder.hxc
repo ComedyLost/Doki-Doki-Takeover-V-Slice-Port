@@ -9,6 +9,8 @@ import StringTools;
 class DifficultyOrderFix extends Module {
 	public function new(){
 		super('DifficultyOrderFix');
+
+		active = true;
 	}
 	
 	var curLyrics:FlxText;
