@@ -474,6 +474,7 @@ class LibitinaSong extends Song
 
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);
+		PlayState.instance.cameraZoomRate = 200;
 		GameOverSubState.blueBallSuffix == '-quiet';
 		GameOverSubState.musicSuffix = '-libi';
 		PauseSubState.musicSuffix = '-doki';
@@ -572,15 +573,13 @@ class LibitinaSong extends Song
 					testVM.bitmap.time = 0;
 				case 128:
 					libShader(false);
-					PlayState.instance.currentCameraZoom = 1;
-					camGame2.zoom = 1;
-
+					camGame2.zoom = PlayState.instance.currentCameraZoom = 1;
+					PlayState.instance.cameraZoomRate = 4;
 					camGame2.fade(0xFFFFFFFF, 0.2, true);
 					deskBG2.alpha = 0.001;
 					extractPopup.alpha = 0.001;
 					deskBG2Overlay.alpha = 0.15;
 					PlayState.instance.camHUD.alpha = 1;
-
 					testVM.alpha = 1;
 				case 160, 224, 288, 480, 576, 688, 800, 896, 1024:
 					libPopup(526, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));

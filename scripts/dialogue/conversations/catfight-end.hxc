@@ -4,7 +4,6 @@ import funkin.audio.FunkinSound;
 import funkin.Paths;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import haxe.Unserializer;
 import Std;
 import StringTools;
 import funkin.util.PlatformUtil;

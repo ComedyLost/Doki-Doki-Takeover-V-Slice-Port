@@ -9,8 +9,6 @@ import StringTools;
 class DifficultyOrderFix extends Module {
 	public function new(){
 		super('DifficultyOrderFix');
-
-		active = true;
 	}
 	
 	var curLyrics:FlxText;
@@ -34,12 +32,15 @@ class DifficultyOrderFix extends Module {
 	//Fix the order of the difficulties
 	function fixOrder(state){
 		var defaultDiffs = ['easy', 'normal', 'hard', 'erect', 'nightmare'];
+		for (diffs in defaultDiffs) { //Prevent the game from adding difficulties that don't exist for the character
+			if (!state.allDifficulties.contains(diffs)) defaultDiffs.remove(diffs);
+		}
 		for (diffs in state.allDifficulties){
 			if (defaultDiffs.contains(diffs)) state.allDifficulties.remove(diffs);
 		}
 		var remainingDiffs = state.allDifficulties;
 		state.allDifficulties = defaultDiffs;
-		for (diffs in remainingDiffs){
+		for (diffs in remainingDiffs){ //Put all the difficulties back, with the default diffs in the correct order [easy, normal, hard, erect, nightmare]
 			if (!defaultDiffs.contains(diffs)) state.allDifficulties.push(diffs);
 		}
 	}

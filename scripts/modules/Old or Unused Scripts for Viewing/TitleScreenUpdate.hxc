@@ -37,6 +37,8 @@ import funkin.modding.module.Module;
 import funkin.Paths;
 
 import Std;
+
+//The old DDTO title screen that existed before 0.6.0, left in for archival purposes
 class TitleScreen extends Module
 {
 
@@ -44,7 +46,7 @@ class TitleScreen extends Module
 	{
 		super('TitleScreen');
 
-		active = false; //Archival Purposes
+		active = false;
 		
 		save = new FlxSave();
         save.bind("TakeoverOptions");

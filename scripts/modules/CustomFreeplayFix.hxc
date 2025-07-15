@@ -1,63 +1,43 @@
-import flixel.FlxG;
-
-import flixel.addons.transition.FlxTransitionableState;
-
-import flixel.FlxSprite;
-
-import funkin.ui.mainmenu.MainMenuState;
-import funkin.ui.freeplay.FreeplayState;
-import funkin.ui.options.OptionsState;
-import funkin.ui.title.TitleState;
-import funkin.ui.MusicBeatState;
-import funkin.ui.story.StoryMenuState;
-import flixel.util.FlxSave;
-import funkin.Conductor;
-import funkin.ui.title.AttractState;
-
-import funkin.audio.FunkinSound;
-
-import funkin.modding.base.ScriptedMusicBeatState;
-import funkin.modding.base.MusicBeatState;
 import funkin.modding.module.Module;
-
+import flixel.FlxG;
 import funkin.Paths;
-
-import Std;
+import funkin.ui.freeplay.FreeplayState;
 import funkin.util.ReflectUtil;
 import funkin.ui.freeplay.SongMenuItem;
 import funkin.modding.base.ScriptedMusicBeatSubState;
 import flixel.util.FlxSave;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
 import funkin.PlayerSettings;
 import flixel.tweens.FlxEase;
+import flixel.addons.transition.FlxTransitionableState;
+import funkin.ui.story.StoryMenuState;
 
-class DokiMenuOverrides extends Module
-{
+class FreeplayTransitionFix extends Module {
+	public function new(){
+		super('FreeplayTransitionFix');
 
-	public function new()
-	{
-		super('DokiMenuOverrides');
-
+		active = false;
+		
 		save = new FlxSave();
         save.bind("TakeoverOptions");
 	}
-	
+
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
 		if (save.data.menus) {
-			if (Std.isOfType(FlxG.state, StoryMenuState)) {
-				
-				if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK) {
-					FlxG.state.exitingMenu = true;
-					//FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
-      				FunkinSound.playOnce(Paths.sound('cancelMenu'));
-				}
-			} else if (Std.isOfType(FlxG.state.subState, FreeplayState)) {
+			if (Std.isOfType(FlxG.state.subState, FreeplayState)) {
 				//Override base game exit function to prevent it from trying to go to the original main menu
 				if (!FlxG.state.subState.busy && PlayerSettings.player1.controls.BACK) {
 					FlxG.state.subState.busy = true;
 					customReturnMenu();
+				}
+			} else if (Std.isOfType(FlxG.state.subState, StoryMenuState)) {
+				if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK) {
+					FlxG.state.exitingMenu = true;
+					FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
+      				FunkinSound.playOnce(Paths.sound('cancelMenu'));
 				}
 			}
 		}
@@ -116,20 +96,4 @@ class DokiMenuOverrides extends Module
 			FlxG.state.subState.close();
 		});
 	}
-
-	function onStateChangeEnd(event:StateChangeScriptEvent)
-		{
-			super.onStateChangeEnd(event);
-			if ((Std.isOfType(FlxG.state, MainMenuState)) && save.data.menus){
-				FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
-			} else if ((Std.isOfType(FlxG.state, OptionsState)) && save.data.menus){
-				var exitToDokiMenu = function () {
-					FlxG.state.optionsCodex.currentPage.enabled = false;
-    				// TODO: Animate this transition?
-    				FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
-				}
-				FlxG.state.optionsCodex.pages.get('options').onExit.removeAll();
-				FlxG.state.optionsCodex.pages.get('options').onExit.add(exitToDokiMenu);
-			}
-		}
 }

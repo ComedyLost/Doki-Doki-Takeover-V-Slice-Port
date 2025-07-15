@@ -6,7 +6,6 @@ import funkin.play.character.CharacterType;
 import funkin.Paths;
 import flixel.FlxSprite;
 import flixel.FlxG;
-import flixel.util.FlxSave;
 import StringTools;
 
 class CrazyYuriTabiCharacter extends SparrowCharacter {
@@ -20,10 +19,11 @@ class CrazyYuriTabiCharacter extends SparrowCharacter {
   
     public function onCreate(event):Void {
     	super.onCreate(event);
-		if (PlayState.instance.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
+		if (PlayState.instance?.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
 		else var isFestival = false;
 		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
 		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+		this.color = defaultColor;
 	}
 
 	override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {

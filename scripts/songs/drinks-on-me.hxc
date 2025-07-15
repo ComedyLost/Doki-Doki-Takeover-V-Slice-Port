@@ -14,7 +14,6 @@ import flixel.util.FlxTimer;
 import funkin.util.Constants;
 import StringTools;
 import flixel.text.FlxText;
-import haxe.Unserializer;
 import funkin.util.FlxTweenUtil;
 import funkin.play.Countdown;
 import funkin.save.Save;

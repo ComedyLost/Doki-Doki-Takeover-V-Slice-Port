@@ -12,8 +12,8 @@ import funkin.audio.FunkinSound;
 import funkin.Paths;
 import funkin.graphics.FunkinSprite;
 import funkin.util.Constants;
-import haxe.Unserializer;
 import flixel.util.FlxTimer;
+import lime.app.Application;
 
 class MSTSOOBFSong extends Song
 {
@@ -47,8 +47,7 @@ class MSTSOOBFSong extends Song
 					if (FlxG.random.bool((1 / 42) * 100)){
 						FunkinSound.playOnce(Paths.sound('the doki'));
 						new FlxTimer().start(0.3, function(e:FlxTimer){
-							Lib = Unserializer.DEFAULT_RESOLVER.resolveClass('openfl.Lib');
-							Lib.application.window.close();			
+							Application.current.window.close();			
 						});	      				  
 					}
 				case 20:

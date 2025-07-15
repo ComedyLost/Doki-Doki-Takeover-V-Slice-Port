@@ -8,7 +8,7 @@ import flixel.FlxG;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import funkin.modding.base.ScriptedFunkinSprite;
-import haxe.Unserializer;
+import lime.app.Application;
 
 class BFDokiNewCharacter extends MultiSparrowCharacter {
 	var epiphany:Bool;
@@ -125,8 +125,7 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 		super.onAnimationFinished(name);
 		if (name == 'firstDeath') {
 			if (doRareDeathScreen){
-				Lib = Unserializer.DEFAULT_RESOLVER.resolveClass('openfl.Lib');
-				Lib.application.window.close();
+				Application.current.window.close();
 				//PlayState.instance.close();
 				deathSpriteMonika.alpha = 0;
 			}

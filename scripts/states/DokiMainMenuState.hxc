@@ -25,6 +25,9 @@ import funkin.data.song.SongRegistry;
 import funkin.play.song.Song;
 import funkin.Paths;
 import funkin.play.PlayStatePlaylist;
+import funkin.ui.debug.DebugMenuSubState;
+import funkin.modding.base.ScriptedMusicBeatState;
+import funkin.audio.FunkinSound;
 
 typedef MenuCharacterData = 
 {
@@ -56,7 +59,7 @@ class DokiMainMenuState extends MusicBeatState
 	var show:String = "";
 	var menuItems:FlxTypedSpriteGroup<FlxText>;
 
-	var optionShit:Array<String> = ['Story Mode', 'Freeplay', 'Credits', 'Options', 'Exit Game'];
+	var optionShit:Array<String> = ['Story Mode', 'Freeplay', 'Costumes', 'Credits', 'Options', 'Exit Game'];
 
 	public static var firstStart:Bool = true;
 
@@ -83,16 +86,13 @@ class DokiMainMenuState extends MusicBeatState
 
 		addVally = true;
 
-		if (FlxG.sound.music != null && !FlxG.sound.music.playing)
-		{
-			FunkinSound.playMusic('freakyMenu-DDTO', {
-       			startingVolume: 0.0,
-   	   			overrideExisting: true,
-   	   			restartTrack: false,
-   	   			// Continue playing this music between states, until a different music track gets played.
-   	   			persist: true
-   			});
-		}
+		FunkinSound.playMusic('freakyMenu-DDTO', {
+       		startingVolume: 0.0,
+   	   		overrideExisting: true,
+   	   		restartTrack: false,
+   	   		// Continue playing this music between states, until a different music track gets played.
+   	   		persist: true
+   		});
 
 		backdrop = new FlxBackdrop(Paths.image('scrollingBG'));
 		backdrop.velocity.set(-40, -40);
@@ -257,6 +257,11 @@ class DokiMainMenuState extends MusicBeatState
 		if (FlxG.sound.music != null && FlxG.sound.music.volume < 0.8)
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 
+		/*if (controls.DEBUG_MENU) { //Too broken
+      		persistentUpdate = false;
+
+	    	FlxG.state.openSubState(new DebugMenuSubState());
+    	}*/
 		if (!selectedSomethin && acceptInput)
 		{
 			if (shaker != null && addVally && FlxG.mouse.overlaps(shaker) && FlxG.mouse.justPressed)
@@ -310,7 +315,20 @@ class DokiMainMenuState extends MusicBeatState
         		{
         			character: targetCharacter
         		}));
+				acceptInput = true;
+				selectedSomethin = false;
+				menuItems.forEach(function(txt:FlxText) {
+					FlxTween.cancelTweensOf(txt);
+					FlxTween.tween(txt, {alpha: 1}, 1.3, {
+						ease: FlxEase.quadOut,
+					});
+					txt.visible = true;
+				});
 				trace("Freeplay Menu Selected");
+			case 'Costumes':
+				FlxTransitionableState.skipNextTransIn = true;
+    			FlxTransitionableState.skipNextTransOut = true;
+				FlxG.switchState(ScriptedMusicBeatState.init('CostumeSelectState'));
 			case 'Credits':
 				var targetState:NextState = () -> new funkin.ui.credits.CreditsState();
 				FlxG.switchState(targetState);
@@ -356,12 +374,8 @@ class DokiMainMenuState extends MusicBeatState
 		{
 			if (curSelected != txt.ID)
 			{
-				FlxTween.tween(txt, {alpha: 0}, 1.3, {
+				FlxTween.tween(txt, {alpha: 0}, 0.8, {
 					ease: FlxEase.quadOut,
-					onComplete: function(twn:FlxTween)
-					{
-						txt.kill();
-					}
 				});
 			}
 			else

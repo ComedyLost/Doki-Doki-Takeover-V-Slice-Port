@@ -6,13 +6,21 @@ import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 import flixel.util.FlxSave;
 import funkin.Conductor;
+import flixel.FlxG;
+import StringTools;
 
-class PsychEngineHolds extends Module
+//A version 2 of the Psych Note Holds effect
+//While this version is a lot more accurate, it would completely break if a song has multiple characters
+//So it is currently scrapped
+
+class PsychEngineHoldsv2 extends Module
 {
     function new()
         {
-            super('PsychEngineHolds');
+            super('PsychEngineHoldsv2');
 
+			active = false; 
+		
 			save = new FlxSave();
 			save.bind("TakeoverOptions");	
         }
@@ -38,8 +46,11 @@ class PsychEngineHolds extends Module
 						// While the hold note is being hit, and there is length on the hold note...
 						if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
 							{
-								if (PlayState.instance.currentStage.getDad() != null && PlayState.instance.currentStage.getDad().isSinging()) 
-									PlayState.instance.currentStage.getDad().animation.curAnim.restart();
+								if (PlayState.instance.currentStage.getDad() != null && PlayState.instance.currentStage.getDad().isSinging()){
+									var anim = PlayState.instance.currentStage.getDad().getCurrentAnimation();
+									var singShit = anim.substr(anim.indexOf('-') + 1); //Grab the ending suffix so we can play that instead of the default
+									PlayState.instance.currentStage.getDad().playSingAnimation(holdNote.noteData.getDirection(), false, singShit);
+								}
 							}
 					}
 				for (holdNote in PlayState.instance.playerStrumline.holdNotes.members)
@@ -50,10 +61,16 @@ class PsychEngineHolds extends Module
 						if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
 							{
 								// Make sure the opponent keeps singing while the note is held.
-								if (PlayState.instance.currentStage.getBoyfriend() != null && PlayState.instance.currentStage.getBoyfriend().isSinging())
-									PlayState.instance.currentStage.getBoyfriend().animation.curAnim.restart();
-								else if (PlayState.instance.currentStage.getGirlfriend() != null && PlayState.instance.currentStage.getGirlfriend().isSinging())
-									PlayState.instance.currentStage.getGirlfriend().animation.curAnim.restart();
+								if (PlayState.instance.currentStage.getBoyfriend() != null && PlayState.instance.currentStage.getBoyfriend().isSinging()){
+									var anim = PlayState.instance.currentStage.getBoyfriend().getCurrentAnimation();
+									var singShit = anim.substr(anim.indexOf('-') + 1);
+									PlayState.instance.currentStage.getBoyfriend().playSingAnimation(holdNote.noteData.getDirection(), false, singShit);
+								}
+								else if (PlayState.instance.currentStage.getGirlfriend() != null && PlayState.instance.currentStage.getGirlfriend().isSinging()){
+									var anim = PlayState.instance.currentStage.getGirlfriend().getCurrentAnimation();
+									var singShit = anim.substr(anim.indexOf('-') + 1);
+									PlayState.instance.currentStage.getGirlfriend().playSingAnimation(holdNote.noteData.getDirection(), false, singShit);
+								}
 							}
 					}	  
 			}

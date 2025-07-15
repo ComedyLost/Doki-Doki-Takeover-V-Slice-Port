@@ -113,6 +113,14 @@ class OurHarmonySong extends Song
 		whiteflash.cameras = [PlayState.instance.camHUD];
 		PlayState.instance.add(whiteflash);
 
+		var lyricFile = coolTextFile('songs/' + PlayState.instance.currentSong.id.toLowerCase() + '/lyrics');
+
+		if (lyricFile == null) return; //No lyrics detected
+
+		for (lyric in lyricFile) {
+			var data:Array<String> = lyric.split('::');
+			lyricData.push([Std.parseInt(data[0]), data[1]]);
+		}
 
 		lyrics = new FlxText();
 		lyrics.fieldWidth = FlxG.width;
@@ -122,13 +130,6 @@ class OurHarmonySong extends Song
 		lyrics.borderSize = 1.25;
 		lyrics.cameras = [PlayState.instance.camHUD];
 		PlayState.instance.add(lyrics);
-
-		var lyricFile = coolTextFile('songs/' + PlayState.instance.currentSong.id.toLowerCase() + '/lyrics');
-
-		for (lyric in lyricFile) {
-			var data:Array<String> = lyric.split('::');
-			lyricData.push([Std.parseInt(data[0]), data[1]]);
-		}
 	}
 
 	function onNoteHit(callback){

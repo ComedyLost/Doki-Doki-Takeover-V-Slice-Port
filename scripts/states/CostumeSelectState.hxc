@@ -21,6 +21,7 @@ import flixel.text.FlxTextBorderStyle;
 import flixel.util.FlxSave;
 import funkin.ui.mainmenu.MainMenuState;
 import flixel.sound.FlxSound;
+import funkin.modding.base.ScriptedMusicBeatState;
 
 typedef CostumeData =
 {
@@ -145,6 +146,10 @@ class CostumeSelectState extends MusicBeatState
 	{
 		save = new FlxSave();
 		save.bind("CostumesV2");
+
+		options = new FlxSave();
+        options.bind("TakeoverOptions");
+
 		FlxG.mouse.visible = true;
 		SaveData = save.data;
 		SaveData.protagcostume = SaveData.protagcostume ?? '';
@@ -288,6 +293,7 @@ class CostumeSelectState extends MusicBeatState
 				FlxG.sound.music.stop();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				var targetState:NextState = () -> new MainMenuState();
+				if (options.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
         		FlxG.switchState(targetState);
 			}
 			if (controls.BACK && selectingcostume)

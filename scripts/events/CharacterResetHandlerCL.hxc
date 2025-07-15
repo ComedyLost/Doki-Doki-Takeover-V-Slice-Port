@@ -80,6 +80,7 @@ class CharacterResetHandlerCL extends Module {
 		if (girlfriend != null) {
 			girlfriend.set_characterType(CharacterType.GF);
 			PlayState.instance.currentStage.addCharacter(girlfriend, CharacterType.GF);
+			girlfriend.zIndex = characterZIndexes["gf"];
 		}
 
 		// BF reset
@@ -90,6 +91,7 @@ class CharacterResetHandlerCL extends Module {
 			boyfriend.set_characterType(CharacterType.BF);
 			boyfriend.initHealthIcon(false);
 			PlayState.instance.currentStage.addCharacter(boyfriend, CharacterType.BF);
+			boyfriend.zIndex = characterZIndexes["bf"];
 		}
 
 		// DAD reset
@@ -100,6 +102,8 @@ class CharacterResetHandlerCL extends Module {
 			dad.set_characterType(CharacterType.DAD);
 			dad.initHealthIcon(true);
 			PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
+			dad.zIndex = characterZIndexes["dad"];
 		}
+		PlayState.instance.currentStage.refresh();
 	}
 }

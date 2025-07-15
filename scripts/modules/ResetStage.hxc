@@ -17,7 +17,7 @@ class ResetStageModule extends Module
 		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
         PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getDad().cameraFocusPoint.x, PlayState.instance.currentStage.getDad().cameraFocusPoint.y, 0, FlxEase.instant);
         for (strums in [PlayState.instance.playerStrumline, PlayState.instance.opponentStrumline]){
-            strums.background.alpha = Preferences.strumlineBackgroundOpacity / 100.0;
+            strums.background.alpha = Preferences.strumlineBackgroundOpacity / 100.0; //I HATE STRUM BACKGROUNDS
         }
         PlayState.instance.currentStage.refresh();
     }

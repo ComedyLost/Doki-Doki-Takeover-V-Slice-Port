@@ -266,7 +266,7 @@ class DokiTitleState extends MusicBeatState
 
     	if (pressedEnter && transitioning && skippedIntro) {
 			var targetState:NextState = () -> new MainMenuState(true);
-			//if (save.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
+			if (save.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
       		FlxG.switchState(targetState);
     	}
 
@@ -280,7 +280,7 @@ class DokiTitleState extends MusicBeatState
 			transitioning = true;
 
 			var targetState:NextState = () -> new MainMenuState(true);
-			//if (save.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
+			if (save.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
         		FlxG.switchState(targetState);

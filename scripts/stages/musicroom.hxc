@@ -22,10 +22,10 @@ class MusicRoomStage extends Stage
 	override function buildStage() {
 		super.buildStage();
 		switch (PlayState.instance.currentSong.id.toLowerCase()){
-		case "love-n-funkin":
-			if (PlayState.instance.currentVariation == 'alt') getNamedProp('Music Room BG').loadGraphic(Paths.image('musicroom/Music_RoomSpooky'));
-			else getNamedProp('Music Room BG').loadGraphic(Paths.image('musicroom/Music_RoomLNF'));
+			case "shrinking-violet":
+				if (PlayState.instance.currentVariation == 'alt') getNamedProp('Music Room BG').loadGraphic(Paths.image('musicroom/Music_RoomSpooky'));
+			case "love-n-funkin":
+				getNamedProp('Music Room BG').loadGraphic(Paths.image('musicroom/Music_RoomLNF'));
 		}
 	}
-
 }

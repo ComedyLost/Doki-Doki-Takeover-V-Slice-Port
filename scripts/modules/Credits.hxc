@@ -136,7 +136,7 @@ class Credits extends Module
         metaName.antialiasing = !isPixel;
         metaName.alignment = "right";
 		metaName.borderSize = 2;
-		metaName.cameras = [PlayState.instance.camHUD];
+		metaName.cameras = [PlayState.instance.camCutscene];
 		metaName.zIndex = 1000000;
 		metaName.borderStyle = FlxTextBorderStyle.OUTLINE;
         if (!isPixel){
@@ -157,7 +157,7 @@ class Credits extends Module
         metaIcon.scrollFactor.set();
         metaIcon.scale.set(0.35, 0.35);
         metaIcon.setPosition(FlxG.width - (metaName.width) - 120, 15 - (metaIcon.height / 2) + 16);
-        metaIcon.cameras = [PlayState.instance.camHUD];
+        metaIcon.cameras = [PlayState.instance.camCutscene];
 		metaIcon.zIndex = 1000000;
         metaIcon.alpha = 0;
 
@@ -169,7 +169,7 @@ class Credits extends Module
         metaArtist.antialiasing = !isPixel;
         metaArtist.alignment = "right";
 		metaArtist.borderSize = 2;
-		metaArtist.cameras = [PlayState.instance.camHUD];
+		metaArtist.cameras = [PlayState.instance.camCutscene];
 		metaArtist.zIndex = 1000000;
 		metaArtist.borderStyle = FlxTextBorderStyle.OUTLINE;
         if (!isPixel){
