@@ -31,8 +31,6 @@ import funkin.play.GameOverSubState;
 import funkin.audio.FunkinSound;
 import funkin.play.PauseSubState;
 import funkin.play.cutscene.VideoCutscene;
-import funkin.save.Save;
-import flixel.util.FlxSave;
 
 //Worst thing I ever fucking coded
 //Agonizing pain
@@ -42,8 +40,7 @@ class LibitinaSong extends Song
 	{
 		super('libitina');
 
-		save = new FlxSave();
-		save.bind("TakeoverOptions");	
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var shaderstatic = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
@@ -68,7 +65,7 @@ class LibitinaSong extends Song
 	var camOverlay:FunkinCamera;
 
 	var grpPopups:Array<Dynamic>;
-	var time:Float;
+	var time:Float = 0;
 
 	//Holy shit there's so many fucking sprites
 	var deskBG1;
@@ -479,7 +476,7 @@ class LibitinaSong extends Song
 		GameOverSubState.musicSuffix = '-libi';
 		PauseSubState.musicSuffix = '-doki';
 
-		/*if (!hasPlayedCutscene && save.data.freeplayDialogue) {
+		/*if (!hasPlayedCutscene && save.freeplayDialogue) {
 			//doesn't work for some reason
 			//I'll probably fix it in a minor update or the Encore update
 			trace('Pausing countdown to play cutscene.');
@@ -523,8 +520,12 @@ class LibitinaSong extends Song
 
 			if (show)
 			{
-				PlayState.instance.camGame.filters = [fishshader, glitchshader];
-				camGame2.filters = [glitchshader2];
+				if (FlxG.onMobile) { // Glitch shader causes a crash on mobile
+					PlayState.instance.camGame.filters = [fishshader];
+				} else {
+					PlayState.instance.camGame.filters = [fishshader, glitchshader];
+					camGame2.filters = [glitchshader2];
+				}
 			}
 			else
 			{
@@ -925,9 +926,4 @@ class LibitinaSong extends Song
 				GameOverSubState.instance.startDeathMusic(1.0, false);		
 			});
 	}		
-
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
 }

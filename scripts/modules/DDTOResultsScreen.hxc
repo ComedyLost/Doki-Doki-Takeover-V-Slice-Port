@@ -26,7 +26,6 @@ class DDTOResults extends Module {
 		super("DDTOResultsScreen");
 	}
 
-	var state = null;
 	var whiteBackground:FlxSprite;
 	var dokiBackdrop:FlxBackdrop;
 	var creditsBG:FlxBackdrop;
@@ -67,6 +66,7 @@ class DDTOResults extends Module {
 	*/
 
 	function displayRankText(){
+		var state = FlxG.state.subState;
 		var rankTextVert:FlxBackdrop = new FlxBackdrop(Paths.image("resultScreen/rankText/Doki/rankText" + getRank()), 0x10, 0, 30);
 		rankTextVert.x = FlxG.width - 44;
 		rankTextVert.y = 100;
@@ -99,6 +99,7 @@ class DDTOResults extends Module {
 	}
 
 	function getRank(){
+		var state = FlxG.state.subState;
 		var rank:String = Std.string(Scoring.calculateRank(state.params.scoreData));
 		if (rank == "PERFECT_GOLD") return "PERFECT";
 		else if (rank == "SHIT") return "LOSS";
@@ -161,9 +162,9 @@ class DDTOResults extends Module {
 		 
 	override function onSubStateOpenEnd(event) {
 		super.onSubStateOpenEnd(event);
-
 		if (Std.isOfType(event.targetState, ResultState)) {
 			if (!isDoki) return;
+			var state = event.targetState;
 			camScrollNew = new FunkinCamera('resultsScroll');
 			camScrollNew.angle = -3.8;
 			camScrollNew.bgColor = 0x000000;
@@ -246,6 +247,7 @@ class DDTOResults extends Module {
 	}
 	
   	function afterRankTallySequence():Void {
+		var state = FlxG.state.subState;
 		for (atlas in state.characterAtlasAnimations) {
 	  		new FlxTimer().start(atlas.delay, _ -> {
 				if (atlas.sprite == null) return;
@@ -269,6 +271,7 @@ class DDTOResults extends Module {
   	}
 
 	function changeResultsCharacter(character:String){
+		var state = FlxG.state.subState;
 		for (sprite in state.characterSparrowAnimations) {
 			if (sprite != null) sprite.sprite.kill();
 		}                    
@@ -368,7 +371,7 @@ class DDTOResults extends Module {
 	public function onSubStateOpenBegin(event) {
 		super.onSubStateOpenBegin(event);
 		if (Std.isOfType(event.targetState, ResultState)) {
-			state = event.targetState;
+			var state = event.targetState;
 			isDoki = switch (state.params.characterId) {
 				case "bf-doki", "pixelbf-new", "pixelbfangry-new", "bf-pixelbar", "monika", "sayori", "yuri", "natsuki", "protag", "playablegf", "pico-doki", "spooky-doki": true;
 				default: false;

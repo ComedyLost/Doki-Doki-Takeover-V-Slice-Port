@@ -22,7 +22,7 @@ import funkin.play.notes.NoteSprite;
 import funkin.play.notes.notestyle.NoteStyle;
 import funkin.play.notes.Strumline;
 import funkin.Preferences;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 
 import funkin.modding.module.ModuleHandler;
 
@@ -39,13 +39,11 @@ class DokiDoggleSong extends Song
 	{
 		super('dokidoggle');
 
-		options = new FlxSave();
-		options.bind("TakeoverOptions");	
+		options = Save.instance.modOptions.get('TakeoverOptions');
 	}
 
 	var extraOpp;
 	var bfStartingX;
-    var extraOpp;
 	var iconP3:HealthIcon;
     var extraStrumline;
 
@@ -60,6 +58,7 @@ class DokiDoggleSong extends Song
 	}
 
 	function onSongEnd(event){
+		if (FlxG.onMobile) return;
 		Strumline.STRUMLINE_SIZE = 104;
 		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
 		if (extraStrumline != null){
@@ -70,6 +69,7 @@ class DokiDoggleSong extends Song
     
     override function onDestroy(event) {
         super.onDestroy(event);
+		if (FlxG.onMobile) return;
 		Strumline.STRUMLINE_SIZE = 104;
 		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
 		if (extraStrumline != null){
@@ -84,18 +84,21 @@ class DokiDoggleSong extends Song
 		var extraNoteData:Array<SongNoteData> = [];
 		var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('extra');
         if (animChart == null) {
+			if (FlxG.onMobile) return;
 			Strumline.STRUMLINE_SIZE = 104;
 			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
             trace('Initializing Extra Strumline failed; no `extra` chart found for this song.');
 			return;
         }
-		Strumline.STRUMLINE_SIZE = 94;
-		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
-		//Remake the strumlines to use the new spacing and size
-		PlayState.instance.playerStrumline.kill();
-		PlayState.instance.opponentStrumline.kill();
-		PlayState.instance.initStrumlines();
-		PlayState.instance.regenNoteData();
+		if (!FlxG.onMobile) {
+			Strumline.STRUMLINE_SIZE = 94;
+			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
+			//Remake the strumlines to use the new spacing and size
+			PlayState.instance.playerStrumline.kill();
+			PlayState.instance.opponentStrumline.kill();
+			PlayState.instance.initStrumlines();
+			PlayState.instance.regenNoteData();
+		}
 		for (notes in animChart.notes){
 			switch (notes.getStrumlineIndex()){
 				case 1:
@@ -171,6 +174,8 @@ class DokiDoggleSong extends Song
 		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
 		extraOpp.x = (stageCharData.position[0] - extraOpp.characterOrigin.x) - 250;
 		extraOpp.y = (stageCharData.position[1] - extraOpp.characterOrigin.y) + 30;
+    	extraOpp.cameraFocusPoint.x += stageCharData.cameraOffsets[0];
+	    extraOpp.cameraFocusPoint.y += stageCharData.cameraOffsets[1];
 
 		extraOpp.originalPosition.set(extraOpp.x, extraOpp.y);  
 		
@@ -275,28 +280,31 @@ class DokiDoggleSong extends Song
 			super.onSongRetry(event);
 			PlayState.instance.playerStrumline.noteHoldCovers.clear();
 			PlayState.instance.opponentStrumline.noteHoldCovers.clear();
-			if (extraStrumline != null) extraStrumline.noteHoldCovers.clear();
+			if (extraStrumline != null){
+				extraStrumline.noteHoldCovers.clear();
+				extraStrumline.vwooshNotes();
+				extraStrumline.clean();
+				extraStrumline.handleSkippedNotes();
+			}
+			if (FlxG.onMobile) return;
 			if (PlayState.instance.playerStrumline.x != FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET)
 				FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width - FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET}, 1.25, {ease: FlxEase.quadInOut});
 			if (PlayState.instance.opponentStrumline.x != Constants.STRUMLINE_X_OFFSET)
 				FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET}, 1.25, {ease: FlxEase.quadInOut});
 			PlayState.instance.currentStage.getGirlfriend().idleSuffix = '-alt';
 			PlayState.instance.currentStage.getBoyfriend().x = bfStartingX;
-			if (extraStrumline == null) return;
-			extraStrumline.vwooshNotes();
-			extraStrumline.clean();
-			extraStrumline.handleSkippedNotes();
 			if (extraStrumline.x != 0 - extraStrumline.width)
 				FlxTween.tween(extraStrumline, {x: 0 - extraStrumline.width}, 1.25, {ease: FlxEase.quadInOut});
 		}
 
 	function onStepHit(event:SongTimeScriptEvent):Void
 		{	
-			if (options.data.psychholds) stutterNotes();	
+			if (options.psychholds) stutterNotes();	
 
 			switch(event.step)
 			{
 				case 192:
+					if (FlxG.onMobile) return;
 					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width - PlayState.instance.playerStrumline.width + 5}, 1.25, {ease: FlxEase.quadInOut, onUpdate: function(twn:FlxTween) {
 							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
 								var alpha = covers.alpha;

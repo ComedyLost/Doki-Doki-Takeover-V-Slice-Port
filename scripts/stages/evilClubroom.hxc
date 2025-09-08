@@ -19,7 +19,7 @@ import funkin.graphics.FunkinCamera;
 import flixel.FlxCamera;
 import flixel.FlxCameraFollowStyle;
 import funkin.util.Constants;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import funkin.Conductor;
 import flixel.tweens.FlxEase;
 
@@ -41,8 +41,7 @@ class EvilClubroomStage extends Stage
 	{
 		super('evilClubroom');
 
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
 	}
 
 	public function onCountdownStart(event:CountdownScriptEvent):Void
@@ -59,7 +58,7 @@ class EvilClubroomStage extends Stage
 			bloom.setFloat('funsteps', 0.005);
 			bloom.setFloat('funthreshhold', 0.95);
 			bloom.setFloat('funbrightness', 8); 
-			if (save.data.bloom) camBG.filters = [shader];
+			if (save.bloom) camBG.filters = [shader];
 		}
 
 	function resetCams() {
@@ -159,16 +158,6 @@ class EvilClubroomStage extends Stage
         camBG.targetOffset = FlxG.camera.targetOffset;
     }    
 
-	function onBeatHit(event:SongTimeScriptEvent)
-		{
-			super.onBeatHit(event);
-	
-			if (FlxG.random.bool(20))
-			{
-				maskStateChange();
-			}
-		}	
-
 	function maskStateChange() {
 		if (!canChange) return;
 		if (!maskEnabled){
@@ -200,6 +189,9 @@ class EvilClubroomStage extends Stage
 
 	function onBeatHit(event:SongTimeScriptEvent):Void
 		{
+			if (FlxG.random.bool(20)) {
+				maskStateChange();
+			}
 			switch(event.beat)
 			{
 				case 585:

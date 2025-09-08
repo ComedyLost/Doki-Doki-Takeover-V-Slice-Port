@@ -17,7 +17,6 @@ import funkin.ui.options.OptionsState;
 import funkin.ui.title.TitleState;
 import funkin.ui.MusicBeatState;
 import funkin.ui.story.StoryMenuState;
-import flixel.util.FlxSave;
 import funkin.ui.title.FlxSpriteOverlay;
 import funkin.Conductor;
 
@@ -48,8 +47,8 @@ class TitleScreen extends Module
 
 		active = false;
 		
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		/*save = new FlxSave();
+        save.bind("TakeoverOptions");*/
 	}
 	
 	var dokiApp:FlxSprite;

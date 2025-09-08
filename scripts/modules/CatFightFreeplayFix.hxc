@@ -21,9 +21,9 @@ class CatFightFreeplayFix extends Module {
 			if (capsule != null && FlxG.state.subState.curSelected != 0 && capsule?.freeplayData?.data.id == 'catfight'){
 				//Override base game function to allow player to choose a doki
 				capsule.onConfirm = function() {
-					if (!FlxG.state.subState.busy) {
+					if (FlxG.state.subState.controls.active) {
 						FlxG.state.subState.persistentUpdate = false;
-						FlxG.state.subState.busy = true;
+						FlxG.state.subState.controls.active = false;
 						FlxG.state.subState.openSubState(ScriptedMusicBeatSubState.init("CatfightPopup"));
 					}
 				};	

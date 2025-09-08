@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="titleEnterDokiMobile.png">
+	<!-- Created with Adobe Animate version 22.0.0.93 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="ENTER PRESSED0000" x="0" y="0" width="1477" height="96"/>
+	<SubTexture name="ENTER PRESSED0001" x="0" y="96" width="1477" height="96"/>
+	<SubTexture name="Press Enter to Begin0000" x="0" y="192" width="1477" height="96"/>
+</TextureAtlas>

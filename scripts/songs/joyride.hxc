@@ -15,13 +15,13 @@ import funkin.util.FlxTweenUtil;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
-import flixel.util.FlxSave;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
 import funkin.modding.module.ModuleHandler;
 import funkin.modding.module.Module;
 import funkin.graphics.FunkinCamera;
 import flixel.group.FlxTypedSpriteGroup;
+import funkin.save.Save;
 
 class JoyrideSong extends Song
 {
@@ -35,6 +35,11 @@ class JoyrideSong extends Song
 	var pastDokiLight;
 	var encoreTime:Int;
 	
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
+
 	override function onCreate(event) {
 		super.onCreate(event);
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;

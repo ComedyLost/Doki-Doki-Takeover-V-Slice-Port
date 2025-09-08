@@ -35,8 +35,7 @@ class YourDemiseSong extends Song
 	var countdownStep;
 	var countdownTimer:FlxTimer;
 
-	public static function performCountdown():Bool
-	{
+	function performCountdown() {
 		countdownStep = 5;
 		PlayState.instance.isInCountdown = true;
 		Conductor.instance.update(PlayState.instance.startTimestamp + Conductor.instance.beatLengthMs * -5);
@@ -48,11 +47,11 @@ class YourDemiseSong extends Song
 		countdownTimer = new FlxTimer();
 	
 		countdownTimer.start(Conductor.instance.beatLengthMs / 1000, function(tmr:FlxTimer) {
-			if (PlayState.instance == null)
-				{
-				  tmr.cancel();
-				  return;
-				}
+			if (PlayState.instance == null) {
+				tmr.cancel();
+				return;
+			}
+
 			countdownStep = tmr.loopsLeft - 1;
 		  
 			// onBeatHit events are now properly dispatched by the Conductor even at negative timestamps,
@@ -72,6 +71,7 @@ class YourDemiseSong extends Song
 			}	  		  
 		}, 5); // Before, 3, 2, 1, GO!, After
 	
+		trace(countdownTimer.loopsLeft);
 		return true;
 	}
 
@@ -238,6 +238,7 @@ class YourDemiseSong extends Song
 	
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);
+		PlayState.instance.currentStage.getGirlfriend().visible = false;
 		if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
 		
 		if (!PlayStatePlaylist.isStoryMode) blackScreen.alpha = 0;
@@ -296,6 +297,7 @@ class YourDemiseSong extends Song
 	function onSongRetry(event:ScriptEvent)
 		{
 			super.onSongRetry(event);
+			PlayState.instance.currentStage.getGirlfriend().visible = false; // Actually hide GF now
 			redStatic.alpha = 0;
 			if (PlayStatePlaylist.isStoryMode) blackScreen.alpha = 1;
 			else blackScreen.alpha = 0;

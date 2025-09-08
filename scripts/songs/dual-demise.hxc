@@ -20,7 +20,6 @@ import funkin.util.Constants;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
 import funkin.save.Save;
-import flixel.util.FlxSave;
 
 class DualDemiseSong extends Song
 {
@@ -28,21 +27,15 @@ class DualDemiseSong extends Song
 	{
 		super('dual-demise');
 
-		save = new FlxSave();
-		save.bind("TakeoverOptions");	
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var spirit;
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
-
 	function onStepHit(event:SongTimeScriptEvent):Void {	
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
-		if (!save.data.psychholds) return;
+		if (!save.psychholds) return;
 	
 		stutterNotes();	
 	}	

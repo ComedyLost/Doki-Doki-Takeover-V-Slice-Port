@@ -8,7 +8,6 @@ import funkin.util.WindowUtil;
 
 class customTitleBar extends Module
 {
-	var customTitleBar:Bool;
 
 	function new()
 	{
@@ -16,7 +15,7 @@ class customTitleBar extends Module
 	}
 
 	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
-	var customTitleBar;
+	var customTitleBar:Bool;
 
     public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);

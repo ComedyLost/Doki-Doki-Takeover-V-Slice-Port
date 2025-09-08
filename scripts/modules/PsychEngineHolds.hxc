@@ -4,7 +4,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import funkin.Conductor;
 
 class PsychEngineHolds extends Module
@@ -13,15 +13,14 @@ class PsychEngineHolds extends Module
         {
             super('PsychEngineHolds');
 
-			save = new FlxSave();
-			save.bind("TakeoverOptions");	
+			save = DokiPreferences.getDokiSave();
         }
 
 		//Only stutter on a step (same way Psych Engine / Pre 0.3 did it)
 		function onStepHit(event:SongTimeScriptEvent):Void {	
 			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 			if (PlayState.instance.isMinimalMode) return;
-			if (!save.data.psychholds) return;
+			if (!save.psychholds) return;
 	
 			processNotes();	
 		}	

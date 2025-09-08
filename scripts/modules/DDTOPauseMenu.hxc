@@ -21,13 +21,14 @@ import StringTools;
 class DDTOPauseMenu extends Module {
 	public function new() {
 		super("DDTOPauseMenu");
+
+		if (FlxG.onMobile) active = false;
 	}
 
 	//I have regrets
 
-	var state = null;
 	var pauseArt:FlxSprite;
-	var pauseImg:String;
+	var pauseImg:String; //Make it set-able so a song can manually change it
 	var logo:FlxSprite;
 	var logoBl:FlxSprite;
 	var levelInfo:FlxText;
@@ -39,9 +40,10 @@ class DDTOPauseMenu extends Module {
 	var options:Array;
 	var curSelected:Int;
 	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
-	var pauseImg:String; //Make it set-able so a song can manually change it
+	var isDoki:Bool;
 
 	function createDokiMenu(){
+		var state = FlxG.state.subState;
 		itmColor = 0xFFFF7CFF;
 		selColor = 0xFFFFCFFF;    
 		options = [];
@@ -165,6 +167,7 @@ class DDTOPauseMenu extends Module {
 	}
 
 	function createVallMenu(){
+		var state = FlxG.state.subState;
 		itmColor = 0xFFFF3A89;
 		selColor = 0xFFFFCFFF;    
 		options = [];
@@ -239,6 +242,7 @@ class DDTOPauseMenu extends Module {
 	}
 
 	function createLibMenu(){
+		var state = FlxG.state.subState;
 		itmColor = 0xFF8BA9F0;
 		selColor = 0xFFFFFFFF;    
 		options = [];
@@ -301,6 +305,7 @@ class DDTOPauseMenu extends Module {
 	}
 
 	function updateOptions(){
+		var state = FlxG.state.subState;
 		if (state == null) return;
 		if (practiceText.visible == false && PlayState.instance.isPracticeMode == true){
 			practiceText.visible = PlayState.instance.isPracticeMode;
@@ -356,7 +361,8 @@ class DDTOPauseMenu extends Module {
 
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
-		if (state != null && Std.isOfType(state, PauseSubState)) {
+		var state = FlxG.state.subState;
+		if (state != null && isDoki && Std.isOfType(state, PauseSubState)) {
 			if (!state.allowInput) return;
 			if (PlayerSettings.player1.controls.UI_UP_P)
 				changeSelection(-1);
@@ -370,22 +376,16 @@ class DDTOPauseMenu extends Module {
 		}
 	}
 
-	override function onSubStateCloseBegin(event) {
-		super.onSubStateCloseBegin(event);
-		if (Std.isOfType(state, PauseSubState)) {
-			state = null;
-		}
-	}    
-
 	override function onSubStateOpenEnd(event:StateChangeScriptEvent)
 		{
 			super.onSubStateOpenEnd(event);
 			if (Std.isOfType(event.targetState, PauseSubState)) {
-				state = event.targetState;
-				if (!ddtoStages.contains(PlayState.instance.currentStageId)) {
-					state = null;
+				var state = event.targetState;
+				if (!ddtoStages.contains(PlayState.instance.currentStageId)){
+					isDoki = false;
 					return;
 				}
+				isDoki = true;
 				state.metadataDeaths.font = Paths.font("Aller_Rg.ttf");
 				state.metadataDeaths.text = "Deleted: " + PlayState.instance.deathCounter;
 				pauseArt = new FlxSprite(FlxG.width, 0).loadGraphic(Paths.image('pause/' + pauseImg));
@@ -400,15 +400,6 @@ class DDTOPauseMenu extends Module {
 				if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") createVallMenu();
 				else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") createLibMenu();
 				else createDokiMenu();
-			} else {
-				if (state != null) state = null;
 			}
 		}    
-
-	/*public function onSubStateOpenBegin(event) {
-		super.onSubStateOpenBegin(event);
-		if (Std.isOfType(event.targetState, PauseSubState)) {
-			state = event.targetState;
-		}
-	}*/
 }

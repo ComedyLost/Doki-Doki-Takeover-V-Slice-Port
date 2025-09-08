@@ -9,6 +9,9 @@ import funkin.modding.base.ScriptedMusicBeatSubState;
 import StringTools;
 import flixel.util.FlxTimer;
 import funkin.PlayerSettings;
+import funkin.util.TouchUtil;
+import funkin.util.SwipeUtil;
+import StringTools;
 
 class FreeplayFixes extends Module {
 	public function new(){
@@ -35,7 +38,7 @@ class FreeplayFixes extends Module {
 					if (ddtolevelids.contains(capsule.freeplayData.levelId)){ //Changed from checking albums since it would miss the check sometimes
 						customDisplay(capsule);
 					} else if (isBaseWeek(capsule.freeplayData.data.id)) {
-						resetCapsules(capsule);
+						if (!StringTools.contains(capsule.weekType.graphic.key, 'freeplay/freeplayCapsule/weektypes')) resetCapsules(capsule);
 					}
 				}
 			}	
@@ -104,6 +107,7 @@ class FreeplayFixes extends Module {
 		super.onUpdate(event);
 		if (Std.isOfType(FlxG.state.subState, FreeplayState))
 			{
+				var switched = PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P || FlxG.keys.justPressed.Q || FlxG.keys.justPressed.E;
 				if (curSelected != FlxG.state.subState.curSelected){
 					curSelected = FlxG.state.subState.curSelected;
 					var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
@@ -117,14 +121,14 @@ class FreeplayFixes extends Module {
 					}
 				}
 				//Prevents from running if the Freeplay state is busy (Ex. Choosing an inst, choosing a Doki for Catfight, first load, currently loading a song)
-				if (!FlxG.state.subState.busy && (PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P || FlxG.keys.justPressed.Q || FlxG.keys.justPressed.E)){
+				if (FlxG.state.subState.controls.active && (switched || TouchUtil.pressAction(FlxG.state.subState.diffSelLeft, FlxG.state.subState.funnyCam, false) || TouchUtil.pressAction(FlxG.state.subState.diffSelRight, FlxG.state.subState.funnyCam, false) || SwipeUtil.swipeLeft || SwipeUtil.swipeRight)){
 					new FlxTimer().start(0.1, _ -> {
 						for (capsule in FlxG.state.subState.grpCapsules.members){
 							if (capsule?.freeplayData != null) {
 								if (ddtolevelids.contains(capsule.freeplayData.levelId)){
 									customDisplay(capsule);
 								} else if (isBaseWeek(capsule.freeplayData.data.id)) {
-									resetCapsules(capsule);
+									if (!StringTools.contains(capsule.weekType.graphic.key, 'freeplay/freeplayCapsule/weektypes')) resetCapsules(capsule);
 								}
 							}
 						}	

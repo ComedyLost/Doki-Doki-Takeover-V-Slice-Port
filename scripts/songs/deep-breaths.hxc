@@ -23,11 +23,6 @@ class DeepBreathsSong extends Song
 		super('deep-breaths');
 	}
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
-
 	var sparkleBG:FlxBackdrop;
 	var sparkleFG:FlxBackdrop;
 	var pinkOverlay:FlxSprite;

@@ -17,6 +17,8 @@ class DDLCPixelDialogueBox extends DialogueBox {
   
   public function onDialogueLine(event:DialogueScriptEvent):Void {
     super.onDialogueLine(event);
+    //playAnimation('click', false);
+    //super.onDialogueEnd(event);
 
     if (getCurrentAnimation() == 'idle') {
       // click, then speaking
@@ -46,14 +48,6 @@ class DDLCPixelDialogueBox extends DialogueBox {
     super.onDialogueStart(event);
     PlayState.instance.camHUD.alpha = 0;
 
-  }
-
-  public function onDialogueLine(event:DialogueScriptEvent):Void {
-    // Override the default box animation behavior by switching the state
-    //event.conversation.state = ConversationState.Opening;
-
-    playAnimation('click', false);
-    super.onDialogueEnd(event);
   }
 
   public function onDialogueEnd(event:DialogueScriptEvent):Void {

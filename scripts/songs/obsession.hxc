@@ -30,11 +30,6 @@ class ObsessionSong extends Song
 	var blackScreenBG:FlxSprite;
 	var blackScreentwo:FlxSprite;
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
-
 	override function onCreate(event) {
 		super.onCreate(event);
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;

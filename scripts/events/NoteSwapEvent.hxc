@@ -5,6 +5,7 @@ import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 import funkin.play.scoring.Scoring;
 import funkin.Preferences;
+import funkin.FunkinMemory;
 
 import funkin.Highscore;
 
@@ -12,6 +13,8 @@ import funkin.util.Constants;
 
 import funkin.Paths;
 import flixel.FlxG;
+
+import funkin.mobile.input.ControlsHandler;
 
 import funkin.data.notestyle.NoteStyleRegistry;
 import funkin.play.notes.notestyle.NoteStyle;
@@ -22,6 +25,7 @@ import funkin.play.notes.StrumlineNote;
 import funkin.play.notes.NoteHoldCover;
 import funkin.play.notes.NoteSprite;
 import funkin.play.components.PopUpStuff;
+import funkin.util.PlatformUtil;
 
 class NoteSwapEvent extends ScriptedSongEvent {
 
@@ -96,20 +100,41 @@ class SwappingNotestyles extends Module
 				if (NoteStyleRegistry.instance.fetchEntry(events.value.notestyle) != null && !cachedStyles.contains(events.value.notestyle)){
 					cachedStyles.push(events.value.notestyle);
 					var notestyle = NoteStyleRegistry.instance.fetchEntry(events.value.notestyle);
-					notestyle.buildNoteFrames(true);
-					notestyle.buildHoldCoverFrames(true);
-					notestyle.buildSplashFrames(true);
+					FunkinMemory.cacheNoteStyle(notestyle); // I love you Funkin Team
 				}
 			}
 		}
 	}	
 
-	var hasTriggeredEvent:Bool = false;
+	var hasTriggeredEvent:Bool = false; // Coders can force a reload
 	
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent) {
+		super.onSongEvent(scriptEvent);
+		if (scriptEvent.eventData.eventKind == "NoteSwapEvent") {
+			if (!scriptEvent.eventCanceled) hasTriggeredEvent = true; // Only reset if event wasn't canceled
+		}
+	}	
+
     function swapPlayerStrumlines(stylePlayer:String){
 		newPopUps(stylePlayer);
-		hasTriggeredEvent = true;
 		setupNotes(PlayState.instance.playerStrumline, stylePlayer);
+	}
+
+	function swapOpponentStrumlines(styleOpponent:String){
+		setupNotes(PlayState.instance.opponentStrumline, styleOpponent);
+	}
+
+	function swapStrumlines(style:String){
+		newPopUps(style);
+		setupNotes(PlayState.instance.playerStrumline, style);
+		setupNotes(PlayState.instance.opponentStrumline, style);
+	}
+
+	function newPopUps(newComboStyle:String){
+		var noteStyleId:String = newComboStyle;
+		var noteStyle:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleId) ?? NoteStyleRegistry.instance.fetchDefault();
+		// Initialize the judgements and combo meter.
+		PlayState.instance.comboPopUps.noteStyle = noteStyle;
 	}
 
 	function setupNotes(strumline:Strumline, style:String){
@@ -120,18 +145,17 @@ class SwappingNotestyles extends Module
 		//Clear all notesplashes and hold covers so the game can make new ones (Do this first so I can redo these with the notes)
 		strumline.noteSplashes.clear();
 		strumline.noteHoldCovers.clear();
-		for (i in 0...Strumline.KEY_COUNT)
-			{
-				strumline.strumlineNotes.members[i].kill();
-				strumline.strumlineNotes.remove(strumline.strumlineNotes.members[i]);
-				var child:StrumlineNote = new StrumlineNote(noteStyle, strumline.isPlayer, Strumline.DIRECTIONS[i]);
-				child.x = strumline.getXPos(Strumline.DIRECTIONS[i]);
-				child.x += Strumline.INITIAL_OFFSET;
-				child.y = 0;
-				noteStyle.applyStrumlineOffsets(child);
-				strumline.strumlineNotes.add(child);
-			}		
-		for (notes in strumline.notes){
+		for (i in 0...Strumline.KEY_COUNT) {
+			strumline.strumlineNotes.members[i].kill();
+			strumline.strumlineNotes.remove(strumline.strumlineNotes.members[i]);
+			var child:StrumlineNote = new StrumlineNote(noteStyle, strumline.isPlayer, Strumline.DIRECTIONS[i]);
+			child.x = strumline.getXPos(Strumline.DIRECTIONS[i]);
+			child.x += Strumline.INITIAL_OFFSET;
+			child.y = 0;
+			noteStyle.applyStrumlineOffsets(child);
+			strumline.strumlineNotes.add(child);
+		}		
+		for (notes in strumline.notes) {
 			var noteKindStyle:NoteStyle = NoteKindManager.getNoteStyle(notes.kind, strumline.noteStyle.id) ?? noteStyle;
 			notes.setupNoteGraphic(noteKindStyle);
 			notes.playNoteAnimation(notes.noteData.getDirection());
@@ -158,26 +182,55 @@ class SwappingNotestyles extends Module
 			}
 			strumline.onNoteIncoming.dispatch(notes); //Restarts just in case a note uses it
 		}
+		if (FlxG.onMobile) { // Fix the strumline to work on mobile
+			if (strumline == PlayState.instance.opponentStrumline) fixOpponentStrumline();
+			else fixPlayerStrumline();
+		}
 	}
 
-	function swapOpponentStrumlines(styleOpponent:String){
-		hasTriggeredEvent = true;
-		setupNotes(PlayState.instance.opponentStrumline, styleOpponent);
+	function fixOpponentStrumline() {
+		if (!ControlsHandler.usingExternalInputDevice) {
+			var opponentStrumline = PlayState.instance.opponentStrumline;
+
+			var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
+			var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
+			var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
+
+			opponentStrumline.enterMiniMode(0.4 * amplification);
+
+			/*opponentStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
+			opponentStrumline.x -= 30;*/
+		}
 	}
 
-	function newPopUps(newComboStyle:String){
-		var noteStyleId:String = newComboStyle;
-		var noteStyle:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleId) ?? NoteStyleRegistry.instance.fetchDefault();
-		// Initialize the judgements and combo meter.
-		PlayState.instance.comboPopUps.noteStyle = noteStyle;
-	}
+	function fixPlayerStrumline() {
+		if (!ControlsHandler.usingExternalInputDevice) {
+			var playerStrumline = PlayState.instance.playerStrumline;
 
+			var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
+			var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
+			var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
 
-	function swapStrumlines(style:String){
-		newPopUps(style);
-		hasTriggeredEvent = true;
-		setupNotes(PlayState.instance.playerStrumline, style);
-		setupNotes(PlayState.instance.opponentStrumline, style);
+			playerStrumline.ghostTapTimer = 0; // Re-allow ghost tapping
+			playerStrumline.strumlineScale.set(playerStrumlineScale, playerStrumlineScale);
+			playerStrumline.setNoteSpacing(playerNoteSpacing);
+			for (strum in playerStrumline) {
+		  		strum.width *= 2;
+			}
+
+			/*playerStrumline.y = (FlxG.height - playerStrumline.height) * 0.95 - Constants.STRUMLINE_Y_OFFSET;
+			if (playerStrumline.noteStyle.id.toLowerCase() != "pixel") {
+		  		if (PlatformUtil.detectHostPlatform == 'ANDROID') playerStrumline.y += 10; // Why tf is this hard-coded?
+			} else {
+				playerStrumline.y -= 10;
+			}*/
+			PlayState.instance.hitbox.isPixel = playerStrumline.noteStyle.id.toLowerCase() == "pixel";
+			if (Preferences.controlsScheme == 'Arrows') {
+				for (direction in Strumline.DIRECTIONS) {
+        			PlayState.instance.hitbox.getFirstHintByDirection(direction).follow(PlayState.instance.playerStrumline.getByDirection(direction));
+        		}
+			}
+		}
 	}
 
 	override function onSongRetry(event) {

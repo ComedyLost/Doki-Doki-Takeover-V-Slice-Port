@@ -13,12 +13,7 @@ class ItsComplicatedSayoriMix extends Song
 		super('its-complicated-sayori-mix');
 	}
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
-
-		function onStepHit(event:SongTimeScriptEvent):Void
+	function onStepHit(event:SongTimeScriptEvent):Void
 		{
 			if (PlayState.instance == null) return;
 			switch(event.step)

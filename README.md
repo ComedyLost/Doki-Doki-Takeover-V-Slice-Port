@@ -21,6 +21,8 @@ DDLC+ Links: **[DDLC+ Official Website](http://ddlc.plus) ⋅ [Steam page](https
 # Current Plans
 
 - Implement a custom dialogue system to handle cutscenes instead of using the V-Slice conversation system (would make cutscenes a lot easier to port)
+- Add new difficulty charts / copy normal chart to easy and hard difficulty as a separate download (Requested feature)
+- Add Mobile Support
 - Make the menus fully functional
 - Port the rest of the mod
   - This means that 0.7 is scrapped since 0.6 will now be the last update (unless there is more I could possibly add) (Pico Mixes / Erect Remixes?)
@@ -53,6 +55,7 @@ DDLC+ Links: **[DDLC+ Official Website](http://ddlc.plus) ⋅ [Steam page](https
 - Glitcher (Monika Mix)
 - Hot Air Balloon
 - Shrinking Violet
+  - Normal and Spooky Mix
 - Joyride
 - Our Harmony
 - You and Me
@@ -64,7 +67,8 @@ DDLC+ Links: **[DDLC+ Official Website](http://ddlc.plus) ⋅ [Steam page](https
   - Normal and with Lyrics
 - Drinks on Me
 - Libitina
-- Love n' Funkin' (Default and Pico Mix)
+- Love n' Funkin'
+  - Normal and Pico Mix
 - Catfight
 - Wilted
 - That one fuckass thing
@@ -74,7 +78,6 @@ DDLC+ Links: **[DDLC+ Official Website](http://ddlc.plus) ⋅ [Steam page](https
 - Constricted (Playable but janky)
 - NEET
 - Takeover Medley (Last song I will port)
-- Shrinking Violet (Spooky Mix)
 
 # Credits
 

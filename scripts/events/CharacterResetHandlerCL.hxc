@@ -7,6 +7,7 @@ import funkin.graphics.FunkinSprite;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
 import funkin.play.components.HealthIcon;
+import funkin.FunkinMemory;
 
 class CharacterResetHandlerCL extends Module {
 
@@ -19,12 +20,15 @@ class CharacterResetHandlerCL extends Module {
 	private var bfIndex;
 	private var gfIndex;
 	private var dadIndex;
+	var useEvent:Bool = false; // Prevent a reset if the event is never used
 
 	override function onSongLoaded(event) {
 		super.onSongLoaded(event);
+		useEvent = false;
 		for (events in event.events){
 			if (events.eventKind == 'ChangeCharacterCL'){
-				var _data = CharacterDataParser.fetchCharacter(events.value.newchar);
+				useEvent = true;
+				var _data = CharacterDataParser.fetchCharacterData(events.value.newchar);
 				FunkinSprite.cacheSparrow(_data.assetPath);
 				if (Std.string(_data.renderType) == 'MultiSparrow'){
 					var assetList = [];
@@ -75,6 +79,8 @@ class CharacterResetHandlerCL extends Module {
 		
 		// GF reset
 
+		if (!useEvent) return;
+		
 		if (PlayState.instance.currentStage.getGirlfriend() != null) PlayState.instance.currentStage.getGirlfriend().destroy();
 		var girlfriend = CharacterDataParser.fetchCharacter(currentCharacterData.girlfriend);
 		if (girlfriend != null) {

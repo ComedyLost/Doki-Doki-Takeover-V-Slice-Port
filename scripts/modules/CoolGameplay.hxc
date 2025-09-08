@@ -6,7 +6,7 @@ import funkin.Highscore;
 import funkin.audio.FunkinSound;
 import funkin.Paths;
 import flixel.FlxG;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import flixel.FlxSprite;
 
 class CoolGameplay extends Module
@@ -14,8 +14,7 @@ class CoolGameplay extends Module
     function new(){
         super("coolgameplay");
 
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
     }
 
 	var hueh231:FlxSprite;
@@ -29,7 +28,7 @@ class CoolGameplay extends Module
 	override function onCountdownStart(event) {
         super.onCountdownStart(event);
 		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
-		if (!save.data.cool || hueh231 != null) return;
+		if (!save.cool || hueh231 != null) return;
 		hueh231 = new FlxSprite();
 		hueh231.frames = Paths.getSparrowAtlas('coolgameplay/coolgameplay');
 		hueh231.animation.addByPrefix('idle', 'Symbol', 24, true);

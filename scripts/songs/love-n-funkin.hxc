@@ -15,7 +15,7 @@ import funkin.util.FlxTweenUtil;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
 import funkin.modding.module.ModuleHandler;
@@ -32,8 +32,7 @@ class LoveNFunkinSong extends Song
 	{
 		super('love-n-funkin');
 
-		options = new FlxSave();
-		options.bind("TakeoverOptions");	
+		options = Save.instance.modOptions.get('TakeoverOptions');
 	}
 
 	var playStrumDefaultPos = [];
@@ -46,6 +45,11 @@ class LoveNFunkinSong extends Song
 	var camGame2:FunkinCamera;
 	var savedChar:String;
 	var poemVideo:FlxAtlasSprite;
+
+	public override function isSongNew(currentDifficulty:String):Bool{
+		if(Save.instance.hasBeatenSong(this.id) == false) return true;
+		else return false;
+	}
 
 	override function onCreate(event) {
 		super.onCreate(event);
@@ -279,7 +283,7 @@ class LoveNFunkinSong extends Song
 			super.onStepHit(event);
 			if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 			if (PlayState.instance.isMinimalMode) return;
-			if (options.data.psychholds) stutterNotes();	
+			if (options.psychholds) stutterNotes();	
 
 			switch(event.step)
 			{

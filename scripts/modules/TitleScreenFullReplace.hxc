@@ -11,7 +11,7 @@ import funkin.ui.options.OptionsState;
 import funkin.ui.title.TitleState;
 import funkin.ui.MusicBeatState;
 import funkin.ui.story.StoryMenuState;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import funkin.Conductor;
 import funkin.ui.title.AttractState;
 
@@ -31,8 +31,7 @@ class TitleScreenReplace extends Module
 	{
 		super('TitleScreenReplace');
 
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var initialized:Bool = false;
@@ -44,11 +43,11 @@ class TitleScreenReplace extends Module
 	function onStateChangeEnd(event:StateChangeScriptEvent)
 		{
 			super.onStateChangeEnd(event);
-			if (Std.isOfType(FlxG.state, TitleState) && save.data.titlescreen) {
+			if (Std.isOfType(FlxG.state, TitleState) && save.titlescreen) {
 				TitleState.initialized = true;
 				if (FlxG.sound.music != null) FlxG.sound.music.stop();
 				FlxG.switchState(ScriptedMusicBeatState.init("DokiTitleState"));
-			} else if ((Std.isOfType(FlxG.state, MainMenuState) || Std.isOfType(FlxG.state, AttractState)) && save.data.titlescreen){
+			} else if ((Std.isOfType(FlxG.state, MainMenuState) || Std.isOfType(FlxG.state, AttractState)) && save.titlescreen){
 				initialized = true; //Make sure to instantly skip intro in case someone F4s out of the Title State
 			}
 		}

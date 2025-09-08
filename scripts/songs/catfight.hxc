@@ -23,7 +23,7 @@ import funkin.PlayerSettings;
 import funkin.save.Save;
 import funkin.modding.module.ModuleHandler;
 import funkin.modding.module.Module;
-import flixel.util.FlxSave;
+import funkin.mobile.input.ControlsHandler;
 
 class CatfightSong extends Song
 {
@@ -31,17 +31,11 @@ class CatfightSong extends Song
 	{
 		super('catfight');
 
-		save = new FlxSave();
-		save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var psychMod:Module;
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
-	
 	var strumlineNames = ['playerStrumline', 'opponentStrumline'];
 	var playerCharacter:String;
 	var hasPlayedIntroCutscene:Bool;
@@ -59,7 +53,7 @@ class CatfightSong extends Song
 			PlayState.instance.currentStage.getBoyfriend().characterType = 3;
 		}
 
-		if (!hasPlayedIntroCutscene && save.data.freeplayDialogue) {
+		if (!hasPlayedIntroCutscene && save.freeplayDialogue) {
 			trace('Pausing countdown to play cutscene.');
 	  
 			hasPlayedIntroCutscene = true;
@@ -131,7 +125,7 @@ class CatfightSong extends Song
 	override public function onSongEnd(event)
 		{
 			super.onSongEnd(event);
-			if (!hasPlayedOutroCutscene && save.data.freeplayDialogue) {
+			if (!hasPlayedOutroCutscene && save.freeplayDialogue) {
 				trace('Pausing countdown to play cutscene.');
 		  
 				hasPlayedOutroCutscene = true;
@@ -161,8 +155,8 @@ class CatfightSong extends Song
 				//PlayState.instance.vocals.opponentVoices = playerVocals;
 				PlayState.instance.currentStage.getDad().characterType = 3;
 				PlayState.instance.currentStage.getBoyfriend().characterType = 3;
-				PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET; // Classic style
-				PlayState.instance.opponentStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
+				if (!FlxG.onMobile || (FlxG.onMobile && ControlsHandler.usingExternalInputDevice)) PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET; // Classic style
+				if (!FlxG.onMobile || (FlxG.onMobile && ControlsHandler.usingExternalInputDevice)) PlayState.instance.opponentStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
 				swapNoteData();
 			});
 	  	}  
@@ -215,8 +209,8 @@ class CatfightSong extends Song
 				PlayState.instance.healthBarBG.flipX = true;
 				PlayState.instance.currentStage.getDad().characterType = 3;
 				PlayState.instance.currentStage.getBoyfriend().characterType = 3;
-				PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET; // Classic style
-				PlayState.instance.opponentStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
+				if (!FlxG.onMobile || (FlxG.onMobile && ControlsHandler.usingExternalInputDevice)) PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET; // Classic style
+				if (!FlxG.onMobile || (FlxG.onMobile && ControlsHandler.usingExternalInputDevice)) PlayState.instance.opponentStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
 				swapNoteData();
 			});
 	}

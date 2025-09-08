@@ -18,7 +18,6 @@ import funkin.util.FlxTweenUtil;
 import funkin.play.Countdown;
 import funkin.save.Save;
 import funkin.effects.RetroCameraFade;
-import flixel.util.FlxSave;
 import Date;
 
 class DrinksOnMeSong extends Song
@@ -27,19 +26,13 @@ class DrinksOnMeSong extends Song
 	{
 		super('drinks-on-me');
 
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var encoreTime:Int = 0;
 	var cg1:FlxSprite;
 	var cg2:FlxSprite;
 	var blackScreen:FlxSprite;
-
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
 
 	function onNoteIncoming(callback)
 		{
@@ -90,8 +83,8 @@ class DrinksOnMeSong extends Song
 		PlayState.instance.cameraZoomRate = 0;
 		blackScreen.alpha = 1;
 		encoreTime = 0;
-		PlayState.instance.playerStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
-		PlayState.instance.opponentStrumline.x = Constants.STRUMLINE_X_OFFSET;
+		if (!FlxG.onMobile) PlayState.instance.playerStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
+		if (!FlxG.onMobile) PlayState.instance.opponentStrumline.x = Constants.STRUMLINE_X_OFFSET;
 		new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
 			{
 				Countdown.skipCountdown();
@@ -161,7 +154,7 @@ class DrinksOnMeSong extends Song
 			switch(event.step)
 			{
 				case 2:
-					if (save.data.pixel){
+					if (save.pixel){
 						var tweenFunction = function(x) {
 							var xSnapped = Math.floor(x * 8) / 8;
 							cg1.alpha = xSnapped;
@@ -173,7 +166,7 @@ class DrinksOnMeSong extends Song
 						FlxTween.tween(cg1, {alpha: 1}, 2.5, {ease: FlxEase.sineIn});
 					}
 				case 50:
-					if (save.data.pixel){
+					if (save.pixel){
 						var tweenFunction = function(x) {
 							var xSnapped = Math.floor(x * 8) / 8;
 							cg1.alpha = xSnapped;
@@ -185,7 +178,7 @@ class DrinksOnMeSong extends Song
 						FlxTween.tween(cg1, {alpha: 0}, 1.2, {ease: FlxEase.sineIn});
 					}
 				case 62:
-					if (save.data.pixel){
+					if (save.pixel){
 						var tweenFunction = function(x) {
 							var xSnapped = Math.floor(x * 8) / 8;
 							cg2.alpha = xSnapped;
@@ -201,7 +194,7 @@ class DrinksOnMeSong extends Song
 				case 111:
 					PlayState.instance.cameraZoomRate = 4;
 					ModuleHandler.getModule('Credits').scriptCall('manualCreditsSummon');
-					if (save.data.pixel){
+					if (save.pixel){
 						var tweenFunction = function(x) {
 							var xSnapped = Math.floor(x * 8) / 8;
 							cg2.alpha = xSnapped;
@@ -231,6 +224,7 @@ class DrinksOnMeSong extends Song
 				case 769:
 					PlayState.instance.tweenCameraZoom(0.85, calcSectionLength(1), true, FlxEase.expoOut);
 				case 1008: // wow they're singing together
+					if (FlxG.onMobile) return;
 					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2, alpha: 1}, 2.5,
 						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
 							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
@@ -255,7 +249,7 @@ class DrinksOnMeSong extends Song
 					encoreTime = 4;
 				case 1144: // singing their own sections now
 					// Reverse placement
-
+					if (FlxG.onMobile) return;
 					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET, alpha: 1}, 2.5,
 						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
 							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {

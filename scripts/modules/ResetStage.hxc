@@ -13,6 +13,8 @@ class ResetStageModule extends Module
     override function onCountdownStart(event:ScriptEvent)
     {
         super.onCountdownStart(event);
+        if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+        if (PlayState.instance.isMinimalMode) return;
         //Resets stage to not cause any issues on a retry
 		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
         PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getDad().cameraFocusPoint.x, PlayState.instance.currentStage.getDad().cameraFocusPoint.y, 0, FlxEase.instant);
@@ -25,6 +27,8 @@ class ResetStageModule extends Module
     override function onSongRetry(event:ScriptEvent)
     {
         super.onSongRetry(event);
+        if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+        if (PlayState.instance.isMinimalMode) return;
         //Resets stage to not cause any issues on a retry
 		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
         PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getDad().cameraFocusPoint.x, PlayState.instance.currentStage.getDad().cameraFocusPoint.y, 0, FlxEase.instant);

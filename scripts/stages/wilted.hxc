@@ -37,7 +37,7 @@ class WiltedStage extends Stage
 		super('wilted');
 	}
 
-	var time:Float;
+	var time:Float = 0;
 	var dokiBackdrop:FlxBackdrop;
 	var creditsBG:FlxBackdrop;
 	var wiltedhey:FlxSprite;

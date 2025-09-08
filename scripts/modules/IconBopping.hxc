@@ -7,17 +7,15 @@ import funkin.modding.module.ModuleHandler;
 import funkin.play.components.HealthIcon;
 import flixel.util.FlxTimer;
 import Std;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 
 class IconBoppingModule extends Module 
 {
   	public function new() {
 		super('IconBopForXML');
 
-		cost = new FlxSave();
-		cost.bind("Costumes");
-		save = new FlxSave();
-		save.bind("TakeoverOptions");
+		cost = CostumeSwapper.getDokiCostume();
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
@@ -26,10 +24,10 @@ class IconBoppingModule extends Module
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
 
-		if (PlayState.instance.currentChart.characters.player == 'bf' && save.data.costumesanywhere && cost.data.selectedBFCostume != 0){
+		if (PlayState.instance.currentChart.characters.player == 'bf' && save.costumesanywhere && cost.selectedBFCostume != ''){
 			PlayState.instance.iconP1.isLegacyStyle = true;
 		}
-		if (PlayState.instance.currentChart.characters.opponent == 'gf' && save.data.costumesanywhere && cost.data.selectedGFCostume != 0){
+		if (PlayState.instance.currentChart.characters.opponent == 'gf' && save.costumesanywhere && cost.selectedGFCostume != ''){
 			PlayState.instance.iconP2.loadCharacter('gf');
 		}
 		//Lock icon bopping fix to DDTO V-Slice only to prevent other V-Slice mod issues
@@ -43,10 +41,10 @@ class IconBoppingModule extends Module
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
 
-		if (PlayState.instance.currentChart.characters.player == 'bf' && save.data.costumesanywhere && !PlayState.instance.iconP1.isLegacyStyle){
+		if (PlayState.instance.currentChart.characters.player == 'bf' && save.costumesanywhere && !PlayState.instance.iconP1.isLegacyStyle){
 		  PlayState.instance.iconP1.isLegacyStyle = true;
 		}
-		if (PlayState.instance.currentChart.characters.opponent == 'gf' && save.data.costumesanywhere && PlayState.instance.iconP2.characterId != 'gf'){
+		if (PlayState.instance.currentChart.characters.opponent == 'gf' && save.costumesanywhere && PlayState.instance.iconP2.characterId != 'gf'){
 			PlayState.instance.iconP2.loadCharacter('gf');
 		}
 		//Lock icon bopping fix to DDTO V-Slice only to prevent other V-Slice mod issues

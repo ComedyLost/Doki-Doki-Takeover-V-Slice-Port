@@ -6,7 +6,7 @@ import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 
 class CountdownGF extends Module
 {
@@ -14,8 +14,7 @@ class CountdownGF extends Module
         {
             super('CountdownGF');
 
-			save = new FlxSave();
-			save.bind("TakeoverOptions");	
+			save = DokiPreferences.getDokiSave();
         }    
 
     public override function onCountdownStep(event: CountdownScriptEvent): Void { 
@@ -25,7 +24,7 @@ class CountdownGF extends Module
 		if (PlayState.instance.currentStage.getGirlfriend() == null) return;
 
 		if (PlayState.instance.currentChart.characters.girlfriend == 'sayo-speaker') return;
-		if (!save.data.gfCountdown) return;
+		if (!save.gfCountdown) return;
 		if (event.eventCanceled) return;
 
 		switch (event.step){

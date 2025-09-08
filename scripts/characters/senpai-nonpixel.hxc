@@ -5,16 +5,6 @@ import flixel.math.FlxPoint;
 import funkin.util.Constants;
 import StringTools;
 
-/*
-As you may notice, this character file has two different classes
-They are there to future-proof the mod in the event that versions >= 0.5.0 have fixed the character scaling bug
-
-HOW IT WORKS:
-If the mod detects you are on 0.3.x or 0.4.x, it will run the version of the character script which fixes the scaling bug
-Otherwise, it will run the version of the character script without any scale fixes
-This allows the character to work normally no matter what version you are on
-*/
-
 class SenpaiNonPixelCharacter extends SparrowCharacter {
 
 	function new() {

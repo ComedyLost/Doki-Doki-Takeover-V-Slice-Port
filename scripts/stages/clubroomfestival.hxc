@@ -13,7 +13,7 @@ import funkin.modding.base.ScriptedFlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.utils.Assets;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 
 import Std;
 
@@ -23,8 +23,7 @@ class FestivalClubroomStage extends Stage
 	{
 		super('clubroomfestival');
 
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
@@ -119,7 +118,7 @@ class FestivalClubroomStage extends Stage
 		bloom.setFloat('funsteps', 0.005);
 		bloom.setFloat('funthreshhold', 0.8);
 		bloom.setFloat('funbrightness', 7); 
-		if (save.data.bloom) PlayState.instance.camGame.filters = [shader];
+		if (save.bloom) PlayState.instance.camGame.filters = [shader];
 		getBoyfriend().color = 0x828282;
 		getGirlfriend().color = 0x828282;
 		getOpponent().color = 0x828282;

@@ -24,7 +24,7 @@
       "speakerAnimation": "empty",
       "box": "doki",
       "boxAnimation": "enter",
-      "text": ["\"Ahaha, welcome back, {USERNAME}.\""]
+      "text": ["\"Ahaha, welcome back.\""]
     },
     {
       "speaker": "empty",

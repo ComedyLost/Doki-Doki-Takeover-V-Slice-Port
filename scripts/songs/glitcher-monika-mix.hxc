@@ -17,7 +17,6 @@ import flixel.util.FlxTimer;
 import funkin.graphics.FunkinSprite;
 import funkin.data.stage.StageRegistry;
 import funkin.play.stage.Stage;
-import flixel.util.FlxSave;
 
 class GlitcherMonikaMixSong extends Song
 {
@@ -32,8 +31,7 @@ class GlitcherMonikaMixSong extends Song
 	{
 		super('glitcher-monika-mix');
 
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
 	}
 
 	override function onUpdate(event:UpdateScriptEvent) {
@@ -84,6 +82,7 @@ class GlitcherMonikaMixSong extends Song
 		stage.getNamedProp('treesFG').visible = true;
 		stage.getNamedProp('treesBG').visible = true;
 		stage.getNamedProp('petals').visible = true;
+		stage.getNamedProp('backTrees').visible = true;
 
 		stage.getNamedProp('DDLC Far BG').visible = false;
 		stage.getNamedProp('DDLC BG').visible = false;
@@ -106,6 +105,7 @@ class GlitcherMonikaMixSong extends Song
 		stage.getNamedProp('treesFG').visible = false;
 		stage.getNamedProp('treesBG').visible = false;
 		stage.getNamedProp('petals').visible = false;
+		stage.getNamedProp('backTrees').visible = false;
 
 		stage.getNamedProp('DDLC Far BG').visible = true;
 		stage.getNamedProp('DDLC BG').visible = true;
@@ -193,7 +193,7 @@ class GlitcherMonikaMixSong extends Song
 		bloom.setFloat('funthreshhold', 0.8);
 		bloom.setFloat('funbrightness', 7); 
 		pixel.setFloat('strength', 0.0);
-		var filters = switch (save.data.bloom){
+		var filters = switch (save.bloom){
 			case true: [shader, pixelshader];
 			case false: [pixelshader];
 		}
@@ -215,9 +215,4 @@ class GlitcherMonikaMixSong extends Song
 			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaValentine_Assets'));
 			FunkinSprite.cacheTexture(Paths.image('characters/monika/Doki_MonikaVigilante_Assets'));
 		}	*/  
-
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
 }

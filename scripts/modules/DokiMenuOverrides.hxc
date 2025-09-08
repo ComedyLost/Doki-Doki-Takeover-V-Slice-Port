@@ -10,7 +10,6 @@ import funkin.ui.options.OptionsState;
 import funkin.ui.title.TitleState;
 import funkin.ui.MusicBeatState;
 import funkin.ui.story.StoryMenuState;
-import flixel.util.FlxSave;
 import funkin.Conductor;
 import funkin.ui.title.AttractState;
 
@@ -26,11 +25,11 @@ import Std;
 import funkin.util.ReflectUtil;
 import funkin.ui.freeplay.SongMenuItem;
 import funkin.modding.base.ScriptedMusicBeatSubState;
-import flixel.util.FlxSave;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import funkin.PlayerSettings;
-import flixel.tweens.FlxEase;
+import funkin.save.Save;
 
 class DokiMenuOverrides extends Module
 {
@@ -39,13 +38,14 @@ class DokiMenuOverrides extends Module
 	{
 		super('DokiMenuOverrides');
 
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = DokiPreferences.getDokiSave();
+
+		active = false; // Scrapped because of multiple issues
 	}
 	
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
-		if (save.data.menus) {
+		if (save?.menus) {
 			if (Std.isOfType(FlxG.state, StoryMenuState)) {
 				
 				if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK) {
@@ -55,8 +55,8 @@ class DokiMenuOverrides extends Module
 				}
 			} else if (Std.isOfType(FlxG.state.subState, FreeplayState)) {
 				//Override base game exit function to prevent it from trying to go to the original main menu
-				if (!FlxG.state.subState.busy && PlayerSettings.player1.controls.BACK) {
-					FlxG.state.subState.busy = true;
+				if (FlxG.state.subState.controls.active && PlayerSettings.player1.controls.BACK) {
+					FlxG.state.subState.controls.active = false;
 					customReturnMenu();
 				}
 			}
@@ -120,9 +120,9 @@ class DokiMenuOverrides extends Module
 	function onStateChangeEnd(event:StateChangeScriptEvent)
 		{
 			super.onStateChangeEnd(event);
-			if ((Std.isOfType(FlxG.state, MainMenuState)) && save.data.menus){
+			if ((Std.isOfType(FlxG.state, MainMenuState)) && save?.menus){
 				FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
-			} else if ((Std.isOfType(FlxG.state, OptionsState)) && save.data.menus){
+			} else if ((Std.isOfType(FlxG.state, OptionsState)) && save?.menus){
 				var exitToDokiMenu = function () {
 					FlxG.state.optionsCodex.currentPage.enabled = false;
     				// TODO: Animate this transition?

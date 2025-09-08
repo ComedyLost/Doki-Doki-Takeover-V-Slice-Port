@@ -18,10 +18,10 @@ import lime.app.Application;
 import StringTools;
 import funkin.Conductor;
 import flixel.text.FlxTextBorderStyle;
-import flixel.util.FlxSave;
 import funkin.ui.mainmenu.MainMenuState;
 import flixel.sound.FlxSound;
 import funkin.modding.base.ScriptedMusicBeatState;
+import funkin.save.Save;
 
 typedef CostumeData =
 {
@@ -54,7 +54,7 @@ class CostumeSelectState extends MusicBeatState
 	private var grpControlshueh:FlxTypedSpriteGroup<FlxText>;
 	var selectingcostume:Bool = false;
 	var logo:FlxSprite;
-	var save:FlxSave;
+	var save:Save;
 
 	var flavorBar:FlxSprite;
 	var backdrop:FlxBackdrop;
@@ -65,7 +65,7 @@ class CostumeSelectState extends MusicBeatState
 
 	var colorTween1:FlxSprite = new FlxSprite(-9000, -9000).makeGraphic(1, 1, 0xFFFDFFFF);
 	var colorTween2:FlxSprite = new FlxSprite(-9000, -9000).makeGraphic(1, 1, 0xFFFDDBF1);
-	var SaveData:FlxSave;
+	var SaveData:Save;
 
 	var character:Array<String> = ['bf', 'gf', 'monika', 'sayori', 'natsuki', 'yuri', 'protag'];
 	// costume unlocks
@@ -142,24 +142,26 @@ class CostumeSelectState extends MusicBeatState
 	];
 	var costumeJSON:CostumeJSON = null;
 
+	var defaultCostumes = {
+		protagcostume: '',
+		monikacostume: '',
+		yuricostume: '',
+		sayoricostume: '',
+		natsukicostume: '',
+		gfcostume: '',
+		bfcostume: ''
+	};
+
 	override function create()
 	{
-		save = new FlxSave();
-		save.bind("CostumesV2");
-
-		options = new FlxSave();
-        options.bind("TakeoverOptions");
-
 		FlxG.mouse.visible = true;
-		SaveData = save.data;
-		SaveData.protagcostume = SaveData.protagcostume ?? '';
-		SaveData.monikacostume = SaveData.monikacostume ?? '';
-		SaveData.yuricostume = SaveData.yuricostume ?? '';
-		SaveData.sayoricostume = SaveData.sayoricostume ?? '';
-		SaveData.natsukicostume = SaveData.natsukicostume ?? '';
-		SaveData.gfcostume = SaveData.gfcostume ?? '';
-		SaveData.bfcostume = SaveData.bfcostume ?? '';
-		save.flush();
+
+		SaveData = Save.instance.modOptions.get('CostumesV2');
+		if (!Save.instance.modOptions.exists('CostumesV2')) Save.instance.modOptions.set('CostumesV2', defaultCostumes);
+		
+		Save.instance.flush();
+
+		options = Save.instance.modOptions.get('TakeoverOptions');
 
 		Conductor.instance.forceBPM(124);
 
@@ -289,11 +291,11 @@ class CostumeSelectState extends MusicBeatState
 			{
 				FlxG.mouse.visible = false;
 				selectedSomethin = true;
-				save.flush();
+				Save.instance.flush();
 				FlxG.sound.music.stop();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				var targetState:NextState = () -> new MainMenuState();
-				if (options.data.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
+				if (options.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
         		FlxG.switchState(targetState);
 			}
 			if (controls.BACK && selectingcostume)
@@ -621,7 +623,7 @@ class CostumeSelectState extends MusicBeatState
 						SaveData.bfcostume = "aloe-classic";
 			}
 
-			save.flush();
+			Save.instance.flush();
 			chara.color = 0xFFFFFF;
 			loadcharacter(daChoice);
 

@@ -7,11 +7,14 @@ import funkin.modding.module.ModuleHandler;
 import flixel.util.FlxSave;
 import Date;
 
+import flixel.FlxG;
+
 class DiscordRPCDDTO extends Module
 {
     function new()
         {
             super('DiscordRPCDDTO');
+			if (FlxG.onMobile) active = false;
         }    
 
 	//Makes sure DDTO Discord RPC doesn't try to load on other mods

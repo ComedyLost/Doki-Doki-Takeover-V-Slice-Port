@@ -13,7 +13,6 @@ import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayStatePlaylist;
 import flixel.tweens.FlxEase;
 import funkin.save.Save;
-import flixel.util.FlxSave;
 
 class EpiphanySong extends Song
 {
@@ -25,8 +24,7 @@ class EpiphanySong extends Song
 	{
 		super('epiphany');
 		
-		save = new FlxSave();
-		save.bind("TakeoverOptions");	
+		save = Save.instance.modOptions.get('TakeoverOptions');
 	}
 
 	public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String> {
@@ -63,7 +61,7 @@ class EpiphanySong extends Song
 	public override function onCountdownStart(event:CountdownScriptEvent):Void {
 		super.onCountdownStart(event);
 		PlayState.instance.currentStage.getDad().ignoreExclusionPref = []; //Fixes Monika's glitch animation not playing
-		if (!hasPlayedCutscene && save.data.freeplayDialogue) {
+		if (!hasPlayedCutscene && save.freeplayDialogue) {
 			trace('Pausing countdown to play cutscene.');
 	  
 			hasPlayedCutscene = true;
@@ -115,16 +113,6 @@ class EpiphanySong extends Song
 		PlayState.instance.onConversationComplete();
 		PlayState.instance.playerStrumline.fadeInArrows();
 		PlayState.instance.opponentStrumline.fadeInArrows();
-	  }
-	
-	  /**
-	   * Don't replay the cutscene between restarts.
-	   */
-	  function onSongRetry(event:ScriptEvent)
-	  {
-		super.onSongRetry(event);
-	
-		hasPlayedCutscene = true;
 	  }
 	
 
@@ -179,6 +167,7 @@ class EpiphanySong extends Song
 	function onSongRetry(event:ScriptEvent)
 		{
 			super.onSongRetry(event);
+			hasPlayedCutscene = true;
 			if (lyrics != null) lyrics.text = '';
 		}
 }

@@ -5,7 +5,7 @@ import funkin.ui.freeplay.FreeplayState;
 import funkin.util.ReflectUtil;
 import funkin.ui.freeplay.SongMenuItem;
 import funkin.modding.base.ScriptedMusicBeatSubState;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
@@ -20,13 +20,12 @@ class FreeplayTransitionFix extends Module {
 
 		active = false;
 		
-		save = new FlxSave();
-        save.bind("TakeoverOptions");
+		save = Save.instance.modOptions.get('TakeoverOptions');
 	}
 
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
-		if (save.data.menus) {
+		if (save.menus) {
 			if (Std.isOfType(FlxG.state.subState, FreeplayState)) {
 				//Override base game exit function to prevent it from trying to go to the original main menu
 				if (!FlxG.state.subState.busy && PlayerSettings.player1.controls.BACK) {

@@ -7,7 +7,7 @@ import funkin.util.Constants;
 import funkin.Highscore;
 import funkin.play.scoring.Scoring;
 import funkin.play.notes.Strumline;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import flixel.FlxG;
 
 class RandomizeNotes extends Module
@@ -15,8 +15,7 @@ class RandomizeNotes extends Module
     function new(){
         super("randomnotes");
 
-		save = new FlxSave();
-		save.bind("TakeoverOptions");	
+		save = DokiPreferences.getDokiSave();
     }
 
 	var playerPrevNote;
@@ -27,7 +26,7 @@ class RandomizeNotes extends Module
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
 
-		if (!save.data.random) return;
+		if (!save.random) return;
 		if (playerPrevNote != null) playerPrevNote = null;
 		if (opponentPrevNote != null) opponentPrevNote = null;
 

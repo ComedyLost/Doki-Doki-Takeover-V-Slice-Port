@@ -7,15 +7,14 @@ import funkin.util.Constants;
 import funkin.Highscore;
 import funkin.play.scoring.Scoring;
 import funkin.play.notes.Strumline;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 
 class MarkovNotes extends Module
 {
     function new(){
         super("markov");
 
-		save = new FlxSave();
-		save.bind("TakeoverOptions");	
+		save = DokiPreferences.getDokiSave();
     }
 
 	var missedCount:Int = 0;
@@ -47,13 +46,13 @@ class MarkovNotes extends Module
 		if (callback.note.noteData.kind == "markov")
 		{
 			callback.note.lowPriority = true;
-			if (!save.data.markov) {
+			if (!save.markov) {
 				if (callback.note.noteData.getStrumlineIndex() == 0){
 					Highscore.tallies.totalNotes--;
 					callback.note.kill();
 				}
 				return;	
-			} else if (save.data.random) {
+			} else if (save.random) {
 				if (callback.note.noteData.getStrumlineIndex() == 0) Highscore.tallies.totalNotes--;
 				callback.note.kill();
 				return;	

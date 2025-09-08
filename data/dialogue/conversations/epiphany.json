@@ -52,21 +52,42 @@
       "speakerAnimation": "empty",
       "box": "doki",
       "boxAnimation": "empty",
-      "text": ["\"Isn't that right, {USERNAME}?\""]
+      "text": ["\"...\""]
     },
     {
       "speaker": "empty",
       "speakerAnimation": "empty",
       "box": "doki",
       "boxAnimation": "empty",
-      "text": ["\"Hmm, there’s only enough space here for us to sing one song-\""]
+      "text": ["\"Strange...\""]
     },
     {
       "speaker": "empty",
       "speakerAnimation": "empty",
       "box": "doki",
       "boxAnimation": "empty",
-      "text": ["\"-and unfortunately since this game doesn’t have microphone support, we can’t exactly “sing” together.\""]
+      "text": ["\"This program feels...", " different\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"I can't read your username- \""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"-and there’s only enough space here for us to sing one song.\""]
+    },
+    {
+      "speaker": "empty",
+      "speakerAnimation": "empty",
+      "box": "doki",
+      "boxAnimation": "empty",
+      "text": ["\"Unfortunately since this game doesn’t have microphone support, we can’t exactly “sing” together.\""]
     },
     {
       "speaker": "empty",

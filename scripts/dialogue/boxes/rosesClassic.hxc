@@ -17,6 +17,8 @@ class RosesClassicDialogueBox extends DialogueBox {
 
   public function onDialogueLine(event:DialogueScriptEvent):Void {
     super.onDialogueLine(event);
+    //playAnimation('click', false);
+    //super.onDialogueEnd(event);
 
     if (getCurrentAnimation() == 'idle') {
       // click, then speaking
@@ -44,14 +46,6 @@ class RosesClassicDialogueBox extends DialogueBox {
 
   public function onDialogueStart(event:DialogueScriptEvent):Void {
     super.onDialogueStart(event);
-  }
-
-  public function onDialogueLine(event:DialogueScriptEvent):Void {
-    // Override the default box animation behavior by switching the state
-    //event.conversation.state = ConversationState.Opening;
-
-    playAnimation('click', false);
-    super.onDialogueEnd(event);
   }
 
   public function onDialogueEnd(event:DialogueScriptEvent):Void {

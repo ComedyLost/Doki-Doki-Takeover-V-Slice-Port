@@ -1,6 +1,6 @@
 import funkin.play.PlayState;
 import funkin.play.event.SongEvent;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 import flixel.util.FlxTimer;
 
 import flixel.FlxG;
@@ -30,20 +30,32 @@ typedef CostumeList =
 
 class CostumeSwapper extends Module {
 
-	var SaveData:FlxSave;
+	var SaveData:Save;
 
 	public var playerCostumeArray:Array<CostumeList> = [];
 	public var girlfriendCostumeArray:Array<CostumeList> = [];
 	public var dadCostumeArray:Array<CostumeList> = [];
 
+	var defaultCostumes = {
+		protagcostume: '',
+		monikacostume: '',
+		yuricostume: '',
+		sayoricostume: '',
+		natsukicostume: '',
+		gfcostume: '',
+		bfcostume: ''
+	};
+
+	public static function getDokiCostume() {
+		return Save?.instance?.modOptions?.get('CostumesV2');
+	}
+
 	public function new() {
 		super('CostumeSwapper');
-		any = new FlxSave();
-		any.bind("TakeoverOptions");
-		save = new FlxSave();
-		save.bind("CostumesV2");
-
-		SaveData = save.data;
+		any = Save.instance.modOptions.get('TakeoverOptions');
+		trace(Save.instance.modOptions.get('TakeoverOptions'));
+		if (!Save.instance.modOptions.exists('CostumesV2')) Save.instance.modOptions.set('CostumesV2', defaultCostumes);
+		SaveData = Save.instance.modOptions.get('CostumesV2');
 	}
 
 	public function onSongRetry(event):Void {
@@ -63,7 +75,7 @@ class CostumeSwapper extends Module {
 		var girlfriendJSON = jsonLoad(PlayState.instance.currentChart.characters.girlfriend);
 		var dadJSON = jsonLoad(PlayState.instance.currentChart.characters.opponent);
 
-		if (any.data.costumesanywhere){
+		if (any.costumesanywhere){
 			if (PlayState.instance.currentChart.characters.player == 'bf') playerJSON = jsonLoad('bf-doki');
 			if (PlayState.instance.currentChart.characters.girlfriend == 'gf') girlfriendJSON = jsonLoad('gf-realdoki');
 			if (PlayState.instance.currentChart.characters.opponent == 'gf') dadJSON = jsonLoad('gf-realdoki');
@@ -255,7 +267,7 @@ class CostumeSwapper extends Module {
 				var charData = CharacterDataParser.parseCharacterData(character);
 				CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
 
-				var _data = CharacterDataParser.fetchCharacter(character);
+				var _data = CharacterDataParser.fetchCharacterData(character);
 				FunkinSprite.cacheSparrow(_data.assetPath);
 				if (Std.string(_data.renderType) == 'MultiSparrow'){ //Check if character uses multiple spritesheets, so we can cache them too
 					var assetList = [];
@@ -279,7 +291,7 @@ class CostumeSwapper extends Module {
 				var json = jsonLoad(eventProps.newchar);
 				if (json.costumes == null || checkCostume(json) == '') return;
 				new FlxTimer().start(0.0001, _ -> { //Add a little delay to stop character glitching when swapping out characters (I have no idea why this fixes it)
-					script.cancel();
+					script.cancelEvent(); // Remove Event if breaks
 					costumeSwap(eventProps.newchar, eventProps.character.toLowerCase());
 				});
 			}

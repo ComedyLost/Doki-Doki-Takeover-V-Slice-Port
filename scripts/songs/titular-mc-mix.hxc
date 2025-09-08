@@ -35,11 +35,6 @@ class TitularMCMixSong extends Song
 		return durSeconds;
 	}
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
-
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
 		

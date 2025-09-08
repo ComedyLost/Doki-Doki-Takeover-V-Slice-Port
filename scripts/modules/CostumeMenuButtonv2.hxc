@@ -18,6 +18,7 @@ class CostumeButton extends Module {
 	
   	public function onStateChangeEnd(event) {
 		currentState = event.targetState;
+		if (FlxG.onMobile) return; // No costumes on mobile since I'm too lazy to add support
 		if (Std.isOfType(currentState, MainMenuState)) {
 			var menuItem = createMenuItem('costumes', 'mainmenu/PleaseKrillMe', 2,
 			function() {

@@ -11,7 +11,7 @@ import flixel.FlxG;
 import funkin.play.Countdown;
 import funkin.play.song.Song;
 import flixel.util.FlxTimer;
-import flixel.util.FlxSave;
+import funkin.save.Save;
 
 class PixelPerfectStage extends Module
 {
@@ -19,14 +19,13 @@ class PixelPerfectStage extends Module
 		{
 			super('PixelPerfect');
 
-			save = new FlxSave();
-			save.bind("TakeoverOptions");    
+			save = DokiPreferences.getDokiSave();
 		}    
 
 	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
 		{
 			super.onSongEvent(scriptEvent);
-			if (!save.data.pixel) return;
+			if (!save.pixel) return;
 			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter")
 			{
 				new FlxTimer().start(0.001, function(tmr:FlxTimer)
@@ -61,7 +60,7 @@ class PixelPerfectStage extends Module
 
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);
-		if (!save.data.pixel) return;
+		if (!save.pixel) return;
 		//Recreate the now removed Pixel Perfect rendering from 0.5.0 on all stage assets
 		pixelfy();
 	}
