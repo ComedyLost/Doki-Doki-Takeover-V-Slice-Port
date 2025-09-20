@@ -32,6 +32,8 @@ import funkin.util.FlxTweenUtil;
 
 import funkin.Conductor;
 import funkin.play.components.HealthIcon;
+import funkin.util.GRhythmUtil;
+import funkin.mobile.input.ControlsHandler;
 
 class DokiDoggleSong extends Song
 {
@@ -39,13 +41,13 @@ class DokiDoggleSong extends Song
 	{
 		super('dokidoggle');
 
-		options = Save.instance.modOptions.get('TakeoverOptions');
+		options = DokiPreferences.getDokiSave();
 	}
 
 	var extraOpp;
 	var bfStartingX;
 	var iconP3:HealthIcon;
-    var extraStrumline;
+	var extraStrumline;
 
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);
@@ -56,6 +58,11 @@ class DokiDoggleSong extends Song
 		summonExtraStrumline();
 		if (bfStartingX == null) bfStartingX = PlayState.instance.currentStage.getBoyfriend().originalPosition.x;
 	}
+	
+  	public function listDifficulties(variationId:String, variationIds:Array<String>, showLocked:Bool):Array<String>
+  	{
+		return []; // Temporarily hide due to multiple issues
+ 	}
 
 	function onSongEnd(event){
 		if (FlxG.onMobile) return;
@@ -66,9 +73,9 @@ class DokiDoggleSong extends Song
 			extraStrumline = null;	
 		}
 	}
-    
-    override function onDestroy(event) {
-        super.onDestroy(event);
+	
+	override function onDestroy(event) {
+		super.onDestroy(event);
 		if (FlxG.onMobile) return;
 		Strumline.STRUMLINE_SIZE = 104;
 		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
@@ -76,28 +83,19 @@ class DokiDoggleSong extends Song
 			extraStrumline.kill();
 			extraStrumline = null;	
 		}
-    } 
+	} 
 
 	function summonExtraStrumline(){
 		//Grabbing extra notes
 		if (extraStrumline != null) return;
 		var extraNoteData:Array<SongNoteData> = [];
 		var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('extra');
-        if (animChart == null) {
+		if (animChart == null) {
 			if (FlxG.onMobile) return;
 			Strumline.STRUMLINE_SIZE = 104;
 			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
-            trace('Initializing Extra Strumline failed; no `extra` chart found for this song.');
+			trace('Initializing Extra Strumline failed; no `extra` chart found for this song.');
 			return;
-        }
-		if (!FlxG.onMobile) {
-			Strumline.STRUMLINE_SIZE = 94;
-			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
-			//Remake the strumlines to use the new spacing and size
-			PlayState.instance.playerStrumline.kill();
-			PlayState.instance.opponentStrumline.kill();
-			PlayState.instance.initStrumlines();
-			PlayState.instance.regenNoteData();
 		}
 		for (notes in animChart.notes){
 			switch (notes.getStrumlineIndex()){
@@ -109,8 +107,8 @@ class DokiDoggleSong extends Song
 		var noteStyleIdPlayer:String = PlayState.instance.playerStrumline.noteStyle.id;
 		var noteStylePlayer:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleIdPlayer);
 		extraStrumline = new Strumline(noteStylePlayer, false);
-    	extraStrumline.onNoteIncoming.add(PlayState.instance.onStrumlineNoteIncoming);
-    	PlayState.instance.add(extraStrumline);
+		extraStrumline.onNoteIncoming.add(PlayState.instance.onStrumlineNoteIncoming);
+		PlayState.instance.add(extraStrumline);
 		extraStrumline.applyNoteData(extraNoteData);
 
 		// Position the extra strumline out of view to the left
@@ -122,6 +120,17 @@ class DokiDoggleSong extends Song
 
 		extraStrumline.zIndex = 1001;
 		extraStrumline.cameras = [PlayState.instance.camHUD];
+
+		if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice && Preferences.controlsScheme == 'Arrows') {
+			var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
+			var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
+			var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
+
+			extraStrumline.enterMiniMode(0.4 * amplification);
+			extraStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
+			extraStrumline.x = FlxG.width - extraStrumline.width - Constants.STRUMLINE_X_OFFSET; // Centered style
+			extraStrumline.x += 30;
+		}
 	}
 
 	override function onUpdate(event:UpdateScriptEvent) {
@@ -164,7 +173,7 @@ class DokiDoggleSong extends Song
 		iconP3.isLegacyStyle = true;
 		iconP3.loadCharacter('yuri');
 		iconP3.size.set(0.75, 0.75);
-        if (extraOpp != null) extraOpp.kill();
+		if (extraOpp != null) extraOpp.kill();
 		extraOpp = CharacterDataParser.fetchCharacter(name);
 		if (extraOpp != null) {
 			extraOpp.set_characterType(CharacterType.OTHER);
@@ -174,84 +183,57 @@ class DokiDoggleSong extends Song
 		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
 		extraOpp.x = (stageCharData.position[0] - extraOpp.characterOrigin.x) - 250;
 		extraOpp.y = (stageCharData.position[1] - extraOpp.characterOrigin.y) + 30;
-    	extraOpp.cameraFocusPoint.x += stageCharData.cameraOffsets[0];
-	    extraOpp.cameraFocusPoint.y += stageCharData.cameraOffsets[1];
+		extraOpp.cameraFocusPoint.x += stageCharData.cameraOffsets[0];
+		extraOpp.cameraFocusPoint.y += stageCharData.cameraOffsets[1];
 
 		extraOpp.originalPosition.set(extraOpp.x, extraOpp.y);  
 		
 		PlayState.instance.currentStage.refresh();
 	}
 
-	function processNotes(elapsed:Float):Void
-		{ 
-		  // Process notes on the opponent's side.
-          if (extraStrumline == null || extraStrumline.notes.members == null) return;
+	function processNotes(elapsed:Float):Void { 
+		// Process notes on the opponent's side.
+		if (extraStrumline.notes?.members == null) return;
 
-		  for (note in extraStrumline.notes.members)
-		  {
-			if (note == null) continue;
-	  
-			// TODO: Are offsets being accounted for in the correct direction?
-			var hitWindowStart = note.strumTime + Conductor.instance.inputOffset - Constants.HIT_WINDOW_MS;
-			var hitWindowCenter = note.strumTime + Conductor.instance.inputOffset;
-			var hitWindowEnd = note.strumTime + Conductor.instance.inputOffset + Constants.HIT_WINDOW_MS;
-	  
-			if (Conductor.instance.songPosition > hitWindowCenter)
-			{
-			  if (note.hasBeenHit) continue;
-	  	  
-			  // Command the opponent to hit the note on time.
-			  // NOTE: This is what handles the strumline and cleaning up the note itself!
-			  extraStrumline.hitNote(note);
-			  extraOpp.holdTimer = 0;
-			  extraOpp.playSingAnimation(note.noteData.data % 4, false);
-	  
-			  if (note.holdNoteSprite != null)
-			  {
-				extraStrumline.playNoteHoldCover(note.holdNoteSprite);
-			  }
-			}
-			else if (Conductor.instance.songPosition > hitWindowStart)
-			{
-			  if (note.hasBeenHit || note.hasMissed) continue;
-	  
-			  note.tooEarly = false;
-			  note.mayHit = true;
-			  note.hasMissed = false;
-			  if (note.holdNoteSprite != null) note.holdNoteSprite.missedNote = false;
-			}
-			else
-			{
-			  note.tooEarly = true;
-			  note.mayHit = false;
-			  note.hasMissed = false;
-			  if (note.holdNoteSprite != null) note.holdNoteSprite.missedNote = false;
-			}
-		  }
-	  
-		  // Process hold notes on the opponent's side.
-		  for (holdNote in extraStrumline.holdNotes.members)
-		  {
-			if (holdNote == null || !holdNote.alive) continue;
-	  
-			// While the hold note is being hit, and there is length on the hold note...
-			if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
-			{
-			  // Make sure the opponent keeps singing while the note is held.
-			  if (extraOpp != null && extraOpp.isSinging()) extraOpp.holdTimer = 0;
-			}
-	  
-			if (holdNote.missedNote && !holdNote.handledMiss)
-			{
-			  // When the opponent drops a hold note.
-			  holdNote.handledMiss = true;
-	  
-			  // We dropped a hold note.
-			  // Play miss animation, but don't penalize.
-			  extraOpp.playSingAnimation(holdNote.noteData.data % 4, true);
-			}
-		  }
+		// Process notes on the opponent's side.
+		for (note in extraStrumline.notes.members) {
+	 		if (note == null) continue;
+	  		var r = GRhythmUtil.processWindow(note, false);
+	  		if (r.botplayHit) {
+				extraOpp.playSingAnimation(note.noteData.getDirection(), false);
+
+				// Command the opponent to hit the note on time.
+				// NOTE: This is what handles the strumline and cleaning up the note itself!
+				extraStrumline.hitNote(note);
+
+				if (note.holdNoteSprite != null) {
+		  			extraStrumline.playNoteHoldCover(note.holdNoteSprite);
+				}
+	  		}
 		}
+
+		// Process hold notes on the opponent's side.
+		for (holdNote in extraStrumline.holdNotes.members) {
+	  		if (holdNote == null || !holdNote.alive || holdNote.noteData == null) continue;
+
+	  		// While the hold note is being hit, and there is length on the hold note...
+	  		if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0) {
+				// Make sure the opponent keeps singing while the note is held.
+				if (PlayState.instance.currentStage != null && extraOpp != null && extraOpp.isSinging()) {
+		  			extraOpp.holdTimer = 0;
+				}
+	  		}
+
+	  		if (holdNote.missedNote && !holdNote.handledMiss) {
+				// When the opponent drops a hold note.
+				holdNote.handledMiss = true;
+
+				// We dropped a hold note.
+				// Play miss animation, but don't penalize.
+				if (PlayState.instance.currentStage != null) extraOpp.playSingAnimation(holdNote.noteData.getDirection(), true);
+	  		}
+		}
+	}
 
 	function calcSectionLength(duration:Int){
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;

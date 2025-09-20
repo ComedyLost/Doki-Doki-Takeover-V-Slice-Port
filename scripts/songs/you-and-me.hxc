@@ -18,6 +18,7 @@ import funkin.Conductor;
 import flixel.effects.FlxFlicker;
 import funkin.util.FlxTweenUtil;
 import funkin.Highscore;
+import flixel.FlxObject;
 
 import funkin.audio.FunkinSound;
 import funkin.audio.VoicesGroup;
@@ -284,9 +285,14 @@ class YouAndMeSong extends Song
 					var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
 					if (opponentStrumline != null)
 					{
-						for (arrow in opponentStrumline.members)
-						{
-							arrow.visible = true;
+						if (opponentStrumline.strumlineScale.x != 1) {
+							opponentStrumline.forEach(function(obj:FlxObject):Void {
+      							if (obj == opponentStrumline.strumlineNotes) obj.visible = true;
+    						});
+						} else {
+							opponentStrumline.forEach(function(obj:FlxObject):Void {
+      							obj.visible = true;
+    						});
 						}
 					}		
 					PlayState.instance.opponentStrumline.fadeInArrows();

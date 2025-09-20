@@ -32,7 +32,6 @@ class DokiPreferences extends Module
         super("DokiPreferences", 1);
 
 		if (!Save.instance.modOptions.exists('TakeoverOptions')) Save.instance.modOptions.set('TakeoverOptions', defaultOptions);
-		trace(Save.instance.modOptions.get('TakeoverOptions'));
 		Save.instance.flush();
 		save = Save?.instance?.modOptions?.get('TakeoverOptions');
     }

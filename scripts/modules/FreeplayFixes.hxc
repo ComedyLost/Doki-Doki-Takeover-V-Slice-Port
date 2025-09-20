@@ -11,57 +11,71 @@ import flixel.util.FlxTimer;
 import funkin.PlayerSettings;
 import funkin.util.TouchUtil;
 import funkin.util.SwipeUtil;
-import StringTools;
+
+using StringTools;
 
 class FreeplayFixes extends Module {
 	public function new(){
-		super('FreeplayFixes');
+		super('FreeplayFixes', 1, {state: FreeplayState});
 	}
 
 	var ddtolevelids = ['DDTOWeek1', 'DDTOWeek2', 'DDTOWeek3', 'DDTOWeek4', 'DDTOWeek5', 'DDTOWeek6', 'DDTOWeek7', 'DDTOWeek8', 'DDTOWeekDoggle', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories', 'fuckidk'];
 	var curSelected:Int;
 
+	var changedCapsules:Array<SongMenuItem>;
+	var changeSelectionCallback:String->Void;
+
 	override function onSubStateOpenEnd(event) {
         super.onSubStateOpenEnd(event);
-        if (Std.isOfType(event.targetState, FreeplayState)) {
-			var state = event.targetState;
-			var reset = function () {{ //Needs to be called when DJ does its intro since the game resets the capsule stuff after
-				new FlxTimer().start(0.15, _ -> {
-					curSelected = 0;
-				});
-			}}
-			if (state.dj != null) {
-      			state.dj.onIntroDone.add(reset);
-			}
-			for (capsule in event.targetState.grpCapsules.members){
-				if (capsule?.freeplayData != null) {
-					if (ddtolevelids.contains(capsule.freeplayData.levelId)){ //Changed from checking albums since it would miss the check sometimes
-						customDisplay(capsule);
-					} else if (isBaseWeek(capsule.freeplayData.data.id)) {
-						if (!StringTools.contains(capsule.weekType.graphic.key, 'freeplay/freeplayCapsule/weektypes')) resetCapsules(capsule);
-					}
-				}
-			}	
+		if (!Std.isOfType(event.targetState, FreeplayState)) return;
+		var state = event.targetState;
+		var reset = function () {{ //Needs to be called when DJ does its intro since the game resets the capsule stuff after
+			new FlxTimer().start(0.15, _ -> {
+				curSelected = 0;
+			});
+		}}
+		if (state.dj != null) {
+      		state.dj.onIntroDone.add(reset);
 		}
+		changedCapsules = [];
+		changeSelectionCallback = state.letterSort.changeSelectionCallback;
+		state.letterSort.changeSelectionCallback = (str) -> {
+			changeSelectionCallback(str);
+			checkCapsules();
+		};
+		var filteredCapsules:Array<SongMenuItem> = FlxG.state.subState.grpCapsules.members.filter(function(cap:SongMenuItem) {
+       		// Dead capsules are ones which were removed from the list when changing filters.
+        	return cap != null && cap.alive && cap.freeplayData != null && ddtolevelids.contains(cap.freeplayData.levelId);
+      	});
+		for (capsule in filteredCapsules){
+			if (capsule == null || !capsule.alive) continue;
+
+			changedCapsules.push(capsule); // Push these changed capsules
+			customDisplay(capsule);
+		}	
 	}
 
-	//Adds the Week Type title for Takeover songs and changes the freeplay icon for characters (useful for songs which have multiple opponents and gets rid of multiple icons)
 	function customDisplay(cap:SongMenuItem) {
 		if (cap?.freeplayData == null) return;
 		cap.weekType.visible = true;
-		if (cap.songText.text == 'MSTSOOBF') cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/tf'); //TF?
-		else cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverText'); //Normal text	
+		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverweektypes'); //Normal text
+		cap.weekType.animation.addByPrefix('TAKEOVER', 'TAKEOVER text instance 1', 24, false);
+		cap.weekType.animation.addByPrefix('TF', 'what the fuck instance 1', 24, false);
+		switch (cap.freeplayData.data.id) {
+			case 'mstsoobf': cap.weekType.animation.play('TF', true);
+			default: cap.weekType.animation.play('TAKEOVER', true);
+		}
 		if (cap.pixelIcon.animation.curAnim == null || cap.pixelIcon.animation.curAnim.name == 'idle'){
 			switch (cap.freeplayData.songCharacter){
 				case 'monika', 'monika-pixelnew', 'duetnew':
-					if (cap.freeplayData.data.id == 'your-demise') cap.pixelIcon.setCharacter('monika-epiphany');
-					else cap.pixelIcon.setCharacter('monika');
+					cap.pixelIcon.setCharacter('monika');
 				case 'bigmonika', 'bigmonika-dress', 'monika-angry': 
 					cap.pixelIcon.setCharacter('monika-epiphany');
 				case 'senpai-ddto', 'senpai-angry-ddto', 'senpai-nonpixel':
 					cap.pixelIcon.setCharacter('senpai');	
 			}
 			switch (cap.freeplayData.data.id){
+				case "your-demise": cap.pixelIcon.setCharacter('monika-epiphany');
 				case "our-harmony": cap.pixelIcon.setCharacter('monika');
 				case "you-and-me": cap.pixelIcon.setCharacter('protag');
 				case "libitina": cap.pixelIcon.setCharacter('libitina');
@@ -70,6 +84,27 @@ class FreeplayFixes extends Module {
 					else cap.pixelIcon.setCharacter('gf');
 			}
 		}
+	}
+	
+	function checkCapsules(){
+		new FlxTimer().start(0.1, _ -> { // Add a small delay to grab the right capsules
+			while (changedCapsules.length > 0) {
+				var capsule = changedCapsules.shift();
+
+				if (capsule.weekType.graphic.key.contains('freeplay/freeplayCapsule/takeoverweektypes')) resetCapsules(capsule);
+			}
+			if (changedCapsules.length != 0) changedCapsules = []; // Clear the array just in case
+			var filteredCapsules:Array<SongMenuItem> = FlxG.state.subState.grpCapsules.members.filter(function(cap:SongMenuItem) {
+       			// Dead capsules are ones which were removed from the list when changing filters.
+        		return cap != null && cap.alive && cap.freeplayData != null && ddtolevelids.contains(cap.freeplayData.levelId);
+      		});
+			for (capsule in filteredCapsules){
+				if (capsule == null || !capsule.alive) continue;
+
+				changedCapsules.push(capsule); // Push these changed capsules
+				customDisplay(capsule);
+			}
+		});			
 	}
 
 	function resetCapsules(cap:SongMenuItem) {
@@ -80,60 +115,28 @@ class FreeplayFixes extends Module {
 		cap.checkWeek(cap.freeplayData.data.id);
 	}
 
-	function isBaseWeek(songID:String) {
-		switch (songID) {
-      		case 'bopeebo', 'fresh', 'dadbattle':
-        		return true;
-      		case 'spookeez', 'south', 'monster':
-        		return true;
-      		case 'pico', 'philly-nice', 'blammed':
-        		return true;
-      		case "satin-panties", 'high', 'milf':
-        		return true;
-      		case "cocoa", 'eggnog', 'winter-horrorland':
-        		return true;
-      		case 'senpai', 'roses', 'thorns':
-        		return true;
-     	 	case 'ugh', 'guns', 'stress':
-        		return true;
-     		case 'darnell', 'lit-up', '2hot', 'blazin':
-        		return true;
-      		default:
-        		return false;
-    	}
-	}
-	
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
-		if (Std.isOfType(FlxG.state.subState, FreeplayState))
-			{
-				var switched = PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P || FlxG.keys.justPressed.Q || FlxG.keys.justPressed.E;
-				if (curSelected != FlxG.state.subState.curSelected){
-					curSelected = FlxG.state.subState.curSelected;
-					var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
-					if (curCap?.freeplayData != null) {
-						switch (curCap.freeplayData.data.id) {
-							case 'our-harmony': curCap.pixelIcon.setCharacter('monika');
-							case 'love-n-funkin':
-								if (FlxG.state.subState.currentVariation == 'pico') curCap.pixelIcon.setCharacter('pico');
-								else curCap.pixelIcon.setCharacter('gf');
-						}
-					}
+		var switched = PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P;
+		if (curSelected != FlxG.state.subState.curSelected){
+			curSelected = FlxG.state.subState.curSelected;
+			var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
+			if (curCap?.freeplayData != null) {
+				switch (curCap.freeplayData.data.id) {
+					case "your-demise": curCap.pixelIcon.setCharacter('monika-epiphany');
+					case 'our-harmony': curCap.pixelIcon.setCharacter('monika');
+					case 'love-n-funkin':
+						if (FlxG.state.subState.currentVariation == 'pico') curCap.pixelIcon.setCharacter('pico');
+						else curCap.pixelIcon.setCharacter('gf');
 				}
-				//Prevents from running if the Freeplay state is busy (Ex. Choosing an inst, choosing a Doki for Catfight, first load, currently loading a song)
-				if (FlxG.state.subState.controls.active && (switched || TouchUtil.pressAction(FlxG.state.subState.diffSelLeft, FlxG.state.subState.funnyCam, false) || TouchUtil.pressAction(FlxG.state.subState.diffSelRight, FlxG.state.subState.funnyCam, false) || SwipeUtil.swipeLeft || SwipeUtil.swipeRight)){
-					new FlxTimer().start(0.1, _ -> {
-						for (capsule in FlxG.state.subState.grpCapsules.members){
-							if (capsule?.freeplayData != null) {
-								if (ddtolevelids.contains(capsule.freeplayData.levelId)){
-									customDisplay(capsule);
-								} else if (isBaseWeek(capsule.freeplayData.data.id)) {
-									if (!StringTools.contains(capsule.weekType.graphic.key, 'freeplay/freeplayCapsule/weektypes')) resetCapsules(capsule);
-								}
-							}
-						}	
-					});			
-				}
-			}		
+			}
+		}
+		//Prevents from running if the Freeplay state is busy (Ex. Choosing an inst, choosing a Doki for Catfight, first load, currently loading a song)
+		if (FlxG.state.subState.controls.active && (switched || 
+		TouchUtil.pressAction(FlxG.state.subState.diffSelLeft, FlxG.state.subState.funnyCam, false) || 
+		TouchUtil.pressAction(FlxG.state.subState.diffSelRight, FlxG.state.subState.funnyCam, false) || 
+		SwipeUtil.swipeLeft || SwipeUtil.swipeRight)){
+			checkCapsules();
+		}
 	}
 }

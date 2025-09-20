@@ -26,6 +26,17 @@ class customTitleBar extends Module
 			else WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - ' + PlayState.instance.currentChart.songName);
 		}
 	}
+	
+	public static function setIcon(graphic:String) {
+		var icon:Image;
+		if (!Assets.exists(graphic)) {
+			trace('ERROR: ' + graphic + " doesn't exist. Check your icon location");
+			return;
+		}
+		var image = Assets.getBytes(graphic);
+        icon = Image.fromBytes(image);
+		Application.current.window.setIcon(icon);
+	}
 
     override function onDestroy(event) {
 		super.onDestroy(event);
