@@ -1,15 +1,15 @@
 {
   "version": "1.0.0",
   "name": "Senpai (Angry)",
-  "assetPath": "weeb/senpaiAngryPortrait",
+  "assetPath": "weeb/portrait-senpai-angry",
   "flipX": false,
   "isPixel": true,
   "scale": 5.4,
-  "offsets": [266, 90],
+  "offsets": [-380, -230],
   "animations": [
     {
       "name": "talk",
-      "prefix": "amongus",
+      "prefix": "portraitTalk",
       "offsets": [0, 0]
     }
   ]

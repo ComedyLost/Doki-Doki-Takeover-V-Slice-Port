@@ -3,7 +3,7 @@
   "name": "Doki Boxes",
   "assetPath": "dialogue/Text_Boxes",
   "isPixel": false,
-  "offsets": [-20, 445],
+  "offsets": [-660, 90],
   "scale": 1.2,
   "text": {
     "offsets": [50, 80],

@@ -5,7 +5,7 @@
   "flipX": true,
   "isPixel": true,
   "scale": 5.4,
-  "offsets": [650, -24],
+  "offsets": [0, -340],
   "animations": [
     {
       "name": "bf_neutral",

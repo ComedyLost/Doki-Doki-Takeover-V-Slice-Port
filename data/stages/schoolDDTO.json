@@ -150,6 +150,15 @@
       ]
     },
     {
+      "name": "evilBG",
+      "zIndex": 85,
+      "alpha": 0,
+      "assetPath": "#000000",
+      "position": [-500, -1000],
+      "scale": [2400, 2000],
+      "scroll": [0, 0]
+    },
+    {
       "danceEvery": 0,
       "zIndex": 90,
       "alpha": 0,
