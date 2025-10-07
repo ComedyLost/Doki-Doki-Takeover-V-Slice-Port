@@ -133,7 +133,7 @@ class DokiMainMenuState extends MusicBeatState
 				if (char.name == show)
 				{
 					// Found the character in the menuCharacter.json file
-					trace('found ${show} with ${random}');
+					trace('found ' + show + ' with ' + random);
 					menu_character = new FlxSprite(char.spritePos[0], char.spritePos[1]);
 					menu_character.frames = Paths.getSparrowAtlas(char.atlas);
 					if (char.scale != null)

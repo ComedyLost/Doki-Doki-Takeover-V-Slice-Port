@@ -39,13 +39,12 @@ class DokiMenuOverrides extends Module
 		super('DokiMenuOverrides');
 
 		save = DokiPreferences.getDokiSave();
-
-		active = false; // Scrapped because of multiple issues
 	}
 	
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
 		if (save?.menus) {
+			//if (!FlxG.signals.preStateSwitch.has(switchStateOverride)) FlxG.signals.preStateSwitch.add(switchStateOverride);
 			if (Std.isOfType(FlxG.state, StoryMenuState)) {
 				
 				if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK) {

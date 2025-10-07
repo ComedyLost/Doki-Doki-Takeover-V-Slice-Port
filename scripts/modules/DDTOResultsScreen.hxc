@@ -20,6 +20,7 @@ import funkin.Preferences;
 import funkin.data.freeplay.player.PlayerRegistry;
 import funkin.graphics.adobeanimate.FlxAtlasSprite;
 import funkin.modding.base.ScriptedFlxAtlasSprite;
+import funkin.ui.FullScreenScaleMode;
 
 class DDTOResults extends Module {
 	public function new() {
@@ -159,7 +160,7 @@ class DDTOResults extends Module {
 			  	return 3.5;
 		}
 	}      
-		 
+
 	override function onSubStateOpenEnd(event) {
 		super.onSubStateOpenEnd(event);
 		if (Std.isOfType(event.targetState, ResultState)) {
@@ -169,12 +170,10 @@ class DDTOResults extends Module {
 			camScrollNew.angle = -3.8;
 			camScrollNew.bgColor = 0x000000;
 
-			FlxG.cameras.add(camScrollNew, false);
+			FlxG.cameras.insert(camScrollNew, FlxG.cameras.list.indexOf(state.cameraScroll));
 	
 			FlxG.cameras.remove(state.cameraScroll, false);
 	
-			FlxG.cameras.remove(state.cameraEverything, false);
-			FlxG.cameras.add(state.cameraEverything, false);
 			new FlxTimer().start(getFlashDelay(), _ -> {
 				displayRankText();
 			});
@@ -220,11 +219,11 @@ class DDTOResults extends Module {
 			var characterDoki:Bool = false;
 
 			for (character in dokiCharacters){
-				if (characterDoki == true) continue; 
+				if (characterDoki == true) break; 
 				if (StringTools.contains(state.params.characterId, character)) characterDoki = true;
 			}
 			if (characterDoki){
-				var dokis:FunkinSprite = FunkinSprite.createSparrow(310, -200, "menuCharacters/dokitogether");
+				var dokis:FunkinSprite = FunkinSprite.createSparrow(310 + FullScreenScaleMode.gameCutoutSize.x / 2, -200, "menuCharacters/dokitogether");
 				dokis.scale.set(0.6, 0.6);
 				dokis.animation.addByPrefix('idle', 'Doki together club', 24, true, false, false);
 				dokis.animation.play('idle', true, false, 0);

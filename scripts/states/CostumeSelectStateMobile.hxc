@@ -45,7 +45,7 @@ typedef CostumeJSON =
 	var list:Array<CostumeCharacter>;
 }
 
-class CostumeSelectState extends MusicBeatState
+class CostumeSelectStateMobile extends MusicBeatState
 {
 	var curSelected:Int = 0;
 	var costumeSelected:Int = 0;

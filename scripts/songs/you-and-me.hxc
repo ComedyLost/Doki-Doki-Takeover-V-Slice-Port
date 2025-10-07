@@ -20,6 +20,7 @@ import funkin.util.FlxTweenUtil;
 import funkin.Highscore;
 import flixel.FlxObject;
 import funkin.util.TouchUtil;
+import flixel.util.FlxColor;
 
 import funkin.audio.FunkinSound;
 import funkin.audio.VoicesGroup;
@@ -51,6 +52,7 @@ class YouAndMeSong extends Song
 	var whiteflash:FlxSprite;
 	var newVocals:FunkinSound;
 	var characterImages:Array<Dynamic>;
+	var ending:Bool = false;
 
 	function new()
 	{
@@ -61,6 +63,8 @@ class YouAndMeSong extends Song
 		super.onCreate(event);
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
+		ending = false;
+
 		characterImages = [];
 
 		dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG')); 
@@ -141,6 +145,23 @@ class YouAndMeSong extends Song
 			characterImages.push(funnySprite);
 			PlayState.instance.currentStage.refresh();
 		}
+	}
+
+	public function onSongEnd(event):Void {
+		super.onSongEnd(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode || PlayState.instance.isChartingMode) return;
+
+		if (ending) return;
+		event.cancel();
+		ending = true;
+    	FlxG.camera.fade(FlxColor.BLACK, 0.6);
+
+    	FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 0.6, {
+        	onComplete: function(_) {
+          		if (PlayState.instance != null) PlayState.instance.endSong(true);
+        	}
+      	});
 	}
 
 	function blackBars(inorout:Bool)

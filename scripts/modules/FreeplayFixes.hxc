@@ -11,6 +11,7 @@ import flixel.util.FlxTimer;
 import funkin.PlayerSettings;
 import funkin.util.TouchUtil;
 import funkin.util.SwipeUtil;
+import funkin.mobile.input.ControlsHandler;
 
 using StringTools;
 
@@ -27,16 +28,8 @@ class FreeplayFixes extends Module {
 
 	override function onSubStateOpenEnd(event) {
         super.onSubStateOpenEnd(event);
-		if (!Std.isOfType(event.targetState, FreeplayState)) return;
+		if (!(event.targetState is FreeplayState)) return;
 		var state = event.targetState;
-		var reset = function () {{ //Needs to be called when DJ does its intro since the game resets the capsule stuff after
-			new FlxTimer().start(0.15, _ -> {
-				curSelected = 0;
-			});
-		}}
-		if (state.dj != null) {
-      		state.dj.onIntroDone.add(reset);
-		}
 		changedCapsules = [];
 		changeSelectionCallback = state.letterSort.changeSelectionCallback;
 		state.letterSort.changeSelectionCallback = (str) -> {
@@ -58,7 +51,7 @@ class FreeplayFixes extends Module {
 	function customDisplay(cap:SongMenuItem) {
 		if (cap?.freeplayData == null) return;
 		cap.weekType.visible = true;
-		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverweektypes'); //Normal text
+		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverweektypes');
 		cap.weekType.animation.addByPrefix('TAKEOVER', 'TAKEOVER text instance 1', 24, false);
 		cap.weekType.animation.addByPrefix('TF', 'what the fuck instance 1', 24, false);
 		switch (cap.freeplayData.data.id) {
@@ -79,7 +72,7 @@ class FreeplayFixes extends Module {
 				case "our-harmony": cap.pixelIcon.setCharacter('monika');
 				case "you-and-me": cap.pixelIcon.setCharacter('protag');
 				case "libitina": cap.pixelIcon.setCharacter('libitina');
-				case 'love-n-funkin':
+				case "love-n-funkin":
 					if (FlxG.state.subState.currentVariation == 'pico') cap.pixelIcon.setCharacter('pico');
 					else cap.pixelIcon.setCharacter('gf');
 			}
@@ -118,16 +111,15 @@ class FreeplayFixes extends Module {
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
 		var switched = PlayerSettings.player1.controls.UI_LEFT_P || PlayerSettings.player1.controls.UI_RIGHT_P;
-		if (curSelected != FlxG.state.subState.curSelected){
-			curSelected = FlxG.state.subState.curSelected;
+		if (!FlxG.onMobile || (FlxG.onMobile && (FlxG.state.subState.draggingDifficulty || ControlsHandler.usingExternalInputDevice))){
 			var curCap = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
 			if (curCap?.freeplayData != null) {
 				switch (curCap.freeplayData.data.id) {
-					case "your-demise": curCap.pixelIcon.setCharacter('monika-epiphany');
-					case 'our-harmony': curCap.pixelIcon.setCharacter('monika');
+					case "your-demise": if (!curCap.pixelIcon.graphic.key.contains("monika-epiphany")) curCap.pixelIcon.setCharacter('monika-epiphany');
+					case 'our-harmony': if (!curCap.pixelIcon.graphic.key.contains("monika")) curCap.pixelIcon.setCharacter('monika');
 					case 'love-n-funkin':
-						if (FlxG.state.subState.currentVariation == 'pico') curCap.pixelIcon.setCharacter('pico');
-						else curCap.pixelIcon.setCharacter('gf');
+						if (FlxG.state.subState.currentVariation == 'pico' && !curCap.pixelIcon.graphic.key.contains("pico")) curCap.pixelIcon.setCharacter('pico');
+						else if (!curCap.pixelIcon.graphic.key.contains("gf")) curCap.pixelIcon.setCharacter('gf');
 				}
 			}
 		}

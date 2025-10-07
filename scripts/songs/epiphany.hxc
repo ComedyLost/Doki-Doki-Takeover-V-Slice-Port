@@ -16,7 +16,7 @@ import funkin.save.Save;
 
 class EpiphanySong extends Song
 {
-	var curLyrics:FlxText;
+	var lyrics:FlxText;
 	var hasPlayedCutscene:Bool;
 	var lyricData:Array<Dynamic>;
 
@@ -61,6 +61,8 @@ class EpiphanySong extends Song
 	public override function onCountdownStart(event:CountdownScriptEvent):Void {
 		super.onCountdownStart(event);
 		PlayState.instance.currentStage.getDad().ignoreExclusionPref = []; //Fixes Monika's glitch animation not playing
+	    if (PlayState.instance.isChartingMode && !hasPlayedCutscene) hasPlayedCutscene = true;
+
 		if (!hasPlayedCutscene && save.freeplayDialogue) {
 			trace('Pausing countdown to play cutscene.');
 	  

@@ -12,6 +12,7 @@ import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
 import funkin.play.components.HealthIcon;
 import funkin.graphics.FunkinSprite;
+import funkin.FunkinMemory;
 
 import funkin.Paths;
 import openfl.utils.Assets;
@@ -268,13 +269,13 @@ class CostumeSwapper extends Module {
 				CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
 
 				var _data = CharacterDataParser.fetchCharacterData(character);
-				FunkinSprite.cacheSparrow(_data.assetPath);
+				FunkinMemory.cacheTexture(Paths.image(_data.assetPath));
 				if (Std.string(_data.renderType) == 'MultiSparrow'){ //Check if character uses multiple spritesheets, so we can cache them too
 					var assetList = [];
 					for (anim in _data.animations) {
 						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){
 							assetList.push(anim.assetPath);
-							FunkinSprite.cacheSparrow(anim.assetPath);
+							FunkinMemory.cacheTexture(Paths.image(anim.assetPath));
 						}
 					}
 				}

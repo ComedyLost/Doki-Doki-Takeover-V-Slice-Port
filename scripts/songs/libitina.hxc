@@ -31,6 +31,7 @@ import funkin.play.GameOverSubState;
 import funkin.audio.FunkinSound;
 import funkin.play.PauseSubState;
 import funkin.play.cutscene.VideoCutscene;
+import funkin.FunkinMemory;
 
 //Worst thing I ever fucking coded
 //Agonizing pain
@@ -110,9 +111,9 @@ class LibitinaSong extends Song
 
 		hasPlayedCutscene = false;
 
-		FunkinSprite.cacheTexture(Paths.image('characters/ghost/LibiIntro_Assets'));
-		FunkinSprite.cacheTexture(Paths.image('characters/ghost/Libitina'));
-		FunkinSprite.cacheTexture(Paths.image('characters/ghost/Libitina_tmp'));
+		FunkinMemory.cacheTexture(Paths.image('characters/ghost/LibiIntro_Assets'));
+		FunkinMemory.cacheTexture(Paths.image('characters/ghost/Libitina'));
+		FunkinMemory.cacheTexture(Paths.image('characters/ghost/Libitina_tmp'));
 
 		camGame2 = new FunkinCamera('playStateCamGame2');
 		FlxG.cameras.add(camGame2, false);

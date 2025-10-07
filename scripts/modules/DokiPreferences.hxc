@@ -43,7 +43,7 @@ class DokiPreferences extends Module
 	function onStateChangeEnd(callback)
 	{
 		super.onStateChangeEnd(callback);
-		if (!Std.is(callback.targetState, OptionsState))
+		if (!(callback.targetState is OptionsState))
 			return;
 		var preferencePage:PreferencesMenu = callback.targetState.optionsCodex.addPage('doki', new PreferencesMenu());
 		preferencePage.onExit.add(function() {
@@ -53,9 +53,16 @@ class DokiPreferences extends Module
 		preferencePage.preferenceDesc = [];
 		preferencePage.items.clear();	
 		preferencePage.preferenceItems.clear();
-		callback.targetState.optionsCodex.pages.get('options').createItem("DDTO Options", function() FlxG.state.optionsCodex.switchPage('doki'));
-		for (item in callback.targetState.optionsCodex.pages.get('options').items){
-			item.y -= 80;
+		var optionspage = callback.targetState.optionsCodex.pages.get('options');
+		var exit = optionspage.items.getItem("EXIT") ?? null;
+		var option = optionspage.createItem("DDTO Options", function() FlxG.state.optionsCodex.switchPage('doki'));
+		if (exit != null) {
+			optionspage.items.members.remove(option);
+			optionspage.items.members.insert(optionspage.items.members.indexOf(exit), option);
+		}
+		for (i in 0...optionspage.items.members.length){
+			var item = optionspage.items.members[i];
+			item.y = 100 + i * 100;
 		}
 
 		if (preferencePage != null) {
@@ -65,12 +72,12 @@ class DokiPreferences extends Module
 			}, save.titlescreen);
 			//Scrapped due to being extremely buggy
 			//Fully scrapped now
-			/*if (!FlxG.onMobile){ //Prevent custom menu on mobile
+			if (!FlxG.onMobile){ //Prevent custom menu on mobile
 				preferencePage.createPrefItemCheckbox("DDTO Menus", "Changes the other menus to be the ones from DDTO.\n(NOT COMPATIBLE WITH OTHER MODS / BASE GAME)", (value) -> {
 					save.menus = value;
 					Save.instance.flush();
 				}, save.menus);
-			}*/
+			}
 			preferencePage.createPrefItemCheckbox("Pixel Perfect Rendering", "Enables pixel perfect rendering for pixel sprites\nlike in pre 0.6.0 FNF versions.", (value) -> {
 				save.pixel = value;
 				Save.instance.flush();
@@ -115,6 +122,7 @@ class DokiPreferences extends Module
 				save.mirror = value;
 				Save.instance.flush();
 			}, save.mirror);*/
+			preferencePage.itemDesc.text = preferencePage.preferenceDesc[preferencePage.items.selectedIndex];
 		}
 	}
 }

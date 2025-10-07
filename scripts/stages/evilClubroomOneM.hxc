@@ -22,8 +22,9 @@ import funkin.util.Constants;
 import funkin.save.Save;
 import funkin.Conductor;
 import flixel.tweens.FlxEase;
+import lime.app.Application;
 
-class EvilClubroomStage extends Stage
+class EvilClubroomOneMStage extends Stage
 {
 	var dokiBackdrop:FlxBackdrop;
 	var space:FlxBackdrop;
@@ -39,7 +40,7 @@ class EvilClubroomStage extends Stage
 
 	function new()
 	{
-		super('evilClubroom');
+		super('evilClubroomOneM');
 
 		save = DokiPreferences.getDokiSave();
 	}
@@ -194,24 +195,25 @@ class EvilClubroomStage extends Stage
 			}
 			switch(event.beat)
 			{
-				case 585:
+				case 656:
 					FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(), {ease: FlxEase.sineIn});
-				case 648:
+				case 719:
 					FlxTween.tween(dokiBackdrop, {alpha: 0.001}, calcSectionLength(0.5), {ease: FlxEase.sineOut});
 					popup.alpha = 1;
 					popup.animation.play('startDeleting');
 					popup.animation.curAnim.frameRate = 24 * PlayState.instance.playbackRate;
-				case 788:
-					var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-					if (opponentStrumline != null){
-						for (arrow in opponentStrumline.members) {
-							FlxTween.cancelTweensOf(arrow);
-							FlxTween.tween(arrow, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
-						}
-					}
-					FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
-				case 790:
-					FlxTween.tween(blackCover, {alpha: 1}, 0.7 * PlayState.instance.playbackRate);
+				case 849:
+					FlxG.autoPause = false;
+					FlxTween.tween(Application.current.window, {opacity: 0}, 0.1 * PlayState.instance.playbackRate);
+					FlxTween.tween(blackCover, {alpha: 1}, 0.1 * PlayState.instance.playbackRate);
+				case 880:
+					if (!PlayState.instance.isChartingMode) FlxG.autoPause = Preferences.autoPause;
+					FlxTween.tween(Application.current.window, {opacity: 1}, 0.1 * PlayState.instance.playbackRate);
+				case 883:
+					getDad().alpha = 1;
+					getDad().visible = true;
+					blackCover.alpha = 0;
+					FlxG.camera.flash(0xFFFFFFFF, 0.4);
 			}
 
 		}			
@@ -219,6 +221,7 @@ class EvilClubroomStage extends Stage
 	function onSongRetry(event:ScriptEvent)
 		{
 			super.onSongRetry(event);
+			Application.current.window.opacity = 1;
 			getDad().dance(true);
 			getDad().alpha = 1;
 			if (popup.animation?.curAnim?.name == 'startDeleting'){

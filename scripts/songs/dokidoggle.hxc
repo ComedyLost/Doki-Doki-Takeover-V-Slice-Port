@@ -34,6 +34,7 @@ import funkin.Conductor;
 import funkin.play.components.HealthIcon;
 import funkin.util.GRhythmUtil;
 import funkin.mobile.input.ControlsHandler;
+import funkin.ui.FullScreenScaleMode;
 
 class DokiDoggleSong extends Song
 {
@@ -49,29 +50,14 @@ class DokiDoggleSong extends Song
 	var iconP3:HealthIcon;
 	var extraStrumline;
 
-	public function onCountdownStart(event):Void {
-		super.onCountdownStart(event);
+	public function onSongLoaded(event):Void {
+		super.onSongLoaded(event);
 		var costume = ModuleHandler.getModule("CostumeSwapper");
 
 		var yuri = costume.scriptCall('getCostumeName', ['yuri']);
 		createExtraOpp(yuri);
 		summonExtraStrumline();
 		if (bfStartingX == null) bfStartingX = PlayState.instance.currentStage.getBoyfriend().originalPosition.x;
-	}
-	
-  	public function listDifficulties(variationId:String, variationIds:Array<String>, showLocked:Bool):Array<String>
-  	{
-		return []; // Temporarily hide due to multiple issues
- 	}
-
-	function onSongEnd(event){
-		if (FlxG.onMobile) return;
-		Strumline.STRUMLINE_SIZE = 104;
-		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
-		if (extraStrumline != null){
-			extraStrumline.kill();
-			extraStrumline = null;	
-		}
 	}
 	
 	override function onDestroy(event) {
@@ -91,9 +77,9 @@ class DokiDoggleSong extends Song
 		var extraNoteData:Array<SongNoteData> = [];
 		var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('extra');
 		if (animChart == null) {
-			if (FlxG.onMobile) return;
-			Strumline.STRUMLINE_SIZE = 104;
-			Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
+			//if (FlxG.onMobile) return;
+			//Strumline.STRUMLINE_SIZE = 104;
+			//Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
 			trace('Initializing Extra Strumline failed; no `extra` chart found for this song.');
 			return;
 		}
@@ -104,6 +90,15 @@ class DokiDoggleSong extends Song
 			}
 		}
 		//The Extra Strumline
+		if (!(FlxG.onMobile && !ControlsHandler.usingExternalInputDevice && Preferences.controlsScheme == 'Arrows')) {
+			PlayState.instance.playerStrumline.kill();
+			PlayState.instance.opponentStrumline.kill();
+	    	PlayState.instance.playerStrumline = new Strumline(PlayState.instance.noteStyle, !PlayState.instance.isBotPlayMode, PlayState.instance.currentChart?.scrollSpeed);
+	    	PlayState.instance.opponentStrumline = new Strumline(PlayState.instance.noteStyle, false, PlayState.instance.currentChart?.scrollSpeed);
+			PlayState.instance.playerStrumline.setNoteSpacing(0.95);
+			PlayState.instance.opponentStrumline.setNoteSpacing(0.95);
+			PlayState.instance.initStrumlines();
+		}
 		var noteStyleIdPlayer:String = PlayState.instance.playerStrumline.noteStyle.id;
 		var noteStylePlayer:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleIdPlayer);
 		extraStrumline = new Strumline(noteStylePlayer, false);
@@ -125,11 +120,16 @@ class DokiDoggleSong extends Song
 			var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
 			var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
 			var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
+			final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
+
 
 			extraStrumline.enterMiniMode(0.4 * amplification);
 			extraStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
-			extraStrumline.x = FlxG.width - extraStrumline.width - Constants.STRUMLINE_X_OFFSET; // Centered style
+			extraStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET + cutoutSize; // Centered style
 			extraStrumline.x += 30;
+			extraStrumline.fadeInArrows();
+		} else {
+			extraStrumline.setNoteSpacing(0.95);
 		}
 	}
 
@@ -137,42 +137,24 @@ class DokiDoggleSong extends Song
 		super.onUpdate(event);
 		if (PlayState.instance == null) return;
 		if (extraStrumline != null) processNotes();
-		if (iconP3 != null){
-			iconP3.updateHealthIcon(HealthIcon.MAXIMUM_HEALTH - PlayState.instance.health);
-			iconP3.offset.y = -10;
-			iconP3.x = (PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01)) - (iconP3.width - HealthIcon.POSITION_OFFSET)) - 75;	
-		}
 	}
-
-	override function onBeatHit(curBeat:Int):Void
-		{
-			// Make the icons bop.
-			if (iconP3 == null) return;
-			if (iconP3.bopEvery != 0 && curBeat % iconP3.bopEvery == 0 && iconP3.isLegacyStyle)
-			{
-				// Make the icon increase in size (the update function causes them to lerp back down).
-				if (iconP3.width > iconP3.height) {
-					iconP3.setGraphicSize(Std.int(iconP3.width + (HealthIcon.HEALTH_ICON_SIZE * iconP3.size.x * HealthIcon.BOP_SCALE)), 0);
-				} else {
-					iconP3.setGraphicSize(0, Std.int(iconP3.height + (HealthIcon.HEALTH_ICON_SIZE * iconP3.size.y * HealthIcon.BOP_SCALE)));
-				}	
-				iconP3.updateHitbox();
-	
-				// Ensure the icon is positioned correctly after updating the hitbox.
-				iconP3.updatePosition();
-			}
-		}	
 
 	function createExtraOpp(name){
 		if (iconP3 != null) iconP3.kill();
-		iconP3 = new HealthIcon('extra', 2);
+		iconP3 = new HealthIcon('extra', 1);
+		var iconData = {
+			id: 'yuri',
+			scale: 0.75,
+			offsets: [75, -25]
+		};
 		iconP3.y = (PlayState.instance.healthBar.y - (iconP3.height / 2)) + 100;
 		iconP3.zIndex = 850;
 		PlayState.instance.add(iconP3);
 		iconP3.cameras = [PlayState.instance.camHUD];
+		iconP3.configure(iconData);
+		iconP3.updateHitbox();
 		iconP3.isLegacyStyle = true;
-		iconP3.loadCharacter('yuri');
-		iconP3.size.set(0.75, 0.75);
+		trace(iconP3.isLegacyStyle);
 		if (extraOpp != null) extraOpp.kill();
 		extraOpp = CharacterDataParser.fetchCharacter(name);
 		if (extraOpp != null) {
@@ -281,6 +263,7 @@ class DokiDoggleSong extends Song
 
 	function onStepHit(event:SongTimeScriptEvent):Void
 		{	
+			iconP3?.onStepHit(Std.int(Conductor.instance.currentStep));
 			if (options.psychholds) stutterNotes();	
 
 			switch(event.step)

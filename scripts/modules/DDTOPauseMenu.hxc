@@ -381,7 +381,7 @@ class DDTOPauseMenu extends Module {
 			super.onSubStateOpenEnd(event);
 			if (Std.isOfType(event.targetState, PauseSubState)) {
 				var state = event.targetState;
-				if (!ddtoStages.contains(PlayState.instance.currentStageId)){
+				if (!ddtoStages.contains(PlayState.instance.currentStageId) || PlayState.instance.isChartingMode){
 					isDoki = false;
 					return;
 				}

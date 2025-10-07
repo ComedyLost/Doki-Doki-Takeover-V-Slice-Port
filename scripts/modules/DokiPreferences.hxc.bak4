@@ -28,164 +28,22 @@ class DokiPreferences extends Module
 		costumesanywhere: false
 	};
 
-	
-	public static var titlescreen(get, set):Bool;
-
-	static function get_titlescreen():Bool {
-    	return save?.titlescreen ?? true;
-  	}
-
- 	static function set_titlescreen(value:Bool):Bool {
-    	save.titlescreen = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var menus(get, set):Bool;
-
-	static function get_menus():Bool {
-    	return save?.menus ?? false;
-  	}
-
- 	static function set_menus(value:Bool):Bool {
-    	save.menus = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var selfaware(get, set):Bool;
-
-	static function get_selfaware():Bool {
-    	return save?.selfaware ?? true;
-  	}
-
- 	static function set_selfaware(value:Bool):Bool {
-    	save.selfaware = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var gfCountdown(get, set):Bool;
-
-	static function get_gfCountdown():Bool {
-    	return save?.gfCountdown ?? true;
-  	}
-
- 	static function set_gfCountdown(value:Bool):Bool {
-    	save.gfCountdown = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var bloom(get, set):Bool;
-
-	static function get_bloom():Bool {
-    	return save?.bloom ?? true;
-  	}
-
- 	static function set_bloom(value:Bool):Bool {
-    	save.bloom = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var freeplayDialogue(get, set):Bool;
-
-	static function get_freeplayDialogue():Bool {
-    	return save?.freeplayDialogue ?? true;
-  	}
-
- 	static function set_freeplayDialogue(value:Bool):Bool {
-    	save.freeplayDialogue = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var cool(get, set):Bool;
-
-	static function get_cool():Bool {
-    	return save?.cool ?? false;
-  	}
-
- 	static function set_cool(value:Bool):Bool {
-    	save.cool = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var markov(get, set):Bool;
-
-	static function get_markov():Bool {
-    	return save?.markov ?? true;
-  	}
-
- 	static function set_markov(value:Bool):Bool {
-    	save.markov = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var random(get, set):Bool;
-
-	static function get_random():Bool {
-    	return save?.random ?? false;
-  	}
-
- 	static function set_random(value:Bool):Bool {
-    	save.random = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var pixel(get, set):Bool;
-
-	static function get_pixel():Bool {
-    	return save?.pixel ?? false;
-  	}
-
- 	static function set_pixel(value:Bool):Bool {
-    	save.pixel = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var psychholds(get, set):Bool;
-
-	static function get_psychholds():Bool {
-    	return save?.psychholds ?? false;
-  	}
-
- 	static function set_psychholds(value:Bool):Bool {
-    	save.psychholds = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
-	public static var costumesanywhere(get, set):Bool;
-
-	static function get_costumesanywhere():Bool {
-    	return save?.costumesanywhere ?? false;
-  	}
-
- 	static function set_costumesanywhere(value:Bool):Bool {
-    	save.costumesanywhere = value;
-    	Save.instance.flush();
-    	return value;
-  	}
-
 	function new(){
         super("DokiPreferences", 1);
 
 		if (!Save.instance.modOptions.exists('TakeoverOptions')) Save.instance.modOptions.set('TakeoverOptions', defaultOptions);
-		trace(Save.instance.modOptions.get('TakeoverOptions'));
 		Save.instance.flush();
 		save = Save?.instance?.modOptions?.get('TakeoverOptions');
     }
+
+	public static function getDokiSave() {
+		return Save?.instance?.modOptions?.get('TakeoverOptions');
+	}
 		
 	function onStateChangeEnd(callback)
 	{
 		super.onStateChangeEnd(callback);
-		if (!Std.is(callback.targetState, OptionsState))
+		if (!(callback.targetState is OptionsState))
 			return;
 		var preferencePage:PreferencesMenu = callback.targetState.optionsCodex.addPage('doki', new PreferencesMenu());
 		preferencePage.onExit.add(function() {
@@ -195,9 +53,13 @@ class DokiPreferences extends Module
 		preferencePage.preferenceDesc = [];
 		preferencePage.items.clear();	
 		preferencePage.preferenceItems.clear();
+		var exit = callback.targetState.optionsCodex.pages.get('options').items.getItem("EXIT") ?? null;
+		if (exit != null) callback.targetState.optionsCodex.pages.get('options').items.remove(exit);
 		callback.targetState.optionsCodex.pages.get('options').createItem("DDTO Options", function() FlxG.state.optionsCodex.switchPage('doki'));
-		for (item in callback.targetState.optionsCodex.pages.get('options').items){
-			item.y -= 80;
+		if (exit != null) callback.targetState.optionsCodex.pages.get('options').items.add(exit);
+		for (i in 0...callback.targetState.optionsCodex.pages.get('options').items.length){
+			var item = callback.targetState.optionsCodex.pages.get('options').items.members[i];
+			item.y = 100 + i * 100;
 		}
 
 		if (preferencePage != null) {
@@ -207,12 +69,12 @@ class DokiPreferences extends Module
 			}, save.titlescreen);
 			//Scrapped due to being extremely buggy
 			//Fully scrapped now
-			/*if (!FlxG.onMobile){ //Prevent custom menu on mobile
+			if (!FlxG.onMobile){ //Prevent custom menu on mobile
 				preferencePage.createPrefItemCheckbox("DDTO Menus", "Changes the other menus to be the ones from DDTO.\n(NOT COMPATIBLE WITH OTHER MODS / BASE GAME)", (value) -> {
 					save.menus = value;
 					Save.instance.flush();
 				}, save.menus);
-			}*/
+			}
 			preferencePage.createPrefItemCheckbox("Pixel Perfect Rendering", "Enables pixel perfect rendering for pixel sprites\nlike in pre 0.6.0 FNF versions.", (value) -> {
 				save.pixel = value;
 				Save.instance.flush();
@@ -257,6 +119,7 @@ class DokiPreferences extends Module
 				save.mirror = value;
 				Save.instance.flush();
 			}, save.mirror);*/
+			preferencePage.itemDesc.text = preferencePage.preferenceDesc[preferencePage.items.selectedIndex];
 		}
 	}
 }

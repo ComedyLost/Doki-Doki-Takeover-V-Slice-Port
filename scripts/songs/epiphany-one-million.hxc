@@ -1,0 +1,50 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import funkin.play.song.Song;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import flixel.util.FlxTimer;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import funkin.play.cutscene.dialogue.DialogueBox;
+import funkin.play.PlayStatePlaylist;
+import flixel.tweens.FlxEase;
+import funkin.save.Save;
+
+class EpiphanyOneMillionSong extends Song
+{
+
+	function new()
+	{
+		super('epiphany-one-million');
+		
+		save = Save.instance.modOptions.get('TakeoverOptions');
+	}
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+	}
+
+	public override function onCountdownStart(event:CountdownScriptEvent):Void {
+		super.onCountdownStart(event);
+		PlayState.instance.currentStage.getDad().ignoreExclusionPref = []; //Fixes Monika's glitch animation not playing
+	}
+
+	function onCreate(event:ScriptEvent) {
+		super.onCreate(event);
+	}
+
+
+	function onStepHit(event:SongTimeScriptEvent):Void {
+		super.onStepHit(event);
+	}
+	
+	function onSongRetry(event:ScriptEvent) {
+		super.onSongRetry(event);
+	}
+}

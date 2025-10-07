@@ -5,6 +5,9 @@ import funkin.util.Constants;
 import flixel.FlxG;
 import funkin.Paths;
 import funkin.util.WindowUtil;
+import openfl.display.BitmapData;
+import lime.app.Application;
+import lime.graphics.Image;
 
 class customTitleBar extends Module
 {
@@ -21,6 +24,7 @@ class customTitleBar extends Module
 		super.onCountdownStart(event);
 		customTitleBar = ddtoStages.contains(PlayState.instance.currentStageId);
 		if (customTitleBar == true){
+			setIcon(Paths.file('dokicon.png'));
 			if (PlayState.instance.currentChart.songName == 'MSTSOOBF') WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - Monika Slaps The Shit Out of Boyfriend');
             else if (PlayState.instance.currentChart.songName == 'Your Demise') WindowUtil.setWindowTitle('Your Demise');
 			else WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - ' + PlayState.instance.currentChart.songName);
@@ -38,11 +42,21 @@ class customTitleBar extends Module
 		Application.current.window.setIcon(icon);
 	}
 
-    override function onDestroy(event) {
-		super.onDestroy(event);
-		if (customTitleBar) {
+    override function onSubStateCloseEnd(event) {
+		super.onSubStateCloseEnd(event);
+		if (customTitleBar && PlayState.instance == null) {
 			WindowUtil.setWindowTitle('Friday Night Funkin\'');
+			setIcon(Paths.file('icon16.png'));
 			customTitleBar = false;
 		}
-	  }
+	}
+
+    override function onStateChangeEnd(event) {
+		super.onStateChangeEnd(event);
+		if (customTitleBar && PlayState.instance == null) {
+			WindowUtil.setWindowTitle('Friday Night Funkin\'');
+			setIcon(Paths.file('icon16.png'));
+			customTitleBar = false;
+		}
+	}
 }
