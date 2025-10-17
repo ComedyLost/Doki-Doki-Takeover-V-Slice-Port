@@ -53,12 +53,14 @@ class DiscordRPCDDTO extends Module
 			default: PlayState.instance.currentChart.characters.opponent;
 		}
 		resetRPC = false;
-		PlayState.instance.discordRPCAlbum = "https://github.com/ComedyLost/DDTODiscordRPC/blob/main/album-covers/" + PlayState.instance.currentChart.album + ".png?raw=true?t=" + timeStamp;
+		if (PlayState.instance.discordRPCAlbum != null)
+			PlayState.instance.discordRPCAlbum = "https://github.com/ComedyLost/DDTODiscordRPC/blob/main/album-covers/" + PlayState.instance.currentChart.album + ".png?raw=true?t=" + timeStamp;
     	changeRPCIcon(icon);
 	}
 
 	function changeRPCIcon(name:String){
 		var timeStamp = Date.now().getTime();
-		PlayState.instance.discordRPCIcon = "https://github.com/ComedyLost/DDTODiscordRPC/blob/main/icons/" + name + ".png?raw=true?t=" + timeStamp;
+		if (PlayState.instance.discordRPCIcon != null)
+			PlayState.instance.discordRPCIcon = "https://github.com/ComedyLost/DDTODiscordRPC/blob/main/icons/" + name + ".png?raw=true?t=" + timeStamp;
 	}
 }

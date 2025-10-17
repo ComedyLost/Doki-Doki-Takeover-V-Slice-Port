@@ -59,29 +59,18 @@ class WiltedStage extends Stage
         camBG.targetOffset = FlxG.camera.targetOffset;
 	}
 
-	function resetCams() {
-		FlxG.cameras.remove(PlayState.instance.camGame, false);
-		FlxG.cameras.add(PlayState.instance.camGame, true);
-		PlayState.instance.camGame.bgColor = 0x00000000;
-
-		FlxG.cameras.remove(PlayState.instance.camHUD, false);
-		FlxG.cameras.add(PlayState.instance.camHUD, false);	
-
-		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
-		FlxG.cameras.add(PlayState.instance.camCutscene, false);
-	}
-
 	override function buildStage()
 		{
 			super.buildStage();
 	        camBG = new FunkinCamera('playStateCamBG');
-			FlxG.cameras.add(camBG, false);
 	        camBG.bgColor = 0x000000;
 
-			camBG.follow(PlayState.instance.cameraFollowPoint, FlxCameraFollowStyle.LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
+			camBG.copyFrom(PlayState.instance.camGame);
 			camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
-	
-			resetCams();
+			
+			FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
+			PlayState.instance.camGame.bgColor = 0x0;
+
 			FunkinSprite.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
 			/*
 			*Old Monika caching system (Here for safe keeping in case the costume system breaks in the future)

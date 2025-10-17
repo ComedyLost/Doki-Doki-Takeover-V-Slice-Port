@@ -152,7 +152,7 @@ class Credits extends Module
             metaIcon = FunkinSprite.create(0, 0, 'songCredits/pen');
         }
         if (PlayState.instance.currentStageId == 'va11halla') metaIcon = FunkinSprite.create(0, 0, 'songCredits/shaker');
-        if (PlayState.instance.currentStageId == 'lbitina') metaIcon = FunkinSprite.create(0, 0, 'songCredits/file');
+        if (PlayState.instance.currentStageId == 'libitina') metaIcon = FunkinSprite.create(0, 0, 'songCredits/file');
         metaIcon.updateHitbox();
         metaIcon.scrollFactor.set();
         metaIcon.scale.set(0.35, 0.35);

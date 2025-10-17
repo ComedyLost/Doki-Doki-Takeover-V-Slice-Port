@@ -20,7 +20,7 @@ class FreeplayTransitionFix extends Module {
 
 		active = false;
 		
-		save = Save.instance.modOptions.get('TakeoverOptions');
+		save = DokiPreferences.getDokiSave();
 	}
 
 	override function onUpdate(event:UpdateScriptEvent) {

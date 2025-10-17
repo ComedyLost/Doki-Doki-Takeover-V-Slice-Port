@@ -48,14 +48,27 @@ class CostumeSwapper extends Module {
 	};
 
 	public static function getDokiCostume() {
+		var copyCostumes = {
+			protagcostume: '',
+			monikacostume: '',
+			yuricostume: '',
+			sayoricostume: '',
+			natsukicostume: '',
+			gfcostume: '',
+			bfcostume: ''
+		};
+		if (!Save.instance.modOptions.exists('CostumesV2')) {
+			Save.instance.modOptions.set('CostumesV2', copyCostumes);
+			Save.instance.flush();
+		}
 		return Save?.instance?.modOptions?.get('CostumesV2');
 	}
 
 	public function new() {
 		super('CostumeSwapper');
-		any = Save.instance.modOptions.get('TakeoverOptions');
-		trace(Save.instance.modOptions.get('TakeoverOptions'));
+		any = DokiPreferences.getDokiSave();
 		if (!Save.instance.modOptions.exists('CostumesV2')) Save.instance.modOptions.set('CostumesV2', defaultCostumes);
+		Save.instance.flush();
 		SaveData = Save.instance.modOptions.get('CostumesV2');
 	}
 
@@ -143,7 +156,7 @@ class CostumeSwapper extends Module {
 	function getCostumeName(character:String){ //For use in songs that add characters manually
 		var json = jsonLoad(character);
 
-		if (json.costumes != null) var costumeArray = json.costumelist;
+		if (json?.costumes != null) var costumeArray = json.costumelist;
 		else return character;
 		
 		var costumeName = checkCostume(json);
@@ -170,7 +183,7 @@ class CostumeSwapper extends Module {
 	function costumeSwap(name:String, replace:String){
 		var json = jsonLoad(name);
 
-		if (json.costumes != null) var costumeArray = json.costumelist;
+		if (json?.costumes != null) var costumeArray = json.costumelist;
 		else return;
 		
 		var costumeName = checkCostume(json);
@@ -196,7 +209,7 @@ class CostumeSwapper extends Module {
 	function checkCostume(jsonFile){
 		var costumeoverride;
 		if (jsonFile == null) return '';
-		switch (jsonFile.costumes){
+		switch (jsonFile?.costumes){
 			case 'protag':
 				costumeoverride = SaveData.protagcostume;
 			case 'monika':
@@ -243,7 +256,7 @@ class CostumeSwapper extends Module {
 		for (events in event.events){
 			if (events.eventKind == 'ChangeCharacterCL'){
 				var json = jsonLoad(events.value.newchar);
-				if (json.costumes == null) continue;
+				if (json?.costumes == null) continue;
 
 				if (checkCostume(json) == '') continue;
 				var costumeArray = json.costumelist;
@@ -286,11 +299,11 @@ class CostumeSwapper extends Module {
 	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
 		{
 			var script = scriptEvent;
-			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter")
-			{
+			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter") {
+				if (scriptEvent.eventCanceled) return;
 				var eventProps = scriptEvent.eventData.value;
 				var json = jsonLoad(eventProps.newchar);
-				if (json.costumes == null || checkCostume(json) == '') return;
+				if (json?.costumes == null || checkCostume(json) == '') return;
 				new FlxTimer().start(0.0001, _ -> { //Add a little delay to stop character glitching when swapping out characters (I have no idea why this fixes it)
 					script.cancelEvent(); // Remove Event if breaks
 					costumeSwap(eventProps.newchar, eventProps.character.toLowerCase());

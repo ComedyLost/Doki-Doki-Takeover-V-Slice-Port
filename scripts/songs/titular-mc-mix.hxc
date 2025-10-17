@@ -133,17 +133,11 @@ class TitularMCMixSong extends Song
 		if (PlayState.instance.isMinimalMode) return;
 
 		camGame2 = new FunkinCamera('playStateCamGame2');
-		FlxG.cameras.add(camGame2, false);
+		FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
 		camGame2.bgColor = 0x000000;
 
 		camGame2.follow(PlayState.instance.cameraFollowPoint, FlxCameraFollowStyle.LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
 		camGame2.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
-
-		FlxG.cameras.remove(PlayState.instance.camHUD, false);
-		FlxG.cameras.add(PlayState.instance.camHUD, false);	
-
-		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
-		FlxG.cameras.add(PlayState.instance.camCutscene, false);
 	}
 
 	public function buildPlayerVoiceList():Array<String>{		  

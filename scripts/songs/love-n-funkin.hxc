@@ -32,7 +32,7 @@ class LoveNFunkinSong extends Song
 	{
 		super('love-n-funkin');
 
-		options = Save.instance.modOptions.get('TakeoverOptions');
+		options = DokiPreferences.getDokiSave();
 	}
 
 	var playStrumDefaultPos = [];
@@ -57,14 +57,8 @@ class LoveNFunkinSong extends Song
 		if (PlayState.instance.isMinimalMode) return;
 
 		camGame2 = new FunkinCamera('playStateCamGame2');
-		FlxG.cameras.add(camGame2, false);
+		FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
 		camGame2.bgColor = 0x000000;
-
-		FlxG.cameras.remove(PlayState.instance.camHUD, false);
-		FlxG.cameras.add(PlayState.instance.camHUD, false);	
-
-		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
-		FlxG.cameras.add(PlayState.instance.camCutscene, false);
 
 		var poemSprite:String = (PlayState.instance.currentVariation == 'pico') ? 'notepad/picohandoatlas' : 'notepad/handoatlas';
 		poemVideo = new FlxAtlasSprite(0, 0, Paths.animateAtlas(poemSprite));
@@ -239,7 +233,7 @@ class LoveNFunkinSong extends Song
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
 
-		PlayState.instance.iconP2.loadCharacter('our-harmony');
+		PlayState.instance.iconP2.loadCharacter('love-n-funkin');
 	}
 
 	function calcSectionLength(duration:Int){
@@ -275,7 +269,7 @@ class LoveNFunkinSong extends Song
 				yuri.dance();
 		}
 		PlayState.instance.cameraZoomRate = 4;
-		PlayState.instance.iconP2.loadCharacter('our-harmony');
+		PlayState.instance.iconP2.loadCharacter('love-n-funkin');
 	}	  
 
 	function onStepHit(event:SongTimeScriptEvent):Void

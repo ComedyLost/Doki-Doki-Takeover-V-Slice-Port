@@ -53,6 +53,8 @@ class CatfightSong extends Song
 			PlayState.instance.currentStage.getBoyfriend().characterType = 3;
 		}
 
+		if (PlayState.instance.isChartingMode) hasPlayedIntroCutscene = hasPlayedOutroCutscene = true;
+
 		if (!hasPlayedIntroCutscene && save.freeplayDialogue) {
 			trace('Pausing countdown to play cutscene.');
 	  
@@ -142,6 +144,19 @@ class CatfightSong extends Song
 		{
 			super.onSongLoaded(event);
 			choseDoki();
+			for (notes in event.notes) {
+				if (notes.kind == "gf") {
+					if (notes.getStrumlineIndex() == 0 && playerCharacter != 'yuri') {
+						Highscore.tallies.totalNotes--;
+						event.notes.remove(notes);
+						continue;	
+					} else if (notes.getStrumlineIndex() == 1  && playerCharacter == 'yuri'){
+						Highscore.tallies.totalNotes--;
+						event.notes.remove(notes);
+						continue;	
+					}
+				}						
+			}
 		}	
 
 	function onSongRetry(event:ScriptEvent)
@@ -202,9 +217,9 @@ class CatfightSong extends Song
 		new FlxTimer().start(0.1, function(tmr:FlxTimer)
 			{
 				if (!isYuri) return;
-				var playerVocals = PlayState.instance.vocals.playerVoices;
-				PlayState.instance.vocals.playerVoices = PlayState.instance.vocals.opponentVoices;
-				PlayState.instance.vocals.opponentVoices = playerVocals;
+				var playerVocals = PlayState.instance.vocals.playerVoices.members[0];
+				PlayState.instance.vocals.playerVoices.members[0] = PlayState.instance.vocals.opponentVoices.members[0];
+				PlayState.instance.vocals.opponentVoices.members[0] = playerVocals;
 				PlayState.instance.healthBar.flipX = true;
 				PlayState.instance.healthBarBG.flipX = true;
 				PlayState.instance.currentStage.getDad().characterType = 3;
@@ -241,10 +256,6 @@ class CatfightSong extends Song
 		{
 			super.onNoteHit(event);
 			if (playerCharacter != 'yuri') return;
-			if (event.note.kind == "gf"){
-				PlayState.instance.vocals.playerVolume = 0; //Both tracks have Sayori's voice, so we need to mute the player when she sings
-				return;
-			}
 			switch(event.note.noteData.getStrumlineIndex())
             {
                 case 0:
@@ -312,23 +323,6 @@ class CatfightSong extends Song
 		return durSeconds;
 	}
 
-	function onNoteIncoming(callback)
-		{
-			if (callback.note.noteData.kind == "gf")
-			{
-				if (callback.note.noteData.getStrumlineIndex() == 0 && playerCharacter != 'yuri') {
-					Highscore.tallies.totalNotes--;
-					callback.note.kill();
-					return;	
-				} else if (callback.note.noteData.getStrumlineIndex() == 1  && playerCharacter == 'yuri'){
-					Highscore.tallies.totalNotes--;
-					callback.note.kill();
-					return;	
-				}
-			}
-		}	
-
-
 	function onStepHit(event:SongTimeScriptEvent):Void
 		{	
 			switch(event.step)
@@ -350,9 +344,7 @@ class CatfightSong extends Song
 				case 1150:
 					PlayState.instance.cameraFollowPoint.setPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y - 125);
 					PlayState.instance.tweenCameraZoom(1.6, calcSectionLength(1), true, FlxEase.expoOut);
-					PlayState.instance.vocals.playerVolume = 0;
 				case 1169:
-					PlayState.instance.vocals.playerVolume = 1;
 					PlayState.instance.tweenCameraZoom(1.05, calcSectionLength(1), true, FlxEase.expoOut);
 				case 1568:
 					PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);

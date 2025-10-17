@@ -147,7 +147,6 @@ class DokiDoggleSong extends Song
 			scale: 0.75,
 			offsets: [75, -25]
 		};
-		iconP3.y = (PlayState.instance.healthBar.y - (iconP3.height / 2)) + 100;
 		iconP3.zIndex = 850;
 		PlayState.instance.add(iconP3);
 		iconP3.cameras = [PlayState.instance.camHUD];

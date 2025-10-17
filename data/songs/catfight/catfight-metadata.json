@@ -20,7 +20,9 @@
       "girlfriend": "sayo-speaker",
       "opponent": "yuri",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": [      ],
+      "opponentVocals": ["yuri", "sayori"],
+      "playerVocals": ["natsuki"]
     },
     "album": "takeover",
     "stage": "clubroom",

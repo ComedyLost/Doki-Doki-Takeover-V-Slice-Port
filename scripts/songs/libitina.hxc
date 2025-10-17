@@ -15,7 +15,6 @@ import flixel.tweens.FlxEase;
 import flixel.FlxSprite;
 import funkin.graphics.FunkinSprite;
 import funkin.Conductor;
-import hxvlc.flixel.FlxVideoSprite;
 import flixel.util.FlxTimer;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
@@ -32,6 +31,7 @@ import funkin.audio.FunkinSound;
 import funkin.play.PauseSubState;
 import funkin.play.cutscene.VideoCutscene;
 import funkin.FunkinMemory;
+import funkin.graphics.video.FunkinVideoSprite;
 
 //Worst thing I ever fucking coded
 //Agonizing pain
@@ -93,9 +93,9 @@ class LibitinaSong extends Song
 	var libFinaleOverlay;
 	var libVignette;
 	var blackScreen:FlxSprite;
-    var rainBG:FlxVideoSprite;
-    var testVM:FlxVideoSprite;
-    var crackBG:FlxVideoSprite;
+    var rainBG:FunkinVideoSprite;
+    var testVM:FunkinVideoSprite;
+    var crackBG:FunkinVideoSprite;
 	var hasPlayedCutscene:Bool;
 
 	function calcSectionLength(duration:Int = 1){
@@ -116,22 +116,16 @@ class LibitinaSong extends Song
 		FunkinMemory.cacheTexture(Paths.image('characters/ghost/Libitina_tmp'));
 
 		camGame2 = new FunkinCamera('playStateCamGame2');
-		FlxG.cameras.add(camGame2, false);
+		FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
 		camGame2.bgColor = 0x000000;
 
 		//Camera Code (commented out since it broke most of the song)
 		//camGame2.follow(PlayState.instance.cameraFollowPoint, FlxCameraFollowStyle.LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
 		//camGame2.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
 
-		FlxG.cameras.remove(PlayState.instance.camHUD, false);
-		FlxG.cameras.add(PlayState.instance.camHUD, false);	
-
 		camOverlay = new FunkinCamera('playStateCamOverlay');
-		FlxG.cameras.add(camOverlay, false);
+		FlxG.cameras.insert(camOverlay, FlxG.cameras.list.indexOf(PlayState.instance.camCutscene), false);
 		camOverlay.bgColor = 0x000000;
-
-		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
-		FlxG.cameras.add(PlayState.instance.camCutscene, false);
 
 		buildStage();
 
@@ -217,7 +211,7 @@ class LibitinaSong extends Song
 		extractPopup.zIndex = 40;
 		stage.add(extractPopup);
 
-		rainBG = new FlxVideoSprite(0, 0);
+		rainBG = new FunkinVideoSprite(0, 0);
 		rainBG.cameras = [camGame2];
 		rainBG.antialiasing = true;
 		rainBG.scrollFactor.set();
@@ -233,10 +227,12 @@ class LibitinaSong extends Song
 		});
 
 		rainBG.bitmap.onEndReached.add(() -> {        
-			if (rainBG.load(Assets.getPath(Paths.videos('rain'), false))) rainBG.play();
+			rainBG.bitmap.stop();
+			rainBG.bitmap.time = 0;
+			rainBG.bitmap.play();		  
 		});
 
-		testVM = new FlxVideoSprite(0, 0);
+		testVM = new FunkinVideoSprite(0, 0);
 		if (testVM.load(Assets.getPath(Paths.videos('testvm'), true))) testVM.play();
 		testVM.scrollFactor.set();
 		testVM.setGraphicSize(Std.int(testVM.width / PlayState.instance.stageZoom));
@@ -247,7 +243,9 @@ class LibitinaSong extends Song
 		stage.add(testVM);
 
 		testVM.bitmap.onEndReached.add(() -> {        
-			if (testVM.load(Assets.getPath(Paths.videos('testvm'), true))) testVM.play();
+			testVM.bitmap.stop();
+			testVM.bitmap.time = 0;
+			testVM.bitmap.play();		  
 		});
 
 
@@ -349,7 +347,7 @@ class LibitinaSong extends Song
 		infoBG2.alpha = 0.001;
 		stage.add(infoBG2);
 
-		crackBG = new FlxVideoSprite(-10, -10);
+		crackBG = new FunkinVideoSprite(-10, -10);
 		if (crackBG.load(Assets.getPath(Paths.videos('crackBG'), true))) crackBG.play();
 		crackBG.scrollFactor.set(0.3, 0.3);
 		crackBG.cameras = [camGame2];
@@ -359,7 +357,9 @@ class LibitinaSong extends Song
 		stage.add(crackBG);
 
 		crackBG.bitmap.onEndReached.add(() -> {        
-			if (crackBG.load(Assets.getPath(Paths.videos('crackBG'), true))) crackBG.play();
+			crackBG.bitmap.stop();
+			crackBG.bitmap.time = 0;
+			crackBG.bitmap.play();		  
 		});
 
 		staticshock = new FlxSprite(0, 0);

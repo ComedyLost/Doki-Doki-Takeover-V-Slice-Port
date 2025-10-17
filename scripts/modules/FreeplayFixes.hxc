@@ -74,7 +74,7 @@ class FreeplayFixes extends Module {
 				case "libitina": cap.pixelIcon.setCharacter('libitina');
 				case "love-n-funkin":
 					if (FlxG.state.subState.currentVariation == 'pico') cap.pixelIcon.setCharacter('pico');
-					else cap.pixelIcon.setCharacter('gf');
+					else if (FlxG.state.subState.currentVariation == 'default') cap.pixelIcon.setCharacter('gf');
 			}
 		}
 	}
@@ -119,7 +119,7 @@ class FreeplayFixes extends Module {
 					case 'our-harmony': if (!curCap.pixelIcon.graphic.key.contains("monika")) curCap.pixelIcon.setCharacter('monika');
 					case 'love-n-funkin':
 						if (FlxG.state.subState.currentVariation == 'pico' && !curCap.pixelIcon.graphic.key.contains("pico")) curCap.pixelIcon.setCharacter('pico');
-						else if (!curCap.pixelIcon.graphic.key.contains("gf")) curCap.pixelIcon.setCharacter('gf');
+						else if (FlxG.state.subState.currentVariation == 'default' && !curCap.pixelIcon.graphic.key.contains("gf")) curCap.pixelIcon.setCharacter('gf');
 				}
 			}
 		}

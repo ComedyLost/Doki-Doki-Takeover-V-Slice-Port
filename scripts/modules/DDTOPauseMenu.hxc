@@ -163,6 +163,7 @@ class DDTOPauseMenu extends Module {
 			case "protag": pauseImg = "protag";
 			case "playablegf": pauseImg = "gf";
 			case "pico-doki": pauseImg = "pico";
+			case "spooky-doki": pauseImg = "spookykids";
 		}
 	}
 

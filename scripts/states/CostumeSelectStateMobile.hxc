@@ -157,12 +157,11 @@ class CostumeSelectStateMobile extends MusicBeatState
 	{
 		FlxG.mouse.visible = true;
 
-		SaveData = Save.instance.modOptions.get('CostumesV2');
-		if (!Save.instance.modOptions.exists('CostumesV2')) Save.instance.modOptions.set('CostumesV2', defaultCostumes);
+		SaveData = CostumeSwapper.getDokiCostume();
 		
 		Save.instance.flush();
 
-		options = Save.instance.modOptions.get('TakeoverOptions');
+		options = DokiPreferences.getDokiSave();
 
 		Conductor.instance.forceBPM(124);
 

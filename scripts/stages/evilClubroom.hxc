@@ -61,27 +61,15 @@ class EvilClubroomStage extends Stage
 			if (save.bloom) camBG.filters = [shader];
 		}
 
-	function resetCams() {
-		FlxG.cameras.remove(PlayState.instance.camGame, false);
-		FlxG.cameras.add(PlayState.instance.camGame, true);
-		PlayState.instance.camGame.bgColor = 0x0;
-
-		FlxG.cameras.remove(PlayState.instance.camHUD, false);
-		FlxG.cameras.add(PlayState.instance.camHUD, false);	
-
-		FlxG.cameras.remove(PlayState.instance.camCutscene, false);
-		FlxG.cameras.add(PlayState.instance.camCutscene, false);
-	}
-
 	override function buildStage()
 		{
 			//I'm never going to fully understand V-Slice coding
 			super.buildStage();
 			camBG = new FunkinCamera('playStateCamBG');
-			FlxG.cameras.add(camBG, false);
 	        camBG.bgColor = 0x000000;
 			camBG.copyFrom(PlayState.instance.camGame);
-			resetCams();
+			FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
+			PlayState.instance.camGame.bgColor = 0x0;
 			getNamedProp('Epiphany Main Lights').blend = 12;
 			getNamedProp('Epiphany Window Lights').cameras = [camBG];
 			getNamedProp('Epiphany BG').cameras = [camBG];

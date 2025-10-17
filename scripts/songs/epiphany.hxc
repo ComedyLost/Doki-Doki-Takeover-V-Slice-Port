@@ -24,7 +24,7 @@ class EpiphanySong extends Song
 	{
 		super('epiphany');
 		
-		save = Save.instance.modOptions.get('TakeoverOptions');
+		save = DokiPreferences.getDokiSave();
 	}
 
 	public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String> {
@@ -49,7 +49,7 @@ class EpiphanySong extends Song
 					if (holdNote == null || !holdNote.alive) continue;
 					
 					// While the hold note is being hit, and there is length on the hold note...
-					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 2)
+					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 100)
 						{
 							// Make sure the opponent keeps singing while the note is held.
 							if (PlayState.instance.currentStage.getDad().isSinging()) PlayState.instance.currentStage.getDad().animation.curAnim.restart();
