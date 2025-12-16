@@ -30,6 +30,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import funkin.PlayerSettings;
 import funkin.save.Save;
+import flixel.FlxState;
 
 class DokiMenuOverrides extends Module
 {
@@ -41,10 +42,27 @@ class DokiMenuOverrides extends Module
 		save = DokiPreferences.getDokiSave();
 	}
 	
+	var redirectStates:Map<FlxState, MusicBeatState> = [
+		MainMenuState => new DokiMainMenuState()
+	];
+	
+	override function onCreate(event) {
+		super.onCreate(event);
+		// FlxG.signals.preStateCreate.add(switchStateOverride);
+	}
+
+	function switchStateOverride(state:FlxState) {
+		for (redirectState in redirectStates.keys()) {
+			if (state is redirectState) {
+				state._requestedSubState = null;
+				FlxG.game._state = redirectStates.get(redirectState);
+			}
+		}
+	}
+
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);
 		if (save?.menus) {
-			//if (!FlxG.signals.preStateSwitch.has(switchStateOverride)) FlxG.signals.preStateSwitch.add(switchStateOverride);
 			if (Std.isOfType(FlxG.state, StoryMenuState)) {
 				
 				if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK) {

@@ -62,7 +62,7 @@ class DokiDoggleSong extends Song
 	
 	override function onDestroy(event) {
 		super.onDestroy(event);
-		if (FlxG.onMobile) return;
+		if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
 		Strumline.STRUMLINE_SIZE = 104;
 		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
 		if (extraStrumline != null){
@@ -249,11 +249,12 @@ class DokiDoggleSong extends Song
 				extraStrumline.clean();
 				extraStrumline.handleSkippedNotes();
 			}
-			if (FlxG.onMobile) return;
-			if (PlayState.instance.playerStrumline.x != FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET)
-				FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width - FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET}, 1.25, {ease: FlxEase.quadInOut});
-			if (PlayState.instance.opponentStrumline.x != Constants.STRUMLINE_X_OFFSET)
-				FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET}, 1.25, {ease: FlxEase.quadInOut});
+			if (FlxG.onMobile && ControlsHandler.usingExternalInputDevice) return;
+			final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
+			if (PlayState.instance.playerStrumline.x != (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0))
+				FlxTween.tween(PlayState.instance.playerStrumline, {x: (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0)}, 1.25, {ease: FlxEase.quadInOut});
+			if (PlayState.instance.opponentStrumline.x != Constants.STRUMLINE_X_OFFSET + cutoutSize)
+				FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET + cutoutSize}, 1.25, {ease: FlxEase.quadInOut});
 			PlayState.instance.currentStage.getGirlfriend().idleSuffix = '-alt';
 			PlayState.instance.currentStage.getBoyfriend().x = bfStartingX;
 			if (extraStrumline.x != 0 - extraStrumline.width)
@@ -268,7 +269,7 @@ class DokiDoggleSong extends Song
 			switch(event.step)
 			{
 				case 192:
-					if (FlxG.onMobile) return;
+					if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
 					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width - PlayState.instance.playerStrumline.width + 5}, 1.25, {ease: FlxEase.quadInOut, onUpdate: function(twn:FlxTween) {
 							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
 								var alpha = covers.alpha;
@@ -304,7 +305,7 @@ class DokiDoggleSong extends Song
 					extraOpp.playAnimation('breath', false, false);
 				case 704:
 					//Add Syor Icon lol
-					FlxTween.tween(PlayState.instance.currentStage.getBoyfriend(), { x: PlayState.instance.currentStage.getBoyfriend().x + 100}, 0.5, { ease: FlxEase.quadOut,});
+					FlxTween.tween(PlayState.instance.currentStage.getBoyfriend(), { x: PlayState.instance.currentStage.getBoyfriend().x + 100}, 0.5, { ease: FlxEase.quadOut});
 				case 832:
 					PlayState.instance.camGame.shake(0.002, calcSectionLength(2));
 			}

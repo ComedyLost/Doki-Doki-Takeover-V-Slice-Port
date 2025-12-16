@@ -246,13 +246,19 @@ class CostumeSwapper extends Module {
 		return Json.parse(rawJson);
 	}
 
+	override function onSubStateOpenEnd(event) {
+		if (event.targetState is PlayState) songLoadCostumeSwap();
+	}
+
+	override function onStateChangeEnd(event) {
+		if (event.targetState is PlayState) songLoadCostumeSwap();
+	}
 
 	//Cache costume textures to prevent lag
 	override function onSongLoaded(event) {
 		super.onSongLoaded(event);
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
-		songLoadCostumeSwap();
 		for (events in event.events){
 			if (events.eventKind == 'ChangeCharacterCL'){
 				var json = jsonLoad(events.value.newchar);

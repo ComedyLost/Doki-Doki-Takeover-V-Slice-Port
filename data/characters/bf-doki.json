@@ -73,12 +73,6 @@
       "offsets": [-13, 12]
     },
     {
-      "name": "cheer",
-      "prefix": "Cheer",
-      "assetPath": "characters/BFCheer",
-      "offsets": [0, 0]
-    },
-    {
       "name": "hit",
       "prefix": "BF hit",
       "offsets": [14, 17]

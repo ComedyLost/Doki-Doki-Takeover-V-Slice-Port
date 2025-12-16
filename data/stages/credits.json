@@ -1,0 +1,103 @@
+{
+  "props": [
+    {
+      "name": "solid",
+      "assetPath": "#FFFFFF",
+      "position": [-500, -1000],
+      "scale": [2400, 2000],
+      "scroll": [0, 0]
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 10,
+      "position": [190, 1060],
+      "scale": [1.25, 1.25],
+      "animType": "sparrow",
+      "name": "Senpai Box Bottom",
+      "isPixel": false,
+      "assetPath": "credits/window_bottom_senpai",
+      "scroll": [1, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 20,
+      "position": [180, 1050],
+      "scale": [1.25, 1.25],
+      "animType": "sparrow",
+      "name": "Senpai Box Top",
+      "isPixel": false,
+      "assetPath": "credits/window_top",
+      "scroll": [1, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 40,
+      "position": [-255, 10],
+      "scale": [1.25, 1.25],
+      "animType": "sparrow",
+      "name": "P2 Box Bottom",
+      "isPixel": false,
+      "assetPath": "credits/window_bottom",
+      "scroll": [1, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 50,
+      "position": [-265, 10],
+      "scale": [1.25, 1.25],
+      "animType": "sparrow",
+      "name": "P2 Box Top",
+      "isPixel": false,
+      "assetPath": "credits/window_top",
+      "scroll": [1, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 70,
+      "position": [665, 10],
+      "scale": [1.25, 1.25],
+      "animType": "sparrow",
+      "name": "P1 Box Bottom",
+      "isPixel": false,
+      "assetPath": "credits/window_bottom_funkin",
+      "scroll": [1, 1],
+      "animations": []
+    },
+    {
+      "danceEvery": 0,
+      "zIndex": 80,
+      "position": [655, 10],
+      "scale": [1.25, 1.25],
+      "animType": "sparrow",
+      "name": "P1 Box Top",
+      "isPixel": false,
+      "assetPath": "credits/window_top",
+      "scroll": [1, 1],
+      "animations": []
+    }
+  ],
+  "cameraZoom": 0.70,
+  "version": "1.0.0",
+  "characters": {
+    "bf": {
+      "zIndex": 90,
+      "position": [1100, 860],
+      "cameraOffsets": [-250, 60]
+    },
+    "dad": {
+      "zIndex": 60,
+      "position": [700, 860],
+      "cameraOffsets": [300, 50]
+    },
+    "gf": {
+      "zIndex": 0,
+      "cameraOffsets": [0, 150],
+      "position": [585, 625]
+    }
+  },
+  "name": "DDTO Credits"
+}

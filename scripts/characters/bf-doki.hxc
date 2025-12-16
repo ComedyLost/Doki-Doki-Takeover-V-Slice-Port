@@ -25,7 +25,6 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 	function new() {
 		super('bf-doki');
 	}
-	
 
 	function onCreate(event:ScriptEvent) {
 		super.onCreate(event);

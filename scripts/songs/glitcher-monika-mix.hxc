@@ -127,7 +127,7 @@ class GlitcherMonikaMixSong extends Song
 				var eventProps = scriptEvent.eventData.value;
 				if (noFestivalMode.contains(eventProps.newchar)){
 					var character = eventProps.character;
-					new FlxTimer().start(0.01, _ -> {
+					new FlxTimer().start(0.0001, _ -> {
 						PlayState.instance.currentStage.getBoyfriend().color = 0xFFFFFFFF;
 						PlayState.instance.currentStage.getGirlfriend().color = 0xFFFFFFFF;
 						PlayState.instance.currentStage.getOpponent().color = 0xFFFFFFFF;

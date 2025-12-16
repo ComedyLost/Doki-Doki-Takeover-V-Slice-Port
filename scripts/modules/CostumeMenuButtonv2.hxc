@@ -15,6 +15,9 @@ import Std;
 import flixel.FlxG;
 
 class CostumeButton extends Module {
+
+	var needToReset:Bool = false;
+	var rememberedSelectedIndex:Int;
 	
   	public function onStateChangeEnd(event) {
 		currentState = event.targetState;
@@ -32,7 +35,9 @@ class CostumeButton extends Module {
 			currentState.menuItems.members.insert(item.ID, item);
 			repositionMenuItems(currentState.menuItems);
 		
-			currentState.menuItems.selectItem(currentState.menuItems.selectedIndex);		
+			currentState.menuItems.selectItem((rememberedSelectedIndex ?? MainMenuState.rememberedSelectedIndex));
+			currentState.resetCamStuff();
+			rememberedSelectedIndex = null;
 		}
 	}
 	
@@ -66,6 +71,14 @@ class CostumeButton extends Module {
       		menuItem.scrollFactor.y = 0.4;
 			menuItem.ID = i;
 			if (menuItem.ID != currentState.menuItems.selectedIndex) menuItem.idle();
+			if (menuItem.ID > 4) { // Reset rememberedSelectedIndex to prevent a crash
+				var oldConfirm = menuItem.callback;
+				menuItem.callback = () -> {
+					oldConfirm();
+					rememberedSelectedIndex = MainMenuState.rememberedSelectedIndex;
+					MainMenuState.rememberedSelectedIndex = 0;
+				}	
+			}
     	}
 	}
 } 

@@ -77,35 +77,34 @@ class FestivalClubroomGlitcherStage extends Stage
 
 	}
 
-	override function buildStage()
-		{
-			super.buildStage();
-			sayori = getNamedProp('BG Sayori');
-			natsuki = getNamedProp('BG Natsuki');		
-			yuri = getNamedProp('BG Yuri');
-			monika = getNamedProp('BG Monika');
-			protag = getNamedProp('BG Protag');
-		}
+	override function buildStage() {
+		super.buildStage();
+		sayori = getNamedProp('BG Sayori');
+		natsuki = getNamedProp('BG Natsuki');		
+		yuri = getNamedProp('BG Yuri');
+		monika = getNamedProp('BG Monika');
+		protag = getNamedProp('BG Protag');
+	}
 
-	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
-		{
-			super.onSongEvent(scriptEvent);
-			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL")
-			{
-				var eventProps = scriptEvent.eventData.value;
-				setDokiPosition(eventProps.newchar.toLowerCase());
-				new FlxTimer().start(0.0001, _ -> {
-					getBoyfriend().color = 0x828282;
-					getGirlfriend().color = 0x828282;
-					getOpponent().color = 0x828282;	
-				});
-				sayori.color = 0x828282;
-				natsuki.color = 0x828282;
-				monika.color = 0x828282;
-				yuri.color = 0x828282;
-				protag.color = 0x828282;		
-			}
+	override function addCharacter(character:BaseCharacter, charType:CharacterType):Void {
+		// Apply the shader automatically to each character as it gets added.
+		super.addCharacter(character, charType);
+		if (noFestivalMod.contains(character.characterId)) return;
+		character.color = 0x828282;
+	}
+
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent) {
+		super.onSongEvent(scriptEvent);
+		if (scriptEvent.eventData.eventKind == "ChangeCharacterCL") {
+			var eventProps = scriptEvent.eventData.value;
+			setDokiPosition(eventProps.newchar.toLowerCase());
+			sayori.color = 0x828282;
+			natsuki.color = 0x828282;
+			monika.color = 0x828282;
+			yuri.color = 0x828282;
+			protag.color = 0x828282;		
 		}
+	}
 
 	public function onGameOver(event):Void {
 		super.onGameOver(event);

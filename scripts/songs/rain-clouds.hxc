@@ -49,7 +49,7 @@ class RainCloudsSong extends Song {
   }
 
   function startVideo() {
-    VideoCutscene.play(Assets.getPath(Paths.videos('sayoIntro')));
+    VideoCutscene.play(Paths.videos('sayoIntro'));
   }
 
   /**

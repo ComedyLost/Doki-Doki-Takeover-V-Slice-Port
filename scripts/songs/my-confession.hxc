@@ -29,7 +29,6 @@ class MyConfessionSong extends Song
 
 	override function onCreate(event) {
 		super.onCreate(event);
-		PlayState.instance.iconP2.animation.addByPrefix("Depressed", "depression arc", 24, false);
 		hasPlayedIntroCutscene = false;
 		staticshock = new FlxSprite();
 		staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
@@ -71,10 +70,6 @@ class MyConfessionSong extends Song
 
 	function onStepHit(event:SongTimeScriptEvent):Void
 		{	
-			if (event.step % 4 == 0 && PlayState.instance.iconP2.getCurrentAnimation('Depressed')){
-				PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2);
-            	PlayState.instance.iconP2.x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01)) - (PlayState.instance.iconP2.width - 26);
-			}
 			switch(event.step)
 			{
 				case 749:
@@ -85,10 +80,10 @@ class MyConfessionSong extends Song
 						PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
 					staticshock.visible = true;
 					vignette.alpha = 0.2;
-					PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2);
-            		PlayState.instance.iconP2.x = PlayState.instance.healthBar.x + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01)) - (PlayState.instance.iconP2.width - 26);
             		PlayState.instance.iconP2.updateHitbox();
-					PlayState.instance.iconP2.playAnimation("Depressed");
+					if (!PlayState.instance.iconP2.hasAnimation('Depressed'))
+						PlayState.instance.iconP2.animation.addByPrefix("Depressed", "depression arc", 24, false);
+					PlayState.instance.iconP2.playAnimation("Depressed", null, true);
             		PlayState.instance.iconP2.autoUpdate = false;
 				case 768:
 					vignette.alpha = 0;

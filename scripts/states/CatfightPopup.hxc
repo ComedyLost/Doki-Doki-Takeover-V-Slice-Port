@@ -79,7 +79,7 @@ class CatfightPopup extends MusicBeatSubState
 
 		if (canpressbuttons)
 		{
-			if (PlayerSettings.player1.controls.BACK)
+			if (PlayerSettings.player1.controls.BACK_P)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 	
@@ -110,7 +110,7 @@ class CatfightPopup extends MusicBeatSubState
 			if (PlayerSettings.player1.controls.NOTE_LEFT_P) changeItem(-1);
 			if (PlayerSettings.player1.controls.NOTE_RIGHT_P) changeItem(1);
 	
-			if (PlayerSettings.player1.controls.ACCEPT)
+			if (PlayerSettings.player1.controls.ACCEPT_P)
 			{
 				ModuleHandler.getModule("CatFightFreeplayFix").scriptCall('detectYuri', [curSelected]);
 				close();

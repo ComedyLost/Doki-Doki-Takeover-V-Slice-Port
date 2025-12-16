@@ -1,0 +1,105 @@
+import flixel.FlxG;
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import flixel.FlxSprite;
+import funkin.audio.FunkinSound;
+import funkin.Paths;
+import funkin.play.song.Song;
+import funkin.Conductor;
+import funkin.util.FlxTweenUtil;
+import funkin.play.PlayStatePlaylist;
+import flixel.util.FlxColor;
+
+class NeetSong extends Song
+{
+	function new()
+	{
+		super('neet');
+	}
+
+	var spotlight:FlxSprite;
+	var shakeCamera:Bool = false;
+	var hasPlayedIntroCutscene:Bool;
+
+	var sayori:FlxSprite;
+	var natsuki:FlxSprite;	
+	var yuri:FlxSprite;
+	var monika:FlxSprite;
+	var protag:FlxSprite;
+	var deskfront:FlxSprite;
+	var blackScreenBG:FlxSprite;
+
+	override function onCreate(event) {
+		super.onCreate(event);
+		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+		if (PlayState.instance.isMinimalMode) return;
+
+		var stage = PlayState.instance.currentStage;
+
+		blackScreenBG = new FlxSprite(-FlxG.width * FlxG.camera.zoom,
+			-FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+		blackScreenBG.alpha = 0.0001;
+		blackScreenBG.zIndex = 54;
+		blackScreenBG.scrollFactor.set();
+		PlayState.instance.currentStage.add(blackScreenBG);
+
+		spotlight = new FlxSprite(-700, -520).loadGraphic(Paths.image('clubroom/NEETspotlight'));
+		spotlight.setGraphicSize(Std.int(spotlight.width * 1.6));
+		spotlight.alpha = 0.001;
+		spotlight.blend = 12;
+		spotlight.zIndex = 55;
+		spotlight.updateHitbox();
+		PlayState.instance.currentStage.add(spotlight);
+		PlayState.instance.currentStage.refresh();
+
+		sayori = stage.getNamedProp('BG Sayori');
+		natsuki = stage.getNamedProp('BG Natsuki');		
+		yuri = stage.getNamedProp('BG Yuri');
+		monika = stage.getNamedProp('BG Monika');
+		protag = stage.getNamedProp('BG Protag');
+		deskfront = stage.getNamedProp('Front Desks');
+	}
+
+	function calcSectionLength(duration:Int){
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * (duration ?? 1))) / 1000;
+		return durSeconds;
+	}
+
+	function onSongRetry(event:ScriptEvent) {
+		super.onSongRetry(event);
+	  
+		hasPlayedIntroCutscene = true;
+	}	  
+
+	function onStepHit(event:SongTimeScriptEvent):Void {	
+		switch(event.step) {
+			case 384:
+				PlayState.instance.currentStage.getGirlfriend().alpha = 0.001;
+				deskfront.alpha = 0.001;
+				blackScreenBG.alpha = 0.98;
+				spotlight.alpha = 1;
+				FunkinSound.playOnce(Paths.sound('spotlight'));
+			case 512:
+				PlayState.instance.currentStage.getGirlfriend().alpha = 1;
+				deskfront.alpha = 1;
+
+				for (dokis in [sayori, yuri, monika, natsuki]) {
+					dokis.alpha = 1;
+				}
+
+				spotlight.alpha = 0;
+				blackScreenBG.alpha = 0;
+				FunkinSound.playOnce(Paths.sound('spotlight'), 0.5);
+		}
+	}
+	
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		PlayState.instance.currentStage.getGirlfriend().alpha = 1;
+		blackScreenBG.alpha = 0.0001;
+		spotlight.alpha = 0.001;
+		for (dokis in [sayori, yuri, monika, natsuki]) {
+			dokis.alpha = 0.001;
+		}
+	}
+}

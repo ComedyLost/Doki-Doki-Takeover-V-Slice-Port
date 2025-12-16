@@ -166,7 +166,7 @@ class BaraNoYumeSong extends Song {
 		}
 
 	function startVideo() {
-		VideoCutscene.play(Assets.getPath(Paths.videos('monika')), CutsceneType.ENDING);
+		VideoCutscene.play(Paths.videos('monika'), CutsceneType.ENDING);
 		// This will call onSongEnd() again so make sure the flag is set!
 		var bgSprite = new FunkinSprite(-100, -100);
 		bgSprite.makeSolidColor(2000, 2500, 0xFF000000);

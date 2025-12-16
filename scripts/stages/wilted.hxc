@@ -29,6 +29,7 @@ import funkin.util.Constants;
 import funkin.Preferences;
 import funkin.Highscore;
 import flixel.FlxCameraFollowStyle;
+import funkin.FunkinMemory;
 
 class WiltedStage extends Stage
 {
@@ -46,6 +47,7 @@ class WiltedStage extends Stage
 	var camBG:FunkinCamera;
 	var fish = new FlxRuntimeShader(Assets.getText(Paths.frag("FishEyeShader")));
     var fishshader = new ShaderFilter(fish);
+	var faded:Bool = false;
 
 	var staticShader = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
     var shader = new ShaderFilter(staticShader);
@@ -67,11 +69,12 @@ class WiltedStage extends Stage
 
 			camBG.copyFrom(PlayState.instance.camGame);
 			camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
-			
+			camBG.follow(PlayState.instance.cameraFollowPoint, null, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
+
 			FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
 			PlayState.instance.camGame.bgColor = 0x0;
 
-			FunkinSprite.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
+			FunkinMemory.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
 			/*
 			*Old Monika caching system (Here for safe keeping in case the costume system breaks in the future)
 			FunkinSprite.cacheTexture(Paths.image('characters/monikanew'));
@@ -148,13 +151,14 @@ class WiltedStage extends Stage
 		camBG.zoom = 0.7;
 		fish.setFloat('warp', -1.5);
 		fish.setFloat('scan', 0);
-		PlayState.instance.cameraFollowPoint.setPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y);
-		FlxG.camera.follow(PlayState.instance.cameraFollowPoint, null, 1);
+		PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x = getNamedProp('Wilted Window').x + (getNamedProp('Wilted Window').width) / 2;
+		PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y = getNamedProp('Wilted Window').y + (getNamedProp('Wilted Window').height) / 2;
+		PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y, 0);
 		//FlxG.camera.follow(PlayState.instance.currentStage.getGirlfriend(), null, 1);
 		PlayState.instance.currentStage.getGirlfriend().alpha = 0;
 	}	
 
-	function glitchEffect(){
+	function glitchEffect() {
 		//I got the real shaders to work
 		PlayState.instance.camGame.filters = [shader];
 		new FlxTimer().start(0.2, function(e:FlxTimer){
@@ -220,17 +224,22 @@ class WiltedStage extends Stage
 					});		
 				case 1100:
 					// Fade to black
+					faded = true;
 					FlxG.camera.fade(0xFF000000, 0.7);
 			}
 		}
 	function onSongRetry(event:ScriptEvent)
 		{
 			super.onSongRetry(event);
+			PlayState.instance.tweenCameraToPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y, 0);
+			//FlxG.camera.follow(PlayState.instance.currentStage.getGirlfriend(), null, 1);
+			PlayState.instance.currentStage.getGirlfriend().alpha = 0;	
 			if (PlayState.instance.playerStrumline.noteStyle.id.toLowerCase() != 'ddto')
 				ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapPlayerStrumlines', ['ddto']);
 			if (PlayState.instance.opponentStrumline.noteStyle.id.toLowerCase() != 'ddtopixel')
 				ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapOpponentStrumlines', ['ddtopixel']);
-			FlxG.camera.fade(0xFF000000, 0.7, true);
+			if (faded) FlxG.camera.fade(0xFF000000, 0.7, true);
+			faded = false;
 			getNamedProp('Wilted Window').loadGraphic(Paths.image('wilt/p1'));
 			getNamedProp('Wilted BG').loadGraphic(Paths.image('wilt/bg'));
 			getNamedProp('Wilted BG').alpha = 1;

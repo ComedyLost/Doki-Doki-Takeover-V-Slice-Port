@@ -12,12 +12,18 @@ import funkin.PlayerSettings;
 import funkin.util.TouchUtil;
 import funkin.util.SwipeUtil;
 import funkin.mobile.input.ControlsHandler;
+import funkin.data.song.SongRegistry;
+import funkin.util.FileUtil;
+import funkin.modding.PolymodHandler;
+import funkin.util.Constants;
 
 using StringTools;
 
 class FreeplayFixes extends Module {
 	public function new(){
 		super('FreeplayFixes', 1, {state: FreeplayState});
+
+		save = DokiPreferences.getDokiSave();
 	}
 
 	var ddtolevelids = ['DDTOWeek1', 'DDTOWeek2', 'DDTOWeek3', 'DDTOWeek4', 'DDTOWeek5', 'DDTOWeek6', 'DDTOWeek7', 'DDTOWeek8', 'DDTOWeekDoggle', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories', 'fuckidk'];
@@ -48,8 +54,56 @@ class FreeplayFixes extends Module {
 		}	
 	}
 
+	function findDDTOFolder(){
+		for (mod in PolymodHandler.getAllMods()) {
+			trace(mod.id);
+			if (mod.title == 'Doki Doki Takeover Plus') 
+				return 'mods/' + mod.id + '/';
+		}
+	}
+
+	function file(path:String) {
+		return findDDTOFolder() + path;
+	}
+
+	function dokiCheck(cap:SongMenuItem, originalCallback:Void->Void) {
+		var curSong = cap?.freeplayData?.data;
+		if (curSong == null) return;
+		FlxG.state.subState.persistentUpdate = false;
+		FlxG.state.subState.controls.active = false;
+		var variations:Array<String> = curSong.getVariationsByCharacterId(FreeplayState.rememberedCharacterId);
+		var playerChar = curSong.getDifficulty(FreeplayState.rememberedDifficulty, null, variations)?.characters.player ?? '';	
+		for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
+			if (playerChar.contains(dokis)) {
+				if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr')) ?? false) {
+					FlxG.state.subState.openSubState(new DokiMissingSubState());
+				} else {
+					originalCallback();
+				}
+				break;
+			}
+		}
+	}
+
 	function customDisplay(cap:SongMenuItem) {
 		if (cap?.freeplayData == null) return;
+		if (!FlxG.onMobile) {
+			var capsule = cap; // oh...
+			for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
+				var curSong = cap?.freeplayData?.data;
+				if (curSong == null) break;
+				if (curSong.id == 'catfight') break;
+				var variations:Array<String> = curSong.getVariationsByCharacterId(FreeplayState.rememberedCharacterId);
+				var playerChar = curSong.getDifficulty(FreeplayState.rememberedDifficulty, null, variations)?.characters.player ?? '';	
+				if (playerChar.contains(dokis) && save?.chrcheck) {
+					var original:Void->Void = capsule.onConfirm;
+					capsule.onConfirm = function() {
+						if (FlxG.state.subState.controls.active) dokiCheck(capsule, original);
+					};		
+					break;	
+				}
+			}	
+		}
 		cap.weekType.visible = true;
 		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverweektypes');
 		cap.weekType.animation.addByPrefix('TAKEOVER', 'TAKEOVER text instance 1', 24, false);
@@ -71,10 +125,11 @@ class FreeplayFixes extends Module {
 				case "your-demise": cap.pixelIcon.setCharacter('monika-epiphany');
 				case "our-harmony": cap.pixelIcon.setCharacter('monika');
 				case "you-and-me": cap.pixelIcon.setCharacter('protag');
+				case "constricted": cap.pixelIcon.setCharacter('sayori');
 				case "libitina": cap.pixelIcon.setCharacter('libitina');
 				case "love-n-funkin":
 					if (FlxG.state.subState.currentVariation == 'pico') cap.pixelIcon.setCharacter('pico');
-					else if (FlxG.state.subState.currentVariation == 'default') cap.pixelIcon.setCharacter('gf');
+					else if (FlxG.state.subState.currentVariation == Constants.DEFAULT_VARIATION) cap.pixelIcon.setCharacter('gf');
 			}
 		}
 	}

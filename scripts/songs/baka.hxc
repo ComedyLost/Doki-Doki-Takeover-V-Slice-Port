@@ -27,6 +27,7 @@ class BakaSong extends Song
 	var bakaOverlay:FlxSprite;
 	var shakeCamera:Bool = false;
 	var hasPlayedIntroCutscene:Bool;
+	var backupShake;
 
 	//Planned to add the instrumental swapping from base game, but it sounded like shit
 	//If you want to re-enable remove the /* and */ from the function below
@@ -100,7 +101,23 @@ class BakaSong extends Song
 			startDialogue();
 		  }
 		});
-	  }	
+	}
+
+	override function onPause(event) {
+		super.onPause(event);
+		if (FlxG.camera._fxShakeDuration > 0) {
+			backupShake = FlxG.camera._fxShakeDuration;
+			FlxG.camera._fxShakeDuration = 0;
+		}
+	}
+
+	override function onResume(event) {
+		super.onResume(event);
+		if (backupShake != null) {
+			FlxG.camera._fxShakeDuration = backupShake;
+			backupShake = null;
+		}
+	}
 
 	function onStepHit(event:SongTimeScriptEvent):Void
 		{	

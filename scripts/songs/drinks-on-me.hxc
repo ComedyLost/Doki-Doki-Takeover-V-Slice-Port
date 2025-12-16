@@ -19,6 +19,8 @@ import funkin.play.Countdown;
 import funkin.save.Save;
 import funkin.effects.RetroCameraFade;
 import Date;
+import funkin.mobile.input.ControlsHandler;
+import funkin.ui.FullScreenScaleMode;
 
 class DrinksOnMeSong extends Song
 {
@@ -83,8 +85,11 @@ class DrinksOnMeSong extends Song
 		PlayState.instance.cameraZoomRate = 0;
 		blackScreen.alpha = 1;
 		encoreTime = 0;
-		if (!FlxG.onMobile) PlayState.instance.playerStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET;
-		if (!FlxG.onMobile) PlayState.instance.opponentStrumline.x = Constants.STRUMLINE_X_OFFSET;
+		final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
+		if (!FlxG.onMobile || (FlxG.onMobile && ControlsHandler.usingExternalInputDevice)) 
+			PlayState.instance.opponentStrumline.x = Constants.STRUMLINE_X_OFFSET + cutoutSize;
+		if (!FlxG.onMobile || (FlxG.onMobile && ControlsHandler.usingExternalInputDevice)) 
+			PlayState.instance.playerStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0);
 		new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
 			{
 				Countdown.skipCountdown();
@@ -224,7 +229,7 @@ class DrinksOnMeSong extends Song
 				case 769:
 					PlayState.instance.tweenCameraZoom(0.85, calcSectionLength(1), true, FlxEase.expoOut);
 				case 1008: // wow they're singing together
-					if (FlxG.onMobile) return;
+					if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
 					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2, alpha: 1}, 2.5,
 						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
 							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
@@ -249,8 +254,9 @@ class DrinksOnMeSong extends Song
 					encoreTime = 4;
 				case 1144: // singing their own sections now
 					// Reverse placement
-					if (FlxG.onMobile) return;
-					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET, alpha: 1}, 2.5,
+					if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
+					final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
+					FlxTween.tween(PlayState.instance.playerStrumline, {x: (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0), alpha: 1}, 2.5,
 						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
 							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
 								var alpha = covers.alpha;
@@ -260,7 +266,7 @@ class DrinksOnMeSong extends Song
 								covers.visible = visible;
 							}
 						}});
-					FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET, alpha: 1}, 2.5,
+					FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET + cutoutSize, alpha: 1}, 2.5,
 						{ease: FlxEase.smootherStepInOut, onUpdate: function(twn:FlxTween) {
 							for (covers in PlayState.instance.opponentStrumline.noteHoldCovers) {
 								var alpha = covers.alpha;

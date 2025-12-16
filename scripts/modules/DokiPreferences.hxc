@@ -16,6 +16,7 @@ class DokiPreferences extends Module
 	var defaultOptions = {
 		titlescreen: Save.instance.modOptions?.get('TakeoverOptions')?.titlescreen ?? true,
 		menus: Save.instance.modOptions?.get('TakeoverOptions')?.menus ?? false,
+		chrcheck: Save.instance.modOptions?.get('TakeoverOptions')?.chrcheck ?? true,
 		selfaware: Save.instance.modOptions?.get('TakeoverOptions')?.selfaware ?? true,
 		gfCountdown: Save.instance.modOptions?.get('TakeoverOptions')?.gfCountdown ?? true,
 		bloom: Save.instance.modOptions?.get('TakeoverOptions')?.bloom ?? true,
@@ -40,6 +41,7 @@ class DokiPreferences extends Module
 		var copyOptions = {
 			titlescreen: Save.instance.modOptions?.get('TakeoverOptions')?.titlescreen ?? true,
 			menus: Save.instance.modOptions?.get('TakeoverOptions')?.menus ?? false,
+			chrcheck: Save.instance.modOptions?.get('TakeoverOptions')?.chrcheck ?? true,
 			selfaware: Save.instance.modOptions?.get('TakeoverOptions')?.selfaware ?? true,
 			gfCountdown: Save.instance.modOptions?.get('TakeoverOptions')?.gfCountdown ?? true,
 			bloom: Save.instance.modOptions?.get('TakeoverOptions')?.bloom ?? true,
@@ -90,11 +92,18 @@ class DokiPreferences extends Module
 			}, save.titlescreen);
 			//Scrapped due to being extremely buggy
 			//Fully scrapped now
-			if (!FlxG.onMobile){ //Prevent custom menu on mobile
+			/*if (!FlxG.onMobile){ //Prevent custom menu on mobile
 				preferencePage.createPrefItemCheckbox("DDTO Menus", "Changes the other menus to be the ones from DDTO.\n(NOT COMPATIBLE WITH OTHER MODS / BASE GAME)", (value) -> {
 					save.menus = value;
 					Save.instance.flush();
 				}, save.menus);
+			}*/
+			//Scrapped mechanic would cause crashes if file isn't already in location
+			if (!FlxG.onMobile) {
+				preferencePage.createPrefItemCheckbox("CHR File Check", "Checks if the Dokis have their .chr files in the 'chrs' folder. (DISABLE IF YOU RUN INTO ANY ISSUES)", (value) -> {
+					save.chrcheck = value;
+					Save.instance.flush();
+				}, save.chrcheck);	
 			}
 			preferencePage.createPrefItemCheckbox("Pixel Perfect Rendering", "Enables pixel perfect rendering for pixel sprites\nlike in pre 0.6.0 FNF versions.", (value) -> {
 				save.pixel = value;

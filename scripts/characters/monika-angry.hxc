@@ -10,9 +10,9 @@ class MonikaAngryCharacter extends SparrowCharacter {
 
 	override function onAdd() {
 		if (!debug && this.characterType == CharacterType.DAD) {
-      // If Girlfriend is the opponent, set her position to the stage's assigned Girlfriend position,
-      // while maintaining her status as an opponent. This allows the Girlfriend character to use a shared
-      // character file without weird offsets.
+      		// If Girlfriend is the opponent, set her position to the stage's assigned Girlfriend position,
+      		// while maintaining her status as an opponent. This allows the Girlfriend character to use a shared
+      		// character file without weird offsets.
 
 			var pos:FlxPoint = PlayState.instance.currentStage.getGirlfriendPosition();
 

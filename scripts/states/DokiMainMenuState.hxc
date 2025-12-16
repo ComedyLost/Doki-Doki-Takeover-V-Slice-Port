@@ -279,10 +279,10 @@ class DokiMainMenuState extends MusicBeatState
 				changeItem(1);
 			}	
 			
-			if (controls.RESET)
+			if (controls.RESET_P)
 				FlxG.resetState();
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT_P)
 				selectThing();
 		}
 

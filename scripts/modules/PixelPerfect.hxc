@@ -13,11 +13,11 @@ import funkin.play.song.Song;
 import flixel.util.FlxTimer;
 import funkin.save.Save;
 
-class PixelPerfectStage extends Module
+class PixelPerfectDokiStage extends Module
 {
 	function new()
 		{
-			super('PixelPerfect');
+			super('PixelPerfectDoki');
 
 			save = DokiPreferences.getDokiSave();
 		}    

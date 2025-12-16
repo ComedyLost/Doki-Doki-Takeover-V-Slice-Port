@@ -28,6 +28,7 @@ class FestivalClubroomStage extends Stage
 
 	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
     var shader = new ShaderFilter(bloom);
+	var noFestivalMod:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
 
 	function setDokiPosition(character:String){
 		natsuki.alpha = 1;
@@ -76,15 +77,21 @@ class FestivalClubroomStage extends Stage
 
 	}
 
-	override function buildStage()
-		{
-			super.buildStage();
-			sayori = getNamedProp('BG Sayori');
-			natsuki = getNamedProp('BG Natsuki');		
-			yuri = getNamedProp('BG Yuri');
-			monika = getNamedProp('BG Monika');
-			protag = getNamedProp('BG Protag');
-		}
+	override function buildStage() {
+		super.buildStage();
+		sayori = getNamedProp('BG Sayori');
+		natsuki = getNamedProp('BG Natsuki');		
+		yuri = getNamedProp('BG Yuri');
+		monika = getNamedProp('BG Monika');
+		protag = getNamedProp('BG Protag');
+	}
+
+	override function addCharacter(character:BaseCharacter, charType:CharacterType):Void {
+		// Apply the shader automatically to each character as it gets added.
+		super.addCharacter(character, charType);
+		if (noFestivalMod.contains(character.characterId)) return;
+		character.color = 0x828282;
+	}
 
 	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
 		{
@@ -93,11 +100,6 @@ class FestivalClubroomStage extends Stage
 			{
 				var eventProps = scriptEvent.eventData.value;
 				setDokiPosition(eventProps.newchar.toLowerCase());
-				new FlxTimer().start(0.0001, _ -> {
-					getBoyfriend().color = 0x828282;
-					getGirlfriend().color = 0x828282;
-					getOpponent().color = 0x828282;	
-				});
 				sayori.color = 0x828282;
 				natsuki.color = 0x828282;
 				monika.color = 0x828282;

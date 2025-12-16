@@ -23,7 +23,6 @@ import funkin.modding.module.Module;
 import funkin.graphics.FunkinCamera;
 import flixel.group.FlxTypedSpriteGroup;
 import funkin.modding.module.Module;
-import funkin.graphics.adobeanimate.FlxAtlasSprite;
 import StringTools;
 
 class LoveNFunkinSong extends Song
@@ -61,8 +60,7 @@ class LoveNFunkinSong extends Song
 		camGame2.bgColor = 0x000000;
 
 		var poemSprite:String = (PlayState.instance.currentVariation == 'pico') ? 'notepad/picohandoatlas' : 'notepad/handoatlas';
-		poemVideo = new FlxAtlasSprite(0, 0, Paths.animateAtlas(poemSprite));
-		poemVideo.showPivot = false;
+		poemVideo = FunkinSprite.createTextureAtlas(0, 0, poemSprite, null, {applyStageMatrix: true});
 		poemVideo.anim.addBySymbol('hando', 'lnf video');
 		poemVideo.anim.play('hando');
 		poemVideo.scrollFactor.set();

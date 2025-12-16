@@ -139,6 +139,7 @@ class EpiphanySong extends Song
 		lyrics.screenCenter(0x01);
 		lyrics.y = (FlxG.height * 0.72);
 		lyrics.borderSize = 1.25;
+		lyrics.zIndex = 999999999;
 		lyrics.cameras = [PlayState.instance.camHUD];
 		PlayState.instance.add(lyrics);
 	}

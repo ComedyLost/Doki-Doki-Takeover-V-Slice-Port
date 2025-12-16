@@ -6,6 +6,7 @@ import funkin.util.ReflectUtil;
 import funkin.ui.freeplay.SongMenuItem;
 import funkin.audio.FunkinSound;
 import funkin.modding.base.ScriptedMusicBeatSubState;
+import funkin.modding.ModStore;
 
 class CatFightFreeplayFix extends Module {
 	public function new(){
@@ -35,6 +36,7 @@ class CatFightFreeplayFix extends Module {
 		//Sets variable based on what player chose and runs the song loading code
 		isYuri = (int == 0 ? true : false);
 		if (isYuri) FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected].pixelIcon.setCharacter('natsuki');
+		ModStore.stores.set('catfightIsYuri', isYuri);
 		FlxG.state.subState.capsuleOnConfirmDefault(FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected]);
 	}
 }

@@ -2,7 +2,6 @@ import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 import funkin.modding.events.SongLoadScriptEvent;
 import funkin.play.PlayState;
-import funkin.graphics.FunkinSprite;
 
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
@@ -29,13 +28,13 @@ class CharacterResetHandlerCL extends Module {
 			if (events.eventKind == 'ChangeCharacterCL'){
 				useEvent = true;
 				var _data = CharacterDataParser.fetchCharacterData(events.value.newchar);
-				FunkinSprite.cacheSparrow(_data.assetPath);
+				FunkinMemory.cacheTexture(Paths.image(_data.assetPath));
 				if (Std.string(_data.renderType) == 'MultiSparrow'){
 					var assetList = [];
 					for (anim in _data.animations) {
 						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){
 							assetList.push(anim.assetPath);
-							FunkinSprite.cacheSparrow(anim.assetPath);
+							FunkinMemory.cacheTexture(Paths.image(anim.assetPath));
 						}
 					}
 				}

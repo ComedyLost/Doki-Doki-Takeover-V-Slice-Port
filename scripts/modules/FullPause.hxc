@@ -27,8 +27,10 @@ class FullPause extends Module
 		super.onSongRetry(event);
         //Make sure this only works on DDTO stages to prevent mod incompatibilities
 		if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
-		FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.finished = true);
-		FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.finished = true);
+		//FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.finished = true);
+		//FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.finished = true);
+		FlxTimer.globalManager.clear();
+		FlxTween.globalManager.completeAll();
 	}		
 
     //Resume all tweens and timers when returning
