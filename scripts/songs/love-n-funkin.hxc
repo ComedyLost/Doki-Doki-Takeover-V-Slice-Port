@@ -61,7 +61,8 @@ class LoveNFunkinSong extends Song
 
 		var poemSprite:String = (PlayState.instance.currentVariation == 'pico') ? 'notepad/picohandoatlas' : 'notepad/handoatlas';
 		poemVideo = FunkinSprite.createTextureAtlas(0, 0, poemSprite, null, {applyStageMatrix: true});
-		poemVideo.anim.addBySymbol('hando', 'lnf video');
+		if (PlayState.instance.currentVariation == 'pico') poemVideo.anim.addBySymbol('hando', 'lnf video Pico');
+		else poemVideo.anim.addBySymbol('hando', 'lnf video');
 		poemVideo.anim.play('hando');
 		poemVideo.scrollFactor.set();
 		poemVideo.setGraphicSize(Std.int(poemVideo.width / PlayState.instance.stageZoom));
@@ -181,6 +182,7 @@ class LoveNFunkinSong extends Song
 	}
 	function createDokis(){
 		if (yuri != null || natsuki != null || monika != null) return;
+		PlayState.instance.iconP2.loadCharacter('love-n-funkin');
 		var costume = ModuleHandler.getModule("CostumeSwapper");
 
 		var natsukiName = costume.scriptCall('getCostumeName', ['natsuki']);

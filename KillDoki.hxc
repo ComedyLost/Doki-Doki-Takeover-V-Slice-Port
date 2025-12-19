@@ -103,8 +103,9 @@ class KillDoki extends Module
 	override function onCountdownStart(event) {
 		super.onCountdownStart(event);
 		deadDoki = false;
+		if (event.eventCanceled) return;
 		if (!save.chrcheck) return;
-		currentName = PlayState.instance.currentStage.getDad().characterId;
+		currentName = PlayState.instance?.currentStage?.getDad()?.characterId;
 		for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
 			if (PlayState.instance.currentStage.getDad().characterId.contains(dokis)) {
 				if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr'))) {

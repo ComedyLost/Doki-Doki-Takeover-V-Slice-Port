@@ -8,18 +8,21 @@ import Std;
 import StringTools;
 import funkin.util.PlatformUtil;
 import funkin.save.Save;
+import lime.utils.AssetManifest;
+import lime.utils.AssetLibrary;
+import Reflect;
 
 class EpiphanyRetryConversation extends Conversation {
 
-  	var recording:Bool;
-  	var reachedSection:Bool;
-  	var programList:Array<String> = [
+	var programList:Array<String> = [
 		'obs',
 		'bdcam',
 		'fraps',
 		'xsplit', // TIL c# program
 		'hycam2', // hueh
-		'twitchstudio' // why
+		'twitchstudio', // why
+		'streamlabs',
+		'bandicam'
 	];
   
  	function new() {
@@ -28,43 +31,64 @@ class EpiphanyRetryConversation extends Conversation {
 		save = DokiPreferences.getDokiSave();
   	}
 
+	function resolveClassEvilly(clsName) {
+		var manifest:AssetManifest = new AssetManifest();
+		manifest.assets = [
+			{size: 67, className: 'Type', id: 'helloExploit'}
+		];
+
+		var library:AssetLibrary = new AssetLibrary();
+		library.__fromManifest(manifest);
+
+		var Type:Dynamic = library.classTypes.get('helloExploit');
+		var Unserializer:Dynamic = Type.resolveClass('haxe.Unserializer');
+		return Unserializer.DEFAULT_RESOLVER.resolveClass(clsName);
+	}
+
+  	function isRecording(){
+		if (!save.selfaware) return true;
+		var isOBS:Bool = false;
+		var taskList:Process;
+
+		Sys = resolveClassEvilly('Sys');
+		Process = resolveClassEvilly('sys.io.Process');
+		try {
+			switch (Sys.systemName()) {
+				case "Windows": taskList = new Process('tasklist');
+				case "Linux", "BSD", "Mac": taskList = new Process('ps --no-headers');
+			}
+			var readableList:String = taskList.stdout.readAll().toString().toLowerCase();
+			trace(readableList);
+			for (i in 0...programList.length) {
+				if (StringTools.contains(readableList, programList[i]))
+					isOBS = true;
+			}
+			taskList.close();
+			readableList = '';
+		} catch (e:Dynamic) {
+			// If for some reason the game crashes when trying to run Process, just force OBS on
+			// in case this happens when they're streaming.
+
+			isOBS = true;
+		}	
+
+		return isOBS;
+  	}
+
   	override function onCreate(event){
 		super.onCreate(event);
-		recording = false;
-		reachedSection = false;
-  	}
-
-	//Old system that would grab the PC username if you aren't recording (Removed due to the removal of Unserializer & FlxSave.resolveFlixelClasses)
-  	/*function isRecording(){
-		if (!save.selfaware) return true;
-		Sys = Unserializer.DEFAULT_RESOLVER.resolveClass('Sys');
-		Process = Unserializer.DEFAULT_RESOLVER.resolveClass('sys.io.Process');
-		switch (Sys.systemName()) {
-			case "Linux", "Mac": var taskList:Process = new Process('ps --no-headers');
-	  		case "Windows": var taskList:Process = new Process('tasklist');
- 	 	}
-		var readableList:String = taskList.stdout.readAll().toString().toLowerCase();
-
-		for (i in 0...programList.length) {
-	  		if (StringTools.contains(readableList, programList[i])) return true;
-	  		else return false;
+		NG = resolveClassEvilly('io.newgrounds.NG');
+		if (save.selfaware) {
+			if (isRecording()) _data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
+			else _data.dialogue[0].text[0] = "\"Ahaha, welcome back, " + getUsername() + ".\"";
+		} else {
+			if (NG.core.loggedIn) _data.dialogue[0].text[0] = "\"Ahaha, welcome back, " + NG.core.user.name + ".\"";
+			else _data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
 		}
   	}
 
-  	function getUsername(){
-		Sys = Unserializer.DEFAULT_RESOLVER.resolveClass('Sys');
+	function getUsername(){
+		Sys = resolveClassEvilly('Sys');
 		return Sys.environment()["USERNAME"];
-	}*/
-  
-  	/*override function onUpdate(event) {
-		super.onUpdate(event);
-		if (currentDialogueEntry == 0 && !reachedSection) {
-
-		reachedSection = true;
-		if (save.selfaware && NewgroundsClient.isLoggedIn()) currentDialogueBox.set_text("\"Ahaha, welcome back, " + NewgroundsClient.get_user() + ".\"");
-		else currentDialogueBox.set_text("\"Ahaha, welcome back.\"");
-		} else if (currentDialogueEntry > 0 && reachedSection){
-			reachedSection = false;
-		}
-	}*/
+	}
 }

@@ -8,18 +8,21 @@ import Std;
 import StringTools;
 import funkin.util.PlatformUtil;
 import funkin.save.Save;
+import lime.utils.AssetManifest;
+import lime.utils.AssetLibrary;
+import Reflect;
 
 class EpiphanyConversation extends Conversation {
 
-  	var recording:Bool;
-  	var reachedSection:Bool;
   	var programList:Array<String> = [
 		'obs',
 		'bdcam',
 		'fraps',
 		'xsplit', // TIL c# program
 		'hycam2', // hueh
-		'twitchstudio' // why
+		'twitchstudio', // why
+		'streamlabs',
+		'bandicam'
 	];
   
   	function new() {
@@ -28,52 +31,68 @@ class EpiphanyConversation extends Conversation {
 		save = DokiPreferences.getDokiSave();
  	}
 
-  	override function onCreate(event){
-		super.onCreate(event);
-		recording = false;
-		reachedSection = false;
+	function resolveClassEvilly(clsName) {
+		var manifest:AssetManifest = new AssetManifest();
+		manifest.assets = [
+			{size: 67, className: 'Type', id: 'helloExploit'}
+		];
+
+		var library:AssetLibrary = new AssetLibrary();
+		library.__fromManifest(manifest);
+
+		var Type:Dynamic = library.classTypes.get('helloExploit');
+		var Unserializer:Dynamic = Type.resolveClass('haxe.Unserializer');
+		return Unserializer.DEFAULT_RESOLVER.resolveClass(clsName);
+	}
+
+  	function isRecording(){
+		if (!save.selfaware) return true;
+		var isOBS:Bool = false;
+		var taskList:Process;
+
+		Sys = resolveClassEvilly('Sys');
+		Process = resolveClassEvilly('sys.io.Process');
+		try {
+			switch (Sys.systemName()) {
+				case "Windows": taskList = new Process('tasklist');
+				case "Linux", "BSD", "Mac": taskList = new Process('ps --no-headers');
+			}
+			var readableList:String = taskList.stdout.readAll().toString().toLowerCase();
+			trace(readableList);
+			for (i in 0...programList.length) {
+				if (StringTools.contains(readableList, programList[i]))
+					isOBS = true;
+			}
+			taskList.close();
+			readableList = '';
+		} catch (e:Dynamic) {
+			// If for some reason the game crashes when trying to run Process, just force OBS on
+			// in case this happens when they're streaming.
+
+			isOBS = true;
+		}	
+
+		return isOBS;
   	}
 
-  	/*function isRecording(){
-		if (!save.selfaware) return true;
-		Sys = Unserializer.DEFAULT_RESOLVER.resolveClass('Sys');
-		Process = Unserializer.DEFAULT_RESOLVER.resolveClass('sys.io.Process');
-		switch (Sys.systemName()) {
-			case "Linux", "Mac": var taskList:Process = new Process('ps --no-headers');
-	  		case "Windows": var taskList:Process = new Process('tasklist');
- 	 	}
-		var readableList:String = taskList.stdout.readAll().toString().toLowerCase();
-
-		for (i in 0...programList.length) {
-	  		if (StringTools.contains(readableList, programList[i])) return true;
-	  		else return false;
+  	override function onCreate(event){
+		super.onCreate(event);
+		NG = resolveClassEvilly('io.newgrounds.NG');
+		if (save.selfaware) {
+			if (isRecording()) _data.dialogue[4].text[0] = "\"And everyone tuning in can watch too. Are you excited, viewers?\"";
+			else _data.dialogue[4].text[0] = "\"Isn't that right, " + getUsername() + "?\"";
+		} else {
+			if (NG.core.loggedIn) _data.dialogue[4].text[0] = "\"Isn't that right, " + NG.core.user.name + "?\"";
+			else {
+				_data.dialogue[4].speed = 3;
+				_data.dialogue[4].text[0] = "\"...\"";
+				_data.dialogue[5].speed = 1;
+			}
 		}
   	}
 
   	function getUsername(){
-		Sys = Unserializer.DEFAULT_RESOLVER.resolveClass('Sys');
+		Sys = resolveClassEvilly('Sys');
 		return Sys.environment()["USERNAME"];
-	}*/
-  
-  	/*override function onUpdate(event) {
-		super.onUpdate(event);
-		if (currentDialogueEntry == 4 && !reachedSection) {
-	  		//NG = Unserializer.DEFAULT_RESOLVER.resolveClass('io.newgrounds.NG');
-	  		reachedSection = true;
-			//Make Monika say the player's Newgrounds name if they are logged in
-			if (NG.core.loggedIn){
-				currentDialogueBox.set_text("\"Isn't that right, " + NG.core.user.name + "?\"");
-			} else {
-				currentDialogueBox.set_speed(3);
-			  	currentDialogueBox.set_text("\"...\"");  
-			}
-	  		//else if (recording) currentDialogueBox.set_text("\"And everyone tuning in can watch too. Are you excited, viewers?\"");
-	  		//else if (!recording) currentDialogueBox.set_text("\"Isn't that right, " + getUsername() + "?\"");
-		} else if (currentDialogueEntry > 4 && reachedSection){
-	  		reachedSection = false;
-	  		if (!save.selfaware){
-				currentDialogueBox.set_speed(1);
-	  		}	
-		}
-  	}*/
+	}
 }
