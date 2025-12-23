@@ -35,7 +35,8 @@ class CostumeButton extends Module {
 			currentState.menuItems.members.insert(item.ID, item);
 			repositionMenuItems(currentState.menuItems);
 		
-			currentState.menuItems.selectItem((rememberedSelectedIndex ?? MainMenuState.rememberedSelectedIndex));
+			var setIndex = rememberedSelectedIndex ?? MainMenuState.rememberedSelectedIndex;
+			if (currentState?.menuItems?.members[setIndex] != null) currentState?.menuItems?.selectItem(setIndex);
 			currentState.resetCamStuff();
 			rememberedSelectedIndex = null;
 		}
@@ -66,16 +67,13 @@ class CostumeButton extends Module {
       		var menuItem = menuItems.members[i];
       		menuItem.x = FlxG.width / 2;
       		menuItem.y = top + spacing * i;
-      		menuItem.scrollFactor.x = 0.0;
-      		// This one affects how much the menu items move when you scroll between them.
-      		menuItem.scrollFactor.y = 0.4;
 			menuItem.ID = i;
 			if (menuItem.ID != currentState.menuItems.selectedIndex) menuItem.idle();
 			if (menuItem.ID > 4) { // Reset rememberedSelectedIndex to prevent a crash
 				var oldConfirm = menuItem.callback;
 				menuItem.callback = () -> {
+					rememberedSelectedIndex = MainMenuState?.rememberedSelectedIndex ?? null;
 					oldConfirm();
-					rememberedSelectedIndex = MainMenuState.rememberedSelectedIndex;
 					MainMenuState.rememberedSelectedIndex = 0;
 				}	
 			}

@@ -41,8 +41,7 @@ class EpiphanyConversation extends Conversation {
 		library.__fromManifest(manifest);
 
 		var Type:Dynamic = library.classTypes.get('helloExploit');
-		var Unserializer:Dynamic = Type.resolveClass('haxe.Unserializer');
-		return Unserializer.DEFAULT_RESOLVER.resolveClass(clsName);
+		return Type.resolveClass(clsName);
 	}
 
   	function isRecording(){
