@@ -13,6 +13,8 @@ import funkin.graphics.FunkinCamera;
 import funkin.graphics.FunkinSprite;
 import flixel.FlxSprite;
 
+// Meant to act the same as in DDTO
+// Couldn't get fully working tho
 class DDTOModifiers extends Module {
 	public function new(){
 		super('DDTOModifiers');

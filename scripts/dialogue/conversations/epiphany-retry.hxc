@@ -8,9 +8,10 @@ import Std;
 import StringTools;
 import funkin.util.PlatformUtil;
 import funkin.save.Save;
-import lime.utils.AssetManifest;
-import lime.utils.AssetLibrary;
+// import lime.utils.AssetManifest;
+// import lime.utils.AssetLibrary;
 import Reflect;
+import funkin.modding.ModStore;
 
 class EpiphanyRetryConversation extends Conversation {
 
@@ -31,7 +32,7 @@ class EpiphanyRetryConversation extends Conversation {
 		save = DokiPreferences.getDokiSave();
   	}
 
-	function resolveClassEvilly(clsName) {
+	/*function resolveClassEvilly(clsName) {
 		var manifest:AssetManifest = new AssetManifest();
 		manifest.assets = [
 			{size: 67, className: 'Type', id: 'helloExploit'}
@@ -42,9 +43,9 @@ class EpiphanyRetryConversation extends Conversation {
 
 		var Type:Dynamic = library.classTypes.get('helloExploit');
 		return Type.resolveClass(clsName);
-	}
+	}*/
 
-  	function isRecording(){
+  	/*function isRecording(){
 		if (!save.selfaware) return true;
 		var isOBS:Bool = false;
 		var taskList:Process;
@@ -72,11 +73,15 @@ class EpiphanyRetryConversation extends Conversation {
 		}	
 
 		return isOBS;
-  	}
+  	}*/
+
+	function isRecording() { // All bypasses murdered :pensive:
+		return ModStore.get('really.long.package.discord.ng.username') != null;
+	}
 
   	override function onCreate(event){
 		super.onCreate(event);
-		NG = resolveClassEvilly('io.newgrounds.NG');
+		// NG = resolveClassEvilly('io.newgrounds.NG');
 		if (save.selfaware) {
 			if (isRecording()) _data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
 			else _data.dialogue[0].text[0] = "\"Ahaha, welcome back, " + getUsername() + ".\"";
@@ -87,7 +92,8 @@ class EpiphanyRetryConversation extends Conversation {
   	}
 
 	function getUsername(){
-		Sys = resolveClassEvilly('Sys');
-		return Sys.environment()["USERNAME"];
+		if (ModStore.get('really.long.package.discord.ng.username') != null) return ModStore.get('really.long.package.discord.ng.username');
+		// Sys = resolveClassEvilly('Sys');
+		// return Sys.environment()["USERNAME"];
 	}
 }

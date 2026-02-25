@@ -48,7 +48,7 @@ class DualDemiseSong extends Song
 		createSpirit();
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;
 	}
@@ -77,7 +77,7 @@ class DualDemiseSong extends Song
 			  
 		}
 
-	function stutterNotes(elapsed:Float):Void
+	function stutterNotes(?elapsed:Float):Void
 		{
 			// Process hold notes on the opponent's side.
 			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
@@ -104,6 +104,7 @@ class DualDemiseSong extends Song
 				switch (Std.parseInt(eventProps.char)) {
 					case 2:
 						scriptEvent.cancel();
+						scriptEvent.eventData.activated = true;
 						PlayState.instance.resetCamera(false, false, false);
 						PlayState.instance.cancelCameraFollowTween();				
 						var spiritPoint = spirit.cameraFocusPoint;

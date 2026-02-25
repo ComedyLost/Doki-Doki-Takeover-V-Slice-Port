@@ -29,7 +29,7 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 	function onCreate(event:ScriptEvent) {
 		super.onCreate(event);
 		this.alpha = 1;
-		PlayState.instance.resetCamera(false, true);
+		PlayState.instance?.resetCamera(false, true);
 		curSong = PlayState.instance.currentSong.id.toLowerCase();
 		epiphany = false;
 		epiphanyLyrics = false;
@@ -140,7 +140,7 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 	function onSongRetry(event:ScriptEvent)
 		{
 			super.onSongRetry(event);
-			PlayState.instance.resetCamera(false, true);
+			PlayState.instance?.resetCamera(false, true);
 			this.alpha = 1;
 		}
 }

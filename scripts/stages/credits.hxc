@@ -48,7 +48,7 @@ class CreditsStage extends Stage
     var fishshader = new ShaderFilter(fish);
 
 	var staticShader = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
-    var shader = new ShaderFilter(staticShader);
+    var shaderstat = new ShaderFilter(staticShader);
 
 	override function onUpdate(event:UpdateScriptEvent) {
 		super.onUpdate(event);

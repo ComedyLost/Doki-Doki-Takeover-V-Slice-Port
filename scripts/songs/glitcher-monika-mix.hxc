@@ -23,7 +23,7 @@ class GlitcherMonikaMixSong extends Song
 	var pixel = new FlxRuntimeShader(Assets.getText(Paths.frag("PixelShader")));
     var pixelshader = new ShaderFilter(pixel);
 	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
-    var shader = new ShaderFilter(bloom);
+    var shaderstat = new ShaderFilter(bloom);
 	var pixelTween:FlxTween;
 	var noFestivalMode:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
 
@@ -38,7 +38,7 @@ class GlitcherMonikaMixSong extends Song
 		super.onUpdate(event);
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		if (duration == null) duration = 1;
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;
@@ -54,6 +54,7 @@ class GlitcherMonikaMixSong extends Song
 				case 128:
 					ModuleHandler.getModule('Credits').scriptCall('tweenOut');
 				case 566, 822, 1078, 1334: // Start glitch
+					if (!PlayState.instance.camGame.filters?.contains(pixelshader)) PlayState.instance.camGame.filters.push(pixelshader);
 					pixel.setFloat('strength', 0.0);
 					pixelTween = FlxTween.num(0, 2.7, calcSectionLength(0.7), {ease: FlxEase.quadOut}, function(num) { pixel.setFloat('strength', num); });
 				case 576, 1088: // End Glitch to pixel
@@ -93,7 +94,7 @@ class GlitcherMonikaMixSong extends Song
 		for (bgDokis in [stage.getNamedProp('BG Sayori'), stage.getNamedProp('BG Yuri'), stage.getNamedProp('BG Natsuki'), stage.getNamedProp('BG Monika'), stage.getNamedProp('BG Protag')]){
 			bgDokis.visible = false;
 		}
-		bloom.setFloat('funthreshhold', 1);
+		PlayState.instance.currentStage.bloom.setFloat('funthreshhold', 1);
 	}
 
 	function becomefumo(){
@@ -116,7 +117,7 @@ class GlitcherMonikaMixSong extends Song
 		for (bgDokis in [stage.getNamedProp('BG Sayori'), stage.getNamedProp('BG Yuri'), stage.getNamedProp('BG Natsuki'), stage.getNamedProp('BG Monika'), stage.getNamedProp('BG Protag')]){
 			bgDokis.visible = true;
 		}
-		bloom.setFloat('funthreshhold', 0.8);
+		PlayState.instance.currentStage.bloom.setFloat('funthreshhold', 0.8);
 	}
 
 	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
@@ -161,7 +162,7 @@ class GlitcherMonikaMixSong extends Song
 							case 'dad':
 								var pos = [525, 950];
 								var camPos = [160, -50];
-								PlayState.instance.currentStage.scriptCall('setDokiPosition', [eventProps.newchar]);
+								PlayState.instance.currentStage.setDokiPosition(eventProps.newchar);
 								PlayState.instance.currentStage.getOpponent().resetPosition();
 								PlayState.instance.currentStage.getOpponent().updateHitbox();
 								PlayState.instance.currentStage.getOpponent().resetCameraFocusPoint();
@@ -176,7 +177,7 @@ class GlitcherMonikaMixSong extends Song
 					});	
 				} else {
 					new FlxTimer().start(0.01, _ -> {
-						if (eventProps.character == 'dad') PlayState.instance.currentStage.scriptCall('setDokiPosition', [eventProps.newchar]);
+						if (eventProps.character == 'dad') PlayState.instance.currentStage.setDokiPosition(eventProps.newchar);
 						PlayState.instance.currentStage.getBoyfriend().color = 0x828282;
 						PlayState.instance.currentStage.getGirlfriend().color = 0x828282;
 						PlayState.instance.currentStage.getOpponent().color = 0x828282;	
@@ -194,7 +195,7 @@ class GlitcherMonikaMixSong extends Song
 		bloom.setFloat('funbrightness', 7); 
 		pixel.setFloat('strength', 0.0);
 		var filters = switch (save.bloom){
-			case true: [shader, pixelshader];
+			case true: [PlayState.instance.currentStage.shaderstat, pixelshader];
 			case false: [pixelshader];
 		}
 		PlayState.instance.camGame.filters = filters;

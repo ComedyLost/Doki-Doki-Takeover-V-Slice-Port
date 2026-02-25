@@ -80,45 +80,41 @@ class ObsessionSong extends Song
 		whiteflash.zIndex = 1500;
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(duration:Int) {
 		if (duration == null) duration = 1;
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;
 	}
 
+	function onStepHit(event:SongTimeScriptEvent):Void {
+		switch(event.step) {
+			case 480:
+				PlayState.instance.tweenCameraZoom(1.5, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, false, FlxEase.linear);
+				staticshock.visible = true;
+				staticshock.alpha = 0;
+				FlxTween.tween(staticshock, {alpha: 1}, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, {
+					ease: FlxEase.linear,
+					onComplete: function(tween:FlxTween) {
+						staticshock.alpha = 0.1;
+					}
+				});
+			case 544:
+				PlayState.instance.add(whiteflash);
+				PlayState.instance.add(blackScreen);
+				FlxG.sound.play(Paths.sound('Lights_Shut_off'), 0.7);
+				PlayState.instance.currentChart.stickerPack = 'yuricrazy';
+			case 552:
+				blackScreenBG.alpha = 0.8;
+				PlayState.instance.currentStage.getBoyfriend().x = PlayState.instance.currentStage.getDad().x + 250;
+				vignette.alpha = 0.6;
+			case 568:
+				FlxTween.tween(whiteflash, {alpha: 0.15}, calcSectionLength(0.75), {ease: FlxEase.sineOut});
+				PlayState.instance.remove(blackScreen);
+			case 848:
+				blackScreentwo.visible = true;
 
-	function onStepHit(event:SongTimeScriptEvent):Void
-		{	
-			switch(event.step)
-			{
-				case 480:
-					PlayState.instance.tweenCameraZoom(1.5, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, false, FlxEase.linear);
-					staticshock.visible = true;
-					staticshock.alpha = 0;
-					FlxTween.tween(staticshock, {alpha: 1}, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, {
-						ease: FlxEase.linear,
-						onComplete: function(tween:FlxTween)
-						{
-							staticshock.alpha = 0.1;
-						}
-					});
-				case 544:
-					PlayState.instance.add(whiteflash);
-					PlayState.instance.add(blackScreen);
-					FlxG.sound.play(Paths.sound('Lights_Shut_off'), 0.7);
-					PlayState.instance.currentChart.stickerPack = 'yuricrazy';
-				case 552:
-					blackScreenBG.alpha = 0.8;
-					PlayState.instance.currentStage.getBoyfriend().x = PlayState.instance.currentStage.getDad().x + 250;
-					vignette.alpha = 0.6;
-				case 568:
-					FlxTween.tween(whiteflash, {alpha: 0.15}, calcSectionLength(0.75), {ease: FlxEase.sineOut});
-					PlayState.instance.remove(blackScreen);
-				case 848:
-					blackScreentwo.visible = true;
-
-			}
 		}
+	}
 	
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);

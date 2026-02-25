@@ -48,7 +48,7 @@ class ConstrictedSong extends Song
 		PlayState.instance.refresh();
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * (duration ?? 1))) / 1000;
 		return durSeconds;
 	}

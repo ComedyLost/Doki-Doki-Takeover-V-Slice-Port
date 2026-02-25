@@ -8,6 +8,7 @@ import funkin.graphics.FunkinCamera;
 import funkin.modding.module.ModuleHandler;
 import funkin.modding.module.Module;
 import funkin.util.TouchUtil;
+import funkin.ui.UIState;
 
 class DokiMissingSubState extends MusicBeatSubState
 {
@@ -51,7 +52,7 @@ class DokiMissingSubState extends MusicBeatSubState
 		if ((PlayerSettings.player1.controls.ACCEPT || TouchUtil.pressAction(error, mainCam, false)) && canpressbuttons) {
 			FlxG.sound.play(Paths.sound('cancelMenuDoki'));
 			FlxG.state.subState.persistentUpdate = true;
-			FlxG.state.subState.controls.active = true;
+			FlxG.state.subState.uiStateMachine.transition(UIState.Idle);
 			close();
 		}
 	}

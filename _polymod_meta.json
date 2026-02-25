@@ -8,6 +8,10 @@
       "url": "https://www.youtube.com/channel/UCGUHN_tmfSFAzKa3hOhHT-Q"
     },
     {
+      "name": "MightyTheArmiddilo",
+      "role": "Coded the Discord Name Grabber"
+    },
+    {
       "name": "MC07",
       "role": "Cleaned up BF-Doki, Custom notes, Custom BF and Sayori icons, Quality control",
       "url": "https://www.youtube.com/channel/UCxDMikIUN_gryDEjF2de3GQ"
@@ -38,7 +42,7 @@
       "url": "https://gamebanana.com/mods/47364"
     }
   ],
-  "api_version": "0.6.3",
+  "api_version": "0.8.0",
   "mod_version": "0.5.3",
   "license": "Apache-2.0"
 }

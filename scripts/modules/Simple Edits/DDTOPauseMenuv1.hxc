@@ -143,7 +143,7 @@ class DDTOPauseMenu extends Module {
 				FlxTween.tween(songText, {x: textX}, 1.2 + (entryIndex * 0.2), {
 					ease: FlxEase.elasticOut
 				});
-				changeSelection();
+				changeSelection(0);
 			}    
 	}
 
@@ -248,7 +248,7 @@ class DDTOPauseMenu extends Module {
 				FlxTween.tween(songText, {x: textX}, 1.2 + (entryIndex * 0.2), {
 					ease: FlxEase.elasticOut
 				});
-				changeSelection();
+				changeSelection(0);
 			}    
 	}
 
@@ -311,7 +311,7 @@ class DDTOPauseMenu extends Module {
 				FlxTween.tween(songText, {x: textX}, 1.2 + (entryIndex * 0.2), {
 					ease: FlxEase.elasticOut
 				});
-				changeSelection();
+				changeSelection(0);
 			}    
 	}
 
@@ -354,7 +354,7 @@ class DDTOPauseMenu extends Module {
 					ease: FlxEase.elasticOut
 				});
 	
-				changeSelection();
+				changeSelection(0);
 			}    
 	}
 
@@ -418,7 +418,7 @@ class DDTOPauseMenu extends Module {
 									if (entry.text == 'Change Difficulty') {
 										state.currentMenuEntries.remove(entry);
 										state.clearAndAddMenuEntries();
-										state.changeSelection();			
+										state.changeSelection(0);			
 									}
 								}
 								updateOptions();
@@ -426,7 +426,7 @@ class DDTOPauseMenu extends Module {
 						case 'Change Difficulty':
 							state.currentMenuEntries.remove(entry);
 							state.clearAndAddMenuEntries();
-							state.changeSelection();
+							state.changeSelection(0);
 					}
 				}
 				if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") createVallMenu();

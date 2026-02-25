@@ -28,7 +28,7 @@ class MyConfessionConversation extends Conversation {
   var rightSpeaker:FunkinSprite;
   var time:Int = 0;
 	var staticShader = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
-  var shader = new ShaderFilter(staticShader);
+  var shaderstat = new ShaderFilter(staticShader);
 
   override function onUpdate(event) {
     super.onUpdate(event);
@@ -40,7 +40,7 @@ class MyConfessionConversation extends Conversation {
     {
       if (currentDialogueEntry == 8 && Std.string(state) == "Idle") {
         PlayState.instance.disableKeys = true;
-        PlayState.instance.camCutscene.filters = [shader];
+        PlayState.instance.camCutscene.filters = [shaderstat];
         FunkinSound.playOnce(Paths.sound("glitchin"), 0.6);
         new FlxTimer().start(0.4, function(e:FlxTimer){
           PlayState.instance.camCutscene.filters = [];

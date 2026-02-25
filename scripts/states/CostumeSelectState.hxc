@@ -23,6 +23,7 @@ import flixel.sound.FlxSound;
 import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.save.Save;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 
 typedef CostumeData =
 {
@@ -143,23 +144,15 @@ class CostumeSelectState extends MusicBeatState
 	];
 	var costumeJSON:CostumeJSON = null;
 
-	var defaultCostumes = {
-		protagcostume: '',
-		monikacostume: '',
-		yuricostume: '',
-		sayoricostume: '',
-		natsukicostume: '',
-		gfcostume: '',
-		bfcostume: ''
-	};
-
 	override function create()
 	{
 		FlxG.mouse.visible = true;
 
-		SaveData = CostumeSwapper.getDokiCostume();
+		save = new FlxSave();
+        save.bind("CostumesV2", "FunkinCrew");
+		SaveData = save.data;
 		
-		Save.instance.flush();
+		save.flush();
 
 		options = DokiPreferences.getDokiSave();
 
@@ -291,7 +284,7 @@ class CostumeSelectState extends MusicBeatState
 			{
 				FlxG.mouse.visible = false;
 				selectedSomethin = true;
-				Save.instance.flush();
+				save.flush();
 				FlxG.sound.music.stop();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				var targetState:NextState = () -> new MainMenuState();
@@ -319,7 +312,7 @@ class CostumeSelectState extends MusicBeatState
 		}
 	}
 
-	function loadcharacter(char:String, costume:String)
+	function loadcharacter(char:String, ?costume:String)
 	{
 		//I'm pissed, gotta throw this here too cause offsets break due to the costumeoverride being blank
 		//trace(costume);
@@ -623,7 +616,7 @@ class CostumeSelectState extends MusicBeatState
 						SaveData.bfcostume = "aloe-classic";
 			}
 
-			Save.instance.flush();
+			save.flush();
 			chara.color = 0xFFFFFF;
 			loadcharacter(daChoice);
 

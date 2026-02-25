@@ -2,7 +2,6 @@ import flixel.FlxG;
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
-import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
@@ -38,10 +37,10 @@ class OurHarmonySong extends Song
 	var yuri;
 	var natsuki;
 	var lyricData:Array<Dynamic>;
-	var cg1:FlxSprite;
-	var cg2:FlxSprite;
-	var cg2Group:FlxTypedSpriteGroup<FlxSprite>;
-	var whiteflash:FlxSprite;
+	var cg1:FunkinSprite;
+	var cg2:FunkinSprite;
+	var cg2Group:FlxTypedSpriteGroup<FunkinSprite>;
+	var whiteflash:FunkinSprite;
 	var camGame2:FunkinCamera;
 
 	public override function isSongNew(currentDifficulty:String):Bool{
@@ -67,7 +66,7 @@ class OurHarmonySong extends Song
 		FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
 		camGame2.bgColor = 0x000000;
 
-		cg1 = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg1'));
+		cg1 = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg1'));
 		cg1.alpha = 0.001;
 		cg1.cameras = [PlayState.instance.camHUD];
 		cg1.setGraphicSize(Std.int(cg1.width * 0.7));//Smallest 0.67
@@ -77,7 +76,7 @@ class OurHarmonySong extends Song
 		PlayState.instance.add(cg1);
 
 		//Tween to -954x
-		cg2 = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg2'));
+		cg2 = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg2'));
 		cg2.alpha = 0.001;
 		cg2.cameras = [PlayState.instance.camHUD];
 		cg2.scrollFactor.set();
@@ -90,23 +89,23 @@ class OurHarmonySong extends Song
 		PlayState.instance.add(cg2Group);
 
 		//Why must you do this to me Team TBD
-		cg2BG = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2BG'));
+		cg2BG = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2BG'));
 		cg2BG.ID = 4;
 		cg2Group.add(cg2BG);
-		cg2Yuri = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Yuri'));
+		cg2Yuri = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Yuri'));
 		cg2Yuri.ID = 3;
 		cg2Group.add(cg2Yuri);
-		cg2Sayo = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Sayo'));
+		cg2Sayo = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Sayo'));
 		cg2Sayo.ID = 2;
 		cg2Group.add(cg2Sayo);
-		cg2Natsu = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Natsu'));
+		cg2Natsu = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Natsu'));
 		cg2Natsu.ID = 1;
 		cg2Group.add(cg2Natsu);
-		cg2Moni = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Moni'));
+		cg2Moni = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/bigone/cg2Moni'));
 		cg2Moni.ID = 0;
 		cg2Group.add(cg2Moni);
 
-		whiteflash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+		whiteflash = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
 		whiteflash.alpha = 0.0001;
 		whiteflash.cameras = [PlayState.instance.camHUD];
 		PlayState.instance.add(whiteflash);
@@ -147,6 +146,12 @@ class OurHarmonySong extends Song
 		super.onUpdate(event);
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
+
+		if (PlayState.instance.iconP2 != null && PlayState.instance.iconP2.characterId != 'our-harmony') {
+			PlayState.instance.iconP2.characterId = 'our-harmony';
+			PlayState.instance.iconP2.loadCharacter('our-harmony');
+		}
+
 		processNotes(event);
 	}
 
@@ -259,7 +264,7 @@ class OurHarmonySong extends Song
 		PlayState.instance.iconP2.loadCharacter('our-harmony');
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		if (duration == null) duration = 1;
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;

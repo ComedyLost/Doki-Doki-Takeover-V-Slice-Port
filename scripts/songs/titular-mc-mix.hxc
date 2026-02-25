@@ -29,7 +29,7 @@ class TitularMCMixSong extends Song
 
 	var camGame2:FunkinCamera;
 	
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		if (duration == null) duration = 1;
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;

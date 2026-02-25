@@ -10,54 +10,36 @@ import funkin.ui.options.OptionsState;
 import flixel.FlxG;
 import funkin.save.Save;
 import funkin.ui.options.PreferencesMenu;
+import flixel.util.FlxSave;
 
 class DokiPreferences extends Module
 {
-	var defaultOptions = {
-		titlescreen: Save.instance.modOptions?.get('TakeoverOptions')?.titlescreen ?? true,
-		menus: Save.instance.modOptions?.get('TakeoverOptions')?.menus ?? false,
-		chrcheck: Save.instance.modOptions?.get('TakeoverOptions')?.chrcheck ?? true,
-		selfaware: Save.instance.modOptions?.get('TakeoverOptions')?.selfaware ?? true,
-		gfCountdown: Save.instance.modOptions?.get('TakeoverOptions')?.gfCountdown ?? true,
-		bloom: Save.instance.modOptions?.get('TakeoverOptions')?.bloom ?? true,
-		freeplayDialogue: Save.instance.modOptions?.get('TakeoverOptions')?.freeplayDialogue ?? true,
-		cool: Save.instance.modOptions?.get('TakeoverOptions')?.cool ?? false,
-		markov: Save.instance.modOptions?.get('TakeoverOptions')?.markov ?? true,
-		random: Save.instance.modOptions?.get('TakeoverOptions')?.random ?? false,
-		pixel: Save.instance.modOptions?.get('TakeoverOptions')?.pixel ?? false,
-		psychholds: Save.instance.modOptions?.get('TakeoverOptions')?.psychholds ?? false,
-		costumesanywhere: Save.instance.modOptions?.get('TakeoverOptions')?.costumesanywhere ?? false
-	};
-
 	function new(){
         super("DokiPreferences", 1);
+		save = new FlxSave();
+        save.bind("TakeoverOptions", "FunkinCrew");
+		save.data.titlescreen ??= true;
+		save.data.menus ??= false;
+		save.data.chrcheck ??= true;
+		save.data.selfaware ??= true;
+		save.data.gfCountdown ??= true;
+		save.data.bloom ??= true;
+		save.data.freeplayDialogue ??= true;
+		save.data.cool ??= false;
+		save.data.markov ??= true;
+		save.data.random ??= false;
+		save.data.pixel ??= false;
+		save.data.psychholds ??= false;
+		save.data.nowidescreen ??= false;
 
-		Save.instance.modOptions.set('TakeoverOptions', defaultOptions);
-		Save.instance.flush();
-		save = Save?.instance?.modOptions?.get('TakeoverOptions');
+		save.flush();
     }
 
 	public static function getDokiSave() {
-		var copyOptions = {
-			titlescreen: Save.instance.modOptions?.get('TakeoverOptions')?.titlescreen ?? true,
-			menus: Save.instance.modOptions?.get('TakeoverOptions')?.menus ?? false,
-			chrcheck: Save.instance.modOptions?.get('TakeoverOptions')?.chrcheck ?? true,
-			selfaware: Save.instance.modOptions?.get('TakeoverOptions')?.selfaware ?? true,
-			gfCountdown: Save.instance.modOptions?.get('TakeoverOptions')?.gfCountdown ?? true,
-			bloom: Save.instance.modOptions?.get('TakeoverOptions')?.bloom ?? true,
-			freeplayDialogue: Save.instance.modOptions?.get('TakeoverOptions')?.freeplayDialogue ?? true,
-			cool: Save.instance.modOptions?.get('TakeoverOptions')?.cool ?? false,
-			markov: Save.instance.modOptions?.get('TakeoverOptions')?.markov ?? true,
-			random: Save.instance.modOptions?.get('TakeoverOptions')?.random ?? false,
-			pixel: Save.instance.modOptions?.get('TakeoverOptions')?.pixel ?? false,
-			psychholds: Save.instance.modOptions?.get('TakeoverOptions')?.psychholds ?? false,
-			costumesanywhere: Save.instance.modOptions?.get('TakeoverOptions')?.costumesanywhere ?? false
-		};
-		if (!Save.instance.modOptions.exists('TakeoverOptions')) {
-			Save.instance.modOptions.set('TakeoverOptions', copyOptions);
-			Save.instance.flush();
-		}
-		return Save.instance.modOptions.get('TakeoverOptions');
+		var share = new FlxSave();
+        share.bind("TakeoverOptions", "FunkinCrew");
+
+		return share.data;
 	}
 		
 	function onStateChangeEnd(callback)
@@ -87,68 +69,72 @@ class DokiPreferences extends Module
 
 		if (preferencePage != null) {
 			preferencePage.createPrefItemCheckbox("DDTO Title Screen", "Changes the title screen to resemble the one from\nDoki Doki Takeover Plus.", (value) -> {
-				save.titlescreen = value;
-				Save.instance.flush();
-			}, save.titlescreen);
+				save.data.titlescreen = value;
+				save.flush();
+			}, save.data.titlescreen);
 			//Scrapped due to being extremely buggy
 			//Fully scrapped now
 			/*if (!FlxG.onMobile){ //Prevent custom menu on mobile
 				preferencePage.createPrefItemCheckbox("DDTO Menus", "Changes the other menus to be the ones from DDTO.\n(NOT COMPATIBLE WITH OTHER MODS / BASE GAME)", (value) -> {
-					save.menus = value;
-					Save.instance.flush();
-				}, save.menus);
+					save.data.menus = value;
+					save.flush();
+				}, save.data.menus);
 			}*/
 			//Scrapped mechanic would cause crashes if file isn't already in location
 			if (!FlxG.onMobile) {
 				preferencePage.createPrefItemCheckbox("CHR File Check", "Checks if the Dokis have their .chr files in the 'chrs' folder. (DISABLE IF YOU RUN INTO ANY ISSUES)", (value) -> {
-					save.chrcheck = value;
-					Save.instance.flush();
-				}, save.chrcheck);	
+					save.data.chrcheck = value;
+					save.flush();
+				}, save.data.chrcheck);	
 			}
 			preferencePage.createPrefItemCheckbox("Pixel Perfect Rendering", "Enables pixel perfect rendering for pixel sprites\nlike in pre 0.6.0 FNF versions.", (value) -> {
-				save.pixel = value;
-				Save.instance.flush();
-			}, save.pixel);
+				save.data.pixel = value;
+				save.flush();
+			}, save.data.pixel);
 			preferencePage.createPrefItemCheckbox("Self Awareness", "Allows Monika to access to your PC name\n(IF DISABLED SHE'LL USE YOUR NEWGROUNDS NAME IF LOGGED IN)", (value) -> {
-				save.selfaware = value;
-				Save.instance.flush();
-			}, save.selfaware);
+				save.data.selfaware = value;
+				save.flush();
+			}, save.data.selfaware);
 			preferencePage.createPrefItemCheckbox("Girlfriend Countdown", "Have Girlfriend count down before the song starts.", (value) -> {
-				save.gfCountdown = value;
-				Save.instance.flush();
-			}, save.gfCountdown);
+				save.data.gfCountdown = value;
+				save.flush();
+			}, save.data.gfCountdown);
 			preferencePage.createPrefItemCheckbox("Bloom Shader", "Enables the Bloom Shader in the Evil and Festival clubrooms.\n(DISABLE IF YOU EXPERIENCE LAG IN THOSE STAGES)", (value) -> {
-				save.bloom = value;
-				Save.instance.flush();
-			}, save.bloom);
+				save.data.bloom = value;
+				save.flush();
+			}, save.data.bloom);
 			preferencePage.createPrefItemCheckbox("Markov Notes", "Self Explanatory. Enables Markov Notes.", (value) -> {
-				save.markov = value;
-				Save.instance.flush();
-			}, save.markov);
+				save.data.markov = value;
+				save.flush();
+			}, save.data.markov);
 			preferencePage.createPrefItemCheckbox("Freeplay Cutscenes", "Allows songs in Freeplay to play cutscenes\n(Ex. Epiphany, Epiphany with Lyrics, Catfight).", (value) -> {
-				save.freeplayDialogue = value;
-				Save.instance.flush();
-			}, save.freeplayDialogue);
+				save.data.freeplayDialogue = value;
+				save.flush();
+			}, save.data.freeplayDialogue);
 			preferencePage.createPrefItemCheckbox("Cool Gameplay", "Enables 9 Key Modchart Enabled Ultra Difficult Gameplay mode.\n(Ray Tracing Enabled, DLSS, Frame Generation)", (value) -> {
-				save.cool = value;
-				Save.instance.flush();
-			}, save.cool);
+				save.data.cool = value;
+				save.flush();
+			}, save.data.cool);
 			preferencePage.createPrefItemCheckbox("Randomize Notes", "Enables randomized note placements\n(Automatically disables Markov Notes).", (value) -> {
-				save.random = value;
-				Save.instance.flush();
-			}, save.random);
+				save.data.random = value;
+				save.flush();
+			}, save.data.random);
 			preferencePage.createPrefItemCheckbox("Psych Engine Hold Anims", "Recreates Psych's jitter animations while holding notes.\n(EXPERIMENTAL & MAY NOT BE FULLY ACCURATE)", (value) -> {
-				save.psychholds = value;
-				Save.instance.flush();
-			}, save.psychholds);
+				save.data.psychholds = value;
+				save.flush();
+			}, save.data.psychholds);
 			preferencePage.createPrefItemCheckbox("Costumes Anywhere", "Allows BF and GF to use their costumes in non-DDTO songs\n(WARNING: May cause issues in modded songs)", (value) -> {
-				save.costumesanywhere = value;
-				Save.instance.flush();
-			}, save.costumesanywhere);
+				save.data.costumesanywhere = value;
+				save.flush();
+			}, save.data.costumesanywhere);
+			preferencePage.createPrefItemCheckbox("Force 16:9", "Force the game to be in 16:9 on stages that don't appear correctly on mobile.", (value) -> {
+				save.data.nowidescreen = value;
+				save.flush();
+			}, save.data.nowidescreen);
 			/*preferencePage.createPrefItemCheckbox("Mirror Mode", "Play as the opponent (UNFINISHED & DOES NOTHING)", (value) -> {
-				save.mirror = value;
-				Save.instance.flush();
-			}, save.mirror);*/
+				save.data.mirror = value;
+				save.flush();
+			}, save.data.mirror);*/
 			preferencePage.itemDesc.text = preferencePage.preferenceDesc[preferencePage.items.selectedIndex];
 		}
 	}

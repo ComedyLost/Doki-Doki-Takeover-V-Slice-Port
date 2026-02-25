@@ -1,0 +1,162 @@
+import funkin.modding.module.Module;
+import flixel.FlxG;
+import funkin.Paths;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.util.ReflectUtil;
+import funkin.ui.freeplay.SongMenuItem;
+import funkin.audio.FunkinSound;
+import funkin.modding.base.ScriptedMusicBeatSubState;
+import StringTools;
+import flixel.util.FlxTimer;
+import funkin.PlayerSettings;
+import funkin.util.TouchUtil;
+import funkin.util.SwipeUtil;
+import funkin.mobile.input.ControlsHandler;
+import funkin.data.song.SongRegistry;
+import funkin.util.FileUtil;
+import funkin.modding.PolymodHandler;
+import funkin.util.Constants;
+import funkin.ui.UIState;
+
+using StringTools;
+
+class DokiFreeplayFixes extends Module {
+	public function new(){
+		super('DokiFreeplayFixes');
+
+		save = DokiPreferences.getDokiSave();
+	}
+
+	var ddtolevelids = ['DDTOWeek1', 'DDTOWeek2', 'DDTOWeek3', 'DDTOWeek4', 'DDTOWeek5', 'DDTOWeek6', 'DDTOWeek7', 'DDTOWeek8', 'DDTOWeekDoggle', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories', 'fuckidk'];
+
+	var changedCapsules:Array<SongMenuItem>;
+
+	override function onSubStateOpenBegin(event) {
+        super.onSubStateOpenBegin(event);
+		if ((event.targetState is FreeplayState) && (changedCapsules?.length ?? 1) > 0) {
+			changedCapsules = []; // Make sure to clear to not run into any issues
+		}
+	}
+
+	function findDDTOFolder(){
+		for (mod in PolymodHandler.getAllMods()) {
+			trace(mod.id);
+			if (mod.title == 'Doki Doki Takeover Plus') 
+				return 'mods/' + mod.id + '/';
+		}
+	}
+
+	function file(path:String) {
+		return findDDTOFolder() + path;
+	}
+
+	function dokiCheck(cap:SongMenuItem, originalCallback:Void->Void) {
+		var curSong = cap?.freeplayData?.data;
+		if (curSong == null) return;
+		FlxG.state.subState.persistentUpdate = false;
+		FlxG.state.subState.uiStateMachine.transition(UIState.Exiting);
+		var variations:Array<String> = curSong.getVariationsByCharacterId(FreeplayState.rememberedCharacterId);
+		var playerChar = curSong.getDifficulty(FreeplayState.rememberedDifficulty, null, variations)?.characters.player ?? '';	
+		for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
+			if (playerChar.contains(dokis)) {
+				if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr')) ?? false) {
+					FlxG.state.subState.openSubState(new DokiMissingSubState());
+				} else {
+					originalCallback();
+				}
+				break;
+			}
+		}
+	}
+
+	function customDisplay(cap:SongMenuItem) {
+		if (cap?.freeplayData == null) return;
+		if (!FlxG.onMobile && save?.chrcheck) {
+			var capsule = cap; // oh...
+			for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
+				var curSong = cap?.freeplayData?.data;
+				if (curSong == null) break;
+				if (curSong.id == 'catfight') break;
+				var variations:Array<String> = curSong.getVariationsByCharacterId(FreeplayState.rememberedCharacterId);
+				var playerChar = curSong.getDifficulty(FreeplayState.rememberedDifficulty, null, variations)?.characters.player ?? '';	
+				if (playerChar.contains(dokis)) {
+					var original:Void->Void = capsule.onConfirm;
+					capsule.onConfirm = function() {
+						if (FlxG.state.subState.controls.active) dokiCheck(capsule, original);
+					};		
+					break;	
+				}
+			}	
+		}
+		cap.weekType.visible = true;
+		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverweektypes');
+		cap.weekType.animation.addByPrefix('TAKEOVER', 'TAKEOVER text instance 1', 24, false);
+		cap.weekType.animation.addByPrefix('TF', 'what the fuck instance 1', 24, false);
+		switch (cap.freeplayData.data.id) {
+			case 'mstsoobf': cap.weekType.animation.play('TF', true);
+			default: cap.weekType.animation.play('TAKEOVER', true);
+		}
+		if (cap.pixelIcon.animation.curAnim == null || cap.pixelIcon.animation.curAnim.name == 'idle'){
+			switch (cap.freeplayData.songCharacter){
+				case 'monika', 'monika-pixelnew', 'duetnew': cap.pixelIcon.setCharacter('monika');
+				case 'bigmonika', 'bigmonika-dress', 'monika-angry': cap.pixelIcon.setCharacter('monika-epiphany');
+				case 'senpai-ddto', 'senpai-angry-ddto', 'senpai-nonpixel': cap.pixelIcon.setCharacter('senpai');	
+			}
+			switch (cap.freeplayData.data.id){
+				case "your-demise": cap.pixelIcon.setCharacter('monika-epiphany');
+				case "our-harmony": cap.pixelIcon.setCharacter('monika');
+				case "you-and-me": cap.pixelIcon.setCharacter('protag');
+				case "constricted": cap.pixelIcon.setCharacter('sayori');
+				case "libitina": cap.pixelIcon.setCharacter('libitina');
+				case "love-n-funkin":
+					switch (FlxG.state.subState.currentVariation) {
+						case 'pico': cap.pixelIcon.setCharacter('pico');
+						case Constants.DEFAULT_VARIATION: cap.pixelIcon.setCharacter('gf');
+					}
+			}
+		}
+	}
+	
+	public function onDifficultySwitch(event:CapsuleScriptEvent):Void {
+		super.onDifficultySwitch(event);
+		while (changedCapsules.length > 0) {
+			var capsule = changedCapsules.shift();
+
+			if (capsule.weekType.graphic.key.contains('freeplay/freeplayCapsule/takeoverweektypes')) resetCapsules(capsule);
+		}
+		if (changedCapsules.length != 0) changedCapsules = []; // Clear the array just in case
+		var filteredCapsules:Array<SongMenuItem> = FlxG.state.subState.grpCapsules.members.filter(function(cap:SongMenuItem) {
+			   // Dead capsules are ones which were removed from the list when changing filters.
+			return cap != null && cap.alive && cap.freeplayData != null && ddtolevelids.contains(cap.freeplayData.levelId);
+		});
+		for (capsule in filteredCapsules){
+			if (capsule == null || !capsule.alive) continue;
+
+			changedCapsules.push(capsule); // Push these changed capsules
+			customDisplay(capsule);
+		}
+	}
+
+	public function onCapsuleSelected(event:CapsuleScriptEvent):Void {
+		super.onCapsuleSelected(event);
+		if (event.capsule?.freeplayData != null) {
+			switch (event.capsule.freeplayData.data.id) {
+				case "your-demise": if (!event.capsule.pixelIcon.graphic.key.contains("monika-epiphany")) event.capsule.pixelIcon.setCharacter('monika-epiphany');
+				case 'our-harmony': if (!event.capsule.pixelIcon.graphic.key.contains("monika")) event.capsule.pixelIcon.setCharacter('monika');
+				case 'love-n-funkin':
+					switch (event.variationId) {
+						case 'pico': if (!event.capsule.pixelIcon.graphic.key.contains("pico"))  event.capsule.pixelIcon.setCharacter('pico');
+						case Constants.DEFAULT_VARIATION, null: if (!event.capsule.pixelIcon.graphic.key.contains("gf")) event.capsule.pixelIcon.setCharacter('gf');
+					}
+			}
+		}
+	}
+
+	function resetCapsules(cap:SongMenuItem) {
+		if (cap?.freeplayData == null) return;
+		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/weektypes');
+		cap.weekType.animation.addByPrefix('WEEK', 'WEEK text instance 1', 24, false);
+    	cap.weekType.animation.addByPrefix('WEEKEND', 'WEEKEND text instance 1', 24, false);
+		cap.checkWeek(cap.freeplayData.data.id);
+	}
+}

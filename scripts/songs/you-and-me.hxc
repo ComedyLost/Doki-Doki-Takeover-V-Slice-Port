@@ -120,8 +120,7 @@ class YouAndMeSong extends Song
 
 		var charList:Array<String> = ['Yuri', 'Sayori', 'Monika', 'Natsuki'];
 		options = [];
-		for (i in 0...charList.length)
-		{
+		for (i in 0...charList.length) {
 			var funnyx:Int = 69;
 
 			var funnySprite:FlxSprite = new FlxSprite(funnyx + (i * 294), 164);
@@ -164,392 +163,387 @@ class YouAndMeSong extends Song
       	});
 	}
 
-	function blackBars(inorout:Bool)
-		{
-			if (inorout)
-			{
-				blackbarTop.alpha = 1;
-				blackbarBottom.alpha = 1;
-	
-				FlxTween.tween(blackbarBottom, {y: 628}, 1.2, {ease: FlxEase.sineOut});
-				FlxTween.tween(blackbarTop, {y: 0}, 1.2, {ease: FlxEase.sineOut});
-			}
-			else
-			{
-				FlxTween.tween(blackbarBottom, {y: 822}, 1.2, {ease: FlxEase.sineIn});
-				FlxTween.tween(blackbarTop, {y: -102}, 1.2, {ease: FlxEase.sineIn});
-	
-				new FlxTimer().start(1.2, function(tmr:FlxTimer)
-				{
-					blackbarTop.alpha = 0;
-					blackbarBottom.alpha = 0;
-				});
-			}
-		}
+	function blackBars(inorout:Bool) {
+		if (inorout) {
+			blackbarTop.alpha = 1;
+			blackbarBottom.alpha = 1;
 
-	function calcSectionLength(duration:Int){
-		if (duration == null) duration = 1;
-		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+			FlxTween.tween(blackbarBottom, {y: 628}, 1.2, {ease: FlxEase.sineOut});
+			FlxTween.tween(blackbarTop, {y: 0}, 1.2, {ease: FlxEase.sineOut});
+		} else {
+			FlxTween.tween(blackbarBottom, {y: 822}, 1.2, {ease: FlxEase.sineIn});
+			FlxTween.tween(blackbarTop, {y: -102}, 1.2, {ease: FlxEase.sineIn});
+
+			new FlxTimer().start(1.2, function(tmr:FlxTimer)
+			{
+				blackbarTop.alpha = 0;
+				blackbarBottom.alpha = 0;
+			});
+		}
+	}
+
+	function calcSectionLength(?duration:Int = 1){
+		var durSeconds = (Conductor.instance.stepLengthMs * (16 * (duration ?? 1))) / 1000;
 		return durSeconds;
 	}
 
-	function bringInThingie()
-		{
-			trace('plz wok for me <3');
-			if (middleScroll)
-				waitin.screenCenter(X);
-	
-			waitin.alpha = 1;
-			FlxTween.tween(waitin, {y: 367}, 1.2, {
-				ease: FlxEase.quadOut,
-				onComplete: function(twn:FlxTween)
-				{
-					FlxTween.tween(waitin, {y: 981}, 1.2, {ease: FlxEase.quadIn, startDelay: 3});
-				}
-			});
-		}
-	
-	function onStepHit(event:SongTimeScriptEvent):Void
-		{	
-			switch(event.step)
-			{
-				case 14:
-					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 15, {ease: FlxEase.linear});
-				case 16:
-					FlxTween.tween(whiteflash, {alpha: 0}, 3, {ease: FlxEase.sineOut});
-					//FlxTween.tween(whiteflash, {alpha: 0.001}, 3, {ease: FlxEase.sineOut});
-				case 19:
-					funnytext.resetText("A few days passed since Boyfriend and Girlfriend’s last visit to the club.");
-					funnytext.start(0.04);
-				case 84:
-					funnytext.resetText("The Literature Club returned to its original 5 members.");
-					funnytext.start(0.04);
-				case 141:
-					funnytext.resetText("The days continued as normal, with club meetings filled with stories, sweets, and singing.");
-					funnytext.start(0.04);
-				case 208:
-					funnytext.resetText("Things were going well, especially for a certain someone-");
-					funnytext.start(0.04);
-				case 252:
-					FlxTween.tween(funnytext, {alpha: 0}, 0.5, {ease: FlxEase.sineIn});
-				case 240:
-					FlxTween.tween(PlayState.instance.iconP1, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-					FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-					FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-					FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+	function bringInThingie() {
+		trace('plz wok for me <3');
+		if (middleScroll)
+			waitin.screenCenter(0x01);
 
-					var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
-					if (playerStrumline != null)
+		waitin.alpha = 1;
+		FlxTween.tween(waitin, {y: 367}, 1.2, {
+			ease: FlxEase.quadOut,
+			onComplete: function(twn:FlxTween)
+			{
+				FlxTween.tween(waitin, {y: 981}, 1.2, {ease: FlxEase.quadIn, startDelay: 3});
+			}
+		});
+	}
+	
+	function onStepHit(event:SongTimeScriptEvent):Void {	
+		switch(event.step) {
+			case 14:
+				FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 15, {ease: FlxEase.linear});
+			case 16:
+				FlxTween.tween(whiteflash, {alpha: 0}, 3, {ease: FlxEase.sineOut});
+				//FlxTween.tween(whiteflash, {alpha: 0.001}, 3, {ease: FlxEase.sineOut});
+			case 19:
+				funnytext.resetText("A few days passed since Boyfriend and Girlfriend’s last visit to the club.");
+				funnytext.start(0.04);
+			case 84:
+				funnytext.resetText("The Literature Club returned to its original 5 members.");
+				funnytext.start(0.04);
+			case 141:
+				funnytext.resetText("The days continued as normal, with club meetings filled with stories, sweets, and singing.");
+				funnytext.start(0.04);
+			case 208:
+				funnytext.resetText("Things were going well, especially for a certain someone-");
+				funnytext.start(0.04);
+			case 252:
+				FlxTween.tween(funnytext, {alpha: 0}, 0.5, {ease: FlxEase.sineIn});
+			case 240:
+				FlxTween.tween(PlayState.instance.iconP1, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+				FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+				FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+				FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+
+				var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+				if (playerStrumline != null)
+				{
+					for (arrow in playerStrumline.members)
 					{
-						for (arrow in playerStrumline.members)
+						arrow.visible = true;
+					}
+				}		
+				PlayState.instance.playerStrumline.fadeInArrows();
+			case 248:
+				blackBars(true);
+				FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
+					ease: FlxEase.linear,
+				});
+			case 336:
+				//if (mirrormode)
+				//	bringInThingie();
+			case 520:
+				PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
+			case 784:
+				if (dokiBackdrop != null)
+				{
+					FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {
+						ease: FlxEase.sineIn,
+						onComplete: function(tween:FlxTween)
 						{
-							arrow.visible = true;
+							PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
 						}
-					}		
-					PlayState.instance.playerStrumline.fadeInArrows();
-				case 248:
-					blackBars(true);
-					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
-						ease: FlxEase.linear,
 					});
-				case 336:
-					//if (mirrormode)
-					//	bringInThingie();
-				case 520:
-					PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
-				case 784:
-					if (dokiBackdrop != null)
+				}
+			case 1068:
+				PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+				if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
+			case 1122:
+				blackBars(false);
+				FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 5, {ease: FlxEase.linear});
+			case 1134:
+				FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineOut});
+			case 1156:
+				for (i in 0...characterImages.length){
+					characterImages[i].alpha = 1;
+				}
+				PlayState.instance.disableKeys = true;
+				PlayState.instance.mayPauseGame = false;
+				select.alpha = 1;
+				FlxTween.tween(select, {y: 40}, 0.5, {ease: FlxEase.sineOut});
+				bg.alpha = 0;
+				FlxTween.tween(bg, {alpha: 0.3}, 0.4, {ease: FlxEase.quartInOut});
+				for (i in 0...options.length)
+				{
+					options[i].visible = true;
+					options[i].y = 164;
+					options[i].alpha = 1;
+					options[i].animation.play('pop');
+				}
+				huehTimer = new FlxTimer().start(8, function(swagTimer:FlxTimer)
 					{
-						FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {
-							ease: FlxEase.sineIn,
-							onComplete: function(tween:FlxTween)
-							{
-								PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
-							}
+						selectDokiSection = false;
+						charSelected('protag');
+					});
+				new FlxTimer().start(0.5, function(tmr:FlxTimer)
+					{
+						selectDokiSection = true;
+					});				
+			case 1252:
+				var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+				if (opponentStrumline != null)
+				{
+					if (opponentStrumline.strumlineScale.x != 1) {
+						opponentStrumline.forEach(function(obj:FlxObject):Void {
+							  if (obj == opponentStrumline.strumlineNotes) obj.visible = true;
+						});
+					} else {
+						opponentStrumline.forEach(function(obj:FlxObject):Void {
+							  obj.visible = true;
 						});
 					}
-				case 1068:
-					PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
-					if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
-				case 1122:
-					blackBars(false);
-					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 5, {ease: FlxEase.linear});
-				case 1134:
-					FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineOut});
-				case 1156:
-					for (i in 0...characterImages.length){
-						characterImages[i].alpha = 1;
-					}
-					PlayState.instance.disableKeys = true;
-					PlayState.instance.mayPauseGame = false;
-					select.alpha = 1;
-					FlxTween.tween(select, {y: 40}, 0.5, {ease: FlxEase.sineOut});
-					bg.alpha = 0;
-					FlxTween.tween(bg, {alpha: 0.3}, 0.4, {ease: FlxEase.quartInOut});
-					for (i in 0...options.length)
-					{
-						options[i].visible = true;
-						options[i].y = 164;
-						options[i].alpha = 1;
-						options[i].animation.play('pop');
-					}
-					huehTimer = new FlxTimer().start(8, function(swagTimer:FlxTimer)
-						{
-							selectDokiSection = false;
-							charSelected('protag');
-						});
-					new FlxTimer().start(0.5, function(tmr:FlxTimer)
-						{
-							selectDokiSection = true;
-						});				
-				case 1252:
-					var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-					if (opponentStrumline != null)
-					{
-						if (opponentStrumline.strumlineScale.x != 1) {
-							opponentStrumline.forEach(function(obj:FlxObject):Void {
-      							if (obj == opponentStrumline.strumlineNotes) obj.visible = true;
-    						});
-						} else {
-							opponentStrumline.forEach(function(obj:FlxObject):Void {
-      							obj.visible = true;
-    						});
-						}
-					}		
-					PlayState.instance.opponentStrumline.fadeInArrows();
-					blackBars(true);
-					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
-						ease: FlxEase.linear,
-					});
-				case 1776:
-					PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
-				case 1904:
-					if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {ease: FlxEase.sineIn});
-					PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
-				case 2160:
-					blackBars(false);
-					if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
-				case 2638:
-					FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 5, {ease: FlxEase.linear});
-					FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 2, {ease: FlxEase.sineOut});
+				}		
+				PlayState.instance.opponentStrumline.fadeInArrows();
+				blackBars(true);
+				FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
+					ease: FlxEase.linear,
+				});
+			case 1776:
+				PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
+			case 1904:
+				if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {ease: FlxEase.sineIn});
+				PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+			case 2160:
+				blackBars(false);
+				if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
+			case 2638:
+				FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 589}, 5, {ease: FlxEase.linear});
+				FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 2, {ease: FlxEase.sineOut});
+		}
+	}
+
+	function getNewChart(chart:String = 'normal') {
+		var playerNoteData:Array<SongNoteData> = [];
+		var opponentNoteData:Array<SongNoteData> = [];
+		var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty(chart ?? 'normal');
+		if (animChart == null) {
+			trace('Swapping song chart failed; chosen Doki chart not found for this song.');
+			return;
+		}
+		for (notes in animChart.notes){
+			switch (notes.getStrumlineIndex()){
+				case 0:
+					playerNoteData.push(notes);
+					Highscore.tallies.totalNotes++;
+				case 1:
+					opponentNoteData.push(notes);
 			}
 		}
+		PlayState.instance.playerStrumline.applyNoteData(playerNoteData);
+		PlayState.instance.opponentStrumline.applyNoteData(opponentNoteData);	
+	}
 
-		function getNewChart(chart:String = 'normal'){
-			var playerNoteData:Array<SongNoteData> = [];
-			var opponentNoteData:Array<SongNoteData> = [];
-			var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty(chart);
-			if (animChart == null) {
-				trace('Swapping song chart failed; chosen Doki chart not found for this song.');
+	function selectChar(who:String = 'protag', num:Int) {
+		huehTimer.cancel();
+		PlayState.instance.mayPauseGame = true;
+		PlayState.instance.disableKeys = false;
+		//tween the cards away except the selected card
+		selectDokiSection = false;
+		funnyChar = who;
+		chosenDoki = num;
+		FlxG.sound.play(Paths.sound('confirmMenu'), 1);
+
+		for (i in 0...options.length)
+			{
+				if (i != chosenDoki) 
+					FlxTween.tween(options[i], {y: 1280}, 1, {ease: FlxEase.circIn});
+				if (i == chosenDoki){
+					FlxFlicker.flicker(options[i], 1, 0.1, false, false);
+				}
+			}
+	
+		huehTimer = new FlxTimer().start(1, function(swagTimer:FlxTimer)
+		{
+			charSelected(funnyChar);
+		});
+	}		
+
+	function changeOppCharacter(doki:String) {
+		var costume = ModuleHandler.getModule("CostumeSwapper");
+		var character = costume.scriptCall('getCostumeName', [doki]);
+		var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
+		if (oppZIndex == null) oppZIndex = 0;
+		var opponentCharData = CharacterDataParser.parseCharacterData(character);
+		CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = opponentCharData;
+
+		PlayState.instance.currentStage.getDad().destroy();
+
+		var dad = CharacterDataParser.fetchCharacter(character);
+		if (dad != null) {
+			dad.set_characterType(CharacterType.DAD);
+			dad.initHealthIcon(true);
+			PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
+			PlayState.instance.currentStage.getDad().zIndex = oppZIndex;
+		}
+		PlayState.instance.currentStage.refresh();
+		//newVocals = FunkinSound.load(Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '-' + doki));
+		//newVocals.play(true, Conductor.instance.songPosition);
+		if (PlayState.instance.vocals != null) PlayState.instance.vocals.stop();
+		PlayState.instance.vocals = buildVocals();
+		new FlxTimer().start(1, function(tmr:FlxTimer)
+			{
+				resyncVocals();			
+			});
+	}
+
+	function resyncVocals():Void {
+		if (PlayState.instance.vocals == null) return;
+	  
+		// Skip this if the music is paused (GameOver, Pause menu, start-of-song offset, etc.)
+		if (FlxG.sound.music == null) return;
+	
+		var timeToPlayAt:Float = Math.min(FlxG.sound.music.length, Math.max(0, Conductor.instance.songPosition - Conductor.instance.combinedOffset));
+		trace('Resyncing vocals to ' + timeToPlayAt);
+		FlxG.sound.music.pause();
+		PlayState.instance.vocals.pause();
+	
+		FlxG.sound.music.time = timeToPlayAt;
+		FlxG.sound.music.play(false, timeToPlayAt);
+	
+		PlayState.instance.vocals.time = timeToPlayAt;
+		PlayState.instance.vocals.play(false, timeToPlayAt);
+	}		  
+
+	public function buildVocals():VoicesGroup {
+		var instId = PlayState.instance.currentInstrumental;
+		var result:VoicesGroup = new VoicesGroup();
+	
+		var playerVoiceList:Array<String> = buildPlayerVoiceList();
+
+		// Add player vocals.
+		for (playerVoice in playerVoiceList)
+		{
+			if (!Assets.exists(playerVoice)) continue;
+			result.addPlayerVoice(FunkinSound.load(playerVoice, 1.0, false, false, false, false, null, null, true));
+		}
+	
+		// Sometimes the sounds don't set their important value to true, so we have to do this manually.
+		result.forEach(function(snd:FunkinSound) {
+			snd.important = true;
+		});
+
+		result.playerVoicesOffset = PlayState.instance.currentChart.offsets.getVocalOffset(PlayState.instance.currentChart.characters.player, instId);
+
+		return result;
+	}
+
+	public function buildPlayerVoiceList():Array<String> {		  
+		// Automatically resolve voices by removing suffixes.
+		// For example, if `Voices-bf-car-erect.ogg` does not exist, check for `Voices-bf-erect.ogg`.
+		// Then, check for  `Voices-bf-car.ogg`, then `Voices-bf.ogg`.
+	
+		var playerVoice:String = Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '_' + funnyChar);
+			
+		return playerVoice != null ? [playerVoice] : [];
+	}		  
+	
+	function charSelected(who:String)
+		{
+			if (who == 'protag') {
+				PlayState.instance.mayPauseGame = false;
+				PlayState.instance.disableKeys = false;
+				for (i in 0...characterImages.length){
+					FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
+				}
+				FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+					{
+						PlayState.instance.health = -1;
+					});		
 				return;
 			}
-			for (notes in animChart.notes){
-				switch (notes.getStrumlineIndex()){
-					case 0:
-						playerNoteData.push(notes);
-						Highscore.tallies.totalNotes++;
-					case 1:
-						opponentNoteData.push(notes);
-				}
-			}
-			PlayState.instance.playerStrumline.applyNoteData(playerNoteData);
-			PlayState.instance.opponentStrumline.applyNoteData(opponentNoteData);	
-		}
-
-		function selectChar(who:String = 'protag', num:Int)
+			getNewChart(who);
+			changeOppCharacter(who);
+			for (i in 0...options.length)
 			{
-				huehTimer.cancel();
-				PlayState.instance.mayPauseGame = true;
-				PlayState.instance.disableKeys = false;
-				//tween the cards away except the selected card
-				selectDokiSection = false;
-				funnyChar = who;
-				chosenDoki = num;
-				FlxG.sound.play(Paths.sound('confirmMenu'), 1);
-		
-				for (i in 0...options.length)
-					{
-						if (i != chosenDoki) 
-							FlxTween.tween(options[i], {y: 1280}, 1, {ease: FlxEase.circIn});
-						if (i == chosenDoki){
-							FlxFlicker.flicker(options[i], 1, 0.1, false, false);
-						}
-					}
-			
-				huehTimer = new FlxTimer().start(1, function(swagTimer:FlxTimer)
-				{
-					charSelected(funnyChar);
-				});
-			}		
-
-		function changeOppCharacter(doki:String){
-			var costume = ModuleHandler.getModule("CostumeSwapper");
-			var character = costume.scriptCall('getCostumeName', [doki]);
-			var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
-			if (oppZIndex == null) oppZIndex = 0;
-			var opponentCharData = CharacterDataParser.parseCharacterData(character);
-			CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = opponentCharData;
-	
-			PlayState.instance.currentStage.getDad().destroy();
-	
-			var dad = CharacterDataParser.fetchCharacter(character);
-			if (dad != null) {
-				dad.set_characterType(CharacterType.DAD);
-				dad.initHealthIcon(true);
-				PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
-				PlayState.instance.currentStage.getDad().zIndex = oppZIndex;
+				FlxTween.tween(options[i], {alpha: 0}, 0.5, {ease: FlxEase.circIn, onComplete: function(twn:FlxTween){}});
 			}
-			PlayState.instance.currentStage.refresh();
-			//newVocals = FunkinSound.load(Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '-' + doki));
-			//newVocals.play(true, Conductor.instance.songPosition);
-			if (PlayState.instance.vocals != null) PlayState.instance.vocals.stop();
-			PlayState.instance.vocals = buildVocals();
+			FlxTween.tween(select, {alpha: 0}, 1, {ease: FlxEase.linear});
+			//tween selected card with alpha
+			new FlxTimer().start(0.5, function(tmr:FlxTimer)
+			{
+				for (i in 0...characterImages.length){
+					FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
+				}
+				FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+			});
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
-					resyncVocals();			
-				});
+					FlxTween.tween(PlayState.instance.iconP2, {alpha: 1}, 2, {ease: FlxEase.sineIn});
+				});	
+		}		
+
+	override function onUpdate(event:UpdateScriptEvent) {
+		super.onUpdate(event);
+		if (!selectDokiSection) return;
+		if (PlayerSettings.player1.controls.NOTE_LEFT_P || (TouchUtil.pressAction(options[0]))) {
+			selectChar('yuri', 0);
+		} else if (PlayerSettings.player1.controls.NOTE_DOWN_P || (TouchUtil.pressAction(options[1]))) {
+			selectChar('sayori', 1);
+		} else if (PlayerSettings.player1.controls.NOTE_UP_P || (TouchUtil.pressAction(options[2]))){
+			selectChar('monika', 2);
+		} else if (PlayerSettings.player1.controls.NOTE_RIGHT_P || (TouchUtil.pressAction(options[3]))) {
+			selectChar('natsuki', 3);
 		}
-
-		function resyncVocals():Void
+	}	
+	
+	public function onCountdownStart(event):Void {
+		super.onCountdownStart(event);
+		PlayState.instance.currentStage.getGirlfriend().originalPosition.x = 589;
+		PlayState.instance.currentStage.getGirlfriend().originalPosition.y = -3004;
+		FlxTweenUtil.pauseTweensOf(PlayState.instance.cameraFollowPoint);
+		select.y = -select.height;
+		whiteflash.alpha = 1;
+		dokiBackdrop.alpha = 0;
+		bg.alpha = 0;
+		var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+		if (opponentStrumline != null)
+		{
+			for (arrow in opponentStrumline.members)
 			{
-			  if (PlayState.instance.vocals == null) return;
-		  
-			  // Skip this if the music is paused (GameOver, Pause menu, start-of-song offset, etc.)
-			  if (FlxG.sound.music == null) return;
-		  
-			  var timeToPlayAt:Float = Math.min(FlxG.sound.music.length, Math.max(0, Conductor.instance.songPosition - Conductor.instance.combinedOffset));
-			  trace('Resyncing vocals to ' + timeToPlayAt);
-			  FlxG.sound.music.pause();
-			  PlayState.instance.vocals.pause();
-		  
-			  FlxG.sound.music.time = timeToPlayAt;
-			  FlxG.sound.music.play(false, timeToPlayAt);
-		  
-			  PlayState.instance.vocals.time = timeToPlayAt;
-			  PlayState.instance.vocals.play(false, timeToPlayAt);
-			}		  
-
-		public function buildVocals():VoicesGroup
-			{
-			  var result:VoicesGroup = new VoicesGroup();
-		  
-			  var playerVoiceList:Array<String> = buildPlayerVoiceList();
-		  
-			  // Add player vocals.
-			  for (playerVoice in playerVoiceList)
-			  {
-				result.addPlayerVoice(FunkinSound.load(playerVoice));
-			  }
-		  
-			  result.playerVoicesOffset = PlayState.instance.currentChart.offsets.getVocalOffset(PlayState.instance.currentChart.characters.player, '');
-		  
-			  return result;
+				arrow.visible = false;
 			}
-		
-		public function buildPlayerVoiceList():Array<String>
-			{		  
-			  // Automatically resolve voices by removing suffixes.
-			  // For example, if `Voices-bf-car-erect.ogg` does not exist, check for `Voices-bf-erect.ogg`.
-			  // Then, check for  `Voices-bf-car.ogg`, then `Voices-bf.ogg`.
-		  
-			  var playerVoice:String = Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '_' + funnyChar);
-				  
-			  return playerVoice != null ? [playerVoice] : [];
-			}		  
-		
-		function charSelected(who:String)
-			{
-				if (who == 'protag') {
-					PlayState.instance.mayPauseGame = false;
-					PlayState.instance.disableKeys = false;
-					for (i in 0...characterImages.length){
-						FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
-					}
-					FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
-					new FlxTimer().start(2, function(tmr:FlxTimer)
-						{
-							PlayState.instance.health = -1;
-						});		
-					return;
-				}
-				getNewChart(who);
-				changeOppCharacter(who);
-				for (i in 0...options.length)
-				{
-					FlxTween.tween(options[i], {alpha: 0}, 0.5, {ease: FlxEase.circIn, onComplete: function(twn:FlxTween){}});
-				}
-				FlxTween.tween(select, {alpha: 0}, 1, {ease: FlxEase.linear});
-				//tween selected card with alpha
-				new FlxTimer().start(0.5, function(tmr:FlxTimer)
-				{
-					for (i in 0...characterImages.length){
-						FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
-					}
-					FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
-				});
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-					{
-						FlxTween.tween(PlayState.instance.iconP2, {alpha: 1}, 2, {ease: FlxEase.sineIn});
-					});	
-			}		
-
-		override function onUpdate(event:UpdateScriptEvent) {
-			super.onUpdate(event);
-			if (!selectDokiSection) return;
-			if (PlayerSettings.player1.controls.NOTE_LEFT_P || (TouchUtil.pressAction(options[0]))) {
-				selectChar('yuri', 0);
-			} else if (PlayerSettings.player1.controls.NOTE_DOWN_P || (TouchUtil.pressAction(options[1]))) {
-				selectChar('sayori', 1);
-			} else if (PlayerSettings.player1.controls.NOTE_UP_P || (TouchUtil.pressAction(options[2]))){
-				selectChar('monika', 2);
-			} else if (PlayerSettings.player1.controls.NOTE_RIGHT_P || (TouchUtil.pressAction(options[3]))) {
-				selectChar('natsuki', 3);
-			}
-		}	
-		
-		public function onCountdownStart(event):Void {
-			super.onCountdownStart(event);
-			PlayState.instance.currentStage.getGirlfriend().originalPosition.x = 589;
-			PlayState.instance.currentStage.getGirlfriend().originalPosition.y = -3004;
-			FlxTweenUtil.pauseTweensOf(PlayState.instance.cameraFollowPoint);
-			select.y = -select.height;
-			whiteflash.alpha = 1;
-			dokiBackdrop.alpha = 0;
-			bg.alpha = 0;
-			var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-			if (opponentStrumline != null)
-			{
-				for (arrow in opponentStrumline.members)
-				{
-					arrow.visible = false;
-				}
-			}
-			var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
-			if (playerStrumline != null)
-			{
-				for (arrow in playerStrumline.members)
-				{
-					arrow.visible = false;
-				}
-			}
-			PlayState.instance.camHUD.alpha = 1;
-			selectDokiSection = false;
-			funnytext.alpha = 1;
-			funnytext.resetText("");
-			funnytext.start(0.04);
-			if (blackbarBottom.y != 822) blackbarBottom.y = 822;
-			if (blackbarTop.y != -102) blackbarTop.y = -102;
-			PlayState.instance.iconP2.alpha = 0;
-			PlayState.instance.iconP1.alpha = 0;
-			PlayState.instance.healthBar.alpha = 0;
-			PlayState.instance.healthBarBG.alpha = 0;
-			PlayState.instance.scoreText.alpha = 0;
-
-			PlayState.instance.cameraFollowPoint.setPosition(589, -3004);
-			PlayState.instance.tweenCameraToPosition(589, -3004, 0);
-			new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
-				{
-					Countdown.skipCountdown();
-				});
 		}
+		var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+		if (playerStrumline != null)
+		{
+			for (arrow in playerStrumline.members)
+			{
+				arrow.visible = false;
+			}
+		}
+		PlayState.instance.camHUD.alpha = 1;
+		selectDokiSection = false;
+		funnytext.alpha = 1;
+		funnytext.resetText("");
+		funnytext.start(0.04);
+		if (blackbarBottom.y != 822) blackbarBottom.y = 822;
+		if (blackbarTop.y != -102) blackbarTop.y = -102;
+		PlayState.instance.iconP2.alpha = 0;
+		PlayState.instance.iconP1.alpha = 0;
+		PlayState.instance.healthBar.alpha = 0;
+		PlayState.instance.healthBarBG.alpha = 0;
+		PlayState.instance.scoreText.alpha = 0;
+
+		PlayState.instance.cameraFollowPoint.setPosition(589, -3004);
+		PlayState.instance.tweenCameraToPosition(589, -3004, 0);
+		new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
+			{
+				Countdown.skipCountdown();
+			});
+	}
 }

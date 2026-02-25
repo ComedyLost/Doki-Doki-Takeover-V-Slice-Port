@@ -22,7 +22,7 @@ class KillDoki extends Module
 		}
 		save = DokiPreferences.getDokiSave();
 
-		// active = false;
+		active = false;
 	}
 
 	var deadDoki:Bool;
@@ -30,7 +30,6 @@ class KillDoki extends Module
 	
 	function findDDTOFolder(){
 		for (mod in PolymodHandler.getAllMods()) {
-			trace(mod.id);
 			if (mod.title == 'Doki Doki Takeover Plus') 
 				return 'mods/' + mod.id + '/';
 		}

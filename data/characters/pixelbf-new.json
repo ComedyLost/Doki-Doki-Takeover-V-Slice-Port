@@ -6,7 +6,10 @@
   "renderType": "multisparrow",
   "singTime": 8.0,
   "isPixel": true,
-  "healthIcon": {"id": "pixelbfdoki"},
+  "healthIcon": {
+    "isPixel": false,
+    "id": "pixelbfdoki"
+  },
   "death": {
     "cameraOffsets": [-150, 50]
   },

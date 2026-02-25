@@ -308,7 +308,7 @@ class CatfightSong extends Song
 		PlayState.instance.iconP2.updateHealthIcon(PlayState.instance.health);
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		if (duration == null) duration = 1;
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;

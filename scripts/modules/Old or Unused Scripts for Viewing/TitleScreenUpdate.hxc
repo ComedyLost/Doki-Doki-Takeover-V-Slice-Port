@@ -17,7 +17,6 @@ import funkin.ui.options.OptionsState;
 import funkin.ui.title.TitleState;
 import funkin.ui.MusicBeatState;
 import funkin.ui.story.StoryMenuState;
-import funkin.ui.title.FlxSpriteOverlay;
 import funkin.Conductor;
 
 import funkin.ui.transition.LoadingState;
@@ -63,7 +62,7 @@ class TitleScreen extends Module
 	var scanline:FlxBackdrop;
 	var gradient:FlxSprite;
 
-	var newGfDance:FlxSpriteOverlay;
+	var newGfDance:FlxSprite;
 	var newLogo:FlxSprite;
 	var newTitleText:FlxSprite;
 
@@ -155,7 +154,7 @@ class TitleScreen extends Module
 				newLogo.setGraphicSize(Std.int(newLogo.width * 0.8));		
 				newLogo.shader = FlxG.state.swagShader.shader;
 
-				newGfDance = new FlxSpriteOverlay(FlxG.width * 0.4, FlxG.height * 0.07);
+				newGfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
 				newGfDance.frames = Paths.getSparrowAtlas('intro/gfDanceTitleDoki');
 				newGfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);				
 				newGfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);

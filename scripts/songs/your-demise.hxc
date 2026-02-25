@@ -100,7 +100,7 @@ class YourDemiseSong extends Song
 			}
 	}
 
-	public static function playCountdownSound(index:Int, isPixelStyle:Bool):Void
+	public static function playCountdownSound(index:Int):Void
 		{
 		  var soundPath:String;
 	  
@@ -123,7 +123,7 @@ class YourDemiseSong extends Song
 		  FunkinSound.playOnce(Paths.sound(soundPath), Constants.COUNTDOWN_VOLUME);
 		}	  
 
-	function showCountdownGraphic(index:Int, isPixelStyle:Bool):Void
+	function showCountdownGraphic(index:Int):Void
 		{
 			var spritePath:String = null;
 

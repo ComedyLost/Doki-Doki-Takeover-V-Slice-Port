@@ -1,0 +1,63 @@
+package a.discord.ng;
+
+import funkin.play.song.Song;
+import haxe.Log;
+import funkin.util.logging.AnsiTrace;
+import flixel.util.FlxTimer;
+import funkin.modding.ModStore;
+import funkin.modding.module.Module;
+//import funkin.api.newgrounds.NewgroundsClient; // uncomment this and line 60 after #6952 gets merged (no vsc that is NOT color-)
+
+/**
+ * Made by MightyTheArmiddilo
+ * The Discord Client traces before Modules are loaded
+ * and after Songs are. Thankfully constructors are
+ * called so we can set/reset the trace later. The trace
+ * function must be reset before the game starts due
+ * to some dumb crash.
+ */
+
+
+
+class ASong extends Song {
+  static var dcName:String = '';
+
+  public function new() {
+		super('a.discord.ng');
+
+    if (ModStore.get('a.discord.ng.username') == null) Log.trace = customTrace;
+	}
+
+  static function customTrace(v, i)
+  {
+    var log = v;
+
+    if (i.className == 'funkin.api.discord.DiscordClient' && i.lineNumber == 155)
+    {
+      var formatted = v;
+      formatted = formatted.substring(30);
+      var open:Int;
+      for (c in 0...formatted.length)
+      {
+        if (formatted.charAt(c) == '(')
+        {
+          open = c;
+          break;
+        }
+      }
+      formatted = formatted.substring(0, v.length + ((open - 1) - v.length));
+      ModStore.register('a.discord.ng.username', formatted);
+    }
+
+    AnsiTrace.trace(v, i);
+  }
+}
+
+class BackupNewgrounds extends Module {
+  public function new() {
+    super('a.discord.ng.BackupNewgrounds');
+
+    if (Log.trace == ASong.customTrace) Log.trace = AnsiTrace.trace;
+    // if (ModStore.get('really.long.package.discord.ng.username') == null) ModStore.register('really.long.package.discord.ng.username', NewgroundsClient.user.name)
+  }
+}

@@ -98,7 +98,7 @@ class LibitinaSong extends Song
     var crackBG:FunkinVideoSprite;
 	var hasPlayedCutscene:Bool;
 
-	function calcSectionLength(duration:Int = 1){
+	function calcSectionLength(?duration:Int = 1){
 		if (duration == null) duration = 1;
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;
@@ -514,7 +514,7 @@ class LibitinaSong extends Song
 		Conductor.instance.update(PlayState.instance.startTimestamp);
 	}	
 
-	function libShader(show:Bool, old:Bool)
+	function libShader(?show:Bool, ?old:Bool)
 		{
 			if (old == null) old = false;
 			if (show == null) show = true;

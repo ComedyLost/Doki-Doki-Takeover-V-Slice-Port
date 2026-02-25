@@ -34,7 +34,7 @@ class EvilClubroomStage extends Stage
 	var maskEnabled:Bool;
 	var canChange:Bool;
 	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
-    var shader = new ShaderFilter(bloom);
+    var shaderstat = new ShaderFilter(bloom);
 	var camBG:FunkinCamera;
 
 	function new()
@@ -58,7 +58,7 @@ class EvilClubroomStage extends Stage
 			bloom.setFloat('funsteps', 0.005);
 			bloom.setFloat('funthreshhold', 0.95);
 			bloom.setFloat('funbrightness', 8); 
-			if (save.bloom) camBG.filters = [shader];
+			if (save.bloom) camBG.filters = [shaderstat];
 		}
 
 	override function buildStage()

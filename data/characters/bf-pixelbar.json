@@ -5,7 +5,10 @@
     "assetPath": "characters/newbfPixelbar",
     "flipX": true,
     "singTime": 4,
-    "healthIcon": {"id": "pixelbfdoki"},
+    "healthIcon": {
+        "isPixel": false,
+        "id": "pixelbfdoki"
+    },
     "death": {
         "cameraOffsets": [-150, 50]
     },    

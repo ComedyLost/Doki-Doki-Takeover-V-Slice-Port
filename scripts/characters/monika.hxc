@@ -1,3 +1,5 @@
+package ddto.character;
+
 import funkin.play.character.SparrowCharacter;
 import funkin.play.PlayState;
 import funkin.play.character.CharacterType;
@@ -10,6 +12,8 @@ import flixel.math.FlxPoint;
 import funkin.util.Constants;
 import StringTools;
 import funkin.graphics.FunkinSprite;
+import funkin.FunkinMemory;
+import funkin.util.assets.FlxAnimationUtil;
 
 // original script by Nebula_Zorua
 // scale fix by tormented
@@ -17,14 +21,16 @@ import funkin.graphics.FunkinSprite;
 // player offset fix by cyn0x8
 // do not remove these credits!
 
-class MonikaCharacter extends SparrowCharacter {
+class MonikaBaseCharacter extends SparrowCharacter {
 
-	function new() {
-		super('monika');
+	public function new(characterId:String) {
+		// This tells CharacterDataParser to load Monika instead of an invalid character!
+		if (characterId == "UNKNOWN") characterId = "monika";	  
+		super(characterId);
 	}
-
-	var defaultColor;
-	var missColor;
+	
+	public var defaultColor;
+	public var missColor;
   
 	public function onCreate(event):Void {
 		super.onCreate(event);
@@ -33,6 +39,44 @@ class MonikaCharacter extends SparrowCharacter {
 		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
 		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
 		this.color = defaultColor;
+		addGameOverAssets();
+	}
+
+	// Add the game over assets from BF for all Dokis
+	function addGameOverAssets() {
+		var subTexture = Paths.getSparrowAtlas('characters/DokiGameOver');
+		FunkinMemory.cacheTexture(Paths.image('characters/DokiGameOver'));
+		subTexture.parent.destroyOnNoUse = false;
+		this.frames.addAtlas(subTexture);
+		var animations = [
+			{
+				name: "firstDeath",
+				flipX: true,
+				prefix: "DokiGameOverIntro",
+				assetPath: "characters/DokiGameOver",
+				offsets: [-48, 151]
+			},
+			{
+				name: "deathLoop",
+				flipX: true,
+				prefix: "DokiGameOverLoop",
+				assetPath: "characters/DokiGameOver",
+				looped: true,
+				offsets: [-72, 137]
+			},
+			{
+				name: "deathConfirm",
+				flipX: true,
+				prefix: "DokiGameOverConfirm",
+				assetPath: "characters/DokiGameOver",
+				offsets: [-52, 153]
+			}
+		];
+		for (anim in animations) {
+			FlxAnimationUtil.addAtlasAnimation(super, anim);
+			if (anim.offsets == null) setAnimationOffsets(anim.name, 0, 0);
+			else setAnimationOffsets(anim.name, anim.offsets[0] * 0.9, anim.offsets[1] * 0.9);
+		}
 	}
 	
 	override function onAdd() {
@@ -65,10 +109,9 @@ class MonikaCharacter extends SparrowCharacter {
 		}
 	}		
 	
-	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
-		{
-			// FlxG.watch.addQuick('playAnim(${characterName})', name);
-			if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
-			super.playAnimation(name, restart, ignoreOther, reversed);
-		}
+	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void {
+		// FlxG.watch.addQuick('playAnim(${characterName})', name);
+		if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+		super.playAnimation(name, restart, ignoreOther, reversed);
+	}
 }

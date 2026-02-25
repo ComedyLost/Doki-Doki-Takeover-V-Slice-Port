@@ -3,35 +3,28 @@ import funkin.play.event.SongEvent;
 import funkin.save.Save;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
-
 import flixel.FlxG;
-
 import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
-
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
 import funkin.play.components.HealthIcon;
 import funkin.graphics.FunkinSprite;
 import funkin.FunkinMemory;
-
 import funkin.Paths;
 import openfl.utils.Assets;
 import haxe.Json;
-
 import funkin.util.assets.DataAssets;
 
-typedef CostumeList =
-{
+typedef CostumeList = {
 	var subfolder:Bool;
 	var internal_Name:String;
 	var charFile:String;
 }
 
-//This code fucking sucks ass 😭
+// This code fucking sucks ass 😭
 
 class CostumeSwapper extends Module {
-
 	var SaveData:Save;
 
 	public var playerCostumeArray:Array<CostumeList> = [];
@@ -50,21 +43,21 @@ class CostumeSwapper extends Module {
 
 	public static function getDokiCostume() {
 		/*var copyCostumes = {
-			protagcostume: '',
-			monikacostume: '',
-			yuricostume: '',
-			sayoricostume: '',
-			natsukicostume: '',
-			gfcostume: '',
-			bfcostume: ''
-		};
-		if (!Save.instance.modOptions.exists('CostumesV2')) {
-			Save.instance.modOptions.set('CostumesV2', copyCostumes);
-			Save.instance.flush();
-		}
-		return Save?.instance?.modOptions?.get('CostumesV2');*/
+				protagcostume: '',
+				monikacostume: '',
+				yuricostume: '',
+				sayoricostume: '',
+				natsukicostume: '',
+				gfcostume: '',
+				bfcostume: ''
+			};
+			if (!Save.instance.modOptions.exists('CostumesV2')) {
+				Save.instance.modOptions.set('CostumesV2', copyCostumes);
+				Save.instance.flush();
+			}
+			return Save?.instance?.modOptions?.get('CostumesV2'); */
 		var binder = new FlxSave();
-        binder.bind("CostumesV2", "FunkinCrew");
+		binder.bind("CostumesV2", "FunkinCrew");
 		return binder.data;
 	}
 
@@ -72,7 +65,7 @@ class CostumeSwapper extends Module {
 		super('CostumeSwapper');
 		any = DokiPreferences.getDokiSave();
 		var binder = new FlxSave();
-        binder.bind("CostumesV2", "FunkinCrew");
+		binder.bind("CostumesV2", "FunkinCrew");
 		SaveData = binder.data;
 		SaveData.protagcostume = SaveData.protagcostume ?? '';
 		SaveData.monikacostume = SaveData.monikacostume ?? '';
@@ -86,36 +79,45 @@ class CostumeSwapper extends Module {
 
 	public function onSongRetry(event):Void {
 		super.onSongRetry(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
+		if (PlayState.instance == null || PlayState.instance.currentStage == null)
+			return;
+		if (PlayState.instance.isMinimalMode)
+			return;
 
 		songLoadCostumeSwap();
 	}
 
-	function songLoadCostumeSwap(?firstLoad:Bool = false){ // Does the costume swap on song load, fixes the default characters showing up on restart
+	function songLoadCostumeSwap(?firstLoad:Bool = false) { // Does the costume swap on song load, fixes the default characters showing up on restart
 		switch (PlayState.instance.currentSong.id.toLowerCase()) {
-			case "mstsoobf", "epiphany-with-lyrics", "epiphany", "tutorial": return; //Force default characters since those songs might break with costumes
-			default: //Nothing
+			case "mstsoobf", "epiphany-with-lyrics", "epiphany", "tutorial":
+				return; // Force default characters since those songs might break with costumes
+			default: // Nothing
 		}
 		var playerJSON = jsonLoad(PlayState.instance.currentChart.characters.player);
 		var girlfriendJSON = jsonLoad(PlayState.instance.currentChart.characters.girlfriend);
 		var dadJSON = jsonLoad(PlayState.instance.currentChart.characters.opponent);
 
-		if (any.costumesanywhere){
-			if (PlayState.instance.currentChart.characters.player == 'bf') playerJSON = jsonLoad('bf-doki');
-			if (PlayState.instance.currentChart.characters.girlfriend == 'gf') girlfriendJSON = jsonLoad('gf-realdoki');
-			if (PlayState.instance.currentChart.characters.opponent == 'gf') dadJSON = jsonLoad('gf-realdoki');
+		if (any.costumesanywhere) {
+			if (PlayState.instance.currentChart.characters.player == 'bf')
+				playerJSON = jsonLoad('bf-doki');
+			if (PlayState.instance.currentChart.characters.girlfriend == 'gf')
+				girlfriendJSON = jsonLoad('gf-realdoki');
+			if (PlayState.instance.currentChart.characters.opponent == 'gf')
+				dadJSON = jsonLoad('gf-realdoki');
 		}
 
-		if (playerJSON?.costumes != null) playerCostumeArray = playerJSON.costumelist;
-		if (girlfriendJSON?.costumes != null) girlfriendCostumeArray = girlfriendJSON.costumelist;
-		if (dadJSON?.costumes != null) dadCostumeArray = dadJSON.costumelist;
-		
+		if (playerJSON?.costumes != null)
+			playerCostumeArray = playerJSON.costumelist;
+		if (girlfriendJSON?.costumes != null)
+			girlfriendCostumeArray = girlfriendJSON.costumelist;
+		if (dadJSON?.costumes != null)
+			dadCostumeArray = dadJSON.costumelist;
+
 		var playerCostume = checkCostume(playerJSON);
 		var girlfriendCostume = checkCostume(girlfriendJSON);
 		var dadCostume = checkCostume(dadJSON);
-		
-		if (playerCostume != ''){
+
+		if (playerCostume != '') {
 			for (costume in playerCostumeArray) {
 				var internal_name:String = '' + costume.internal_Name;
 				var charafile:String = '' + costume.charFile;
@@ -129,9 +131,9 @@ class CostumeSwapper extends Module {
 					changeCharacter("costumes/" + charafile, 'bf');
 				else
 					changeCharacter(charafile, 'bf');
-			}	
+			}
 		}
-		if (girlfriendCostume != ''){
+		if (girlfriendCostume != '') {
 			for (costume in girlfriendCostumeArray) {
 				var internal_name:String = '' + costume.internal_Name;
 				var charafile:String = '' + costume.charFile;
@@ -145,9 +147,9 @@ class CostumeSwapper extends Module {
 					changeCharacter("costumes/" + charafile, 'gf');
 				else
 					changeCharacter(charafile, 'gf');
-			}	
+			}
 		}
-		if (dadCostume != ''){
+		if (dadCostume != '') {
 			for (costume in dadCostumeArray) {
 				var internal_name:String = '' + costume.internal_Name;
 				var charafile:String = '' + costume.charFile;
@@ -169,15 +171,17 @@ class CostumeSwapper extends Module {
 		}
 	}
 
-	function getCostumeName(character:String){ //For use in songs that add characters manually
+	function getCostumeName(character:String) { // For use in songs that add characters manually
 		var json = jsonLoad(character);
 
-		if (json?.costumes != null) var costumeArray = json.costumelist;
-		else return character;
-		
+		if (json?.costumes != null)
+			var costumeArray = json.costumelist;
+		else
+			return character;
+
 		var costumeName = checkCostume(json);
-		
-		if (costumeName != ''){
+
+		if (costumeName != '') {
 			for (costume in costumeArray) {
 				var internal_name:String = '' + costume.internal_Name;
 				var charafile:String = '' + costume.charFile;
@@ -191,20 +195,22 @@ class CostumeSwapper extends Module {
 					return "costumes/" + charafile;
 				else
 					return charafile;
-			}	
-		} 
-		else return character;
+			}
+		} else
+			return character;
 	}
 
-	function costumeSwap(name:String, replace:String){
+	function costumeSwap(name:String, replace:String) {
 		var json = jsonLoad(name);
 
-		if (json?.costumes != null) var costumeArray = json.costumelist;
-		else return;
-		
+		if (json?.costumes != null)
+			var costumeArray = json.costumelist;
+		else
+			return;
+
 		var costumeName = checkCostume(json);
-		
-		if (costumeName != ''){
+
+		if (costumeName != '') {
 			for (costume in costumeArray) {
 				var internal_name:String = '' + costume.internal_Name;
 				var charafile:String = '' + costume.charFile;
@@ -218,14 +224,15 @@ class CostumeSwapper extends Module {
 					changeCharacter("costumes/" + charafile, replace);
 				else
 					changeCharacter(charafile, replace);
-			}	
+			}
 		}
 	}
 
-	function checkCostume(jsonFile){
+	function checkCostume(jsonFile) {
 		var costumeoverride;
-		if (jsonFile == null) return '';
-		switch (jsonFile?.costumes){
+		if (jsonFile == null)
+			return '';
+		switch (jsonFile?.costumes) {
 			case 'protag':
 				costumeoverride = SaveData.protagcostume;
 			case 'monika':
@@ -247,14 +254,12 @@ class CostumeSwapper extends Module {
 			return costumeoverride;
 	}
 
-	function jsonLoad(chara:String)
-	{
+	function jsonLoad(chara:String) {
 		var path:String = '';
 
 		path = Paths.json('characters/' + chara);
 
-		if (!Assets.exists(path))
-		{
+		if (!Assets.exists(path)) {
 			return null;
 		}
 
@@ -262,33 +267,31 @@ class CostumeSwapper extends Module {
 		return Json.parse(rawJson);
 	}
 
-	var hasLoaded:Bool;
-	override function onSubStateCloseBegin(event) {
-		if (event.targetState is PlayState) hasLoaded = false;
+	override function onSubStateOpenEnd(event) {
+		if (event.targetState is PlayState)
+			songLoadCostumeSwap(true);
 	}
 
-	override function onStateChangeBegin(event) {
-		if (FlxG.state is PlayState) hasLoaded = false;
+	override function onStateChangeEnd(event) {
+		if (event.targetState is PlayState)
+			songLoadCostumeSwap(true);
 	}
 
-	//Cache costume textures to prevent lag
+	// Cache costume textures to prevent lag
 	override function onSongLoaded(event) {
 		super.onSongLoaded(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
-
-		if (!hasLoaded) {
-			trace('$hasLoaded | uh oh shouldn\'t be loading if that\'s true');
-			hasLoaded = true;
-			songLoadCostumeSwap(true);
-		}
-
-		for (events in event.events){
-			if (events.eventKind == 'ChangeCharacterCL'){
+		if (PlayState.instance == null || PlayState.instance.currentStage == null)
+			return;
+		if (PlayState.instance.isMinimalMode)
+			return;
+		for (events in event.events) {
+			if (events.eventKind == 'ChangeCharacterCL') {
 				var json = jsonLoad(events.value.newchar);
-				if (json?.costumes == null) continue;
+				if (json?.costumes == null)
+					continue;
 
-				if (checkCostume(json) == '') continue;
+				if (checkCostume(json) == '')
+					continue;
 				var costumeArray = json.costumelist;
 
 				var character:String;
@@ -306,17 +309,17 @@ class CostumeSwapper extends Module {
 						character = "costumes/" + charafile;
 					else
 						character = charafile;
-				}	
+				}
 
 				var charData = CharacterDataParser.parseCharacterData(character);
-				CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
+				CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length + 1] = charData;
 
 				var _data = CharacterDataParser.fetchCharacterData(character);
 				FunkinMemory.cacheTexture(Paths.image(_data.assetPath));
-				if (Std.string(_data.renderType) == 'MultiSparrow'){ //Check if character uses multiple spritesheets, so we can cache them too
+				if (Std.string(_data.renderType) == 'MultiSparrow') { // Check if character uses multiple spritesheets, so we can cache them too
 					var assetList = [];
 					for (anim in _data.animations) {
-						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){
+						if (anim.assetPath != null && !assetList.contains(anim.assetPath)) {
 							assetList.push(anim.assetPath);
 							FunkinMemory.cacheTexture(Paths.image(anim.assetPath));
 						}
@@ -324,32 +327,35 @@ class CostumeSwapper extends Module {
 				}
 			}
 		}
-	}	
+	}
 
 	public override function onSongEvent(scriptEvent:SongEventScriptEvent) {
 		var script = scriptEvent;
 		if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter") {
-			if (scriptEvent.eventCanceled) return;
+			if (scriptEvent.eventCanceled)
+				return;
 			scriptEvent.eventData.activated = true;
 			var eventProps = scriptEvent.eventData.value;
 			var json = jsonLoad(eventProps.newchar);
-			if (json?.costumes == null || checkCostume(json) == '') return;
+			if (json?.costumes == null || checkCostume(json) == '')
+				return;
 			script.cancelEvent(); // Remove Event if breaks
 			costumeSwap(eventProps.newchar, eventProps.character.toLowerCase());
 		}
 	}
 
-	function changeCharacter(newName:String, character:String){
+	function changeCharacter(newName:String, character:String) {
 		var charData = CharacterDataParser.parseCharacterData(newName);
-		CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
+		CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length + 1] = charData;
 
-		switch (character){
+		switch (character) {
 			case 'bf':
 				var bfZIndex = PlayState.instance.currentStage.getBoyfriend().zIndex;
-				if (bfZIndex == null) bfZIndex = 0;
-		
+				if (bfZIndex == null)
+					bfZIndex = 0;
+
 				PlayState.instance.currentStage.getBoyfriend().destroy();
-		
+
 				var boyfriend = CharacterDataParser.fetchCharacter(newName);
 				if (boyfriend != null) {
 					boyfriend.set_characterType(CharacterType.BF);
@@ -359,10 +365,11 @@ class CostumeSwapper extends Module {
 				}
 			case 'gf':
 				var gfZIndex = PlayState.instance.currentStage.getGirlfriend().zIndex;
-				if (gfZIndex == null) gfZIndex = 0;
-		
+				if (gfZIndex == null)
+					gfZIndex = 0;
+
 				PlayState.instance.currentStage.getGirlfriend().destroy();
-		
+
 				var girlfriend = CharacterDataParser.fetchCharacter(newName);
 				if (girlfriend != null) {
 					girlfriend.set_characterType(CharacterType.GF);
@@ -371,10 +378,11 @@ class CostumeSwapper extends Module {
 				}
 			case 'dad':
 				var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
-				if (oppZIndex == null) oppZIndex = 0;
-		
+				if (oppZIndex == null)
+					oppZIndex = 0;
+
 				PlayState.instance.currentStage.getDad().destroy();
-		
+
 				var dad = CharacterDataParser.fetchCharacter(newName);
 				if (dad != null) {
 					dad.set_characterType(CharacterType.DAD);

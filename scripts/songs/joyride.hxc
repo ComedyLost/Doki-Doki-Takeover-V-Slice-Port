@@ -57,7 +57,7 @@ class JoyrideSong extends Song
 		sunshine.alpha = 0.001;
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;
 	}

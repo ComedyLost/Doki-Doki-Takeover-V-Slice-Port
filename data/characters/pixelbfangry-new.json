@@ -6,7 +6,7 @@
     "flipX": true,
     "healthIcon": {
         "id": "pixelbfdokiangry"
-      },
+    },
     "singTime": 4,
     "death": {
         "cameraOffsets": [-150, 50]

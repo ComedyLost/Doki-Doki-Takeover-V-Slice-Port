@@ -24,6 +24,8 @@ class DDTOGameOver extends Module {
 
 	public function new() {
 		super("DDTOGameOver");
+
+		active = false;
 	}
 
 	var doki = ['sayori', 'monika', 'natsuki', 'yuri', 'yuri-crazy'];

@@ -104,6 +104,11 @@ class LoveNFunkinSong extends Song
 		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
 		if (PlayState.instance.isMinimalMode) return;
 
+		if (PlayState.instance.iconP2 != null && PlayState.instance.iconP2.characterId != 'love-n-funkin') {
+			PlayState.instance.iconP2.characterId = 'love-n-funkin';
+			PlayState.instance.iconP2.loadCharacter('love-n-funkin');
+		}
+
 		if (camGame2 != null) camGame2.zoom = FlxG.camera.zoom;
 		processNotes(event);
 	}
@@ -236,7 +241,7 @@ class LoveNFunkinSong extends Song
 		PlayState.instance.iconP2.loadCharacter('love-n-funkin');
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		if (duration == null) duration = 1;
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;

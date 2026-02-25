@@ -172,7 +172,7 @@ class DokiDoggleSong extends Song
 		PlayState.instance.currentStage.refresh();
 	}
 
-	function processNotes(elapsed:Float):Void { 
+	function processNotes(?elapsed:Float):Void { 
 		// Process notes on the opponent's side.
 		if (extraStrumline.notes?.members == null) return;
 
@@ -182,6 +182,7 @@ class DokiDoggleSong extends Song
 	  		var r = GRhythmUtil.processWindow(note, false);
 	  		if (r.botplayHit) {
 				extraOpp.playSingAnimation(note.noteData.getDirection(), false);
+				extraOpp.holdTimer = 0;
 
 				// Command the opponent to hit the note on time.
 				// NOTE: This is what handles the strumline and cleaning up the note itself!
@@ -216,12 +217,12 @@ class DokiDoggleSong extends Song
 		}
 	}
 
-	function calcSectionLength(duration:Int){
+	function calcSectionLength(?duration:Int = 1){
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;
 	}
 
-	function stutterNotes(elapsed:Float):Void
+	function stutterNotes(?elapsed:Float):Void
 		{
 			if (extraStrumline == null || extraStrumline.notes.members == null) return;
 

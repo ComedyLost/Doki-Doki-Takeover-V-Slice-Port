@@ -27,7 +27,7 @@ class FestivalClubroomStage extends Stage
 	}
 
 	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
-    var shader = new ShaderFilter(bloom);
+    var shaderstat = new ShaderFilter(bloom);
 	var noFestivalMod:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
 
 	function setDokiPosition(character:String){
@@ -120,7 +120,7 @@ class FestivalClubroomStage extends Stage
 		bloom.setFloat('funsteps', 0.005);
 		bloom.setFloat('funthreshhold', 0.8);
 		bloom.setFloat('funbrightness', 7); 
-		if (save.bloom) PlayState.instance.camGame.filters = [shader];
+		if (save.bloom) PlayState.instance.camGame.filters = [shaderstat];
 		getBoyfriend().color = 0x828282;
 		getGirlfriend().color = 0x828282;
 		getOpponent().color = 0x828282;

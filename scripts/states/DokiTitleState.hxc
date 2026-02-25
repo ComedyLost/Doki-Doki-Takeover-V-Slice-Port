@@ -40,6 +40,8 @@ class DokiTitleState extends MusicBeatState
 	var tbdSpr:FlxSprite;
 	var doki:FlxSprite;
 
+	var sentpajim:FlxSprite;
+
 	var curWacky:Array<String> = [];
 
 	var wackyImage:FlxSprite;
@@ -173,6 +175,13 @@ class DokiTitleState extends MusicBeatState
 		tbdSpr.updateHitbox();
 		tbdSpr.screenCenter(0x01);
 		add(tbdSpr);
+
+		sentpajim = new FlxSprite(0, (FlxG.height * .45) + 20).loadGraphic(Paths.image('intro/sentpajim'));
+		sentpajim.visible = false;
+		sentpajim.setGraphicSize(Std.int(sentpajim.width * 0.5));
+		sentpajim.updateHitbox();
+		sentpajim.screenCenter(0x01);
+		add(sentpajim);
 
 		//Handling doki stuff
 		dokiApp = new FlxSprite(0, 0);
@@ -372,7 +381,11 @@ class DokiTitleState extends MusicBeatState
 				createCoolText([curWacky[0]]);
 			case 11:
 				addMoreText(curWacky[1]);
+				if (curWacky[1] == 'a littkle bit bfgreatky') {
+					sentpajim?.visible = true;
+				}
 			case 12:
+				if (sentpajim?.visible != false) sentpajim?.visible = false;
 				deleteCoolText();
 			case 13:
 				// addMoreText('Doki');
