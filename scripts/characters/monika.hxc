@@ -42,6 +42,15 @@ class MonikaBaseCharacter extends SparrowCharacter {
 		addGameOverAssets();
 	}
 
+	public var gameOverSpriteScale;
+	public var normalScale;
+
+	public function setScale(scale:Null<Float>):Void {
+		super.setScale(scale);
+		normalScale = scale;
+		gameOverSpriteScale = scale + 0.1;	  
+	}
+
 	// Add the game over assets from BF for all Dokis
 	function addGameOverAssets() {
 		var subTexture = Paths.getSparrowAtlas('characters/DokiGameOver');
@@ -75,24 +84,35 @@ class MonikaBaseCharacter extends SparrowCharacter {
 		for (anim in animations) {
 			FlxAnimationUtil.addAtlasAnimation(super, anim);
 			if (anim.offsets == null) setAnimationOffsets(anim.name, 0, 0);
-			else setAnimationOffsets(anim.name, anim.offsets[0] * 0.9, anim.offsets[1] * 0.9);
+			else setAnimationOffsets(anim.name, anim.offsets[0] - 100, anim.offsets[1] - 400);
 		}
 	}
 	
 	override function onAdd() {
 		if (characterType != CharacterType.BF) return;
-		this.cameraFocusPoint.y += 100;
 		GameOverSubState.musicSuffix = '-doki';
 		GameOverSubState.blueBallSuffix = '-doki';
 
 		PauseSubState.musicSuffix = '-doki';
 	}
 
+	public function resetCameraFocusPoint():Void {
+		super.resetCameraFocusPoint();
+        if (characterType == CharacterType.BF) this.cameraFocusPoint.y += 100;
+	}
+
 	override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {
 		var output:FlxPoint = super.getScreenPosition(result, camera);
-		if (flipX) {output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;}
-		if (flipY) {output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;}
-		return output;
+		switch (getCurrentAnimation()) {
+			case 'firstDeath', 'deathLoop', 'deathConfirm': 
+				if (this.scale.x != gameOverSpriteScale) this.scale.set(gameOverSpriteScale, gameOverSpriteScale);
+				return output;
+			default: 
+				if (this.scale.x != normalScale) this.scale.set(normalScale, normalScale);
+				if (flipX) {output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;}
+				if (flipY) {output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;}
+				return output;		
+		}
 	}
 	
 	override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void {
