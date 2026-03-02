@@ -12,7 +12,6 @@ import flixel.effects.FlxFlicker;
 import flixel.util.FlxTimer;
 import funkin.ui.transition.LoadingState;
 
-import funkin.Paths;
 import Std;
 
 import funkin.data.song.SongRegistry;
@@ -24,7 +23,6 @@ import flixel.input.mouse.FlxMouseEvent;
 import haxe.ui.events.MouseEvent;
 import funkin.input.Cursor;
 
-import flixel.FlxG;
 
 class DOMButton extends Module {
   var shaker:FlxSprite;

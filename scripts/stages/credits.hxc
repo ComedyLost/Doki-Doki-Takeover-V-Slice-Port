@@ -1,8 +1,6 @@
-import flixel.FlxG;
 import funkin.play.PlayState;
 import funkin.play.stage.Stage;
 import funkin.graphics.FunkinSprite;
-import funkin.Paths;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.addons.display.FlxBackdrop; 
@@ -13,7 +11,6 @@ import funkin.modding.module.ModuleHandler;
 import funkin.modding.base.ScriptedFlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 import funkin.graphics.FunkinSprite;
-import funkin.Paths;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.utils.Assets;
 import flixel.FlxCamera;
@@ -25,8 +22,6 @@ import funkin.play.notes.NoteHoldCover;
 import funkin.play.notes.NoteSprite;
 import funkin.play.notes.notestyle.NoteStyle;
 import funkin.play.notes.Strumline;
-import funkin.util.Constants;
-import funkin.Preferences;
 import funkin.Highscore;
 import flixel.FlxCameraFollowStyle;
 

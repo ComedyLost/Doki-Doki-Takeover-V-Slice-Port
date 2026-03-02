@@ -1,10 +1,7 @@
-import flixel.FlxG;
 import funkin.play.PlayState;
 import funkin.play.stage.Stage;
 import funkin.graphics.FunkinSprite;
-import funkin.Paths;
 import funkin.play.Countdown;
-import funkin.Paths;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.FlxCamera;

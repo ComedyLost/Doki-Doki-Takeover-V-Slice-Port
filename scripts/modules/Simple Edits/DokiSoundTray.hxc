@@ -4,10 +4,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
-import funkin.Preferences;
 import funkin.ui.options.FunkinSoundTray;
-import funkin.Paths;
-import flixel.FlxG;
 import openfl.display.Bitmap;
 
 class DokiSoundTray extends Module

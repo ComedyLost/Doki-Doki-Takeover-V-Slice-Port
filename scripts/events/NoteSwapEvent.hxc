@@ -4,15 +4,11 @@ import funkin.play.event.ScriptedSongEvent;
 import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 import funkin.play.scoring.Scoring;
-import funkin.Preferences;
 import funkin.FunkinMemory;
 
 import funkin.Highscore;
 
-import funkin.util.Constants;
 
-import funkin.Paths;
-import flixel.FlxG;
 
 import funkin.mobile.input.ControlsHandler;
 

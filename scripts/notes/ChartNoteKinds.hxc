@@ -2,8 +2,6 @@ import funkin.play.PlayState;
 import funkin.ui.debug.charting.ChartEditorState;
 import funkin.ui.debug.charting.util.ChartEditorDropdowns;
 import funkin.modding.module.Module;
-import funkin.Paths;
-import flixel.FlxG;
 
 class DDTONoteKinds extends Module
 {

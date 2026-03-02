@@ -1,4 +1,3 @@
-import flixel.FlxG;
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
@@ -6,10 +5,8 @@ import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
-import funkin.Paths;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
-import funkin.util.Constants;
 import flixel.addons.text.FlxTypeText;
 import flixel.text.FlxTextBorderStyle;
 import flixel.text.FlxText;

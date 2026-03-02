@@ -1,7 +1,5 @@
-import flixel.FlxG;
 import flixel.util.FlxTimer;
 
-import funkin.Paths;
 import funkin.Highscore;
 import funkin.graphics.FunkinSprite;
 import funkin.play.PlayState;

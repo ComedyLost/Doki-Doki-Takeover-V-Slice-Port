@@ -1,14 +1,10 @@
 import funkin.modding.module.Module;
 import funkin.play.PlayState;
 import funkin.graphics.FunkinSprite;
-import funkin.Paths;
-import funkin.Preferences;
-import funkin.util.Constants;
 import funkin.Highscore;
 import funkin.play.scoring.Scoring;
 import funkin.play.notes.Strumline;
 import funkin.save.Save;
-import flixel.FlxG;
 
 class RandomizeNotes extends Module
 {

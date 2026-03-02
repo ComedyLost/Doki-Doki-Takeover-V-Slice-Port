@@ -1,6 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Yuri",
+    "renderType": "multisparrow",
     "assetPath": "characters/Doki_Yuri_Assets",
     "flipX": false,
     "singTime": 6,

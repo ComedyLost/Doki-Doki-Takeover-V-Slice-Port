@@ -1,7 +1,5 @@
 import funkin.play.character.MultiSparrowCharacter;
 import funkin.play.PlayState;
-import funkin.Paths;
-import flixel.FlxG;
 import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 import funkin.play.components.HealthIcon;

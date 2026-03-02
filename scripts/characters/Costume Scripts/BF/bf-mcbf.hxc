@@ -2,10 +2,8 @@ import funkin.play.character.MultiSparrowCharacter;
 import funkin.play.PlayState;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
-import funkin.Paths;
 import flixel.FlxSprite;
 import funkin.play.character.CharacterType;
-import flixel.FlxG;
 import funkin.Conductor;
 
 class MCBFCharacter extends MultiSparrowCharacter {

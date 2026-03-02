@@ -9,10 +9,8 @@ import funkin.ui.Prompt;
 import flixel.addons.transition.FlxTransitionableState;
 import funkin.ui.AtlasMenuItem;
 
-import funkin.Paths;
 import Std;
 
-import flixel.FlxG;
 
 class CostumeButton extends Module {
 

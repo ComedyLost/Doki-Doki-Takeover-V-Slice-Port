@@ -5,11 +5,8 @@ import funkin.play.PlayState;
 import funkin.play.character.CharacterType;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
-import funkin.Paths;
 import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.math.FlxPoint;
-import funkin.util.Constants;
 import StringTools;
 import funkin.graphics.FunkinSprite;
 import funkin.FunkinMemory;
@@ -115,7 +112,7 @@ class SayoriBaseCharacter extends SparrowCharacter {
 	function onNoteHit(event:NoteScriptEvent) {
 		// Override the hit note animation.
 		switch(event.note.kind) {
-			case "Hurt Note", "GF Sing", "Monika":
+			case "Hurt Note", "GF Sing", "Monika", "gf":
 				return;
 			default:
 				super.onNoteHit(event);

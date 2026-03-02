@@ -1,4 +1,3 @@
-import flixel.FlxG;
 
 import flixel.addons.transition.FlxTransitionableState;
 
@@ -19,7 +18,6 @@ import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.modding.base.MusicBeatState;
 import funkin.modding.module.Module;
 
-import funkin.Paths;
 
 import Std;
 import funkin.util.ReflectUtil;

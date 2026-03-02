@@ -1,4 +1,3 @@
-import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxEase;
@@ -10,7 +9,6 @@ import funkin.graphics.shaders.LeftMaskShader;
 import funkin.ui.MusicBeatState;
 import funkin.Conductor;
 import flixel.addons.display.FlxBackdrop;
-import funkin.Paths;
 import flixel.group.FlxTypedSpriteGroup;
 import funkin.ui.AtlasText;
 import funkin.ui.mainmenu.MainMenuState;

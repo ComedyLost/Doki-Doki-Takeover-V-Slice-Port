@@ -1,25 +1,25 @@
+package ddto.character;
+
 import funkin.play.character.MultiSparrowCharacter;
 import funkin.play.PlayState;
 import funkin.play.character.CharacterType;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
-import funkin.Paths;
-import flixel.FlxSprite;
-import flixel.FlxG;
 import flixel.math.FlxPoint;
-import funkin.util.Constants;
 import StringTools;
 
 // player offset fix by cyn0x8
 
-class ProtagCharacter extends MultiSparrowCharacter {
-
-	function new() {
-		super('protag');
+class ProtagBaseCharacter extends MultiSparrowCharacter {
+	
+	public function new(characterId:String) {
+		// This tells CharacterDataParser to load Protag instead of an invalid character!
+		if (characterId == "UNKNOWN") characterId = "protag";	  
+		super(characterId);
 	}
 
-    var defaultColor;
-    var missColor;
+	public var defaultColor;
+	public var missColor;
   
     public function onCreate(event):Void {
     	super.onCreate(event);
@@ -59,10 +59,9 @@ class ProtagCharacter extends MultiSparrowCharacter {
 		PauseSubState.musicSuffix = '-doki';
 	}
 
-	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
-		{
-		  // FlxG.watch.addQuick('playAnim(${characterName})', name);
-		  if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
-		  super.playAnimation(name, restart, ignoreOther, reversed);
-		}
+	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void {
+		// FlxG.watch.addQuick('playAnim(${characterName})', name);
+		if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+		super.playAnimation(name, restart, ignoreOther, reversed);
+	}
 }

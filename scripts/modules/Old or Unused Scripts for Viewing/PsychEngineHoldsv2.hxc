@@ -6,7 +6,6 @@ import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 import funkin.save.Save;
 import funkin.Conductor;
-import flixel.FlxG;
 import StringTools;
 
 //A version 2 of the Psych Note Holds effect

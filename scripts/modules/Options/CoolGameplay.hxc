@@ -1,11 +1,8 @@
 import funkin.modding.module.Module;
 import funkin.play.PlayState;
-import funkin.Preferences;
 import funkin.PlayerSettings;
 import funkin.Highscore;
 import funkin.audio.FunkinSound;
-import funkin.Paths;
-import flixel.FlxG;
 import funkin.save.Save;
 import flixel.FlxSprite;
 

@@ -1,6 +1,4 @@
 import funkin.modding.module.Module;
-import flixel.FlxG;
-import funkin.Paths;
 import funkin.ui.freeplay.FreeplayState;
 import funkin.util.ReflectUtil;
 import funkin.ui.freeplay.SongMenuItem;
@@ -15,7 +13,6 @@ import funkin.mobile.input.ControlsHandler;
 import funkin.data.song.SongRegistry;
 import funkin.util.FileUtil;
 import funkin.modding.PolymodHandler;
-import funkin.util.Constants;
 import funkin.ui.UIState;
 
 using StringTools;

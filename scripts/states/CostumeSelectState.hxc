@@ -1,6 +1,5 @@
 import haxe.Json;
 import lime.utils.Assets;
-import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;

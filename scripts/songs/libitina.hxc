@@ -1,6 +1,4 @@
-import flixel.FlxG;
 import funkin.play.PlayState;
-import funkin.Paths;
 import funkin.play.song.Song;
 import funkin.Highscore;
 import funkin.save.Save;
@@ -24,7 +22,6 @@ import flixel.text.FlxTextBorderStyle;
 import funkin.graphics.shaders.WiggleEffectRuntime;
 import funkin.graphics.shaders.WiggleEffectType;
 import flixel.FlxCameraFollowStyle;
-import funkin.util.Constants;
 import funkin.modding.module.ModuleHandler;
 import funkin.play.GameOverSubState;
 import funkin.audio.FunkinSound;
