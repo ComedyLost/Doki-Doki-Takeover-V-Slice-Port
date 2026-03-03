@@ -5,10 +5,10 @@ import funkin.play.PauseSubState;
 import flixel.FlxSprite;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
-import funkin.modding.base.ScriptedFunkinSprite;
 import lime.app.Application;
 
 class BFDokiNewCharacter extends MultiSparrowCharacter {
+
 	var epiphany:Bool;
 	var epiphanyLyrics:Bool;
 	var curSong:String;
@@ -28,7 +28,7 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 		super.onCreate(event);
 		this.alpha = 1;
 		PlayState.instance?.resetCamera(false, true);
-		curSong = PlayState.instance.currentSong.id.toLowerCase();
+		curSong = PlayState.instance?.currentSong?.id?.toLowerCase() ?? '';
 		epiphany = false;
 		epiphanyLyrics = false;
 		if (curSong == "epiphany"){
@@ -41,21 +41,20 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 		GameOverSubState.musicSuffix = '-doki';
 
 		PauseSubState.musicSuffix = '-doki';
-		if (epiphanyLyrics)
-			{
-				GameOverSubState.blueBallSuffix = '-bigmonika';
-				monikaDeathSkin = "characters/Doki_BigMonikaDress_Assets";
-			} else if (epiphany){
-				monikaDeathSkin = "characters/big_monikia_death";
-				if (FlxG.random.bool(0.05)){
-					GameOverSubState.blueBallSuffix = '-rare';
-					doRareDeathScreen = true;
-				} else {
-					GameOverSubState.blueBallSuffix = '-bigmonika';
-				}
+		if (epiphanyLyrics) {
+			GameOverSubState.blueBallSuffix = '-bigmonika';
+			monikaDeathSkin = "characters/Doki_BigMonikaDress_Assets";
+		} else if (epiphany){
+			monikaDeathSkin = "characters/big_monikia_death";
+			if (FlxG.random.bool(0.05)) {
+				GameOverSubState.blueBallSuffix = '-rare';
+				doRareDeathScreen = true;
 			} else {
-				GameOverSubState.blueBallSuffix = '-doki';
-			}	
+				GameOverSubState.blueBallSuffix = '-bigmonika';
+			}
+		} else {
+			GameOverSubState.blueBallSuffix = '-doki';
+		}	
 	}
 
 	function createDeathSprites() {
@@ -114,14 +113,13 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 
 			}
 		}
-
 		super.playAnimation(name, restart, ignoreOther);
 	}
 
 	override function onAnimationFinished(name:String) {
 		super.onAnimationFinished(name);
 		if (name == 'firstDeath') {
-			if (doRareDeathScreen){
+			if (doRareDeathScreen) {
 				Application.current.window.close();
 				//PlayState.instance.close();
 				deathSpriteMonika.alpha = 0;
@@ -129,16 +127,9 @@ class BFDokiNewCharacter extends MultiSparrowCharacter {
 		}
 	}
 
-	function onNoteMiss(event:NoteScriptEvent)
-		{
-			if (event.eventCanceled) return;
-			super.onNoteMiss(event);
-		}
-
-	function onSongRetry(event:ScriptEvent)
-		{
-			super.onSongRetry(event);
-			PlayState.instance?.resetCamera(false, true);
-			this.alpha = 1;
-		}
+	function onSongRetry(event:ScriptEvent) {
+		super.onSongRetry(event);
+		PlayState.instance?.resetCamera(false, true);
+		this.alpha = 1;
+	}
 }

@@ -22,6 +22,7 @@ import funkin.save.Save;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.touch.FlxTouch;
 import funkin.ui.FullScreenScaleMode;
+import flixel.util.FlxColor;
 
 import StringTools;
 
@@ -83,6 +84,7 @@ class DokiTitleState extends MusicBeatState
 	var gradient:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
+	var attractTimer:FlxTimer;
 
 	function startIntro()
 	{
@@ -233,13 +235,16 @@ class DokiTitleState extends MusicBeatState
 			ModuleHandler.getModule("TitleScreenReplace").scriptCall("setInitialized", [true]);
 		}
 
-		if (FlxG.sound.music != null) FlxG.sound.music.onComplete = moveToAttract;
+		attractTimer = new FlxTimer().start(Constants.TITLE_ATTRACT_DELAY, (_:FlxTimer) -> moveToAttract());
 	}
 
 	function moveToAttract():Void {
-    	FlxG.switchState(() -> new AttractState());
-  	}
-
+		FlxG.sound.music.fadeOut(2.0, 0);
+		FlxG.camera.fade(FlxColor.BLACK, 2.0, false, function() {
+			FlxG.switchState(() -> new AttractState());
+		});
+	}
+	  
 	function getIntroTextShit():Array<Array<String>>
 	{
 		var fullText:String = Assets.getText(Paths.txt('introDokiText'));

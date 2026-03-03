@@ -1,68 +1,79 @@
 {
     "version": "1.0.0",
     "name": "Monika (Casual)",
-    "assetPath": "characters/monika/Doki_MonikaCasual_Assets",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/monika/casual",
+    "flipX": false,
     "singTime": 6,
-    "isPixel": false,
-    "scale": 0.9,
-    "cameraOffsets": [0, -5],
-    "healthIcon": {
-        "id": "monika",
-        "isPixel": false,
-        "flipX": false,
-        "scale": 1
-    },
+    "healthIcon": {"id": "monika"},
+    "cameraOffsets": [0, 15],
     "animations": [
         {
             "name": "idle",
             "prefix": "Monika Returns Idle",
-            "offsets": [
-                0,
-                0
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [0, 0]
         },
         {
             "name": "singUP",
             "prefix": "Monika Returns Up",
-            "offsets": [
-                -107,
-                15
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [-37, 5]
         },
         {
             "name": "singRIGHT",
             "prefix": "Monika Returns Right",
-            "offsets": [
-                -29,
-                -10
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [-10, -5]
         },
         {
             "name": "singDOWN",
             "prefix": "Monika Returns Down",
-            "offsets": [
-                -30,
-                -52
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [35, -32]
         },
         {
             "name": "singLEFT",
             "prefix": "Monika Returns Left",
-            "offsets": [
-                -21,
-                40
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [39, 20]
         }
     ],
-    "flipX": false
+	"costumes": "monika",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"monika-blueskies"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "valentine",
+			"charFile":"monika-valentine"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "hex",
+			"charFile":"monika-hex"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "senpai",
+			"charFile":"monika-senpai"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "vigilante",
+			"charFile":"monika-vigilante"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"monika-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "casuallong",
+			"charFile":"monika-casuallong"
+		}
+	],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 0.9,
+    "Made_With": "the cigs Converter"
 }

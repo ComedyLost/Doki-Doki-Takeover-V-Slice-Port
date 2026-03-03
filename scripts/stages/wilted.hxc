@@ -1,6 +1,5 @@
 import funkin.play.PlayState;
 import funkin.play.stage.Stage;
-import funkin.graphics.FunkinSprite;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.addons.display.FlxBackdrop;
@@ -12,11 +11,7 @@ import openfl.filters.ShaderFilter;
 import funkin.graphics.FunkinSprite;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.utils.Assets;
-import flixel.FlxCamera;
 import funkin.graphics.FunkinCamera;
-import flixel.util.FlxTimer;
-import funkin.Highscore;
-import flixel.FlxCameraFollowStyle;
 import funkin.FunkinMemory;
 import flixel.math.FlxPoint;
 
@@ -174,8 +169,7 @@ class WiltedStage extends Stage {
 	}
 
 	function onStepHit(event:SongTimeScriptEvent):Void {
-		if (PlayState.instance == null)
-			return;
+		if (PlayState.instance == null) return;
 		switch (event.step) {
 			case 16:
 				ModuleHandler.getModule('Credits').scriptCall('manualCreditsSummon');
@@ -224,8 +218,7 @@ class WiltedStage extends Stage {
 
 	function onSongRetry(event:ScriptEvent) {
 		super.onSongRetry(event);
-		PlayState.instance.tweenCameraToPosition(stageCamera.x,
-			stageCamera.y, 0);
+		PlayState.instance.tweenCameraToPosition(stageCamera.x, stageCamera.y, 0);
 		// FlxG.camera.follow(PlayState.instance.currentStage.getGirlfriend(), null, 1);
 		PlayState.instance.currentStage.getGirlfriend().alpha = 0;
 		if (PlayState.instance.playerStrumline.noteStyle.id.toLowerCase() != 'ddto')
@@ -244,14 +237,8 @@ class WiltedStage extends Stage {
 		wiltedHmph.alpha = 0;
 		PlayState.instance.currentStage.getBoyfriend().alpha = 1;
 		PlayState.instance.currentStage.getDad().alpha = 1;
-		if (wiltedhey.animation.curAnim = 'Hey') {
-			wiltedhey.animation.curAnim.stop();
-		}
-		if (wiltedhey_senpai.animation.curAnim = 'Hey_Senpai') {
-			wiltedhey_senpai.animation.curAnim.stop();
-		}
-		if (wiltedHmph.animation.curAnim = 'Hmph') {
-			wiltedHmph.animation.curAnim.stop();
-		}
+		if (wiltedhey.animation?.curAnim == 'Hey') wiltedhey.animation.curAnim.stop();
+		if (wiltedhey_senpai.animation?.curAnim == 'Hey_Senpai') wiltedhey_senpai.animation.curAnim.stop();
+		if (wiltedHmph.animation?.curAnim == 'Hmph') wiltedHmph.animation.curAnim.stop();
 	}
 }
