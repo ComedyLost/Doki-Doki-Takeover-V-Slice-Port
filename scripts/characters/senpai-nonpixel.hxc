@@ -18,9 +18,6 @@ class SenpaiNonPixelCharacter extends SparrowCharacter {
 			shouldAngry = true;
 			this.idleSuffix = '-alt';
 		}
-		if (name == 'lastNOTE_end') {
-			this.alpha = 0;
-		}
 	}
 
 

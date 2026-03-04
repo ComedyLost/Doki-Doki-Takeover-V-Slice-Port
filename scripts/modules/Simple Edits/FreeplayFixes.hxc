@@ -89,10 +89,7 @@ class DokiFreeplayFixes extends Module {
 		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverweektypes');
 		cap.weekType.animation.addByPrefix('TAKEOVER', 'TAKEOVER text instance 1', 24, false);
 		cap.weekType.animation.addByPrefix('TF', 'what the fuck instance 1', 24, false);
-		switch (cap.freeplayData.data.id) {
-			case 'mstsoobf': cap.weekType.animation.play('TF', true);
-			default: cap.weekType.animation.play('TAKEOVER', true);
-		}
+		cap.weekType.animation.play('TAKEOVER', true);
 		if (cap.pixelIcon.animation.curAnim == null || cap.pixelIcon.animation.curAnim.name == 'idle'){
 			switch (cap.freeplayData.songCharacter){
 				case 'monika', 'monika-pixelnew', 'duetnew': cap.pixelIcon.setCharacter('monika');
