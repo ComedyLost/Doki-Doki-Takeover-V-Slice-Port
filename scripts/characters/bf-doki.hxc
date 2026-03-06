@@ -1,4 +1,4 @@
-import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.character.MultiAnimateAtlasCharacter;
 import funkin.play.PlayState;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
@@ -7,7 +7,7 @@ import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import lime.app.Application;
 
-class BFDokiNewCharacter extends MultiSparrowCharacter {
+class BFDokiNewCharacter extends MultiAnimateAtlasCharacter {
 
 	var epiphany:Bool;
 	var epiphanyLyrics:Bool;

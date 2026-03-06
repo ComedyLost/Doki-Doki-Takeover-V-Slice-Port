@@ -55,7 +55,7 @@ class WiltedStage extends Stage {
 		FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
 		PlayState.instance.camGame.bgColor = 0x0;
 
-		FunkinMemory.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
+		FunkinMemory.cacheTexture(Paths.image('characters/senpai-nonpixel/spritemap1'));
 		getNamedProp('solid').cameras = [camBG];
 		dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG'));
 		dokiBackdrop.scrollFactor.set(0.1, 0.1);

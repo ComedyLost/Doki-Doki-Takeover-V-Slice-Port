@@ -4,7 +4,6 @@ import funkin.save.Save;
 import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 
-
 import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
 
@@ -18,6 +17,8 @@ import openfl.utils.Assets;
 import haxe.Json;
 
 import funkin.util.assets.DataAssets;
+
+using StringTools;
 
 typedef CostumeList =
 {
@@ -309,14 +310,30 @@ class CostumeSwapper extends Module {
 				var charData = CharacterDataParser.parseCharacterData(character);
 				CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length+1] = charData;
 
-				var _data = CharacterDataParser.fetchCharacterData(character);
-				FunkinMemory.cacheTexture(Paths.image(_data.assetPath));
-				if (Std.string(_data.renderType) == 'MultiSparrow'){ //Check if character uses multiple spritesheets, so we can cache them too
+				var _data = CharacterDataParser.fetchCharacterData(events.value.newchar);
+				switch (Std.string(_data.renderType).toLowerCase()) {
+					case 'multianimateatlas', 'animateatlas':
+						var baseAssetLibrary:String = Paths.getLibrary(_data.assetPath) ?? "";
+						var baseAssetPath:String = Paths.stripLibrary(_data.assetPath);
+					
+						FunkinMemory.cacheTexture(Paths.image('$baseAssetPath/spritemap1', baseAssetLibrary));
+					default:
+						FunkinMemory.cacheTexture(Paths.image(_data.assetPath));
+				}
+				if (Std.string(_data.renderType).toLowerCase().startsWith('multi')) {
 					var assetList = [];
 					for (anim in _data.animations) {
 						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){
 							assetList.push(anim.assetPath);
-							FunkinMemory.cacheTexture(Paths.image(anim.assetPath));
+							switch (anim.renderType ?? _data.renderType) {
+								case 'multianimateatlas', 'animateatlas':
+									var baseAssetLibrary:String = Paths.getLibrary(anim.assetPath) ?? "";
+									var baseAssetPath:String = Paths.stripLibrary(anim.assetPath);
+								
+									FunkinMemory.cacheTexture(Paths.image('$baseAssetPath/spritemap1', baseAssetLibrary));			
+								default:
+									FunkinMemory.cacheTexture(Paths.image(anim.assetPath));
+							}
 						}
 					}
 				}

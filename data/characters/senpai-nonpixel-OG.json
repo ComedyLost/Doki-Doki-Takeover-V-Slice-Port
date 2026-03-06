@@ -1,0 +1,103 @@
+{
+    "version": "1.0.0",
+    "name": "Senpai (Non-Pixel)",
+    "assetPath": "characters/SenpaiNonPixel_Assets",
+    "flipX": false,
+    "singTime": 4,
+    "healthIcon": {"id": "senpai-real"},    
+    "offsets": [0, -55],
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Senpai Returns0",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Senpai Returns Left0",
+            "offsets": [
+                32,
+                12
+            ]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Senpai Returns Right0",
+            "offsets": [
+                -16,
+                4
+            ]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Senpai Returns Up0",
+            "offsets": [
+                -3,
+                34
+            ]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Senpai Returns Down0",
+            "offsets": [
+                -6,
+                -55
+            ]
+        },
+        {
+            "name": "swap",
+            "prefix": "Senpai Swap0",
+            "offsets": [
+                4,
+                8
+            ]
+        },
+        {
+            "name": "idle-alt",
+            "prefix": "Senpai Returns Angy0",
+            "offsets": [
+                0,
+                0
+            ]
+        },
+        {
+            "name": "singLEFT-alt",
+            "prefix": "Senpai Returns Left Angy0",
+            "offsets": [
+                31,
+                -4
+            ]
+        },
+        {
+            "name": "singRIGHT-alt",
+            "prefix": "Senpai Returns Right Angy0",
+            "offsets": [
+                -15,
+                -12
+            ]
+        },
+        {
+            "name": "singUP-alt",
+            "prefix": "Senpai Returns Up Angy0",
+            "offsets": [
+                -8,
+                27
+            ]
+        },
+        {
+            "name": "singDOWN-alt",
+            "prefix": "Senpai Returns Down Angy0",
+            "offsets": [
+                -10,
+                -78
+            ]
+        }
+    ],
+    "startingAnimation": "",
+    "isPixel": false,
+    "scale": 0.9,
+    "Made_With": "the cigs Converter"
+}

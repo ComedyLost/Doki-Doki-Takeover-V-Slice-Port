@@ -1,17 +1,12 @@
 {
     "version": "1.0.0",
     "name": "MC (Fanon)",
-    "assetPath": "characters/protag/protag_fanon",
+    "assetPath": "shared:characters/protag/fanon",
     "singTime": 6,
     "isPixel": false,
     "scale": 0.98,
     "renderType": "multisparrow",
-    "healthIcon": {
-        "id": "protagfanon",
-        "isPixel": false,
-        "flipX": false,
-        "scale": 1
-    },
+    "healthIcon": {"id": "protagfanon"},
     "offsets": [0, -10],
     "death": {
         "cameraOffsets": [-40, -20],
@@ -21,80 +16,51 @@
         {
             "name": "idle",
             "prefix": "Protag Idle",
-            "offsets": [
-                0,
-                0
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [0, 0],
+            "frameRate": 24
         },
         {
             "name": "singLEFT",
             "prefix": "Protag Left",
-            "offsets": [
-                102,
-                24
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [102, 24],
+            "frameRate": 24
         },
         {
             "name": "singRIGHT",
             "prefix": "Protag Right",
-            "offsets": [
-                -43,
-                0
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [-43, 0],
+            "frameRate": 24
         },
         {
             "name": "singUP",
             "prefix": "Protag Up",
-            "offsets": [
-                14,
-                40
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [14, 40],
+            "frameRate": 24
         },
         {
             "name": "singDOWN",
             "prefix": "Protag Down",
-            "offsets": [
-                1,
-                -13
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "offsets": [1, -13],
+            "frameRate": 24
         },
         {
             "name": "firstDeath",
-            "assetPath": "characters/protag_death",
+            "assetPath": "shared:characters/protag/default",
             "prefix": "Protag Dies",
-            "offsets": [
-                30,
-                3
-            ]
+            "offsets": [30, 3]
         },
         {
             "name": "deathLoop",
-            "assetPath": "characters/protag_death",
+            "assetPath": "shared:characters/protag/default",
             "prefix": "Protag Retry Loop",
-            "offsets": [
-                21,
-                3
-            ],
+            "offsets": [21, 3],
             "looped": true
         },
         {
             "name": "deathConfirm",
-            "assetPath": "characters/protag_death",
+            "assetPath": "shared:characters/protag/default",
             "prefix": "Protag Retry Confirm",
-            "offsets": [
-                21,
-                3
-            ]
+            "offsets": [21, 3]
         }
     ],
     "flipX": false

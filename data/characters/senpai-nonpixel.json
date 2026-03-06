@@ -1,98 +1,99 @@
 {
     "version": "1.0.0",
     "name": "Senpai (Non-Pixel)",
-    "assetPath": "characters/SenpaiNonPixel_Assets",
+    "assetPath": "shared:characters/senpai-nonpixel",
     "flipX": false,
     "singTime": 4,
+    "renderType": "multianimateatlas",
     "healthIcon": {"id": "senpai-real"},    
-    "offsets": [0, -55],
+    "offsets": [0, -25],
     "animations": [
         {
             "name": "idle",
-            "prefix": "Senpai Returns0",
+            "prefix": "Senpai Returns",
             "offsets": [
-                0,
-                0
+                8,
+                24
             ]
         },
         {
             "name": "singLEFT",
-            "prefix": "Senpai Returns Left0",
+            "prefix": "Senpai Returns Left",
             "offsets": [
-                32,
-                12
+                47,
+                32
             ]
         },
         {
             "name": "singRIGHT",
-            "prefix": "Senpai Returns Right0",
+            "prefix": "Senpai Returns Right",
             "offsets": [
-                -16,
-                4
+                -11,
+                29
             ]
         },
         {
             "name": "singUP",
-            "prefix": "Senpai Returns Up0",
+            "prefix": "Senpai Returns Up",
             "offsets": [
-                2,
-                39
+                11,
+                43
             ]
         },
         {
             "name": "singDOWN",
-            "prefix": "Senpai Returns Down0",
+            "prefix": "Senpai Returns Down",
             "offsets": [
-                -6,
-                -60
+                24,
+                -5
             ]
         },
         {
             "name": "swap",
-            "prefix": "Senpai Swap0",
+            "prefix": "Senpai Swap",
             "offsets": [
-                5,
-                8
+                13,
+                29
             ]
         },
         {
             "name": "idle-alt",
-            "prefix": "Senpai Returns Angy0",
+            "prefix": "Senpai Returns Angy",
             "offsets": [
-                0,
-                9
+                9,
+                29
             ]
         },
         {
             "name": "singLEFT-alt",
-            "prefix": "Senpai Returns Left Angy0",
+            "prefix": "Senpai Returns Left Angy",
             "offsets": [
-                37,
-                14
+                60,
+                32
             ]
         },
         {
             "name": "singRIGHT-alt",
-            "prefix": "Senpai Returns Right Angy0",
+            "prefix": "Senpai Returns Right Angy",
             "offsets": [
-                -15,
-                3
+                -1,
+                29
             ]
         },
         {
             "name": "singUP-alt",
-            "prefix": "Senpai Returns Up Angy0",
+            "prefix": "Senpai Returns Up Angy",
             "offsets": [
-                2,
-                42
+                17,
+                43
             ]
         },
         {
             "name": "singDOWN-alt",
-            "prefix": "Senpai Returns Down Angy0",
+            "prefix": "Senpai Returns Down Angy",
             "offsets": [
-                -5,
-                -74
+                49,
+                -12
             ]
         }
     ],

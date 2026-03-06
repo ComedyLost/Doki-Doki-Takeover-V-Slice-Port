@@ -1,14 +1,11 @@
 {
 	"version": "1.0.0",
-	"renderType": "sparrow",
-	"Made_With": "the cigs Converter",
+	"renderType": "multianimateatlas",
 	"danceEvery": 1,
-	"scale": 1,
 	"name": "Yuri (Crazy)",
 	"flipX": false,
 	"singTime": 6,
-	"isPixel": false,
-	"assetPath": "characters/Doki_Crazy_Yuri_Assets",
+	"assetPath": "shared:characters/yuri/default-crazy",
 	"animations": [
 		{
 			"flipY": false,

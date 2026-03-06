@@ -1,10 +1,10 @@
-import funkin.play.character.SparrowCharacter;
+import funkin.play.character.MultiAnimateAtlasCharacter;
 import funkin.play.PlayState;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
 import flixel.FlxSprite;
 
-class SpookyDokiCharacter extends SparrowCharacter {
+class SpookyDokiCharacter extends MultiAnimateAtlasCharacter {
 	function new() {
 		super('spooky-doki');
 	}

@@ -1,106 +1,100 @@
 {
     "version": "1.0.0",
     "name": "Spooky Kids (DDTO)",
-    "assetPath": "characters/DDLCSpookyKids",
+    "assetPath": "shared:characters/spooky-doki",
+    "renderType": "multianimateatlas",
     "singTime": 4,
     "death": {
         "cameraOffsets": [-50, -60],
         "cameraZoom": 0.9
     },
-    "isPixel": false,
-    "scale": 1,
     "offsets": [50, 50],
     "cameraOffsets": [50, 100],
-    "healthIcon": {
-        "id": "spooky-doki",
-        "isPixel": false,
-        "flipX": false,
-        "scale": 1
-    },
+    "healthIcon": {"id": "spooky-doki"},
     "animations": [
         {
             "name": "singLEFT",
-            "prefix": "SkidPumpLeft0",
+            "prefix": "SkidPumpLeft",
             "offsets": [
-                200,
-                42
+                155,
+                77
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "singRIGHT",
-            "prefix": "SkidPumpRight0",
+            "prefix": "SkidPumpRight",
             "offsets": [
-                -70,
-                80
+                -85,
+                85
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "singDOWN",
-            "prefix": "SkidPumpDown0",
+            "prefix": "SkidPumpDown",
             "offsets": [
                 4,
-                51
+                81
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "singUP",
-            "prefix": "SkidPumpUp0",
+            "prefix": "SkidPumpUp",
             "offsets": [
                 9,
-                125
+                110
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "singLEFTmiss",
-            "prefix": "SkidPumpLeft MIZZ0",
+            "prefix": "SkidPumpLeft MIZZ",
             "offsets": [
-                203,
-                116
+                143,
+                96
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "singRIGHTmiss",
-            "prefix": "SkidPumpRight MIZZ0",
+            "prefix": "SkidPumpRight MIZZ",
             "offsets": [
-                -56,
-                147
+                -72,
+                113
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "singDOWNmiss",
-            "prefix": "SkidPumpDown MIZZ0",
+            "prefix": "SkidPumpDown MIZZ",
             "offsets": [
                 6,
-                111
+                96
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "singUPmiss",
-            "prefix": "SkidPumpUp MIZZ0",
+            "prefix": "SkidPumpUp MIZZ",
             "offsets": [
-                30,
-                158
+                15,
+                114
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "danceLeft",
-            "prefix": "SkidPumpIdle0",
+            "prefix": "SkidPumpIdle",
             "offsets": [
                 0,
                 80
@@ -117,7 +111,7 @@
         },
         {
             "name": "danceRight",
-            "prefix": "SkidPumpIdle0",
+            "prefix": "SkidPumpIdle",
             "offsets": [
                 0,
                 80
@@ -148,7 +142,7 @@
         },
         {
             "name": "danceRight-alt",
-            "prefix": "SPOOKY DANCE0",
+            "prefix": "SPOOKY DANCE",
             "offsets": [
                 38,
                 89
@@ -163,10 +157,10 @@
         },
         {
             "name": "firstDeath",
-            "prefix": "Game Over Start0",
+            "prefix": "Game Over Start",
             "offsets": [
-                259,
-                96
+                69,
+                66
             ],
             "frameRate": 24,
             "frameIndices": []
@@ -174,20 +168,20 @@
         {
             "name": "deathLoop",
             "looped": true,
-            "prefix": "Game Over Death0",
+            "prefix": "Game Over Death",
             "offsets": [
-                259,
-                -245
+                69,
+                -99
             ],
             "frameRate": 24,
             "frameIndices": []
         },
         {
             "name": "deathConfirm",
-            "prefix": "Game Over Retry0",
+            "prefix": "Game Over Retry",
             "offsets": [
-                261,
-                -228
+                69,
+                -80
             ],
             "frameRate": 24,
             "frameIndices": []

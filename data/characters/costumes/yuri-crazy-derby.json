@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Yuri (Crazy Derby)",
-    "renderType": "sparrow",
+    "renderType": "multianimateatlas",
     "assetPath": "characters/yuri/Doki_Yuri_crazy_Derby_Assets",
     "flipX": false,
     "healthIcon": {"id": "yuri-crazy"},

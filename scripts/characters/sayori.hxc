@@ -1,6 +1,6 @@
 package ddto.character;
 
-import funkin.play.character.SparrowCharacter;
+import funkin.play.character.MultiAnimateAtlasCharacter;
 import funkin.play.PlayState;
 import funkin.play.character.CharacterType;
 import funkin.play.GameOverSubState;
@@ -14,7 +14,7 @@ import funkin.util.assets.FlxAnimationUtil;
 
 // player offset fix by cyn0x8
 
-class SayoriBaseCharacter extends SparrowCharacter {
+class SayoriBaseCharacter extends MultiAnimateAtlasCharacter {
 
 	public function new(characterId:String) {
 		// This tells CharacterDataParser to load Sayori instead of an invalid character!

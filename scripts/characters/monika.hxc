@@ -13,7 +13,6 @@ import funkin.FunkinMemory;
 import funkin.util.assets.FlxAnimationUtil;
 
 // original script by Nebula_Zorua
-// scale fix by tormented
 // global offset fix by 7oltan
 // player offset fix by cyn0x8
 // do not remove these credits!

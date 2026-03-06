@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Yuri (Crazy Picnic)",
-    "renderType": "sparrow",
+    "renderType": "multianimateatlas",
     "assetPath": "characters/yuri/Doki_Yuri_Picnic_Crazy_Assets",
     "flipX": false,
     "healthIcon": {"id": "yuri-crazy"},

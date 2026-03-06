@@ -11,67 +11,29 @@
         {
             "name": "idle",
             "prefix": "Monika Returns Idle",
-            "offsets": [0, 0]
+            "offsets": [0, -20]
         },
         {
             "name": "singUP",
             "prefix": "Monika Returns Up",
-            "offsets": [-37, 10]
+            "offsets": [-37, -10]
         },
         {
             "name": "singRIGHT",
             "prefix": "Monika Returns Right",
-            "offsets": [-10, -5]
+            "offsets": [-10, -25]
         },
         {
             "name": "singDOWN",
             "prefix": "Monika Returns Down",
-            "offsets": [35, -52]
+            "offsets": [35, -72]
         },
         {
             "name": "singLEFT",
             "prefix": "Monika Returns Left",
-            "offsets": [39, 5]
+            "offsets": [39, -15]
         }
     ],
-	"costumes": "monika",
-	"costumelist": [
-		{
-			"subfolder":true,
-			"internal_Name": "blueskies",
-			"charFile":"monika-blueskies"
-		},
-		{
-			"subfolder":true,
-			"internal_Name": "valentine",
-			"charFile":"monika-valentine"
-		},
-		{
-			"subfolder":true,
-			"internal_Name": "hex",
-			"charFile":"monika-hex"
-		},
-		{
-			"subfolder":true,
-			"internal_Name": "senpai",
-			"charFile":"monika-senpai"
-		},
-		{
-			"subfolder":true,
-			"internal_Name": "vigilante",
-			"charFile":"monika-vigilante"
-		},
-		{
-			"subfolder":true,
-			"internal_Name": "casual",
-			"charFile":"monika-casual"
-		},
-		{
-			"subfolder":true,
-			"internal_Name": "casuallong",
-			"charFile":"monika-casuallong"
-		}
-	],
     "startingAnimation": "",
     "isPixel": false,
     "scale": 0.9,

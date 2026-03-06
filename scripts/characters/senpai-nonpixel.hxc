@@ -1,46 +1,36 @@
-import funkin.play.character.SparrowCharacter;
+import funkin.play.character.MultiAnimateAtlasCharacter;
 import funkin.play.character.CharacterType;
 import funkin.play.PlayState;
 import flixel.math.FlxPoint;
 import StringTools;
 
-class SenpaiNonPixelCharacter extends SparrowCharacter {
+class SenpaiNonPixelCharacter extends MultiAnimateAtlasCharacter {
 
 	function new() {
 		super('senpai-nonpixel');
 	}
 
-	var shouldAngry:Bool;
+	public var shouldAngry:Bool;
 
-	override function onAnimationFinished(name:String) {
-		super.onAnimationFinished(name);
-		if (name == 'swap') {
-			shouldAngry = true;
-			this.idleSuffix = '-alt';
+	function onNoteHit(event:NoteScriptEvent) {
+		// Override the hit note animation.
+		switch(event.note.kind) {
+			case "markov":
+				event.cancelEvent();
+			default:
+				if (!event.note.noteData.getMustHitNote() && characterType == CharacterType.DAD) {
+					// Override the hit note animation.
+					if (shouldAngry){
+						holdTimer = 0;
+						this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
+						
+						return;
+					} else {
+						super.onNoteHit(event);
+					}
+				}
 		}
 	}
-
-
-	function onNoteHit(event:NoteScriptEvent)
-		{
-			// Override the hit note animation.
-			switch(event.note.kind) {
-				case "markov":
-					event.cancelEvent();
-				default:
-					if (!event.note.noteData.getMustHitNote() && characterType == CharacterType.DAD) {
-						// Override the hit note animation.
-						if (shouldAngry){
-							holdTimer = 0;
-							this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
-							
-							return;
-						} else {
-							super.onNoteHit(event);
-						}
-					}
-			}
-		}
 
 	override function onAdd() {
 		shouldAngry = false;
@@ -53,8 +43,8 @@ class SenpaiNonPixelCharacter extends SparrowCharacter {
         return output;
     }
 
-	var defaultColor;
-    var missColor;
+	public var defaultColor;
+	public var missColor;
   
     public function onCreate(event):Void {
     	super.onCreate(event);
@@ -79,10 +69,13 @@ class SenpaiNonPixelCharacter extends SparrowCharacter {
 		}
     }    
 
-	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
-		{
-			// FlxG.watch.addQuick('playAnim(${characterName})', name);
-			if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
-			super.playAnimation(name, restart, ignoreOther, reversed);
+	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void {
+		// FlxG.watch.addQuick('playAnim(${characterName})', name);
+	  	if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+		if (name == 'swap') {
+			shouldAngry = true;
+			this.idleSuffix = '-alt';
 		}
+	  	super.playAnimation(name, restart, ignoreOther, reversed);
+	}
 }

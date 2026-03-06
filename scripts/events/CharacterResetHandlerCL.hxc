@@ -8,6 +8,8 @@ import funkin.play.character.CharacterType;
 import funkin.play.components.HealthIcon;
 import funkin.FunkinMemory;
 
+using StringTools;
+
 class CharacterResetHandlerCL extends Module {
 
 	function new() {
@@ -28,13 +30,29 @@ class CharacterResetHandlerCL extends Module {
 			if (events.eventKind == 'ChangeCharacterCL'){
 				useEvent = true;
 				var _data = CharacterDataParser.fetchCharacterData(events.value.newchar);
-				FunkinMemory.cacheTexture(Paths.image(_data.assetPath));
-				if (Std.string(_data.renderType) == 'MultiSparrow'){
+				switch (Std.string(_data.renderType).toLowerCase()) {
+					case 'multianimateatlas', 'animateatlas':
+						var baseAssetLibrary:String = Paths.getLibrary(_data.assetPath) ?? "";
+						var baseAssetPath:String = Paths.stripLibrary(_data.assetPath);
+					
+						FunkinMemory.cacheTexture(Paths.image('$baseAssetPath/spritemap1', baseAssetLibrary));
+					default:
+						FunkinMemory.cacheTexture(Paths.image(_data.assetPath));
+				}
+				if (Std.string(_data.renderType).toLowerCase().startsWith('multi')) {
 					var assetList = [];
 					for (anim in _data.animations) {
 						if (anim.assetPath != null && !assetList.contains(anim.assetPath)){
 							assetList.push(anim.assetPath);
-							FunkinMemory.cacheTexture(Paths.image(anim.assetPath));
+							switch (anim.renderType ?? _data.renderType) {
+								case 'multianimateatlas', 'animateatlas':
+									var baseAssetLibrary:String = Paths.getLibrary(anim.assetPath) ?? "";
+									var baseAssetPath:String = Paths.stripLibrary(anim.assetPath);
+								
+									FunkinMemory.cacheTexture(Paths.image('$baseAssetPath/spritemap1', baseAssetLibrary));			
+								default:
+									FunkinMemory.cacheTexture(Paths.image(anim.assetPath));
+							}
 						}
 					}
 				}

@@ -1,66 +1,45 @@
 {
     "version": "1.0.0",
     "name": "Yuri",
-    "renderType": "multisparrow",
-    "assetPath": "characters/Doki_Yuri_Assets",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/yuri/default",
     "flipX": false,
     "singTime": 6,
     "animations": [
         {
             "name": "idle",
-            "prefix": "Yuri Idle0",
-            "offsets": [
-                0,
-                0
-            ]
+            "prefix": "Yuri Idle",
+            "offsets": [0, 0]
         },
         {
             "name": "idle-alt",
             "prefix": "Yuri Idle-alt",
-            "offsets": [
-                0,
-                0
-            ]
+            "offsets": [0, 0]
         },
         {
             "name": "breath",
             "prefix": "Yuri Breath",
-            "offsets": [
-                11,
-                25
-            ]
+            "offsets": [11, 0]
         },
         {
             "name": "singLEFT",
             "prefix": "Yuri Sing Note Left",
-            "offsets": [
-                -4,
-                -22
-            ]
+            "offsets": [-10, -10]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Sing Note Right",
-            "offsets": [
-                16,
-                1
-            ]
+            "offsets": [6, 0]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Sing Note Up",
-            "offsets": [
-                23,
-                24
-            ]
+            "offsets": [9, 12]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Sing Note Down",
-            "offsets": [
-                -8,
-                -21
-            ]
+            "offsets": [-20, -19]
         }
     ],
     "costumes": "yuri",
@@ -96,8 +75,6 @@
 			"charFile":"yuri-tabi"
 		}
 	],
-    "startingAnimation": "",
-    "isPixel": false,
     "scale": 1,
     "Made_With": "the cigs Converter"
 }

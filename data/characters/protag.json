@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "MC",
     "renderType": "multisparrow",
-    "assetPath": "characters/protag",
+    "assetPath": "shared:characters/protag/default",
     "flipX": false,
     "singTime": 6,
     "offsets": [0, -10],
@@ -14,70 +14,43 @@
         {
             "name": "idle",
             "prefix": "Protag Idle",
-            "offsets": [
-                0,
-                0
-            ]
+            "offsets": [0, 0]
         },
         {
             "name": "singLEFT",
             "prefix": "Protag Left",
-            "offsets": [
-                93,
-                45
-            ]
+            "offsets": [93, 45]
         },
         {
             "name": "singRIGHT",
             "prefix": "Protag Right",
-            "offsets": [
-                -43,
-                7
-            ]
+            "offsets": [-43, 7]
         },
         {
             "name": "singUP",
             "prefix": "Protag Up",
-            "offsets": [
-                3,
-                43
-            ]
+            "offsets": [3, 43]
         },
         {
             "name": "singDOWN",
             "prefix": "Protag Down",
-            "offsets": [
-                1,
-                -19
-            ]
+            "offsets": [1, -19]
         },
         {
             "name": "firstDeath",
-            "assetPath": "characters/protag_death",
             "prefix": "Protag Dies",
-            "offsets": [
-                30,
-                3
-            ]
+            "offsets": [30, 3]
         },
         {
             "name": "deathLoop",
-            "assetPath": "characters/protag_death",
             "prefix": "Protag Retry Loop",
-            "offsets": [
-                21,
-                3
-            ],
+            "offsets": [21, 3],
             "looped": true
         },
         {
             "name": "deathConfirm",
-            "assetPath": "characters/protag_death",
             "prefix": "Protag Retry Confirm",
-            "offsets": [
-                21,
-                3
-            ]
+            "offsets": [21, 3]
         }
     ],
 	"costumes": "protag",
@@ -108,7 +81,6 @@
 			"charFile":"protag-blueskies"
 		}
 	],
-    "startingAnimation": "",
     "isPixel": false,
     "scale": 0.98,
     "Made_With": "the cigs Converter"
