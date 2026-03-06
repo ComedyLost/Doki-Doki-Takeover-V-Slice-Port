@@ -60,27 +60,38 @@ class ClubroomStage extends Stage
 
 	}
 
-	override function buildStage()
-		{
-			super.buildStage();
-			sayori = getNamedProp('BG Sayori');
-			natsuki = getNamedProp('BG Natsuki');		
-			yuri = getNamedProp('BG Yuri');
-			monika = getNamedProp('BG Monika');
-			protag = getNamedProp('BG Protag');
-			getNamedProp('Club Lights').blend = 12;
-		}
+	override function buildStage() {
+		super.buildStage();
+		sayori = getNamedProp('BG Sayori');
+		natsuki = getNamedProp('BG Natsuki');		
+		yuri = getNamedProp('BG Yuri');
+		monika = getNamedProp('BG Monika');
+		protag = getNamedProp('BG Protag');
+		getNamedProp('Club Lights').blend = 12;
+	}
 
-	public override function onSongEvent(scriptEvent:SongEventScriptEvent)
-		{
-			super.onSongEvent(scriptEvent);
-			if (scriptEvent.eventData.eventKind == "ChangeCharacterCL")
-			{
-				var eventProps = scriptEvent.eventData.value;
-				setDokiPosition(eventProps.newchar.toLowerCase());
-			}
+	public override function onSongEvent(scriptEvent:SongEventScriptEvent) {
+		super.onSongEvent(scriptEvent);
+		if (scriptEvent.eventData.eventKind == "ChangeCharacterCL") {
+			var eventProps = scriptEvent.eventData.value;
+			if (eventProps.newchar.toLowerCase() == 'yuri-crazy') return;
+			setDokiPosition(eventProps.newchar.toLowerCase());
 		}
+	}
 
+
+	public function onSongRetry(event):Void {
+		super.onSongRetry(event);
+		setDokiPosition(PlayState.instance.currentChart.characters.opponent.toLowerCase());
+		switch (PlayState.instance.currentSong.id.toLowerCase()){
+			case "dokidoggle", "catfight", "obsession", 'constricted', 'neet':
+				getNamedProp('BG Sayori').alpha = 0;
+				getNamedProp('BG Natsuki').alpha = 0;
+				getNamedProp('BG Yuri').alpha = 0;	
+				getNamedProp('BG Monika').alpha = 0;
+				getNamedProp('BG Protag').alpha = 0;
+		}
+	}
 
 	public function onCountdownStart(event):Void {
 		super.onCountdownStart(event);

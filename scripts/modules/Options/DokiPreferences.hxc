@@ -38,8 +38,7 @@ class DokiPreferences extends Module
 		return share.data;
 	}
 		
-	function onStateChangeEnd(callback)
-	{
+	function onStateChangeEnd(callback) {
 		super.onStateChangeEnd(callback);
 		if (!(callback.targetState is OptionsState))
 			return;
