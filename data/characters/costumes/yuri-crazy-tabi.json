@@ -2,9 +2,11 @@
     "version": "1.0.0",
     "name": "Yuri (Crazy Tabi)",
     "renderType": "multianimateatlas",
-    "assetPath": "characters/yuri/Doki_YuriTabi_crazy_Assets",
+    "assetPath": "shared:characters/yuri/tabi-crazy",
     "flipX": false,
     "healthIcon": {"id": "yuri-crazy"},
+    "offsets": [0, 30],
+    "cameraOffsets": [0, 34],
     "singTime": 6,
     "animations": [
         {
@@ -19,32 +21,32 @@
             "name": "singLEFT",
             "prefix": "Yuri Crazy Left",
             "offsets": [
-                196,
-                40
+                121,
+                20
             ]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Crazy Right",
             "offsets": [
-                -47,
-                17
+                -70,
+                13
             ]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Crazy Down",
             "offsets": [
-                -3,
-                -29
+                13,
+                -17
             ]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Crazy Up",
             "offsets": [
-                52,
-                90
+                33,
+                45
             ]
         }
     ],

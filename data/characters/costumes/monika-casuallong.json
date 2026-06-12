@@ -5,7 +5,9 @@
     "assetPath": "shared:characters/monika/casuallong",
     "flipX": false,
     "singTime": 6,
-    "cameraOffsets": [0, -4],
+    "healthIcon": {"id": "monika"},
+    "offsets": [-25, -5],
+    "cameraOffsets": [0, 1.1],
     "animations": [
         {
             "name": "idle",

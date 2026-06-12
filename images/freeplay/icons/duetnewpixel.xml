@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="monikapixel.png">
+<SubTexture name="confirm0000" x="0" y="0" width="45" height="46" frameX="-4" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0001" x="45" y="0" width="46" height="46" frameX="-4" frameY="-2" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0002" x="0" y="46" width="47" height="45" frameX="-3" frameY="-5" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm0003" x="91" y="0" width="45" height="46" frameX="-4" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="confirm-hold0000" x="91" y="0" width="45" height="46" frameX="-4" frameY="-4" frameWidth="50" frameHeight="50" />
+<SubTexture name="idle0000" x="0" y="0" width="45" height="46" frameX="-4" frameY="-4" frameWidth="50" frameHeight="50" />
+</TextureAtlas>

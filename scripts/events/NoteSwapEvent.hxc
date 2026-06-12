@@ -3,12 +3,7 @@ import funkin.play.event.ScriptedSongEvent;
 
 import funkin.modding.module.Module;
 import funkin.modding.module.ModuleHandler;
-import funkin.play.scoring.Scoring;
 import funkin.FunkinMemory;
-
-import funkin.Highscore;
-
-
 
 import funkin.mobile.input.ControlsHandler;
 
@@ -20,8 +15,6 @@ import funkin.play.notes.Strumline;
 import funkin.play.notes.StrumlineNote;
 import funkin.play.notes.NoteHoldCover;
 import funkin.play.notes.NoteSprite;
-import funkin.play.components.PopUpStuff;
-import funkin.util.PlatformUtil;
 
 class NoteSwapEvent extends ScriptedSongEvent {
 
@@ -31,11 +24,11 @@ class NoteSwapEvent extends ScriptedSongEvent {
 
         switch(data.value.strumline) {
 			case 'playerStrumline':
-                ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapPlayerStrumlines', [data.value.notestyle]);
+                ModuleHandler.getModule('SwappingNotestyles').swapPlayerStrumlines(data.value.notestyle);
             case 'opponentStrumline':
-                ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapOpponentStrumlines', [data.value.notestyle]);
+                ModuleHandler.getModule('SwappingNotestyles').swapOpponentStrumlines(data.value.notestyle);
             case 'both':
-                ModuleHandler.getModule('SwappingNotestyles').scriptCall('swapStrumlines', [data.value.notestyle]);
+                ModuleHandler.getModule('SwappingNotestyles').swapStrumlines(data.value.notestyle);
             } 
 	}
 
@@ -76,7 +69,7 @@ class NoteSwapEvent extends ScriptedSongEvent {
 	}
 	
 	public function new() {
-		super('NoteSwapEvent');
+		super('NoteSwapEvent', {processOldEvents: true});
 	}
 }
 
@@ -172,60 +165,53 @@ class SwappingNotestyles extends Module
 				notes.holdNoteSprite.x -= notes.holdNoteSprite.graphicWidth / 2;	
 
 				//Replay hold cover anim
-				if (notes.holdNoteSprite.hitNote){
+				if (notes.holdNoteSprite.hitNote && notes.holdNoteSprite.sustainLength > 100) {
 					strumline.playNoteHoldCover(notes.holdNoteSprite);
 				}
 			}
 			strumline.onNoteIncoming.dispatch(notes); //Restarts just in case a note uses it
 		}
-		if (FlxG.onMobile) { // Fix the strumline to work on mobile
+		#if mobile
+		if (Preferences.controlsScheme == 'Arrows' && !ControlsHandler.hasExternalInputDevice) {
 			if (strumline == PlayState.instance.opponentStrumline) fixOpponentStrumline();
 			else fixPlayerStrumline();
 		}
+		#end	
 	}
 
 	function fixOpponentStrumline() {
-		if (!ControlsHandler.usingExternalInputDevice) {
-			var opponentStrumline = PlayState.instance.opponentStrumline;
+		final amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
+		final playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
+		final playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
 
-			var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
-			var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
-			var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
+		var opponentStrumline = PlayState.instance.opponentStrumline;
 
-			opponentStrumline.enterMiniMode(0.4 * amplification);
-
-			/*opponentStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
-			opponentStrumline.x -= 30;*/
-		}
+		opponentStrumline.enterMiniMode(0.4 * amplification);
+		opponentStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
+		opponentStrumline.x -= 30;
 	}
 
 	function fixPlayerStrumline() {
-		if (!ControlsHandler.usingExternalInputDevice) {
-			var playerStrumline = PlayState.instance.playerStrumline;
-
-			var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
-			var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
-			var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
-
-			playerStrumline.ghostTapTimer = 0; // Re-allow ghost tapping
-			playerStrumline.strumlineScale.set(playerStrumlineScale, playerStrumlineScale);
-			playerStrumline.setNoteSpacing(playerNoteSpacing);
-			for (strum in playerStrumline) {
-		  		strum.width *= 2;
-			}
-
-			/*playerStrumline.y = (FlxG.height - playerStrumline.height) * 0.95 - Constants.STRUMLINE_Y_OFFSET;
-			if (playerStrumline.noteStyle.id.toLowerCase() != "pixel") {
-		  		if (PlatformUtil.detectHostPlatform == 'ANDROID') playerStrumline.y += 10; // Why tf is this hard-coded?
-			} else {
-				playerStrumline.y -= 10;
-			}*/
-			PlayState.instance.hitbox.isPixel = playerStrumline.noteStyle.id.toLowerCase() == "pixel";
-			if (Preferences.controlsScheme == 'Arrows') {
-				for (direction in Strumline.DIRECTIONS) {
-        			PlayState.instance.hitbox.getFirstHintByDirection(direction).follow(PlayState.instance.playerStrumline.getByDirection(direction));
-        		}
-			}
+		final amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
+		final playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
+		final playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
+	
+		var playerStrumline = PlayState.instance.playerStrumline;
+		playerStrumline.strumlineScale.set(playerStrumlineScale, playerStrumlineScale);
+		playerStrumline.setNoteSpacing(playerNoteSpacing);
+		for (strum in playerStrumline) {
+		  	strum.width *= 2;
+		}
+	
+		playerStrumline.x = (FlxG.width - playerStrumline.width) / 2 + Constants.STRUMLINE_X_OFFSET;
+		playerStrumline.y = (FlxG.height - playerStrumline.height) * 0.95 - Constants.STRUMLINE_Y_OFFSET;
+		if (playerStrumline?.noteStyle?.id != "pixel") {
+		  	#if android playerStrumline.y += 10; #end
+		} else {
+		  	playerStrumline.y -= 10;
+		}
+		for (direction in Strumline.DIRECTIONS) {
+			PlayState.instance.hitbox.getFirstHintByDirection(direction).follow(playerStrumline.getByDirection(direction));
 		}
 	}
 

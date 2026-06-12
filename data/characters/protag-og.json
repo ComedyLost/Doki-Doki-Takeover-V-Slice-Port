@@ -1,0 +1,86 @@
+{
+    "version": "1.0.0",
+    "name": "MC",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/protag/default",
+    "flipX": false,
+    "singTime": 6,
+    "death": {
+        "cameraOffsets": [-40, -20],
+        "cameraZoom": 0.9
+    },
+    "animations": [
+        {
+            "name": "idle",
+            "prefix": "Protag Idle",
+            "offsets": [0, 0]
+        },
+        {
+            "name": "singLEFT",
+            "prefix": "Protag Left",
+            "offsets": [93, 45]
+        },
+        {
+            "name": "singRIGHT",
+            "prefix": "Protag Right",
+            "offsets": [-43, 7]
+        },
+        {
+            "name": "singUP",
+            "prefix": "Protag Up",
+            "offsets": [3, 43]
+        },
+        {
+            "name": "singDOWN",
+            "prefix": "Protag Down",
+            "offsets": [1, -19]
+        },
+        {
+            "name": "firstDeath",
+            "prefix": "Protag Dies",
+            "offsets": [30, 3]
+        },
+        {
+            "name": "deathLoop",
+            "prefix": "Protag Retry Loop",
+            "offsets": [21, 3],
+            "looped": true
+        },
+        {
+            "name": "deathConfirm",
+            "prefix": "Protag Retry Confirm",
+            "offsets": [21, 3]
+        }
+    ],
+	"costumes": "protag",
+	"costumelist": [
+		{
+			"subfolder":true,
+			"internal_Name": "casual",
+			"charFile":"protag-casual"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "hotline",
+			"charFile":"protag-hotline"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "henry",
+			"charFile":"protag-henry"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "fanon",
+			"charFile":"protag-fanon"
+		},
+		{
+			"subfolder":true,
+			"internal_Name": "blueskies",
+			"charFile":"protag-blueskies"
+		}
+	],
+    "isPixel": false,
+    "scale": 0.98,
+    "Made_With": "the cigs Converter"
+}

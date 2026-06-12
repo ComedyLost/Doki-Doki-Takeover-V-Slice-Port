@@ -2,9 +2,11 @@
     "version": "1.0.0",
     "name": "Yuri (Crazy Blue Skies)",
     "renderType": "multianimateatlas",
-    "assetPath": "characters/yuri/Doki_Yuri__crazy_BlueSkies_Assets",
+    "assetPath": "shared:characters/yuri/blueskies-crazy",
     "flipX": false,
     "healthIcon": {"id": "yuri-crazy"},
+    "offsets": [0, 23],
+    "cameraOffsets": [0, -1.5],
     "singTime": 6,
     "animations": [
         {
@@ -19,32 +21,32 @@
             "name": "singLEFT",
             "prefix": "Yuri Crazy Left",
             "offsets": [
-                148,
-                12
+                109,
+                10
             ]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Crazy Right",
             "offsets": [
-                -54,
-                0
+                -59,
+                -5
             ]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Crazy Down",
             "offsets": [
-                -2,
-                -42
+                13,
+                -19
             ]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Crazy Up",
             "offsets": [
-                55,
-                61
+                33,
+                30
             ]
         }
     ],

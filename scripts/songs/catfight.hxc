@@ -267,7 +267,7 @@ class CatfightSong extends Song
 		}
 	}	
 
-	function processNotes(elapsed:Float):Void {
+	function processNotes(?elapsed:Float):Void {
 		if (PlayState.instance?.playerStrumline?.notes?.members == null || PlayState.instance?.opponentStrumline?.notes?.members == null) return;
 		// Process hold notes on the opponent's side.
 		for (holdNote in PlayState.instance.playerStrumline.holdNotes.members) {
@@ -310,39 +310,47 @@ class CatfightSong extends Song
 		return durSeconds;
 	}
 
-	function onStepHit(event:SongTimeScriptEvent):Void {	
-		switch(event.step) {
-			case 608:
-				PlayState.instance.tweenCameraZoom(0.8, calcSectionLength(1), true, FlxEase.expoOut);
-			case 624:
-				PlayState.instance.tweenCameraZoom(0.85, calcSectionLength(1), true, FlxEase.expoOut);
-			case 640:
-				PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.1, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+	var lastStep:Int = 0;
 
-				PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
-			case 1120:
-				PlayState.instance.tweenCameraZoom(0.95, calcSectionLength(1), true, FlxEase.expoOut);
-			case 1136:
-				PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.1, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
-
-				PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
-			case 1150:
-				PlayState.instance.cameraFollowPoint.setPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y - 125);
-				PlayState.instance.tweenCameraZoom(1.6, calcSectionLength(1), true, FlxEase.expoOut);
-			case 1169:
-				PlayState.instance.tweenCameraZoom(1.05, calcSectionLength(1), true, FlxEase.expoOut);
-			case 1568:
-				PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
-
-				PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
-			case 1696:
-				PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
-
-				PlayState.instance.tweenCameraZoom(1.15, calcSectionLength(1), true, FlxEase.expoOut);
-			case 1824:
-				PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
-
-				PlayState.instance.tweenCameraZoom(1.2, calcSectionLength(1), true, FlxEase.expoOut);
+	function onStepHit(event:SongTimeScriptEvent):Void {
+		if (PlayState.instance.isGameOverState) return;
+		
+		if (event.step > lastStep) {
+			for (i in lastStep...event.step) {
+				switch(i + 1) {
+					case 608:
+						PlayState.instance.tweenCameraZoom(0.8, calcSectionLength(1), true, FlxEase.expoOut);
+					case 624:
+						PlayState.instance.tweenCameraZoom(0.85, calcSectionLength(1), true, FlxEase.expoOut);
+					case 640:
+						PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.1, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+						PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+					case 1120:
+						PlayState.instance.tweenCameraZoom(0.95, calcSectionLength(1), true, FlxEase.expoOut);
+					case 1136:
+						PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.1, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+		
+						PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
+					case 1150:
+						PlayState.instance.cameraFollowPoint.setPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x, PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y - 125);
+						PlayState.instance.tweenCameraZoom(1.6, calcSectionLength(1), true, FlxEase.expoOut);
+					case 1169:
+						PlayState.instance.tweenCameraZoom(1.05, calcSectionLength(1), true, FlxEase.expoOut);
+					case 1568:
+						PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+		
+						PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
+					case 1696:
+						PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+		
+						PlayState.instance.tweenCameraZoom(1.15, calcSectionLength(1), true, FlxEase.expoOut);
+					case 1824:
+						PlayState.instance.tweenScrollSpeed(PlayState.instance.playerStrumline.scrollSpeed + 0.05, calcSectionLength(1), FlxEase.expoOut, strumlineNames);
+		
+						PlayState.instance.tweenCameraZoom(1.2, calcSectionLength(1), true, FlxEase.expoOut);
+				}		
+			}
 		}
+		lastStep = event.step;
 	}
 }

@@ -1,8 +1,8 @@
 {
     "version": "1.0.0",
     "name": "Natsuki (Sunday)",
-    "renderType": "multisparrow",
-    "assetPath": "characters/natsuki/Doki_NatSunday_Assets",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/natsuki/sunday",
     "flipX": false,
     "singTime": 6,
     "healthIcon": {"id": "natsuki"},

@@ -3,6 +3,9 @@
   "name": "FRIENDSHIP AND LITERATURE",
   "titleAsset": "storymenu/titles/weekEN",
   "visible": true,
+  "capsule": {
+    "name": "AFTER CLUB"
+  },
   "props": [
     {
       "assetPath": "dokistory/EncoreWeek",

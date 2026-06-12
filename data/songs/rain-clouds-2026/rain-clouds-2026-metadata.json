@@ -1,0 +1,32 @@
+{
+ "version": "2.2.4",
+ "songName": "Rain Clouds (2026)",
+ "artist": "Mochoco",
+ "offsets": { },
+ "playData": {
+  "difficulties": [
+   "normal"
+  ],
+  "characters": {
+   "player": "bf-doki",
+   "girlfriend": "gf-realdoki",
+   "opponent": "sayori"
+  },
+  "stage": "clubroom",
+  "noteStyle": "ddto",
+  "ratings": {
+   "normal": 3
+  },
+  "album": "takeover",
+  "previewEnd": 0
+ },
+ "generatedBy": "Friday Night Funkin' - v0.8.3",
+ "timeChanges": [
+  {
+   "t": 0,
+   "b": 0,
+   "bpm": 110,
+   "bt": [4, 4, 4, 4]
+  }
+ ]
+}

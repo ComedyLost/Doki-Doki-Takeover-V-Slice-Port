@@ -1,8 +1,8 @@
 {
     "version": "1.0.0",
     "name": "Natsuki (Buff)",
-    "renderType": "multisparrow",
-    "assetPath": "characters/natsuki/Doki_BuffSuki_Assets",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/natsuki/buffsuki",
     "flipX": false,
     "singTime": 6,
     "healthIcon": {"id": "natsuki"},
@@ -20,39 +20,39 @@
             "name": "singLEFT",
             "prefix": "Nat Sing Note Left",
             "offsets": [
-                340,
-                9
+                195,
+                -1
             ]
         },
         {
             "name": "singRIGHT",
             "prefix": "Nat Sing Note Right",
             "offsets": [
-                155,
-                -46
+                -5,
+                -26
             ]
         },
         {
             "name": "singDOWN",
             "prefix": "Nat Sing Note DOWN",
             "offsets": [
-                -22,
-                -20
+                -31,
+                -10
             ]
         },
         {
             "name": "singUP",
             "prefix": "Nat Sing Note Up",
             "offsets": [
-                128,
-                28
+                23,
+                15
             ]
         },
         {
             "name": "hmmph",
             "prefix": "Nat hmph",
             "offsets": [
-                28,
+                8,
                 0
             ]
         }

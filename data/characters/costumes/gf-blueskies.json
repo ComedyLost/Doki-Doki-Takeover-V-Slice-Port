@@ -47,7 +47,7 @@
             "name": "GF Necksnap",
             "prefix": "GF NECKSNAP",
             "looped": true,
-            "offsets": [0, -22],
+            "offsets": [0, -22]
           },
           {
             "name": "sad",

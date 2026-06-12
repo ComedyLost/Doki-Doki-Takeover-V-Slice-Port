@@ -6,8 +6,8 @@
     "singTime": 6,
     "renderType": "multianimateatlas",
     "healthIcon": {"id": "sayori"},
-    "offsets": [0, 30],
-    "cameraOffsets": [0, 4],
+    "offsets": [5, 25],
+    "cameraOffsets": [-5, 8.5],
     "animations": [
         {
             "name": "singLEFT",

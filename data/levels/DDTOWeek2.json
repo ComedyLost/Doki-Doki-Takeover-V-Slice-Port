@@ -3,6 +3,9 @@
   "name": "BUNDLE OF SUNSHINE",
   "titleAsset": "storymenu/titles/weekS",
   "visible": true,
+  "capsule": {
+    "name": "WEEK S"
+  },
   "props": [
     {
       "assetPath": "dokistory/SayoriWeek",

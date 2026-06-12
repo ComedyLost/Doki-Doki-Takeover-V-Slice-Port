@@ -3,6 +3,9 @@
   "name": "MAIDEN OF MYSTERY",
   "titleAsset": "storymenu/titles/weekY",
   "visible": true,
+  "capsule": {
+    "name": "WEEK Y"
+  },
   "props": [
     {
       "assetPath": "dokistory/YuriWeek",

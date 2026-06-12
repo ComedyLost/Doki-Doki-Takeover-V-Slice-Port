@@ -14,6 +14,7 @@ import funkin.data.song.SongRegistry;
 import funkin.util.FileUtil;
 import funkin.modding.PolymodHandler;
 import funkin.ui.UIState;
+import funkin.modding.module.ModuleHandler;
 
 using StringTools;
 
@@ -24,27 +25,12 @@ class DokiFreeplayFixes extends Module {
 		save = DokiPreferences.getDokiSave();
 	}
 
-	var ddtolevelids = ['DDTOWeek1', 'DDTOWeek2', 'DDTOWeek3', 'DDTOWeek4', 'DDTOWeek5', 'DDTOWeek6', 'DDTOWeek7', 'DDTOWeek8', 'DDTOWeekDoggle', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories', 'fuckidk'];
+	var DokiKillHandler:ModuleHandler = ModuleHandler.getModule("KillDoki");
 
-	var changedCapsules:Array<SongMenuItem>;
-
-	override function onSubStateOpenBegin(event) {
-        super.onSubStateOpenBegin(event);
-		if ((event.targetState is FreeplayState) && (changedCapsules?.length ?? 1) > 0) {
-			changedCapsules = []; // Make sure to clear to not run into any issues
-		}
-	}
-
-	function findDDTOFolder(){
-		for (mod in PolymodHandler.getAllMods()) {
-			trace(mod.id);
-			if (mod.title == 'Doki Doki Takeover Plus') 
-				return 'mods/' + mod.id + '/';
-		}
-	}
+	var ddtolevelids = ['DDTOWeek1', 'DDTOWeek2', 'DDTOWeek3', 'DDTOWeek4', 'DDTOWeek5', 'DDTOWeek6', 'DDTOWeek7', 'DDTOWeek8', 'DDTOWeekFanmade', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories', 'fuckidk'];
 
 	function file(path:String) {
-		return findDDTOFolder() + path;
+		return DokiKillHandler.file(path);
 	}
 
 	function dokiCheck(cap:SongMenuItem, originalCallback:Void->Void) {
@@ -79,18 +65,14 @@ class DokiFreeplayFixes extends Module {
 				if (playerChar.contains(dokis)) {
 					var original:Void->Void = capsule.onConfirm;
 					capsule.onConfirm = function() {
-						if (FlxG.state.subState.controls.active) dokiCheck(capsule, original);
+						dokiCheck(capsule, original);
 					};		
 					break;	
 				}
 			}	
 		}
-		cap.weekType.visible = true;
-		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/takeoverweektypes');
-		cap.weekType.animation.addByPrefix('TAKEOVER', 'TAKEOVER text instance 1', 24, false);
-		cap.weekType.animation.addByPrefix('TF', 'what the fuck instance 1', 24, false);
-		cap.weekType.animation.play('TAKEOVER', true);
 		if (cap.pixelIcon.animation.curAnim == null || cap.pixelIcon.animation.curAnim.name == 'idle'){
+			var oldIcon = cap.freeplayData.songCharacter;
 			switch (cap.freeplayData.songCharacter){
 				case 'monika', 'monika-pixelnew', 'duetnew': cap.pixelIcon.setCharacter('monika');
 				case 'bigmonika', 'bigmonika-dress', 'monika-angry': cap.pixelIcon.setCharacter('monika-epiphany');
@@ -108,17 +90,12 @@ class DokiFreeplayFixes extends Module {
 						case Constants.DEFAULT_VARIATION: cap.pixelIcon.setCharacter('gf');
 					}
 			}
+			cap.pixelIcon.char = oldIcon;
 		}
 	}
 	
 	public function onDifficultySwitch(event:CapsuleScriptEvent):Void {
 		super.onDifficultySwitch(event);
-		while (changedCapsules.length > 0) {
-			var capsule = changedCapsules.shift();
-
-			if (capsule.weekType.graphic.key.contains('freeplay/freeplayCapsule/takeoverweektypes')) resetCapsules(capsule);
-		}
-		if (changedCapsules.length != 0) changedCapsules = []; // Clear the array just in case
 		var filteredCapsules:Array<SongMenuItem> = FlxG.state.subState.grpCapsules.members.filter(function(cap:SongMenuItem) {
 			   // Dead capsules are ones which were removed from the list when changing filters.
 			return cap != null && cap.alive && cap.freeplayData != null && ddtolevelids.contains(cap.freeplayData.levelId);
@@ -126,7 +103,6 @@ class DokiFreeplayFixes extends Module {
 		for (capsule in filteredCapsules){
 			if (capsule == null || !capsule.alive) continue;
 
-			changedCapsules.push(capsule); // Push these changed capsules
 			customDisplay(capsule);
 		}
 	}
@@ -135,22 +111,14 @@ class DokiFreeplayFixes extends Module {
 		super.onCapsuleSelected(event);
 		if (event.capsule?.freeplayData != null) {
 			switch (event.capsule.freeplayData.data.id) {
-				case "your-demise": if (!event.capsule.pixelIcon.graphic.key.contains("monika-epiphany")) event.capsule.pixelIcon.setCharacter('monika-epiphany');
-				case 'our-harmony': if (!event.capsule.pixelIcon.graphic.key.contains("monika")) event.capsule.pixelIcon.setCharacter('monika');
+				case "your-demise": event.capsule.pixelIcon.setCharacter('monika-epiphany');
+				case 'our-harmony': event.capsule.pixelIcon.setCharacter('monika');
 				case 'love-n-funkin':
 					switch (event.variationId) {
-						case 'pico': if (!event.capsule.pixelIcon.graphic.key.contains("pico"))  event.capsule.pixelIcon.setCharacter('pico');
-						case Constants.DEFAULT_VARIATION, null: if (!event.capsule.pixelIcon.graphic.key.contains("gf")) event.capsule.pixelIcon.setCharacter('gf');
+						case 'pico': event.capsule.pixelIcon.setCharacter('pico');
+						case Constants.DEFAULT_VARIATION, null: event.capsule.pixelIcon.setCharacter('gf');
 					}
 			}
 		}
-	}
-
-	function resetCapsules(cap:SongMenuItem) {
-		if (cap?.freeplayData == null) return;
-		cap.weekType.frames = Paths.getSparrowAtlas('freeplay/freeplayCapsule/weektypes');
-		cap.weekType.animation.addByPrefix('WEEK', 'WEEK text instance 1', 24, false);
-    	cap.weekType.animation.addByPrefix('WEEKEND', 'WEEKEND text instance 1', 24, false);
-		cap.checkWeek(cap.freeplayData.data.id);
 	}
 }

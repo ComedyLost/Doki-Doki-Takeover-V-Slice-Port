@@ -10,31 +10,27 @@ using StringTools;
 
 class KillDoki extends Module
 {
+	var DDTODIRECTORYNAME:String;
+
 	function new()
 	{
 		super('KillDoki', 1, {state: PlayState});
 
-		if (FlxG.onMobile) {
-			active = false;
-			return;
-		}
-		save = DokiPreferences.getDokiSave();
-
+		#if mobile
 		active = false;
+		return;
+		#end
+		save = DokiPreferences.getDokiSave();
+		for (mod in PolymodHandler.getAllMods()) {
+			if (mod.id == 'doki-doki-takeover-plus') DDTODIRECTORYNAME =  mod.dirName;
+		}
 	}
 
 	var deadDoki:Bool;
 	var currentName:String;
 	
-	function findDDTOFolder(){
-		for (mod in PolymodHandler.getAllMods()) {
-			if (mod.title == 'Doki Doki Takeover Plus') 
-				return 'mods/' + mod.id + '/';
-		}
-	}
-
 	function file(path:String) {
-		return findDDTOFolder() + path;
+		return 'mods/$DDTODIRECTORYNAME/$path';
 	}
 
   	function onNoteHit(event:HitNoteScriptEvent) {
@@ -53,6 +49,7 @@ class KillDoki extends Module
 	function onUpdate(event) {
 		super.onUpdate(event);
 		if (!save.chrcheck) return;
+		if (PlayState.instance?.currentStage?.getDad() == null) return;
 		if (deadDoki && currentName != PlayState.instance.currentStage.getDad().characterId) {
 			// Check again
 			currentName = PlayState.instance.currentStage.getDad().characterId;
@@ -78,7 +75,8 @@ class KillDoki extends Module
 
 	public function onFocusGained(event:FocusScriptEvent):Void{
 		if (!save.chrcheck) return;
-		currentName = PlayState.instance.currentStage.getDad().characterId;
+		currentName = PlayState.instance?.currentStage?.getDad()?.characterId ?? '';
+		if (currentName == '') return;
 		for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
 			if (PlayState.instance.currentStage.getDad().characterId.contains(dokis)) {
 				if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr'))) {
@@ -102,7 +100,8 @@ class KillDoki extends Module
 		deadDoki = false;
 		if (event.eventCanceled) return;
 		if (!save.chrcheck) return;
-		currentName = PlayState.instance?.currentStage?.getDad()?.characterId;
+		currentName = PlayState.instance?.currentStage?.getDad()?.characterId ?? '';
+		if (currentName == '') return;
 		for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
 			if (PlayState.instance.currentStage.getDad().characterId.contains(dokis)) {
 				if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr'))) {

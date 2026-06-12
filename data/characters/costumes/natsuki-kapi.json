@@ -1,12 +1,13 @@
 {
     "version": "1.0.0",
     "name": "Natsuki (Kapi)",
-    "renderType": "multisparrow",
-    "assetPath": "characters/natsuki/Doki_NatKapi_Assets",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/natsuki/kapi",
     "flipX": false,
     "singTime": 6,
     "healthIcon": {"id": "natsuki"},
-    "cameraOffsets": [0, -50],
+    "offsets": [0, 5],
+    "cameraOffsets": [0, -50.5],
     "animations": [
         {
             "name": "idle",

@@ -20,27 +20,27 @@
         {
             "name": "breath",
             "prefix": "Yuri Breath",
-            "offsets": [11, 25]
+            "offsets": [11, 0]
         },
         {
             "name": "singLEFT",
             "prefix": "Yuri Sing Note Left",
-            "offsets": [-4, -22]
+            "offsets": [-10, -12]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Sing Note Right",
-            "offsets": [16, 1]
+            "offsets": [6, 0]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Sing Note Up",
-            "offsets": [23, 24]
+            "offsets": [9, 12]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Sing Note Down",
-            "offsets": [-8, -21]
+            "offsets": [-20, -20]
         }
     ],
     "scale": 1,

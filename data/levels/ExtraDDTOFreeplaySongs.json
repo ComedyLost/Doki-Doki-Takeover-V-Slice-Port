@@ -4,6 +4,10 @@
   "titleAsset": "storymenu/titles/weekS",
   "visible": false,
   "props": [],
+  "capsule": {
+    "name": "DOKI EXTRAS",
+    "offsets": [5, 0]
+  },
   "background": "#A1F9FF",
   "songs": ["poems-n-thorns", "dual-demise", "titular-mc-mix", "epiphany"]
 }

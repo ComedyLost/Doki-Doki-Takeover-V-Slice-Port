@@ -5,6 +5,8 @@
     "assetPath": "shared:characters/yuri/tabi",
     "flipX": false,
     "healthIcon": {"id": "yuri"},
+    "offsets": [-5, 0],
+    "cameraOffsets": [5, 25.5],
     "singTime": 6,
     "animations": [
         {
@@ -20,27 +22,27 @@
         {
             "name": "breath",
             "prefix": "Yuri Breath",
-            "offsets":  [14, 12]
+            "offsets":  [12, 0]
         },
         {
             "name": "singLEFT",
             "prefix": "Yuri Sing Note Left",
-            "offsets":  [37, -2]
+            "offsets":  [5, -2]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Sing Note Right",
-            "offsets":  [17, 4]
+            "offsets":  [6, 3]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Sing Note Up",
-            "offsets":  [24, 23]
+            "offsets":  [9, 12]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Sing Note Down",
-            "offsets":  [-8, -15]
+            "offsets":  [-20, -18]
         }
     ],
     "scale": 1,

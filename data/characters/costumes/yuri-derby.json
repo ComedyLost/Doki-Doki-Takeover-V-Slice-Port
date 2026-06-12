@@ -5,6 +5,8 @@
     "assetPath": "shared:characters/yuri/derby",
     "flipX": false,
     "healthIcon": {"id": "yuri"},
+    "offsets": [15, 10],
+    "cameraOffsets": [0, 0],
     "singTime": 6,
     "animations": [
         {
@@ -15,32 +17,32 @@
         {
             "name": "idle-alt",
             "prefix": "Yuri Idle-alt",
-            "offsets": [11, 15]
+            "offsets": [10, 7]
         },
         {
             "name": "breath",
             "prefix": "Yuri Breath",
-            "offsets": [23, 30]
+            "offsets": [8, 7]
         },
         {
             "name": "singLEFT",
             "prefix": "Yuri Sing Note Left",
-            "offsets": [30, -11]
+            "offsets": [18, -5]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Sing Note Right",
-            "offsets": [18, 14]
+            "offsets": [11, 7]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Sing Note Up",
-            "offsets": [30, 32]
+            "offsets": [20, 16]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Sing Note Down",
-            "offsets": [4, -12]
+            "offsets": [-10, -13]
         }
     ],
     "scale": 1,

@@ -2,7 +2,8 @@
     "version": "1.0.0",
     "name": "Yuri (Crazy Picnic)",
     "renderType": "multianimateatlas",
-    "assetPath": "characters/yuri/Doki_Yuri_Picnic_Crazy_Assets",
+    "assetPath": "shared:characters/yuri/picnic-crazy",
+    "offsets": [0, 20],
     "flipX": false,
     "healthIcon": {"id": "yuri-crazy"},
     "singTime": 6,
@@ -19,32 +20,32 @@
             "name": "singLEFT",
             "prefix": "Yuri Crazy Left",
             "offsets": [
-                150,
-                14
+                109,
+                10
             ]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Crazy Right",
             "offsets": [
-                -54,
-                0
+                -59,
+                -5
             ]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Crazy Down",
             "offsets": [
-                -2,
-                -39
+                13,
+                -19
             ]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Crazy Up",
             "offsets": [
-                55,
-                61
+                33,
+                30
             ]
         }
     ],

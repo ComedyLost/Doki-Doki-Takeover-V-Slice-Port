@@ -1,11 +1,12 @@
 {
     "version": "1.0.0",
     "name": "Natsuki (Skater)",
-    "renderType": "multisparrow",
-    "assetPath": "characters/natsuki/Doki_Nat_Skater_Assets",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/natsuki/skater",
     "flipX": false,
     "singTime": 6,
     "healthIcon": {"id": "natsuki"},
+    "offsets": [0, -2],
     "cameraOffsets": [0, -50],
     "animations": [
         {

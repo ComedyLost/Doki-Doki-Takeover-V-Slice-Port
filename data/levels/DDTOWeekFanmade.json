@@ -4,6 +4,9 @@
   "titleAsset": "storymenu/titles/weekS",
   "visible": false,
   "props": [],
+  "capsule": {
+    "name": "FANMADE"
+  },
   "background": "#A1F9FF",
-  "songs": ["dokidoggle"]
+  "songs": ["rain-clouds-2026", "dokidoggle"]
 }

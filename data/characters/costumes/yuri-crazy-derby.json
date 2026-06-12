@@ -2,9 +2,11 @@
     "version": "1.0.0",
     "name": "Yuri (Crazy Derby)",
     "renderType": "multianimateatlas",
-    "assetPath": "characters/yuri/Doki_Yuri_crazy_Derby_Assets",
+    "assetPath": "shared:characters/yuri/derby-crazy",
     "flipX": false,
     "healthIcon": {"id": "yuri-crazy"},
+    "offsets": [20, 20],
+    "cameraOffsets": [-20, 0],
     "singTime": 6,
     "animations": [
         {
@@ -19,8 +21,8 @@
             "name": "singLEFT",
             "prefix": "Yuri Crazy Left",
             "offsets": [
-                150,
-                58
+                130,
+                25
             ]
         },
         {
@@ -28,23 +30,23 @@
             "prefix": "Yuri Crazy Right",
             "offsets": [
                 -4,
-                14
+                1
             ]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Crazy Down",
             "offsets": [
-                -11,
-                -44
+                14,
+                -24
             ]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Crazy Up",
             "offsets": [
-                67,
-                74
+                50,
+                37
             ]
         }
     ],

@@ -5,6 +5,8 @@
     "assetPath": "shared:characters/yuri/casual",
     "flipX": false,
     "healthIcon": {"id": "yuri"},
+    "offsets": [0, 10],
+    "cameraOffsets": [0, -2.5],
     "singTime": 6,
     "animations": [
         {
@@ -20,27 +22,27 @@
         {
             "name": "breath",
             "prefix": "Yuri Breath",
-            "offsets": [11, 25]
+            "offsets": [11, 4]
         },
         {
             "name": "singLEFT",
             "prefix": "Yuri Sing Note Left",
-            "offsets": [-4, -22]
+            "offsets": [-5, -8]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Sing Note Right",
-            "offsets": [16, 1]
+            "offsets": [6, 0]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Sing Note Up",
-            "offsets": [23, 24]
+            "offsets": [8, 12]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Sing Note Down",
-            "offsets": [-8, -21]
+            "offsets": [-21, -20]
         }
     ],
     "scale": 1,

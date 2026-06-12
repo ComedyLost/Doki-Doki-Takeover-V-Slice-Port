@@ -1,8 +1,8 @@
 {
     "version": "1.0.0",
     "name": "Natsuki (Casual)",
-    "renderType": "multisparrow",
-    "assetPath": "characters/natsuki/Doki_NatCasual_Assets",
+    "renderType": "multianimateatlas",
+    "assetPath": "shared:characters/natsuki/casual",
     "flipX": false,
     "singTime": 6,
     "healthIcon": {"id": "natsuki"},

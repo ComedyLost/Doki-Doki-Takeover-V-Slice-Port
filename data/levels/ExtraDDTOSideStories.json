@@ -2,6 +2,10 @@
   "version": "1.0.0",
   "name": "BONUS",
   "titleAsset": "storymenu/titles/weekS",
+  "capsule": {
+    "name": "SIDE STORIES",
+    "offsets": [10, 0]
+  },
   "visible": false,
   "props": [],
   "background": "#A1F9FF",

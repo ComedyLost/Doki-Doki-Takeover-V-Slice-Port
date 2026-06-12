@@ -14,10 +14,17 @@ import openfl.utils.Assets;
 import funkin.graphics.FunkinCamera;
 import funkin.FunkinMemory;
 import flixel.math.FlxPoint;
+import funkin.ui.FullScreenScaleMode;
 
 class WiltedStage extends Stage {
 	function new() {
 		super('wilted');
+		FunkinMemory.cacheTexture(Paths.image('characters/senpai-nonpixel/spritemap1'));
+		FunkinMemory.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
+		FunkinMemory.cacheTexture(Paths.image('wilt/p1'));
+		FunkinMemory.cacheTexture(Paths.image('wilt/p2'));
+		FunkinMemory.cacheTexture(Paths.image('wilt/bg'));
+		FunkinMemory.cacheTexture(Paths.image('wilt/bg2'));
 	}
 
 	var time:Float = 0;
@@ -55,7 +62,6 @@ class WiltedStage extends Stage {
 		FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
 		PlayState.instance.camGame.bgColor = 0x0;
 
-		FunkinMemory.cacheTexture(Paths.image('characters/senpai-nonpixel/spritemap1'));
 		getNamedProp('solid').cameras = [camBG];
 		dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG'));
 		dokiBackdrop.scrollFactor.set(0.1, 0.1);
@@ -112,6 +118,8 @@ class WiltedStage extends Stage {
 		wiltedHmph.scale.set(1.25, 1.25);
 		add(wiltedHmph);
 
+		getNamedProp('Wilted BG').x += 80 * (FullScreenScaleMode.wideScale.x - 1);
+		// getNamedProp('Wilted Window').x	+= FullScreenScaleMode.gameCutoutSize.x / 2.5;
 		stageCamera.set(getNamedProp('Wilted Window').x + (getNamedProp('Wilted Window').width / 2), getNamedProp('Wilted Window').y + (getNamedProp('Wilted Window').height / 2));
 	}
 

@@ -37,7 +37,7 @@ class ObsessionSong extends Song
 		vignette.alpha = 0;
 
 		vignette.cameras = [PlayState.instance.camHUD];
-		vignette.setGraphicSize(Std.int(vignette.width / FlxCamera.defaultZoom));
+		vignette.setGraphicSize(FlxG.width, FlxG.height);
 		vignette.updateHitbox();
 		vignette.screenCenter();
 		PlayState.instance.add(vignette);
@@ -50,6 +50,7 @@ class ObsessionSong extends Song
 		staticshock.alpha = 0.6;
 		staticshock.blend = 14;
 		staticshock.zIndex = 1500;
+		staticshock.setGraphicSize(FlxG.width, FlxG.height);
 		staticshock.visible = false;
 		staticshock.cameras = [PlayState.instance.camHUD];
 		staticshock.updateHitbox();

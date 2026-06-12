@@ -2,9 +2,11 @@
     "version": "1.0.0",
     "name": "Yuri (Crazy Taki)",
     "renderType": "multianimateatlas",
-    "assetPath": "characters/yuri/Doki_Yuri_crazy_Taki_Assets",
+    "assetPath": "shared:characters/yuri/taki-crazy",
     "flipX": false,
     "healthIcon": {"id": "yuri-crazy"},
+    "offsets": [0, 40],
+    "cameraOffsets": [0, 33],
     "singTime": 6,
     "animations": [
         {
@@ -19,32 +21,32 @@
             "name": "singLEFT",
             "prefix": "Yuri Crazy Left",
             "offsets": [
-                126,
-                24
+                71,
+                -16
             ]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Crazy Right",
             "offsets": [
-                -33,
-                -7
+                -48,
+                -12
             ]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Crazy Down",
             "offsets": [
-                8,
-                -36
+                26,
+                -27
             ]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Crazy Up",
             "offsets": [
-                48,
-                82
+                47,
+                52
             ]
         }
     ],

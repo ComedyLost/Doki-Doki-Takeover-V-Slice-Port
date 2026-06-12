@@ -5,6 +5,7 @@
 	"name": "Yuri (Crazy)",
 	"flipX": false,
 	"singTime": 6,
+	"offsets": [0, 20],
 	"assetPath": "shared:characters/yuri/default-crazy",
 	"animations": [
 		{
@@ -22,8 +23,8 @@
 		{
 			"flipY": false,
 			"offsets": [
-				153,
-				11
+				109,
+				7
 			],
 			"frameRate": 24,
 			"prefix": "Yuri Crazy Left",
@@ -34,8 +35,8 @@
 		{
 			"flipY": false,
 			"offsets": [
-				-51,
-				-9
+				-60,
+				-2
 			],
 			"frameRate": 24,
 			"prefix": "Yuri Crazy Right",
@@ -46,8 +47,8 @@
 		{
 			"flipY": false,
 			"offsets": [
-				-3,
-				-40
+				12,
+				-20
 			],
 			"frameRate": 24,
 			"prefix": "Yuri Crazy Down",
@@ -58,8 +59,8 @@
 		{
 			"flipY": false,
 			"offsets": [
-				55,
-				60
+				34,
+				30
 			],
 			"frameRate": 24,
 			"prefix": "Yuri Crazy Up",

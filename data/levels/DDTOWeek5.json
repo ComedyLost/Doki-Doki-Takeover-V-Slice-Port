@@ -3,6 +3,9 @@
   "name": "PRESIDENT OF THE CLUB",
   "titleAsset": "storymenu/titles/weekM",
   "visible": true,
+  "capsule": {
+    "name": "WEEK M"
+  },
   "props": [
     {
       "assetPath": "dokistory/MonikaWeek",

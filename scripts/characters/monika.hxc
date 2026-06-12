@@ -30,8 +30,10 @@ class MonikaBaseCharacter extends MultiAnimateAtlasCharacter {
   
 	public function onCreate(event):Void {
 		super.onCreate(event);
-		if (PlayState.instance?.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
-		else var isFestival = false;
+		var isFestival = switch (PlayState.instance?.currentStageId?.toLowerCase() ?? '') {
+			case 'clubroomfestival', 'dokiglitcher': true;
+			default: false;
+		}
 		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
 		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
 		this.color = defaultColor;
@@ -94,7 +96,8 @@ class MonikaBaseCharacter extends MultiAnimateAtlasCharacter {
 
 	public function resetCameraFocusPoint():Void {
 		super.resetCameraFocusPoint();
-        if (characterType == CharacterType.BF) this.cameraFocusPoint.y += 100;
+		// Force offsets down if character is BF
+        if (currentStage?.characters?.get('bf') == super) this.cameraFocusPoint.y += 100;
 	}
 
 	override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {

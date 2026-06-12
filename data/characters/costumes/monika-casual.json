@@ -6,7 +6,7 @@
     "flipX": false,
     "singTime": 6,
     "healthIcon": {"id": "monika"},
-    "cameraOffsets": [0, 15],
+    "cameraOffsets": [0, 15.45],
     "animations": [
         {
             "name": "idle",

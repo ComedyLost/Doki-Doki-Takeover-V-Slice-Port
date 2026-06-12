@@ -3,6 +3,9 @@
   "name": "MONIKA'S PROLOGUE WEEK",
   "titleAsset": "storymenu/titles/prologue",
   "visible": true,
+  "capsule": {
+    "name": "PROLOGUE"
+  },
   "background": "#80C842",
   "props": [
     {

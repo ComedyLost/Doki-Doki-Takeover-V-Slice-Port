@@ -164,8 +164,7 @@ class EvilClubroomStage extends Stage
 		}
 	}
 
-	function calcSectionLength(duration:Int){
-		if (duration == null) duration = 1;
+	function calcSectionLength(?duration:Int = 1){
 		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
 		return durSeconds;
 	}

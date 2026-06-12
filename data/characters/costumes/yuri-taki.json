@@ -5,6 +5,8 @@
     "assetPath": "shared:characters/yuri/taki",
     "flipX": false,
     "healthIcon": {"id": "yuri"},
+    "offsets": [-12, 0],
+    "cameraOffsets": [12, 35.5],
     "singTime": 6,
     "animations": [
         {
@@ -20,27 +22,27 @@
         {
             "name": "breath",
             "prefix": "Yuri Breath",
-            "offsets": [20, 14]
+            "offsets": [0, 0]
         },
         {
             "name": "singLEFT",
             "prefix": "Yuri Sing Note Left",
-            "offsets": [-25, -71]
+            "offsets": [-35, -36]
         },
         {
             "name": "singRIGHT",
             "prefix": "Yuri Sing Note Right",
-            "offsets": [19, -5]
+            "offsets": [2, 1]
         },
         {
             "name": "singUP",
             "prefix": "Yuri Sing Note Up",
-            "offsets": [16, 10]
+            "offsets": [-22, 9]
         },
         {
             "name": "singDOWN",
             "prefix": "Yuri Sing Note Down",
-            "offsets": [-25, -33]
+            "offsets": [-41, -18]
         }
     ],
     "scale": 1,

@@ -3,6 +3,9 @@
   "name": "THE GOOD ENDING",
   "titleAsset": "storymenu/titles/weekF",
   "visible": true,
+  "capsule": {
+    "name": "FESTIVAL"
+  },
   "props": [
     {
       "assetPath": "dokistory/FestivalWeek",

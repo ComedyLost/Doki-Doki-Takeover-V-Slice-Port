@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "name": "SPEAKER_ass_sets",
+    "name": "Speaker",
     "renderType": "sparrow",
     "assetPath": "characters/SPEAKER_ass_sets",
     "flipX": false,

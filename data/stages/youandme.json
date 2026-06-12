@@ -54,8 +54,8 @@
   "characters": {
     "bf": {
       "zIndex": 70,
-      "position": [900, 800],
-      "cameraOffsets": [0, 0]
+      "position": [850, 800],
+      "cameraOffsets": [100, 0]
     },
     "dad": {
       "zIndex": 60,
