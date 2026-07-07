@@ -25,5 +25,10 @@ class MusicRoomStage extends Stage
 			case "love-n-funkin":
 				getNamedProp('Music Room BG').loadGraphic(Paths.image('musicroom/Music_RoomLNF'));
 		}
+		if (PlayState.instance.camGame.width > FlxG.initialWidth) {
+			// Lock camGame width on longer devices to prevent out of bounds from showing
+			PlayState.instance.camGame.width = FlxG.initialWidth;
+			PlayState.instance.camGame.x = FlxG.width / 2 - PlayState.instance.camGame.width / 2;
+		}
 	}
 }

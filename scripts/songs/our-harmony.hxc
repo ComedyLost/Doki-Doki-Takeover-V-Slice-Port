@@ -59,13 +59,13 @@ class OurHarmonySong extends Song
 				oppStrumDefaultPos.push(playerStrums.members[i].y);
 			}
 
-		camGame2 = new FunkinCamera('playStateCamGame2');
+		camGame2 = new FunkinCamera('playStateCamGame2', FlxG.width / 2 - FlxG.initialWidth / 2, null, FlxG.initialWidth);
 		FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
 		camGame2.bgColor = 0x000000;
 
 		cg1 = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg1'));
 		cg1.alpha = 0.001;
-		cg1.cameras = [PlayState.instance.camHUD];
+		cg1.cameras = [camGame2];
 		cg1.setGraphicSize(Std.int(cg1.width * 0.7));//Smallest 0.67
 		cg1.updateHitbox();
 		cg1.screenCenter();
@@ -75,7 +75,7 @@ class OurHarmonySong extends Song
 		//Tween to -954x
 		cg2 = new FunkinSprite(0, 0).loadGraphic(Paths.image('musicroom/CG/cg2'));
 		cg2.alpha = 0.001;
-		cg2.cameras = [PlayState.instance.camHUD];
+		cg2.cameras = [camGame2];
 		cg2.scrollFactor.set();
 		PlayState.instance.add(cg2);
 

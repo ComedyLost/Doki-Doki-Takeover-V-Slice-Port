@@ -174,7 +174,6 @@ class CharacterResetHandlerCL extends Module {
 				if (char != null) {
 					var event = new ScriptEvent('CREATE', true);
 					ScriptEventDispatcher.callEvent(char, event);
-					event.stopPropagation(); // Don't let the default scripts run	
 				}
 		}
 	
