@@ -8,20 +8,24 @@ import funkin.play.song.Song;
 import flixel.FlxSprite;
 import funkin.play.cutscene.dialogue.ConversationState;
 
-class HighSchoolConflictSong extends Song {
+class HighSchoolConflictSong extends Song
+{
   var hasPlayedIntroCutscene:Bool;
   var hasPlayedOutroCutscene:Bool;
 
-	public function new() {
-		super('high-school-conflict');
-	}
+  public function new()
+  {
+    super('high-school-conflict');
+  }
 
-  public override function onCountdownStart(event:CountdownScriptEvent):Void {
-		super.onCountdownStart(event);
+  public override function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
 
     if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
 
-    if (!hasPlayedIntroCutscene) {
+    if (!hasPlayedIntroCutscene)
+    {
       trace('Pausing countdown to play cutscene.');
 
       hasPlayedIntroCutscene = true;
@@ -30,15 +34,17 @@ class HighSchoolConflictSong extends Song {
 
       transitionToDialogue();
     }
-	}
+  }
 
-  public override function onSongEnd(event:CountdownScriptEvent):Void {
-		super.onSongEnd(event);
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
     trace('Started countdown for Roses...');
 
     if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
 
-    if (!hasPlayedOutroCutscene) {
+    if (!hasPlayedOutroCutscene)
+    {
       trace('Pausing countdown to play cutscene.');
 
       hasPlayedOutroCutscene = true;
@@ -49,9 +55,10 @@ class HighSchoolConflictSong extends Song {
 
       startEndDialogue();
     }
-	}
+  }
 
-  function transitionToDialogue() {
+  function transitionToDialogue()
+  {
     trace('Transitioning to dialogue.');
 
     PlayState.instance.camCutscene.visible = true;
@@ -63,7 +70,8 @@ class HighSchoolConflictSong extends Song {
 
     black.alpha = 1.0;
 
-    var tweenFunction = function(x) {
+    var tweenFunction = function(x)
+    {
       var xSnapped = Math.floor(x * 8) / 8;
       black.alpha = 1.0 - xSnapped;
     };
@@ -71,24 +79,27 @@ class HighSchoolConflictSong extends Song {
     FlxTween.num(0.0, 1.0, 2.0, {
       ease: FlxEase.linear,
       startDelay: 0.25,
-      onComplete: function (input) {
-
+      onComplete: function(input)
+      {
         // black.visible = false;
         startDialogue();
       }
     }, tweenFunction);
   }
 
-  function startDialogue() {
+  function startDialogue()
+  {
     PlayState.instance.startConversation('high-school-conflict');
   }
 
-  function startEndDialogue() {
+  function startEndDialogue()
+  {
     PlayState.instance.startConversation('high-school-conflict-end');
-    PlayState.instance.currentConversation.completeCallback = function() {
-			PlayState.instance.onConversationComplete();
-			PlayState.instance.endSong();
-		};
+    PlayState.instance.currentConversation.completeCallback = function()
+    {
+      PlayState.instance.onConversationComplete();
+      PlayState.instance.endSong();
+    };
   }
 
   /**

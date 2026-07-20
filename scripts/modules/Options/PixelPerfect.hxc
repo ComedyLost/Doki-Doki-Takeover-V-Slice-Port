@@ -3,44 +3,54 @@ import funkin.modding.module.Module;
 import funkin.play.song.Song;
 import flixel.util.FlxTimer;
 
-class PixelPerfectDokiStage extends Module {
-	function new() {
-		super('PixelPerfectDoki');
+class PixelPerfectDokiStage extends Module
+{
+  function new()
+  {
+    super('PixelPerfectDoki');
 
-		save = DokiPreferences.getDokiSave();
-	}
+    save = DokiPreferences.getDokiSave();
+  }
 
-	public override function onSongEvent(scriptEvent:SongEventScriptEvent) {
-		super.onSongEvent(scriptEvent);
-		if (!save.pixel) return;
-		if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter") {
-			FlxTimer.wait(0.001, function(tmr:FlxTimer) {
-				// Recreate the now removed Pixel Perfect rendering from 0.5.0 on all stage assets when swapping characters
-				pixelfy();
-			});
-		}
-	}
+  public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+  {
+    super.onSongEvent(scriptEvent);
+    if (!save.pixel) return;
+    if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter")
+    {
+      FlxTimer.wait(0.001, function(tmr:FlxTimer)
+      {
+        // Recreate the now removed Pixel Perfect rendering from 0.5.0 on all stage assets when swapping characters
+        pixelfy();
+      });
+    }
+  }
 
-	function pixelfy() {
-		for (prop in PlayState.instance.currentStage._data.props) {
-			if (!prop.isPixel) continue;
-			var inStage = PlayState.instance.currentStage.getNamedProp(prop.name);
-			if (inStage == null) continue;
-			inStage.pixelPerfectRender = prop.isPixel;
-			inStage.pixelPerfectPosition = prop.isPixel;
-		}
-		for (character in PlayState.instance.currentStage.characters) {
-			if (character != null && character.isPixel) {
-				character.pixelPerfectRender = true;
-				character.pixelPerfectPosition = true;
-			}
-		}
-	}
+  function pixelfy()
+  {
+    for (prop in PlayState.instance.currentStage._data.props)
+    {
+      if (!prop.isPixel) continue;
+      var inStage = PlayState.instance.currentStage.getNamedProp(prop.name);
+      if (inStage == null) continue;
+      inStage.pixelPerfectRender = prop.isPixel;
+      inStage.pixelPerfectPosition = prop.isPixel;
+    }
+    for (character in PlayState.instance.currentStage.characters)
+    {
+      if (character != null && character.isPixel)
+      {
+        character.pixelPerfectRender = true;
+        character.pixelPerfectPosition = true;
+      }
+    }
+  }
 
-	public function onCountdownStart(event):Void {
-		super.onCountdownStart(event);
-		if (!save.pixel) return;
-		// Recreate the now removed Pixel Perfect rendering from 0.5.0 on all stage assets
-		pixelfy();
-	}
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    if (!save.pixel) return;
+    // Recreate the now removed Pixel Perfect rendering from 0.5.0 on all stage assets
+    pixelfy();
+  }
 }

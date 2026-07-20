@@ -1,8 +1,9 @@
 import ddto.character.SayoriBaseCharacter;
 
-class SayoriPicnicCharacter extends SayoriBaseCharacter {
-
-	function new() {
-		super('costumes/sayori-picnic');
-	}
+class SayoriPicnicCharacter extends SayoriBaseCharacter
+{
+  function new()
+  {
+    super('costumes/sayori-picnic');
+  }
 }

@@ -13,118 +13,143 @@ import funkin.FunkinMemory;
 import funkin.util.assets.FlxAnimationUtil;
 
 // player offset fix by cyn0x8
+class SayoriBaseCharacter extends MultiAnimateAtlasCharacter
+{
+  public function new(characterId:String)
+  {
+    // This tells CharacterDataParser to load Sayori instead of an invalid character!
+    if (characterId == "UNKNOWN") characterId = "sayori";
+    super(characterId);
+  }
 
-class SayoriBaseCharacter extends MultiAnimateAtlasCharacter {
+  public var defaultColor;
+  public var missColor;
 
-	public function new(characterId:String) {
-		// This tells CharacterDataParser to load Sayori instead of an invalid character!
-		if (characterId == "UNKNOWN") characterId = "sayori";	  
-		super(characterId);
-	}
-
-	public var defaultColor;
-	public var missColor;
-  
-    public function onCreate(event):Void {
-    	super.onCreate(event);
-		var isFestival = switch (PlayState.instance?.currentStageId?.toLowerCase() ?? '') {
-			case 'clubroomfestival', 'dokiglitcher': true;
-			default: false;
-		}
-		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
-		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
-		this.color = defaultColor;
-		addGameOverAssets();
-	}
-
-	// Add the game over assets from BF for all Dokis
-	function addGameOverAssets() {
-		var subTexture = Paths.getSparrowAtlas('characters/DokiGameOver');
-		FunkinMemory.cacheTexture(Paths.image('characters/DokiGameOver'));
-		subTexture.parent.destroyOnNoUse = false;
-		this.frames.addAtlas(subTexture);
-		var animations = [
-			{
-				name: "firstDeath",
-				flipX: true,
-				prefix: "DokiGameOverIntro",
-				assetPath: "characters/DokiGameOver",
-				offsets: [-48, 151]
-			},
-			{
-				name: "deathLoop",
-				flipX: true,
-				prefix: "DokiGameOverLoop",
-				assetPath: "characters/DokiGameOver",
-				looped: true,
-				offsets: [-72, 137]
-			},
-			{
-				name: "deathConfirm",
-				flipX: true,
-				prefix: "DokiGameOverConfirm",
-				assetPath: "characters/DokiGameOver",
-				offsets: [-52, 153]
-			}
-		];
-		for (anim in animations) {
-			FlxAnimationUtil.addAtlasAnimation(super, anim);
-			if (anim.offsets == null) setAnimationOffsets(anim.name, 0, 0);
-			else setAnimationOffsets(anim.name, anim.offsets[0] + 20, anim.offsets[1] - 300);
-		}
-	}
-
-	override function onAdd() {
-        if (characterType != CharacterType.BF) return;
-		GameOverSubState.musicSuffix = '-doki';
-		GameOverSubState.blueBallSuffix = '-doki';
-
-		PauseSubState.musicSuffix = '-doki';
-	}
-
-	public function resetCameraFocusPoint():Void {
-		super.resetCameraFocusPoint();
-		// Force offsets down if character is BF
-        if (currentStage?.characters?.get('bf') == super) this.cameraFocusPoint.y += 100;
-	}
-	  
-	public var gameOverAnims:Array<String> = ['firstDeath', 'deathLoop', 'deathConfirm'];
-
-    override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint {
-        var output:FlxPoint = super.getScreenPosition(result, camera);
-		if (gameOverAnims.contains(getCurrentAnimation())) return output; // Don't change offsets
-		if (flipX) {output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;}
-        if (flipY) {output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;}
-        return output;
+  public function onCreate(event):Void
+  {
+    super.onCreate(event);
+    var isFestival = switch (PlayState.instance?.currentStageId?.toLowerCase() ?? '')
+    {
+      case 'clubroomfestival', 'dokiglitcher': true;
+      default: false;
     }
-    
-    override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void {
-		holdTimer = 0;
-        if (flipX) {
-            if (dir == 0) {dir = 3;} else if (dir == 3) {dir = 0;}
-        }
-		if (miss) {
-			this.color = missColor;
-			super.playSingAnimation(dir, false, suffix);
-		} else {
-			this.color = defaultColor;
-			super.playSingAnimation(dir, miss, suffix);
-		}
-    }    
-    
-	function onNoteHit(event:NoteScriptEvent) {
-		// Override the hit note animation.
-		switch(event.note.kind) {
-			case "Hurt Note", "GF Sing", "Monika", "gf":
-				return;
-			default:
-				super.onNoteHit(event);
-		}
-	}
+    defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
+    missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+    this.color = defaultColor;
+    addGameOverAssets();
+  }
 
-	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void {
-		// FlxG.watch.addQuick('playAnim(${characterName})', name);
-	  	if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
-	  	super.playAnimation(name, restart, ignoreOther, reversed);
-	}
+  // Add the game over assets from BF for all Dokis
+  function addGameOverAssets()
+  {
+    var subTexture = Paths.getSparrowAtlas('characters/DokiGameOver');
+    FunkinMemory.cacheTexture(Paths.image('characters/DokiGameOver'));
+    subTexture.parent.destroyOnNoUse = false;
+    this.frames.addAtlas(subTexture);
+    var animations = [{
+      name: "firstDeath",
+      flipX: true,
+      prefix: "DokiGameOverIntro",
+      assetPath: "characters/DokiGameOver",
+      offsets: [-48, 151]
+    }, {
+      name: "deathLoop",
+      flipX: true,
+      prefix: "DokiGameOverLoop",
+      assetPath: "characters/DokiGameOver",
+      looped: true,
+      offsets: [-72, 137]
+    }, {
+      name: "deathConfirm",
+      flipX: true,
+      prefix: "DokiGameOverConfirm",
+      assetPath: "characters/DokiGameOver",
+      offsets: [-52, 153]
+    }];
+    for (anim in animations)
+    {
+      FlxAnimationUtil.addAtlasAnimation(super, anim);
+      if (anim.offsets == null) setAnimationOffsets(anim.name, 0, 0);
+      else
+        setAnimationOffsets(anim.name, anim.offsets[0] + 20, anim.offsets[1] - 300);
+    }
+  }
+
+  override function onAdd()
+  {
+    if (characterType != CharacterType.BF) return;
+    GameOverSubState.musicSuffix = '-doki';
+    GameOverSubState.blueBallSuffix = '-doki';
+
+    PauseSubState.musicSuffix = '-doki';
+  }
+
+  public function resetCameraFocusPoint():Void
+  {
+    super.resetCameraFocusPoint();
+    // Force offsets down if character is BF
+    if (currentStage?.characters?.get('bf') == super) this.cameraFocusPoint.y += 100;
+  }
+
+  public var gameOverAnims:Array<String> = ['firstDeath', 'deathLoop', 'deathConfirm'];
+
+  override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint
+  {
+    var output:FlxPoint = super.getScreenPosition(result, camera);
+    if (gameOverAnims.contains(getCurrentAnimation())) return output; // Don't change offsets
+    if (flipX)
+    {
+      output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;
+    }
+    if (flipY)
+    {
+      output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;
+    }
+    return output;
+  }
+
+  override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void
+  {
+    holdTimer = 0;
+    if (flipX)
+    {
+      if (dir == 0)
+      {
+        dir = 3;
+      }
+      else if (dir == 3)
+      {
+        dir = 0;
+      }
+    }
+    if (miss)
+    {
+      this.color = missColor;
+      super.playSingAnimation(dir, false, suffix);
+    }
+    else
+    {
+      this.color = defaultColor;
+      super.playSingAnimation(dir, miss, suffix);
+    }
+  }
+
+  function onNoteHit(event:NoteScriptEvent)
+  {
+    // Override the hit note animation.
+    switch (event.note.kind)
+    {
+      case "Hurt Note", "GF Sing", "Monika", "gf":
+        return;
+      default:
+        super.onNoteHit(event);
+    }
+  }
+
+  override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
+  {
+    // FlxG.watch.addQuick('playAnim(${characterName})', name);
+    if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+    super.playAnimation(name, restart, ignoreOther, reversed);
+  }
 }

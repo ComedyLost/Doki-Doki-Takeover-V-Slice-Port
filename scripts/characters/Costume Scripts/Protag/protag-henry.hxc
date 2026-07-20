@@ -1,8 +1,9 @@
 import ddto.character.ProtagBaseCharacter;
 
-class ProtagHenryCharacter extends ProtagBaseCharacter {
-
-	function new() {
-		super('costumes/protag-henry');
-	}
+class ProtagHenryCharacter extends ProtagBaseCharacter
+{
+  function new()
+  {
+    super('costumes/protag-henry');
+  }
 }

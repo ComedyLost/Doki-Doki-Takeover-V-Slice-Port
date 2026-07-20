@@ -5,37 +5,38 @@ import StringTools;
 import funkin.save.Save;
 import funkin.api.newgrounds.NewgroundsClient;
 
-class EpiphanyRetryConversation extends Conversation {
+class EpiphanyRetryConversation extends Conversation
+{
+  // Murdered cuz whoopsies
+  var programList:Array<String> = ['obs', 'bdcam', 'fraps', 'xsplit', // TIL c# program
+    'hycam2', // hueh
+    'twitchstudio', // why
+    'streamlabs', 'bandicam'];
 
-	// Murdered cuz whoopsies
-  	var programList:Array<String> = [
-		'obs',
-		'bdcam',
-		'fraps',
-		'xsplit', // TIL c# program
-		'hycam2', // hueh
-		'twitchstudio', // why
-		'streamlabs',
-		'bandicam'
-	];
-  
- 	function new() {
-		super('epiphany-retry');
+  function new()
+  {
+    super('epiphany-retry');
 
-		save = DokiPreferences.getDokiSave();
-  	}
+    save = DokiPreferences.getDokiSave();
+  }
 
-  	override function onCreate(event){
-		super.onCreate(event);
-		if (save.selfaware) {
-			if (!NewgroundsClient.isLoggedIn()) _data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
-			else _data.dialogue[0].text[0] = "\"Ahaha, welcome back, " + getUsername() + ".\"";
-		} else {
-			_data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
-		}
-  	}
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    if (save.selfaware)
+    {
+      if (!NewgroundsClient.isLoggedIn()) _data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
+      else
+        _data.dialogue[0].text[0] = "\"Ahaha, welcome back, " + getUsername() + ".\"";
+    }
+    else
+    {
+      _data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
+    }
+  }
 
-	function getUsername(){
-		return NewgroundsClient.user.name;
-	}
+  function getUsername()
+  {
+    return NewgroundsClient.user.name;
+  }
 }

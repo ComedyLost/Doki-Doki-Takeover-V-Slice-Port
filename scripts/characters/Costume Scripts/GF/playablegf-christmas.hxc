@@ -5,48 +5,58 @@ import funkin.play.PauseSubState;
 import flixel.FlxSprite;
 import StringTools;
 
-class PlayableGFChristmasCharacter extends MultiSparrowCharacter {
-	function new() {
-		super('costumes/playablegf-christmas');
-	}
+class PlayableGFChristmasCharacter extends MultiSparrowCharacter
+{
+  function new()
+  {
+    super('costumes/playablegf-christmas');
+  }
 
-	var defaultColor;
-    var missColor;
+  var defaultColor;
+  var missColor;
 
-	function onCreate(event:ScriptEvent) {
-		super.onCreate(event);
-		if (PlayState.instance?.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival' || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
-		else var isFestival = false;
-		defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
-		missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
-		this.color = defaultColor;
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
+    if (PlayState.instance?.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'clubroomfestival'
+      || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
+    else
+      var isFestival = false;
+    defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
+    missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+    this.color = defaultColor;
 
-		GameOverSubState.musicSuffix = '-doki';
-		GameOverSubState.blueBallSuffix = '';
+    GameOverSubState.musicSuffix = '-doki';
+    GameOverSubState.blueBallSuffix = '';
 
-		PauseSubState.musicSuffix = '-doki';
-	}
+    PauseSubState.musicSuffix = '-doki';
+  }
 
-    override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void {
-		holdTimer = 0;
-		if (miss) {
-			this.color = missColor;
-			super.playSingAnimation(dir, false, suffix);
-		} else {
-			this.color = defaultColor;
-			super.playSingAnimation(dir, miss, suffix);
-		}
-    }    
+  override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void
+  {
+    holdTimer = 0;
+    if (miss)
+    {
+      this.color = missColor;
+      super.playSingAnimation(dir, false, suffix);
+    }
+    else
+    {
+      this.color = defaultColor;
+      super.playSingAnimation(dir, miss, suffix);
+    }
+  }
 
-	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void{
-		// FlxG.watch.addQuick('playAnim(${characterName})', name);
-		if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
-		super.playAnimation(name, restart, ignoreOther, reversed);
-	}
+  override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
+  {
+    // FlxG.watch.addQuick('playAnim(${characterName})', name);
+    if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+    super.playAnimation(name, restart, ignoreOther, reversed);
+  }
 
-	function onNoteMiss(event:NoteScriptEvent)
-		{
-			if (event.eventCanceled) return;
-			super.onNoteMiss(event);
-		}
+  function onNoteMiss(event:NoteScriptEvent)
+  {
+    if (event.eventCanceled) return;
+    super.onNoteMiss(event);
+  }
 }

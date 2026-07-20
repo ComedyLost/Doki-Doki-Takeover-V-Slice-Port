@@ -2,7 +2,7 @@ import funkin.play.PlayState;
 import funkin.play.stage.Stage;
 import funkin.graphics.FunkinSprite;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxBackdrop; 
+import flixel.addons.display.FlxBackdrop;
 import flixel.tweens.FlxTween;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
@@ -20,206 +20,217 @@ import flixel.tweens.FlxEase;
 
 class EvilClubroomStage extends Stage
 {
-	var dokiBackdrop:FlxBackdrop;
-	var space:FlxBackdrop;
-	var clouds:FlxBackdrop;
-	var fancyclouds:FlxBackdrop;
-	var popup:FlxSprite;
-	var blackCover:FlxSprite;
-	var maskEnabled:Bool;
-	var canChange:Bool;
-	var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
-    var shaderstat = new ShaderFilter(bloom);
-	var camBG:FunkinCamera;
+  var dokiBackdrop:FlxBackdrop;
+  var space:FlxBackdrop;
+  var clouds:FlxBackdrop;
+  var fancyclouds:FlxBackdrop;
+  var popup:FlxSprite;
+  var blackCover:FlxSprite;
+  var maskEnabled:Bool;
+  var canChange:Bool;
+  var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
+  var shaderstat = new ShaderFilter(bloom);
+  var camBG:FunkinCamera;
 
-	function new()
-	{
-		super('evilClubroom');
+  function new()
+  {
+    super('evilClubroom');
 
-		save = DokiPreferences.getDokiSave();
-	}
+    save = DokiPreferences.getDokiSave();
+  }
 
-	public function onCountdownStart(event:CountdownScriptEvent):Void
-		{
-			super.onCountdownStart(event);	
-			canChange = true;
-			blackCover.alpha = 0;
-			dokiBackdrop.alpha = 0;
-			PlayState.instance.iconP2.alpha = 1;
-			camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
-			getBoyfriend().visible = false;
-			getGirlfriend().visible = false;
-			bloom.setFloat('funrange', 0.1);
-			bloom.setFloat('funsteps', 0.005);
-			bloom.setFloat('funthreshhold', 0.95);
-			bloom.setFloat('funbrightness', 8); 
-			if (save.bloom) camBG.filters = [shaderstat];
-		}
+  public function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
+    canChange = true;
+    blackCover.alpha = 0;
+    dokiBackdrop.alpha = 0;
+    PlayState.instance.iconP2.alpha = 1;
+    camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
+    getBoyfriend().visible = false;
+    getGirlfriend().visible = false;
+    bloom.setFloat('funrange', 0.1);
+    bloom.setFloat('funsteps', 0.005);
+    bloom.setFloat('funthreshhold', 0.95);
+    bloom.setFloat('funbrightness', 8);
+    if (save.bloom) camBG.filters = [shaderstat];
+  }
 
-	override function buildStage()
-		{
-			//I'm never going to fully understand V-Slice coding
-			super.buildStage();
-			camBG = new FunkinCamera('playStateCamBG');
-	        camBG.bgColor = 0x000000;
-			camBG.copyFrom(PlayState.instance.camGame);
-			FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
-			PlayState.instance.camGame.bgColor = 0x0;
-			getNamedProp('Epiphany Main Lights').blend = 12;
-			getNamedProp('Epiphany Window Lights').cameras = [camBG];
-			getNamedProp('Epiphany BG').cameras = [camBG];
-			canChange = true;
-			maskEnabled = true;
-			blackCover = new FunkinSprite(0, 0).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
-            blackCover.zIndex = 500;
-			blackCover.alpha = 0;
-            blackCover.cameras = [PlayState.instance.camHUD];
-			blackCover.screenCenter();
-			blackCover.y = -300;
-            add(blackCover);
-			popup = FunkinSprite.createSparrow(0, 0, 'bigmonika/bigika_delete');
-			popup.animation.addByPrefix('startDeleting', 'PopUpAnim', 24, false);
-			popup.zIndex = 400;
-			popup.screenCenter();
-			popup.alpha = 0;
-			popup.y += 100;
-			popup.x += 75;
-			add(popup);
-			dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG')); 
-			dokiBackdrop.updateHitbox(); 
-			dokiBackdrop.zIndex = 100;
-			dokiBackdrop.velocity.set(-40, -40);
-			dokiBackdrop.alpha = 0; 
-			dokiBackdrop.screenCenter();
-			add(dokiBackdrop); 
-			space = new FlxBackdrop(Paths.image('bigmonika/Sky')); 
-			space.updateHitbox(); 
-			space.zIndex = 10;
-			space.scrollFactor.set(0.1, 0.1);
-			space.velocity.set(-7, 0);
-			space.alpha = 1; 
-			space.screenCenter();
-			add(space);
-			space.cameras = [camBG];
-			clouds = new FlxBackdrop(Paths.image('bigmonika/Clouds')); 
-			clouds.updateHitbox(); 
-			clouds.zIndex = 10;
-			clouds.scrollFactor.set(0.1, 0.1);
-			clouds.velocity.set(-13, 0);
-			clouds.alpha = 1; 
-			add(clouds);
-			clouds.cameras = [camBG];
-			fancyclouds = new FlxBackdrop(Paths.image('bigmonika/mask')); 
-			fancyclouds.updateHitbox(); 
-			fancyclouds.zIndex = 10;
-			fancyclouds.scrollFactor.set(0.1, 0.1);
-			fancyclouds.velocity.set(-13, 0);
-			fancyclouds.alpha = 1; 
-			add(fancyclouds);
-			fancyclouds.cameras = [camBG];
-			refresh();
-		}
-	
-	function fetchAssetPaths():Array<String>
-	{
-		var results:Array<String> = super.fetchAssetPaths();
+  override function buildStage()
+  {
+    // I'm never going to fully understand V-Slice coding
+    super.buildStage();
+    camBG = new FunkinCamera('playStateCamBG');
+    camBG.bgColor = 0x000000;
+    camBG.copyFrom(PlayState.instance.camGame);
+    FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
+    PlayState.instance.camGame.bgColor = 0x0;
+    getNamedProp('Epiphany Main Lights').blend = 12;
+    getNamedProp('Epiphany Window Lights').cameras = [camBG];
+    getNamedProp('Epiphany BG').cameras = [camBG];
+    canChange = true;
+    maskEnabled = true;
+    blackCover = new FunkinSprite(0, 0).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+    blackCover.zIndex = 500;
+    blackCover.alpha = 0;
+    blackCover.cameras = [PlayState.instance.camHUD];
+    blackCover.screenCenter();
+    blackCover.y = -300;
+    add(blackCover);
+    popup = FunkinSprite.createSparrow(0, 0, 'bigmonika/bigika_delete');
+    popup.animation.addByPrefix('startDeleting', 'PopUpAnim', 24, false);
+    popup.zIndex = 400;
+    popup.screenCenter();
+    popup.alpha = 0;
+    popup.y += 100;
+    popup.x += 75;
+    add(popup);
+    dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG'));
+    dokiBackdrop.updateHitbox();
+    dokiBackdrop.zIndex = 100;
+    dokiBackdrop.velocity.set(-40, -40);
+    dokiBackdrop.alpha = 0;
+    dokiBackdrop.screenCenter();
+    add(dokiBackdrop);
+    space = new FlxBackdrop(Paths.image('bigmonika/Sky'));
+    space.updateHitbox();
+    space.zIndex = 10;
+    space.scrollFactor.set(0.1, 0.1);
+    space.velocity.set(-7, 0);
+    space.alpha = 1;
+    space.screenCenter();
+    add(space);
+    space.cameras = [camBG];
+    clouds = new FlxBackdrop(Paths.image('bigmonika/Clouds'));
+    clouds.updateHitbox();
+    clouds.zIndex = 10;
+    clouds.scrollFactor.set(0.1, 0.1);
+    clouds.velocity.set(-13, 0);
+    clouds.alpha = 1;
+    add(clouds);
+    clouds.cameras = [camBG];
+    fancyclouds = new FlxBackdrop(Paths.image('bigmonika/mask'));
+    fancyclouds.updateHitbox();
+    fancyclouds.zIndex = 10;
+    fancyclouds.scrollFactor.set(0.1, 0.1);
+    fancyclouds.velocity.set(-13, 0);
+    fancyclouds.alpha = 1;
+    add(fancyclouds);
+    fancyclouds.cameras = [camBG];
+    refresh();
+  }
 
-		// This graphic is applied by shader to the background, so it's not included in the default stage function.
-		results.push(Paths.image('bigmonika/bigika_delete'));
-		results.push(Paths.image('scrollingBG'));
-		results.push(Paths.image('bigmonika/Sky'));
-		results.push(Paths.image('bigmonika/Clouds'));
-		results.push(Paths.image('bigmonika/mask'));
+  function fetchAssetPaths():Array<String>
+  {
+    var results:Array<String> = super.fetchAssetPaths();
 
-		return results;
-	}
+    // This graphic is applied by shader to the background, so it's not included in the default stage function.
+    results.push(Paths.image('bigmonika/bigika_delete'));
+    results.push(Paths.image('scrollingBG'));
+    results.push(Paths.image('bigmonika/Sky'));
+    results.push(Paths.image('bigmonika/Clouds'));
+    results.push(Paths.image('bigmonika/mask'));
 
-	override function onUpdate(event:UpdateScriptEvent) {
-		super.onUpdate(event);
-		
-        camBG.zoom = PlayState.instance.camGame.zoom;
-        camBG.targetOffset = FlxG.camera.targetOffset;
-    }    
+    return results;
+  }
 
-	function maskStateChange() {
-		if (!canChange) return;
-		if (!maskEnabled){
-			canChange = false;
-			FlxTween.tween(getNamedProp('Epiphany Window Lights'), {alpha: 1}, 1);
-			maskEnabled = true;
-			FlxTween.tween(fancyclouds, {alpha: 1}, 1);
-			new FlxTimer().start(3, function(tmr)
-				{
-					canChange = true;
-				});		
-		} else if (maskEnabled){
-			canChange = false;
-			FlxTween.tween(getNamedProp('Epiphany Window Lights'), {alpha: 0}, 1);
-			maskEnabled = false;
-			FlxTween.tween(fancyclouds, {alpha: 0}, 1);
-			new FlxTimer().start(3, function(tmr)
-				{
-					canChange = true;
-				});		
-		}
-	}
+  override function onUpdate(event:UpdateScriptEvent)
+  {
+    super.onUpdate(event);
 
-	function calcSectionLength(?duration:Int = 1){
-		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
-		return durSeconds;
-	}
+    camBG.zoom = PlayState.instance.camGame.zoom;
+    camBG.targetOffset = FlxG.camera.targetOffset;
+  }
 
-	function onBeatHit(event:SongTimeScriptEvent):Void
-		{
-			if (FlxG.random.bool(20)) {
-				maskStateChange();
-			}
-			switch(event.beat)
-			{
-				case 585:
-					FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(), {ease: FlxEase.sineIn});
-				case 648:
-					FlxTween.tween(dokiBackdrop, {alpha: 0.001}, calcSectionLength(0.5), {ease: FlxEase.sineOut});
-					popup.alpha = 1;
-					popup.animation.play('startDeleting');
-					popup.animation.curAnim.frameRate = 24 * PlayState.instance.playbackRate;
-				case 788:
-					var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-					if (opponentStrumline != null){
-						for (arrow in opponentStrumline.members) {
-							FlxTween.cancelTweensOf(arrow);
-							FlxTween.tween(arrow, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
-						}
-					}
-					FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
-				case 790:
-					FlxTween.tween(blackCover, {alpha: 1}, 0.7 * PlayState.instance.playbackRate);
-			}
+  function maskStateChange()
+  {
+    if (!canChange) return;
+    if (!maskEnabled)
+    {
+      canChange = false;
+      FlxTween.tween(getNamedProp('Epiphany Window Lights'), {alpha: 1}, 1);
+      maskEnabled = true;
+      FlxTween.tween(fancyclouds, {alpha: 1}, 1);
+      new FlxTimer().start(3, function(tmr)
+      {
+        canChange = true;
+      });
+    }
+    else if (maskEnabled)
+    {
+      canChange = false;
+      FlxTween.tween(getNamedProp('Epiphany Window Lights'), {alpha: 0}, 1);
+      maskEnabled = false;
+      FlxTween.tween(fancyclouds, {alpha: 0}, 1);
+      new FlxTimer().start(3, function(tmr)
+      {
+        canChange = true;
+      });
+    }
+  }
 
-		}			
+  function calcSectionLength(?duration:Int = 1)
+  {
+    var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+    return durSeconds;
+  }
 
-	function onSongRetry(event:ScriptEvent)
-		{
-			super.onSongRetry(event);
-			getDad().dance(true);
-			getDad().alpha = 1;
-			if (popup.animation?.curAnim?.name == 'startDeleting'){
-				popup.animation.curAnim.stop();
-			}
-			var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-			if (opponentStrumline != null){
-				for (arrow in opponentStrumline.members) {
-					FlxTween.cancelTweensOf(arrow);
-					if (arrow == opponentStrumline.background) continue;
-					arrow.alpha = 1;
-				}
-			}
-			FlxTween.cancelTweensOf(blackCover);
-			FlxTween.cancelTweensOf(dokiBackdrop);
-			FlxTween.cancelTweensOf(PlayState.instance.iconP2);
-			blackCover.alpha = 0;
-			dokiBackdrop.alpha = 0;
-			PlayState.instance.iconP2.alpha = 1;
-			popup.alpha = 0;
-		}
+  function onBeatHit(event:SongTimeScriptEvent):Void
+  {
+    if (FlxG.random.bool(20))
+    {
+      maskStateChange();
+    }
+    switch (event.beat)
+    {
+      case 585:
+        FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(), {ease: FlxEase.sineIn});
+      case 648:
+        FlxTween.tween(dokiBackdrop, {alpha: 0.001}, calcSectionLength(0.5), {ease: FlxEase.sineOut});
+        popup.alpha = 1;
+        popup.animation.play('startDeleting');
+        popup.animation.curAnim.frameRate = 24 * PlayState.instance.playbackRate;
+      case 788:
+        var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+        if (opponentStrumline != null)
+        {
+          for (arrow in opponentStrumline.members)
+          {
+            FlxTween.cancelTweensOf(arrow);
+            FlxTween.tween(arrow, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
+          }
+        }
+        FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
+      case 790:
+        FlxTween.tween(blackCover, {alpha: 1}, 0.7 * PlayState.instance.playbackRate);
+    }
+  }
+
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+    getDad().dance(true);
+    getDad().alpha = 1;
+    if (popup.animation?.curAnim?.name == 'startDeleting')
+    {
+      popup.animation.curAnim.stop();
+    }
+    var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+    if (opponentStrumline != null)
+    {
+      for (arrow in opponentStrumline.members)
+      {
+        FlxTween.cancelTweensOf(arrow);
+        if (arrow == opponentStrumline.background) continue;
+        arrow.alpha = 1;
+      }
+    }
+    FlxTween.cancelTweensOf(blackCover);
+    FlxTween.cancelTweensOf(dokiBackdrop);
+    FlxTween.cancelTweensOf(PlayState.instance.iconP2);
+    blackCover.alpha = 0;
+    dokiBackdrop.alpha = 0;
+    PlayState.instance.iconP2.alpha = 1;
+    popup.alpha = 0;
+  }
 }

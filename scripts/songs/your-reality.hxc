@@ -5,13 +5,15 @@ import funkin.save.Save;
 
 class YourRealityTakeoverMix extends Song
 {
-	function new()
-	{
-		super('your-reality-takeover-mix');
-	}
+  function new()
+  {
+    super('your-reality-takeover-mix');
+  }
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
+  public override function isSongNew(currentDifficulty:String):Bool
+  {
+    if (Save.instance.hasBeatenSong(this.id) == false) return true;
+    else
+      return false;
+  }
 }

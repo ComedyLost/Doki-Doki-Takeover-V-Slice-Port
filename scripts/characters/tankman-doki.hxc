@@ -5,32 +5,37 @@ import funkin.play.PauseSubState;
 import flixel.FlxSprite;
 import funkin.play.character.CharacterType;
 
-class TankmanDokiCharacter extends MultiSparrowCharacter {
-	function new() {
-		super('tankman-doki');
-	}
+class TankmanDokiCharacter extends MultiSparrowCharacter
+{
+  function new()
+  {
+    super('tankman-doki');
+  }
 
-	function onCreate(event:ScriptEvent) {
-		super.onCreate(event);
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
 
-		GameOverSubState.musicSuffix = '-doki';
-		GameOverSubState.blueBallSuffix = '-tankman';
+    GameOverSubState.musicSuffix = '-doki';
+    GameOverSubState.blueBallSuffix = '-tankman';
 
-		PauseSubState.musicSuffix = '-doki';
-	}
+    PauseSubState.musicSuffix = '-doki';
+  }
 
-	function onNoteHit(event:HitNoteScriptEvent)
-		{
-			super.onNoteHit(event);
-	
-			if (event.note.noteData.getMustHitNote() && characterType == CharacterType.BF) {
-				// Override the hit note animation.
-				switch(event.note.kind) {
-					case "ugh":
-						holdTimer = 0;
-						this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
-						return;
-				}
-			}
-		}	
+  function onNoteHit(event:HitNoteScriptEvent)
+  {
+    super.onNoteHit(event);
+
+    if (event.note.noteData.getMustHitNote() && characterType == CharacterType.BF)
+    {
+      // Override the hit note animation.
+      switch (event.note.kind)
+      {
+        case "ugh":
+          holdTimer = 0;
+          this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
+          return;
+      }
+    }
+  }
 }

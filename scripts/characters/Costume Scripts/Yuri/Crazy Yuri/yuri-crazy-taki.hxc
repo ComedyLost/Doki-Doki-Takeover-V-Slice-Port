@@ -1,8 +1,9 @@
 import ddto.character.CrazyYuriBaseCharacter;
 
-class CrazyYuriTakiCharacter extends CrazyYuriBaseCharacter {
-
-	function new() {
-		super('costumes/yuri-crazy-taki');
-	}
+class CrazyYuriTakiCharacter extends CrazyYuriBaseCharacter
+{
+  function new()
+  {
+    super('costumes/yuri-crazy-taki');
+  }
 }

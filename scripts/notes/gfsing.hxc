@@ -3,15 +3,16 @@ import funkin.play.PlayState;
 
 class DokiGFSingNoteKind extends ScriptedNoteKind
 {
-	public function new()
-	{
-		super("gf", "GF Sing");
-	}
+  public function new()
+  {
+    super("gf", "GF Sing");
+  }
 
-	function onNoteHit(callback) {
-		if (PlayState.instance == null) return;
-	
-		PlayState.instance?.currentStage?.getGirlfriend()?.holdTimer = 0;
-		PlayState.instance?.currentStage?.getGirlfriend()?.playSingAnimation(callback.note.noteData.getDirection(), false);
-	}
+  function onNoteHit(callback)
+  {
+    if (PlayState.instance == null) return;
+
+    PlayState.instance?.currentStage?.getGirlfriend()?.holdTimer = 0;
+    PlayState.instance?.currentStage?.getGirlfriend()?.playSingAnimation(callback.note.noteData.getDirection(), false);
+  }
 }

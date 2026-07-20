@@ -1,8 +1,9 @@
 import ddto.character.SayoriBaseCharacter;
 
-class SayoriZipperCharacter extends SayoriBaseCharacter {
-
-	function new() {
-		super('costumes/sayori-zipper');
-	}
+class SayoriZipperCharacter extends SayoriBaseCharacter
+{
+  function new()
+  {
+    super('costumes/sayori-zipper');
+  }
 }

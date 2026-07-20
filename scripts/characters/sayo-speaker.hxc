@@ -2,20 +2,23 @@ import funkin.play.character.SparrowCharacter;
 import funkin.play.character.CharacterType;
 import funkin.play.PlayState;
 
-class SayoSpeakerCharacter extends SparrowCharacter {
-	function new() {
-		super('sayo-speaker');
-	}
+class SayoSpeakerCharacter extends SparrowCharacter
+{
+  function new()
+  {
+    super('sayo-speaker');
+  }
 
-	function onCreate(event:ScriptEvent) {
-		super.onCreate(event);
-		this.idleSuffix = '-alt';
-	}
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
+    this.idleSuffix = '-alt';
+  }
 
-	override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
-		{
-		  // FlxG.watch.addQuick('playAnim(${characterName})', name);
-		  if (name == 'popout') this.idleSuffix = '';
-		  super.playAnimation(name, restart, ignoreOther, reversed);
-		}
+  override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
+  {
+    // FlxG.watch.addQuick('playAnim(${characterName})', name);
+    if (name == 'popout') this.idleSuffix = '';
+    super.playAnimation(name, restart, ignoreOther, reversed);
+  }
 }

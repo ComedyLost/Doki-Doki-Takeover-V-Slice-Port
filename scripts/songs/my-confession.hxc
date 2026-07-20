@@ -15,115 +15,120 @@ import flixel.math.FlxMath;
 
 class MyConfessionSong extends Song
 {
-	var vignette:FlxSprite;
-	var staticshock:FlxSprite;
-	var hasPlayedIntroCutscene:Bool;
+  var vignette:FlxSprite;
+  var staticshock:FlxSprite;
+  var hasPlayedIntroCutscene:Bool;
 
-	function new()
-	{
-		super('my-confession');
-	}
+  function new()
+  {
+    super('my-confession');
+  }
 
-	override function onCreate(event) {
-		super.onCreate(event);
-		hasPlayedIntroCutscene = false;
-		staticshock = new FlxSprite();
-		staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
-		staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
-		staticshock.animation.play('idle');
-		staticshock.scrollFactor.set();
-		staticshock.alpha = 0.6;
-		staticshock.zIndex = 1500;
-		staticshock.visible = false;
-		staticshock.cameras = [PlayState.instance.camHUD];
-		staticshock.blend = 14;
-		staticshock.updateHitbox();
-		staticshock.screenCenter();
-		PlayState.instance.add(staticshock);
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    hasPlayedIntroCutscene = false;
+    staticshock = new FlxSprite();
+    staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
+    staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
+    staticshock.animation.play('idle');
+    staticshock.scrollFactor.set();
+    staticshock.alpha = 0.6;
+    staticshock.zIndex = 1500;
+    staticshock.visible = false;
+    staticshock.cameras = [PlayState.instance.camHUD];
+    staticshock.blend = 14;
+    staticshock.updateHitbox();
+    staticshock.screenCenter();
+    PlayState.instance.add(staticshock);
 
-		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
-		vignette.scrollFactor.set();
-		vignette.alpha = 0;
-		vignette.zIndex = 1600;
-		vignette.cameras = [PlayState.instance.camHUD];
-		vignette.updateHitbox();
-		vignette.screenCenter();
-		PlayState.instance.add(vignette);
-	  }
+    vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
+    vignette.scrollFactor.set();
+    vignette.alpha = 0;
+    vignette.zIndex = 1600;
+    vignette.cameras = [PlayState.instance.camHUD];
+    vignette.updateHitbox();
+    vignette.screenCenter();
+    PlayState.instance.add(vignette);
+  }
 
-	function fetchAssetPaths():Array<String>
-	{
-		var results:Array<String> = super.fetchAssetPaths();
+  function fetchAssetPaths():Array<String>
+  {
+    var results:Array<String> = super.fetchAssetPaths();
 
-		results.push(Paths.image('vignette'));
-		results.push(Paths.image('staticshock'));
+    results.push(Paths.image('vignette'));
+    results.push(Paths.image('staticshock'));
 
-		return results;
-	}
+    return results;
+  }
 
-	function startIntroDialogue() {
-		PlayState.instance.startConversation('my-confession');
-	}	
+  function startIntroDialogue()
+  {
+    PlayState.instance.startConversation('my-confession');
+  }
 
-	function onStepHit(event:SongTimeScriptEvent):Void
-		{	
-			switch(event.step)
-			{
-				case 749:
-					if (PlayState.instance.currentStage.getDad().characterId == 'costumes/sayori-grace')
-						PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
-				case 752:
-					if (PlayState.instance.currentStage.getDad().characterId != 'costumes/sayori-grace')
-						PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
-					staticshock.visible = true;
-					vignette.alpha = 0.2;
-            		PlayState.instance.iconP2.updateHitbox();
-					if (!PlayState.instance.iconP2.hasAnimation('Depressed'))
-						PlayState.instance.iconP2.animation.addByPrefix("Depressed", "depression arc", 24, false);
-					PlayState.instance.iconP2.playAnimation("Depressed", null, true);
-            		PlayState.instance.iconP2.autoUpdate = false;
-				case 768:
-					vignette.alpha = 0;
-					staticshock.visible = false;
-					PlayState.instance.iconP2.autoUpdate = true;
-			}
-
-		}
-
-	public override function onUpdate(event:UpdateScriptEvent):Void {
-        super.onUpdate(event);
-		if (PlayState.instance == null) return;
-		if (PlayState.instance.iconP2 != null && PlayState.instance.iconP2.getCurrentAnimation('Depressed')){
-			PlayState.instance.iconP2.x = PlayState.instance.healthBar.x
-           	+ (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01))
-           	- (PlayState.instance.iconP2.width - 26);
-			PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2); // - (PlayState.instance.healthBar.height / 2)
-		}
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+    switch (event.step)
+    {
+      case 749:
+        if (PlayState.instance.currentStage.getDad()
+          .characterId == 'costumes/sayori-grace') PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
+      case 752:
+        if (PlayState.instance.currentStage.getDad()
+          .characterId != 'costumes/sayori-grace') PlayState.instance.currentStage.getDad().playAnimation('nara', true, true);
+        staticshock.visible = true;
+        vignette.alpha = 0.2;
+        PlayState.instance.iconP2.updateHitbox();
+        if (!PlayState.instance.iconP2.hasAnimation('Depressed')) PlayState.instance.iconP2.animation.addByPrefix("Depressed", "depression arc", 24, false);
+        PlayState.instance.iconP2.playAnimation("Depressed", null, true);
+        PlayState.instance.iconP2.autoUpdate = false;
+      case 768:
+        vignette.alpha = 0;
+        staticshock.visible = false;
+        PlayState.instance.iconP2.autoUpdate = true;
     }
-		
-		public function onCountdownStart(event):Void {
-			super.onCountdownStart(event);
-			vignette.alpha = 0;
-			staticshock.visible = false;
-			if (!PlayStatePlaylist.isStoryMode) {
-				hasPlayedIntroCutscene = true;
-			}
+  }
 
-			if (!hasPlayedIntroCutscene) {
-				trace('Pausing countdown to play a video cutscene (`rain-clouds`)');
-		  
-				hasPlayedIntroCutscene = true;
-		  
-				event.cancel(); // CANCEL THE COUNTDOWN!
-		  
-				startIntroDialogue();		  
-			}		  
-		}
+  public override function onUpdate(event:UpdateScriptEvent):Void
+  {
+    super.onUpdate(event);
+    if (PlayState.instance == null) return;
+    if (PlayState.instance.iconP2 != null && PlayState.instance.iconP2.getCurrentAnimation('Depressed'))
+    {
+      PlayState.instance.iconP2.x = PlayState.instance.healthBar.x
+        + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 0, 2, 100, 0) * 0.01))
+        - (PlayState.instance.iconP2.width - 26);
+      PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2); // - (PlayState.instance.healthBar.height / 2)
+    }
+  }
 
-		function onSongRetry(event:ScriptEvent)
-			{
-			  super.onSongRetry(event);
-		  
-			  hasPlayedIntroCutscene = true;
-			}		  
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    vignette.alpha = 0;
+    staticshock.visible = false;
+    if (!PlayStatePlaylist.isStoryMode)
+    {
+      hasPlayedIntroCutscene = true;
+    }
+
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play a video cutscene (`rain-clouds`)');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startIntroDialogue();
+    }
+  }
+
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+
+    hasPlayedIntroCutscene = true;
+  }
 }

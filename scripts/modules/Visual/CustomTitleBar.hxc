@@ -8,52 +8,61 @@ import lime.graphics.Image;
 
 class customTitleBar extends Module
 {
+  function new()
+  {
+    super('customTitleBar');
+  }
 
-	function new()
-	{
-		super('customTitleBar');
-	}
+  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var customTitleBar:Bool;
 
-	var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
-	var customTitleBar:Bool;
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    customTitleBar = ddtoStages.contains(PlayState.instance.currentStageId);
+    if (customTitleBar == true)
+    {
+      setIcon(Paths.file('dokicon.png'));
+      if (PlayState.instance.currentChart.songName == 'MSTSOOBF')
+        WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - Monika Slaps The Shit Out of Boyfriend');
+      else if (PlayState.instance.currentChart.songName == 'Your Demise') WindowUtil.setWindowTitle('Your Demise');
+      else
+        WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - ' + PlayState.instance.currentChart.songName);
+    }
+  }
 
-    public function onCountdownStart(event):Void {
-		super.onCountdownStart(event);
-		customTitleBar = ddtoStages.contains(PlayState.instance.currentStageId);
-		if (customTitleBar == true){
-			setIcon(Paths.file('dokicon.png'));
-			if (PlayState.instance.currentChart.songName == 'MSTSOOBF') WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - Monika Slaps The Shit Out of Boyfriend');
-            else if (PlayState.instance.currentChart.songName == 'Your Demise') WindowUtil.setWindowTitle('Your Demise');
-			else WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - ' + PlayState.instance.currentChart.songName);
-		}
-	}
-	
-	public static function setIcon(graphic:String) {
-		var icon:Image;
-		if (!Assets.exists(graphic)) {
-			trace('ERROR: ' + graphic + " doesn't exist. Check your icon location");
-			return;
-		}
-		var image = Assets.getBytes(graphic);
-        icon = Image.fromBytes(image);
-		Application.current.window.setIcon(icon);
-	}
+  public static function setIcon(graphic:String)
+  {
+    var icon:Image;
+    if (!Assets.exists(graphic))
+    {
+      trace('ERROR: ' + graphic + " doesn't exist. Check your icon location");
+      return;
+    }
+    var image = Assets.getBytes(graphic);
+    icon = Image.fromBytes(image);
+    Application.current.window.setIcon(icon);
+  }
 
-    override function onSubStateCloseEnd(event) {
-		super.onSubStateCloseEnd(event);
-		if (customTitleBar && PlayState.instance == null) {
-			WindowUtil.setWindowTitle('Friday Night Funkin\'');
-			setIcon(Paths.file('icon16.png'));
-			customTitleBar = false;
-		}
-	}
+  override function onSubStateCloseEnd(event)
+  {
+    super.onSubStateCloseEnd(event);
+    if (customTitleBar && PlayState.instance == null)
+    {
+      WindowUtil.setWindowTitle('Friday Night Funkin\'');
+      setIcon(Paths.file('icon16.png'));
+      customTitleBar = false;
+    }
+  }
 
-    override function onStateChangeEnd(event) {
-		super.onStateChangeEnd(event);
-		if (customTitleBar && PlayState.instance == null) {
-			WindowUtil.setWindowTitle('Friday Night Funkin\'');
-			setIcon(Paths.file('icon16.png'));
-			customTitleBar = false;
-		}
-	}
+  override function onStateChangeEnd(event)
+  {
+    super.onStateChangeEnd(event);
+    if (customTitleBar && PlayState.instance == null)
+    {
+      WindowUtil.setWindowTitle('Friday Night Funkin\'');
+      setIcon(Paths.file('icon16.png'));
+      customTitleBar = false;
+    }
+  }
 }

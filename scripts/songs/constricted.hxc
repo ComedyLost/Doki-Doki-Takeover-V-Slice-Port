@@ -10,63 +10,68 @@ import funkin.util.FlxTweenUtil;
 
 class ConstrictedSong extends Song
 {
-	function new()
-	{
-		super('constricted');
-	}
+  function new()
+  {
+    super('constricted');
+  }
 
-	var vignette:FunkinSprite;
-	var zippergoo:FunkinSprite;
+  var vignette:FunkinSprite;
+  var zippergoo:FunkinSprite;
 
-	override function onCreate(event) {
-		super.onCreate(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+    if (PlayState.instance.isMinimalMode) return;
 
-		vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
-		vignette.scrollFactor.set();
-		vignette.cameras = [PlayState.instance.camHUD];
-		vignette.setGraphicSize(Std.int(vignette.width / PlayState.instance.defaultHUDCameraZoom));
-		vignette.updateHitbox();
-		vignette.screenCenter();
-		vignette.alpha = 0.001;
-		vignette.zIndex = 2000;
-		PlayState.instance.add(vignette);
+    vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
+    vignette.scrollFactor.set();
+    vignette.cameras = [PlayState.instance.camHUD];
+    vignette.setGraphicSize(Std.int(vignette.width / PlayState.instance.defaultHUDCameraZoom));
+    vignette.updateHitbox();
+    vignette.screenCenter();
+    vignette.alpha = 0.001;
+    vignette.zIndex = 2000;
+    PlayState.instance.add(vignette);
 
-		zippergoo = new FunkinSprite(0, 0).loadGraphic(Paths.image('zippergoo'));
-		zippergoo.scrollFactor.set();
-		zippergoo.cameras = [PlayState.instance.camHUD];
-		zippergoo.setGraphicSize(Std.int(FlxG.width / PlayState.instance.defaultHUDCameraZoom));
-		zippergoo.updateHitbox();
-		zippergoo.screenCenter();
-		zippergoo.alpha = 0.001;
-		zippergoo.zIndex = 2001;
-		PlayState.instance.add(zippergoo);
-		PlayState.instance.refresh();
-	}
+    zippergoo = new FunkinSprite(0, 0).loadGraphic(Paths.image('zippergoo'));
+    zippergoo.scrollFactor.set();
+    zippergoo.cameras = [PlayState.instance.camHUD];
+    zippergoo.setGraphicSize(Std.int(FlxG.width / PlayState.instance.defaultHUDCameraZoom));
+    zippergoo.updateHitbox();
+    zippergoo.screenCenter();
+    zippergoo.alpha = 0.001;
+    zippergoo.zIndex = 2001;
+    PlayState.instance.add(zippergoo);
+    PlayState.instance.refresh();
+  }
 
-	function calcSectionLength(?duration:Int = 1){
-		var durSeconds = (Conductor.instance.stepLengthMs * (16 * (duration ?? 1))) / 1000;
-		return durSeconds;
-	}
+  function calcSectionLength(?duration:Int = 1)
+  {
+    var durSeconds = (Conductor.instance.stepLengthMs * (16 * (duration ?? 1))) / 1000;
+    return durSeconds;
+  }
 
-	function onStepHit(event:SongTimeScriptEvent):Void {	
-		switch(event.step) {
-			case 624:
-				FlxTween.tween(zippergoo, {alpha: 1}, calcSectionLength(0.1), {ease: FlxEase.sineOut});
-				vignette.alpha = 0.2;
-				PlayState.instance.camGame.shake(0.01, calcSectionLength());
-			case 1024:
-				FlxTween.tween(zippergoo, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
-				FlxTween.tween(vignette, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
-		}
-	}
-	
-	public function onSongRetry(event):Void {
-		super.onSongRetry(event);
-		FlxTween.cancelTweensOf(vignette);
-		FlxTween.cancelTweensOf(zippergoo);
-		vignette.alpha = 0.001;
-		zippergoo.alpha = 0.001;
-	}
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+    switch (event.step)
+    {
+      case 624:
+        FlxTween.tween(zippergoo, {alpha: 1}, calcSectionLength(0.1), {ease: FlxEase.sineOut});
+        vignette.alpha = 0.2;
+        PlayState.instance.camGame.shake(0.01, calcSectionLength());
+      case 1024:
+        FlxTween.tween(zippergoo, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
+        FlxTween.tween(vignette, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
+    }
+  }
+
+  public function onSongRetry(event):Void
+  {
+    super.onSongRetry(event);
+    FlxTween.cancelTweensOf(vignette);
+    FlxTween.cancelTweensOf(zippergoo);
+    vignette.alpha = 0.001;
+    zippergoo.alpha = 0.001;
+  }
 }

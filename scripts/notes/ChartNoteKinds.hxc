@@ -5,24 +5,29 @@ import funkin.modding.module.Module;
 
 class DDTONoteKinds extends Module
 {
-	public function new()
+  public function new()
+  {
+    super('DDTONoteKinds');
+  }
+
+  function isInChartEditor()
+  {
+    return Std.isOfType(FlxG.state, ChartEditorState);
+  }
+
+  function onStateChangeEnd(event)
+  {
+    super.onStateChangeEnd(event);
+    if (isInChartEditor())
     {
-        super('DDTONoteKinds');
-    }  
-
-    function isInChartEditor(){
-        return Std.isOfType(FlxG.state, ChartEditorState);
+      ChartEditorDropdowns.NOTE_KINDS.set('alt', 'Alt Animation');
+      ChartEditorDropdowns.NOTE_KINDS.set('Monika', 'Monika Note');
+      ChartEditorDropdowns.NOTE_KINDS.set('markov', 'Markov Note');
+      ChartEditorDropdowns.NOTE_KINDS.set('gf', 'GF Sing');
     }
-
-    function onStateChangeEnd(event) {
-        super.onStateChangeEnd(event);
-        if (isInChartEditor()) {
-			ChartEditorDropdowns.NOTE_KINDS.set('alt','Alt Animation');
-            ChartEditorDropdowns.NOTE_KINDS.set('Monika','Monika Note');
-            ChartEditorDropdowns.NOTE_KINDS.set('markov','Markov Note');
-            ChartEditorDropdowns.NOTE_KINDS.set('gf','GF Sing');
-        } else {
-            //do nothing
-        }
+    else
+    {
+      // do nothing
     }
+  }
 }

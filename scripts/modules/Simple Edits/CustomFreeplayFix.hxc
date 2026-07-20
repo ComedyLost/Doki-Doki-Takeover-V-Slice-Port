@@ -12,85 +12,99 @@ import flixel.tweens.FlxEase;
 import flixel.addons.transition.FlxTransitionableState;
 import funkin.ui.story.StoryMenuState;
 
-class FreeplayTransitionFix extends Module {
-	public function new(){
-		super('FreeplayTransitionFix');
+class FreeplayTransitionFix extends Module
+{
+  public function new()
+  {
+    super('FreeplayTransitionFix');
 
-		active = false;
-		
-		save = DokiPreferences.getDokiSave();
-	}
+    active = false;
 
-	override function onUpdate(event:UpdateScriptEvent) {
-		super.onUpdate(event);
-		if (save.menus) {
-			if (Std.isOfType(FlxG.state.subState, FreeplayState)) {
-				//Override base game exit function to prevent it from trying to go to the original main menu
-				if (!FlxG.state.subState.busy && PlayerSettings.player1.controls.BACK) {
-					FlxG.state.subState.busy = true;
-					customReturnMenu();
-				}
-			} else if (Std.isOfType(FlxG.state.subState, StoryMenuState)) {
-				if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK) {
-					FlxG.state.exitingMenu = true;
-					FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
-      				FunkinSound.playOnce(Paths.sound('cancelMenu'));
-				}
-			}
-		}
-	}
+    save = DokiPreferences.getDokiSave();
+  }
 
-	function customReturnMenu(){
-		FlxTween.globalManager.clear();
-		FlxTimer.globalManager.clear();
-		if (FlxG.state.subState.dj != null) FlxG.state.subState.dj.onIntroDone.removeAll();
+  override function onUpdate(event:UpdateScriptEvent)
+  {
+    super.onUpdate(event);
+    if (save.menus)
+    {
+      if (Std.isOfType(FlxG.state.subState, FreeplayState))
+      {
+        // Override base game exit function to prevent it from trying to go to the original main menu
+        if (!FlxG.state.subState.busy && PlayerSettings.player1.controls.BACK)
+        {
+          FlxG.state.subState.busy = true;
+          customReturnMenu();
+        }
+      }
+      else if (Std.isOfType(FlxG.state.subState, StoryMenuState))
+      {
+        if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK)
+        {
+          FlxG.state.exitingMenu = true;
+          FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
+          FunkinSound.playOnce(Paths.sound('cancelMenu'));
+        }
+      }
+    }
+  }
 
-		FunkinSound.playOnce(Paths.sound('cancelMenu'));
+  function customReturnMenu()
+  {
+    FlxTween.globalManager.clear();
+    FlxTimer.globalManager.clear();
+    if (FlxG.state.subState.dj != null) FlxG.state.subState.dj.onIntroDone.removeAll();
 
-		var longestTimer:Float = 0;
+    FunkinSound.playOnce(Paths.sound('cancelMenu'));
 
-		FlxG.state.subState.backingCard?.disappear();
+    var longestTimer:Float = 0;
 
-		for (grpSpr in FlxG.state.subState.exitMovers.keys()) {
-			var moveData:MoveData = FlxG.state.subState.exitMovers.get(grpSpr);
-			if (moveData == null) continue;
+    FlxG.state.subState.backingCard?.disappear();
 
-			for (spr in grpSpr) {
-				if (spr == null) continue;
+    for (grpSpr in FlxG.state.subState.exitMovers.keys())
+    {
+      var moveData:MoveData = FlxG.state.subState.exitMovers.get(grpSpr);
+      if (moveData == null) continue;
 
-				var funnyMoveShit:MoveData = moveData;
+      for (spr in grpSpr)
+      {
+        if (spr == null) continue;
 
-				var moveDataX = funnyMoveShit.x ?? spr.x;
-				var moveDataY = funnyMoveShit.y ?? spr.y;
-				var moveDataSpeed = funnyMoveShit.speed ?? 0.2;
-				var moveDataWait = funnyMoveShit.wait ?? 0.0;
+        var funnyMoveShit:MoveData = moveData;
 
-				FlxTween.tween(spr, {x: moveDataX, y: moveDataY}, moveDataSpeed, {ease: FlxEase.expoIn});
+        var moveDataX = funnyMoveShit.x ?? spr.x;
+        var moveDataY = funnyMoveShit.y ?? spr.y;
+        var moveDataSpeed = funnyMoveShit.speed ?? 0.2;
+        var moveDataWait = funnyMoveShit.wait ?? 0.0;
 
-				longestTimer = Math.max(longestTimer, moveDataSpeed + moveDataWait);
-			}
-		}
+        FlxTween.tween(spr, {x: moveDataX, y: moveDataY}, moveDataSpeed, {ease: FlxEase.expoIn});
 
-		for (caps in FlxG.state.subState.grpCapsules.members) {
-			caps.doJumpIn = false;
-			caps.doLerp = false;
-			caps.doJumpOut = true;
-		}
+        longestTimer = Math.max(longestTimer, moveDataSpeed + moveDataWait);
+      }
+    }
 
-		FlxG.state.subState._parentState.persistentUpdate = false;
-		FlxG.state.subState._parentState.persistentDraw = true;
+    for (caps in FlxG.state.subState.grpCapsules.members)
+    {
+      caps.doJumpIn = false;
+      caps.doLerp = false;
+      caps.doJumpOut = true;
+    }
 
-		new FlxTimer().start(longestTimer, (_) -> {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			FunkinSound.playMusic('freakyMenu-DDTO', {
-					overrideExisting: true,
-					restartTrack: false,
-					// Continue playing this music between states, until a different music track gets played.
-					persist: true
-			});
-			FlxG.sound.music.fadeIn(4.0, 0.0, 1.0);
-			FlxG.state.subState.close();
-		});
-	}
+    FlxG.state.subState._parentState.persistentUpdate = false;
+    FlxG.state.subState._parentState.persistentDraw = true;
+
+    new FlxTimer().start(longestTimer, (_) ->
+    {
+      FlxTransitionableState.skipNextTransIn = true;
+      FlxTransitionableState.skipNextTransOut = true;
+      FunkinSound.playMusic('freakyMenu-DDTO', {
+        overrideExisting: true,
+        restartTrack: false,
+        // Continue playing this music between states, until a different music track gets played.
+        persist: true
+      });
+      FlxG.sound.music.fadeIn(4.0, 0.0, 1.0);
+      FlxG.state.subState.close();
+    });
+  }
 }

@@ -6,20 +6,20 @@ import funkin.modding.module.ModuleHandler;
 
 class ItsComplicatedSayoriMix extends Song
 {
-	function new()
-	{
-		super('its-complicated-sayori-mix');
-	}
+  function new()
+  {
+    super('its-complicated-sayori-mix');
+  }
 
-	function onStepHit(event:SongTimeScriptEvent):Void
-		{
-			if (PlayState.instance == null) return;
-			switch(event.step)
-			{
-				case 260:
-					ModuleHandler.getModule('Credits').scriptCall('tweenIn');
-				case 320:
-					ModuleHandler.getModule('Credits').scriptCall('tweenOut');
-			}
-		}
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+    if (PlayState.instance == null) return;
+    switch (event.step)
+    {
+      case 260:
+        ModuleHandler.getModule('Credits').scriptCall('tweenIn');
+      case 320:
+        ModuleHandler.getModule('Credits').scriptCall('tweenOut');
+    }
+  }
 }

@@ -8,19 +8,23 @@ import funkin.play.song.Song;
 import flixel.FlxSprite;
 import funkin.play.cutscene.dialogue.ConversationState;
 
-class MySweetsSong extends Song {
+class MySweetsSong extends Song
+{
   var hasPlayedCutscene:Bool;
 
-	public function new() {
-		super('my-sweets');
-	}
+  public function new()
+  {
+    super('my-sweets');
+  }
 
-  public override function onCountdownStart(event:CountdownScriptEvent):Void {
-		super.onCountdownStart(event);
+  public override function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
 
     if (!PlayStatePlaylist.isStoryMode) hasPlayedCutscene = true;
 
-    if (!hasPlayedCutscene) {
+    if (!hasPlayedCutscene)
+    {
       trace('Pausing countdown to play cutscene.');
 
       hasPlayedCutscene = true;
@@ -29,9 +33,10 @@ class MySweetsSong extends Song {
 
       transitionToDialogue();
     }
-	}
+  }
 
-  function transitionToDialogue() {
+  function transitionToDialogue()
+  {
     trace('Transitioning to dialogue.');
 
     PlayState.instance.camCutscene.visible = true;
@@ -46,15 +51,16 @@ class MySweetsSong extends Song {
     FlxTween.tween(black, {alpha: 0}, 1, {
       ease: FlxEase.linear,
       startDelay: 0.25,
-      onComplete: function (input) {
-
+      onComplete: function(input)
+      {
         // black.visible = false;
         startDialogue();
       }
     });
   }
 
-  function startDialogue() {
+  function startDialogue()
+  {
     PlayState.instance.startConversation('my-sweets');
   }
 

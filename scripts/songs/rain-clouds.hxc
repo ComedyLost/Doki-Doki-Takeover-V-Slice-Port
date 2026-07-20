@@ -2,29 +2,33 @@ import funkin.play.song.Song;
 import funkin.play.PlayState;
 import funkin.play.cutscene.VideoCutscene;
 import openfl.utils.Assets;
-
 import funkin.play.PlayStatePlaylist;
 
-class RainCloudsSong extends Song {
+class RainCloudsSong extends Song
+{
   var hasPlayedVideoCutscene:Bool;
   var hasPlayedIntroCutscene:Bool;
 
-	public function new() {
-		super('rain-clouds');
+  public function new()
+  {
+    super('rain-clouds');
 
     hasPlayedVideoCutscene = false;
     hasPlayedIntroCutscene = false;
-	}
+  }
 
-  public override function onCountdownStart(event:CountdownScriptEvent):Void {
-		super.onCountdownStart(event);
+  public override function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
 
-    if (!PlayStatePlaylist.isStoryMode) {
+    if (!PlayStatePlaylist.isStoryMode)
+    {
       hasPlayedVideoCutscene = true;
       hasPlayedIntroCutscene = true;
     }
 
-    if (!hasPlayedVideoCutscene) {
+    if (!hasPlayedVideoCutscene)
+    {
       trace('Pausing countdown to play a video cutscene (`rain-clouds`)');
 
       hasPlayedVideoCutscene = true;
@@ -32,7 +36,9 @@ class RainCloudsSong extends Song {
       event.cancel(); // CANCEL THE COUNTDOWN!
 
       startVideo();
-    } else if (!hasPlayedIntroCutscene) {
+    }
+    else if (!hasPlayedIntroCutscene)
+    {
       trace('Pausing countdown to play a video cutscene (`rain-clouds`)');
 
       hasPlayedIntroCutscene = true;
@@ -41,13 +47,15 @@ class RainCloudsSong extends Song {
 
       startDialogue();
     }
-	}
+  }
 
-  function startDialogue() {
+  function startDialogue()
+  {
     PlayState.instance.startConversation('rain-clouds');
   }
 
-  function startVideo() {
+  function startVideo()
+  {
     VideoCutscene.play(Paths.videos('sayoIntro'));
   }
 

@@ -4,23 +4,26 @@ import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
 import flixel.FlxSprite;
 
-class ChristmasBFDDTOCharacter extends MultiSparrowCharacter {
-	function new() {
-		super('costumes/bf-christmas');
-	}
+class ChristmasBFDDTOCharacter extends MultiSparrowCharacter
+{
+  function new()
+  {
+    super('costumes/bf-christmas');
+  }
 
-	function onCreate(event:ScriptEvent) {
-		super.onCreate(event);
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
 
-		GameOverSubState.musicSuffix = '-doki';
-		GameOverSubState.blueBallSuffix = '-doki';
+    GameOverSubState.musicSuffix = '-doki';
+    GameOverSubState.blueBallSuffix = '-doki';
 
-		PauseSubState.musicSuffix = '-doki';
-	}
+    PauseSubState.musicSuffix = '-doki';
+  }
 
-	function onNoteMiss(event:NoteScriptEvent)
-		{
-			if (event.eventCanceled) return;
-			super.onNoteMiss(event);
-		}
+  function onNoteMiss(event:NoteScriptEvent)
+  {
+    if (event.eventCanceled) return;
+    super.onNoteMiss(event);
+  }
 }

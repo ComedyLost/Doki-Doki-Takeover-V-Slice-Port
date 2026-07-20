@@ -11,48 +11,52 @@ import funkin.ui.UIState;
 
 class DokiMissingSubState extends MusicBeatSubState
 {
-	var mainCam:FunkinCamera;
-	var canpressbuttons:Bool = false;
-	var error:FlxSprite;
+  var mainCam:FunkinCamera;
+  var canpressbuttons:Bool = false;
+  var error:FlxSprite;
 
-	public function new() {
-		super();
-	}	
-	
-	public override function create():Void {
-		super.create();
-	
-		FlxG.sound.play(Paths.sound('scrollMenuDoki'));
-		mainCam = new FunkinCamera('MainCam');
-		FlxG.cameras.add(mainCam, false);
-		mainCam.bgColor = 0x0;
-		mainCam.visible = true;
-	
-		var background:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
-		background.alpha = 0.5;
-		background.cameras = [mainCam];
-		add(background);
+  public function new()
+  {
+    super();
+  }
 
-		error = new FlxSprite(0, 0).loadGraphic(Paths.image('errorCharacter'));
-		error.scale.set(0.5, 0.5);
-		error.updateHitbox();
-		error.screenCenter();
-		error.cameras = [mainCam];
-		add(error);
+  public override function create():Void
+  {
+    super.create();
 
-		new FlxTimer().start(0.2, function(tmr:FlxTimer) {
-			canpressbuttons = true;
-		});	
-	}
+    FlxG.sound.play(Paths.sound('scrollMenuDoki'));
+    mainCam = new FunkinCamera('MainCam');
+    FlxG.cameras.add(mainCam, false);
+    mainCam.bgColor = 0x0;
+    mainCam.visible = true;
 
-	override function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-		if ((PlayerSettings.player1.controls.ACCEPT || TouchUtil.pressAction(error, mainCam, false)) && canpressbuttons) {
-			FlxG.sound.play(Paths.sound('cancelMenuDoki'));
-			FlxG.state.subState.persistentUpdate = true;
-			FlxG.state.subState.uiStateMachine.transition(UIState.Idle);
-			close();
-		}
-	}
+    var background:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
+    background.alpha = 0.5;
+    background.cameras = [mainCam];
+    add(background);
+
+    error = new FlxSprite(0, 0).loadGraphic(Paths.image('errorCharacter'));
+    error.scale.set(0.5, 0.5);
+    error.updateHitbox();
+    error.screenCenter();
+    error.cameras = [mainCam];
+    add(error);
+
+    new FlxTimer().start(0.2, function(tmr:FlxTimer)
+    {
+      canpressbuttons = true;
+    });
+  }
+
+  override function update(elapsed:Float):Void
+  {
+    super.update(elapsed);
+    if ((PlayerSettings.player1.controls.ACCEPT || TouchUtil.pressAction(error, mainCam, false)) && canpressbuttons)
+    {
+      FlxG.sound.play(Paths.sound('cancelMenuDoki'));
+      FlxG.state.subState.persistentUpdate = true;
+      FlxG.state.subState.uiStateMachine.transition(UIState.Idle);
+      close();
+    }
+  }
 }

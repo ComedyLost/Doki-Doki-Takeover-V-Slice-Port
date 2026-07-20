@@ -3,21 +3,26 @@ import funkin.save.Save;
 
 class DDTOWeek1Level extends Level
 {
-	function new()
-	{
-		super('DDTOWeek1');
-	}
+  function new()
+  {
+    super('DDTOWeek1');
+  }
 
-	override function isUnlocked():Bool {
-		return true;
-	}
+  override function isUnlocked():Bool
+  {
+    return true;
+  }
 
-	override function getSongDisplayNames(difficultyId:String):Array<String> {
-		if (Save.instance.hasBeatenLevel('DDTOWeek1')) {
-			//Your Reality is a secret song
-			return ["High School Conflict", "Bara no Yume", "Your Demise", "Your Reality"];
-		} else {
-			return ["High School Conflict", "Bara no Yume", "Your Demise"];
-		}
-	}
+  override function getSongDisplayNames(difficultyId:String):Array<String>
+  {
+    if (Save.instance.hasBeatenLevel('DDTOWeek1'))
+    {
+      // Your Reality is a secret song
+      return ["High School Conflict", "Bara no Yume", "Your Demise", "Your Reality"];
+    }
+    else
+    {
+      return ["High School Conflict", "Bara no Yume", "Your Demise"];
+    }
+  }
 }

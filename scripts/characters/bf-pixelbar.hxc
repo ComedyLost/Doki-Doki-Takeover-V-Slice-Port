@@ -4,17 +4,20 @@ import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
 import flixel.FlxSprite;
 
-class PixelBarBFCharacter extends MultiSparrowCharacter {
-	function new() {
-		super('bf-pixelbar');
-	}
+class PixelBarBFCharacter extends MultiSparrowCharacter
+{
+  function new()
+  {
+    super('bf-pixelbar');
+  }
 
-	function onCreate(event:ScriptEvent) {
-		super.onCreate(event);
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
 
-		GameOverSubState.musicSuffix = '-doki';
-		GameOverSubState.blueBallSuffix = '-pixel';
-		
-		PauseSubState.musicSuffix = '-doki';
-	}
+    GameOverSubState.musicSuffix = '-doki';
+    GameOverSubState.blueBallSuffix = '-pixel';
+
+    PauseSubState.musicSuffix = '-doki';
+  }
 }

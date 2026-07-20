@@ -14,161 +14,172 @@ import funkin.save.Save;
 
 class EpiphanySong extends Song
 {
-	var lyrics:FlxText;
-	var hasPlayedCutscene:Bool;
-	var lyricData:Array<Dynamic>;
+  var lyrics:FlxText;
+  var hasPlayedCutscene:Bool;
+  var lyricData:Array<Dynamic>;
 
-	function new()
-	{
-		super('epiphany');
-		
-		save = DokiPreferences.getDokiSave();
-	}
+  function new()
+  {
+    super('epiphany');
 
-	public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String> {
-		//This song for some reason had the alt instrumental pop-up, this is here to remove that pop-up
-		return [];
-	}	
+    save = DokiPreferences.getDokiSave();
+  }
 
-	override function onUpdate(event:UpdateScriptEvent) {
-		super.onUpdate(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
-		if (PlayState.instance.currentVariation != 'lyrics') return;
-		processNotes(event);
-	}
+  public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String>
+  {
+    // This song for some reason had the alt instrumental pop-up, this is here to remove that pop-up
+    return [];
+  }
 
+  override function onUpdate(event:UpdateScriptEvent)
+  {
+    super.onUpdate(event);
+    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance.currentVariation != 'lyrics') return;
+    processNotes(event);
+  }
 
-	function processNotes(elapsed:Float):Void
-		{
-			// Process hold notes on the opponent's side.
-			for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
-				{
-					if (holdNote == null || !holdNote.alive) continue;
-					
-					// While the hold note is being hit, and there is length on the hold note...
-					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 100)
-						{
-							// Make sure the opponent keeps singing while the note is held.
-							if (PlayState.instance.currentStage.getDad().isSinging()) PlayState.instance.currentStage.getDad().animation.curAnim.restart();
-						}
-				}
-			  
-		}
-	
-	public override function onCountdownStart(event:CountdownScriptEvent):Void {
-		super.onCountdownStart(event);
-		PlayState.instance.currentStage.getDad().ignoreExclusionPref = []; //Fixes Monika's glitch animation not playing
-	    if (PlayState.instance.isChartingMode && !hasPlayedCutscene) hasPlayedCutscene = true;
+  function processNotes(elapsed:Float):Void
+  {
+    // Process hold notes on the opponent's side.
+    for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+    {
+      if (holdNote == null || !holdNote.alive) continue;
 
-		if (!hasPlayedCutscene && save.freeplayDialogue) {
-			trace('Pausing countdown to play cutscene.');
-	  
-			hasPlayedCutscene = true;
-	  
-			event.cancel(); // CANCEL THE COUNTDOWN!
+      // While the hold note is being hit, and there is length on the hold note...
+      if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 100)
+      {
+        // Make sure the opponent keeps singing while the note is held.
+        if (PlayState.instance.currentStage.getDad().isSinging()) PlayState.instance.currentStage.getDad().animation.curAnim.restart();
+      }
+    }
+  }
 
-			PlayState.instance.camHUD.visible = false;
-	  
-			transitionToDialogue();
-		  }
-	}
+  public override function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
+    PlayState.instance.currentStage.getDad().ignoreExclusionPref = []; // Fixes Monika's glitch animation not playing
+    if (PlayState.instance.isChartingMode && !hasPlayedCutscene) hasPlayedCutscene = true;
 
-	function transitionToDialogue() {
-		trace('Transitioning to dialogue.');
-	
-		PlayState.instance.camCutscene.visible = true;
-	
-		var black:FlxSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
-		black.cameras = [PlayState.instance.camCutscene];
-		black.zIndex = 1000000;
-		PlayState.instance.add(black);
-	
-		black.alpha = 1.0;
-	
-		var tweenFunction = function(x) {
-		  var xSnapped = Math.floor(x * 8) / 8;
-		  black.alpha = 1.0 - xSnapped;
-		};
-	
-		FlxTween.num(0.0, 1.0, 2.0, {
-		  ease: FlxEase.linear,
-		  startDelay: 0.25,
-		  onComplete: function (input) {
-	
-			// black.visible = false;
-			startDialogue();
-		  }
-		}, tweenFunction);
-	}
+    if (!hasPlayedCutscene && save.freeplayDialogue)
+    {
+      trace('Pausing countdown to play cutscene.');
 
-	function startDialogue() {
-		if (PlayState.instance.currentVariation == 'lyrics') PlayState.instance.startConversation('epiphany-lyrics');
-		else if(Save.instance.hasBeatenSong('epiphany', ['normal']) == false) PlayState.instance.startConversation('epiphany');
-		else PlayState.instance.startConversation('epiphany-retry');
-		PlayState.instance.currentConversation.completeCallback = fadeArrows;
-	  }
-	
-	  function fadeArrows(){
-		PlayState.instance.onConversationComplete();
-		PlayState.instance.playerStrumline.fadeInArrows();
-		PlayState.instance.opponentStrumline.fadeInArrows();
-	  }
-	
+      hasPlayedCutscene = true;
 
-	function onCreate(event:ScriptEvent) {
-		super.onCreate(event);
-		hasPlayedCutscene = false;
-		if (PlayState.instance.currentVariation != 'lyrics') return;
-		lyricData = [];
-		
-		var lyricFile = coolTextFile('songs/' + PlayState.instance.currentSong.id.toLowerCase() + '/lyrics');
+      event.cancel(); // CANCEL THE COUNTDOWN!
 
-		if (lyricFile == null) return; //No lyrics detected
+      PlayState.instance.camHUD.visible = false;
 
-		for (lyric in lyricFile) {
-			var data:Array<String> = lyric.split('::');
-			lyricData.push([Std.parseInt(data[0]), data[1]]);
-		}
+      transitionToDialogue();
+    }
+  }
 
-		lyrics = new FlxText();
-		lyrics.fieldWidth = FlxG.width;
-		lyrics.setFormat(Paths.font("HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
-		lyrics.screenCenter(0x01);
-		lyrics.y = (FlxG.height * 0.72);
-		lyrics.borderSize = 1.25;
-		lyrics.zIndex = 999999999;
-		lyrics.cameras = [PlayState.instance.camHUD];
-		PlayState.instance.add(lyrics);
-	}
+  function transitionToDialogue()
+  {
+    trace('Transitioning to dialogue.');
 
-	public static function coolTextFile(path:String):Array<String>
-		{
-			var fullText:String = Assets.getText(Paths.txt(path));
+    PlayState.instance.camCutscene.visible = true;
 
-			// Split into lines and remove empty lines
-			var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
-		
-			return firstArray;				
-		}	
+    var black:FlxSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+    black.cameras = [PlayState.instance.camCutscene];
+    black.zIndex = 1000000;
+    PlayState.instance.add(black);
 
-	function onStepHit(event:SongTimeScriptEvent):Void
-		{
-			if (PlayState.instance.currentVariation != 'lyrics') return;
-			if (lyrics != null){
-				for (i in 0...lyricData.length) {
-					if (event.step == lyricData[i][0]) {
-						lyrics.text = lyricData[i][1];
-						lyrics.screenCenter(0x01);
-					}
-				}
-			}
-		}
-	
-	function onSongRetry(event:ScriptEvent)
-		{
-			super.onSongRetry(event);
-			hasPlayedCutscene = true;
-			if (lyrics != null) lyrics.text = '';
-		}
+    black.alpha = 1.0;
+
+    var tweenFunction = function(x)
+    {
+      var xSnapped = Math.floor(x * 8) / 8;
+      black.alpha = 1.0 - xSnapped;
+    };
+
+    FlxTween.num(0.0, 1.0, 2.0, {
+      ease: FlxEase.linear,
+      startDelay: 0.25,
+      onComplete: function(input)
+      {
+        // black.visible = false;
+        startDialogue();
+      }
+    }, tweenFunction);
+  }
+
+  function startDialogue()
+  {
+    if (PlayState.instance.currentVariation == 'lyrics') PlayState.instance.startConversation('epiphany-lyrics');
+    else if (Save.instance.hasBeatenSong('epiphany', ['normal']) == false) PlayState.instance.startConversation('epiphany');
+    else
+      PlayState.instance.startConversation('epiphany-retry');
+    PlayState.instance.currentConversation.completeCallback = fadeArrows;
+  }
+
+  function fadeArrows()
+  {
+    PlayState.instance.onConversationComplete();
+    PlayState.instance.playerStrumline.fadeInArrows();
+    PlayState.instance.opponentStrumline.fadeInArrows();
+  }
+
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
+    hasPlayedCutscene = false;
+    if (PlayState.instance.currentVariation != 'lyrics') return;
+    lyricData = [];
+
+    var lyricFile = coolTextFile('songs/' + PlayState.instance.currentSong.id.toLowerCase() + '/lyrics');
+
+    if (lyricFile == null) return; // No lyrics detected
+
+    for (lyric in lyricFile)
+    {
+      var data:Array<String> = lyric.split('::');
+      lyricData.push([Std.parseInt(data[0]), data[1]]);
+    }
+
+    lyrics = new FlxText();
+    lyrics.fieldWidth = FlxG.width;
+    lyrics.setFormat(Paths.font("HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+    lyrics.screenCenter(0x01);
+    lyrics.y = (FlxG.height * 0.72);
+    lyrics.borderSize = 1.25;
+    lyrics.zIndex = 999999999;
+    lyrics.cameras = [PlayState.instance.camHUD];
+    PlayState.instance.add(lyrics);
+  }
+
+  public static function coolTextFile(path:String):Array<String>
+  {
+    var fullText:String = Assets.getText(Paths.txt(path));
+
+    // Split into lines and remove empty lines
+    var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
+
+    return firstArray;
+  }
+
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+    if (PlayState.instance.currentVariation != 'lyrics') return;
+    if (lyrics != null)
+    {
+      for (i in 0...lyricData.length)
+      {
+        if (event.step == lyricData[i][0])
+        {
+          lyrics.text = lyricData[i][1];
+          lyrics.screenCenter(0x01);
+        }
+      }
+    }
+  }
+
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+    hasPlayedCutscene = true;
+    if (lyrics != null) lyrics.text = '';
+  }
 }

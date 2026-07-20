@@ -12,20 +12,16 @@ import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-
 import funkin.data.notestyle.NoteStyleRegistry;
 import funkin.play.notes.NoteSplash;
 import funkin.play.notes.NoteSprite;
 import funkin.play.notes.notestyle.NoteStyle;
 import funkin.play.notes.Strumline;
 import funkin.save.Save;
-
 import funkin.modding.module.ModuleHandler;
-
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import funkin.util.FlxTweenUtil;
-
 import funkin.Conductor;
 import funkin.play.components.HealthIcon;
 import funkin.util.GRhythmUtil;
@@ -34,279 +30,314 @@ import funkin.ui.FullScreenScaleMode;
 
 class DokiDoggleSong extends Song
 {
-	function new()
-	{
-		super('dokidoggle');
+  function new()
+  {
+    super('dokidoggle');
 
-		options = DokiPreferences.getDokiSave();
-	}
+    options = DokiPreferences.getDokiSave();
+  }
 
-	var extraOpp;
-	var bfStartingX;
-	var iconP3:HealthIcon;
-	var extraStrumline;
+  var extraOpp;
+  var bfStartingX;
+  var iconP3:HealthIcon;
+  var extraStrumline;
 
-	public function onSongLoaded(event):Void {
-		super.onSongLoaded(event);
-		var costume = ModuleHandler.getModule("CostumeSwapper");
+  public function onSongLoaded(event):Void
+  {
+    super.onSongLoaded(event);
+    var costume = ModuleHandler.getModule("CostumeSwapper");
 
-		var yuri = costume.scriptCall('getCostumeName', ['yuri']);
-		createExtraOpp(yuri);
-		summonExtraStrumline();
-		if (bfStartingX == null) bfStartingX = PlayState.instance.currentStage.getBoyfriend().originalPosition.x;
-	}
-	
-	override function onDestroy(event) {
-		super.onDestroy(event);
-		if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
-		Strumline.STRUMLINE_SIZE = 104;
-		Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
-		if (extraStrumline != null){
-			extraStrumline.kill();
-			extraStrumline = null;	
-		}
-	} 
+    var yuri = costume.scriptCall('getCostumeName', ['yuri']);
+    createExtraOpp(yuri);
+    summonExtraStrumline();
+    if (bfStartingX == null) bfStartingX = PlayState.instance.currentStage.getBoyfriend().originalPosition.x;
+  }
 
-	function summonExtraStrumline(){
-		//Grabbing extra notes
-		if (extraStrumline != null) return;
-		var extraNoteData:Array<SongNoteData> = [];
-		var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('extra');
-		if (animChart == null) {
-			//if (FlxG.onMobile) return;
-			//Strumline.STRUMLINE_SIZE = 104;
-			//Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;	
-			trace('Initializing Extra Strumline failed; no `extra` chart found for this song.');
-			return;
-		}
-		for (notes in animChart.notes){
-			switch (notes.getStrumlineIndex()){
-				case 1:
-					extraNoteData.push(notes);
-			}
-		}
-		//The Extra Strumline
-		if (!(FlxG.onMobile && !ControlsHandler.usingExternalInputDevice && Preferences.controlsScheme == 'Arrows')) {
-			PlayState.instance.playerStrumline.kill();
-			PlayState.instance.opponentStrumline.kill();
-	    	PlayState.instance.playerStrumline = new Strumline(PlayState.instance.noteStyle, !PlayState.instance.isBotPlayMode, PlayState.instance.currentChart?.scrollSpeed);
-	    	PlayState.instance.opponentStrumline = new Strumline(PlayState.instance.noteStyle, false, PlayState.instance.currentChart?.scrollSpeed);
-			PlayState.instance.playerStrumline.setNoteSpacing(0.95);
-			PlayState.instance.opponentStrumline.setNoteSpacing(0.95);
-			PlayState.instance.initStrumlines();
-		}
-		var noteStyleIdPlayer:String = PlayState.instance.playerStrumline.noteStyle.id;
-		var noteStylePlayer:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleIdPlayer);
-		extraStrumline = new Strumline(noteStylePlayer, false);
-		extraStrumline.onNoteIncoming.add(PlayState.instance.onStrumlineNoteIncoming);
-		PlayState.instance.add(extraStrumline);
-		extraStrumline.applyNoteData(extraNoteData);
+  override function onDestroy(event)
+  {
+    super.onDestroy(event);
+    if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
+    Strumline.STRUMLINE_SIZE = 104;
+    Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
+    if (extraStrumline != null)
+    {
+      extraStrumline.kill();
+      extraStrumline = null;
+    }
+  }
 
-		// Position the extra strumline out of view to the left
-		extraStrumline.x = 0 - extraStrumline.width;
-		if (Preferences.downscroll) 
-			extraStrumline.y = FlxG.height - extraStrumline.height - Constants.STRUMLINE_Y_OFFSET; 
-		else
-			extraStrumline.y = Constants.STRUMLINE_Y_OFFSET;
+  function summonExtraStrumline()
+  {
+    // Grabbing extra notes
+    if (extraStrumline != null) return;
+    var extraNoteData:Array<SongNoteData> = [];
+    var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('extra');
+    if (animChart == null)
+    {
+      // if (FlxG.onMobile) return;
+      // Strumline.STRUMLINE_SIZE = 104;
+      // Strumline.NOTE_SPACING = Strumline.STRUMLINE_SIZE + 8;
+      trace('Initializing Extra Strumline failed; no `extra` chart found for this song.');
+      return;
+    }
+    for (notes in animChart.notes)
+    {
+      switch (notes.getStrumlineIndex())
+      {
+        case 1:
+          extraNoteData.push(notes);
+      }
+    }
+    // The Extra Strumline
+    if (!(FlxG.onMobile && !ControlsHandler.usingExternalInputDevice && Preferences.controlsScheme == 'Arrows'))
+    {
+      PlayState.instance.playerStrumline.kill();
+      PlayState.instance.opponentStrumline.kill();
+      PlayState.instance.playerStrumline = new Strumline(PlayState.instance.noteStyle, !PlayState.instance.isBotPlayMode,
+        PlayState.instance.currentChart?.scrollSpeed);
+      PlayState.instance.opponentStrumline = new Strumline(PlayState.instance.noteStyle, false, PlayState.instance.currentChart?.scrollSpeed);
+      PlayState.instance.playerStrumline.setNoteSpacing(0.95);
+      PlayState.instance.opponentStrumline.setNoteSpacing(0.95);
+      PlayState.instance.initStrumlines();
+    }
+    var noteStyleIdPlayer:String = PlayState.instance.playerStrumline.noteStyle.id;
+    var noteStylePlayer:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleIdPlayer);
+    extraStrumline = new Strumline(noteStylePlayer, false);
+    extraStrumline.onNoteIncoming.add(PlayState.instance.onStrumlineNoteIncoming);
+    PlayState.instance.add(extraStrumline);
+    extraStrumline.applyNoteData(extraNoteData);
 
-		extraStrumline.zIndex = 1001;
-		extraStrumline.cameras = [PlayState.instance.camHUD];
+    // Position the extra strumline out of view to the left
+    extraStrumline.x = 0 - extraStrumline.width;
+    if (Preferences.downscroll) extraStrumline.y = FlxG.height - extraStrumline.height - Constants.STRUMLINE_Y_OFFSET;
+    else
+      extraStrumline.y = Constants.STRUMLINE_Y_OFFSET;
 
-		if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice && Preferences.controlsScheme == 'Arrows') {
-			var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
-			var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
-			var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
-			final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
+    extraStrumline.zIndex = 1001;
+    extraStrumline.cameras = [PlayState.instance.camHUD];
 
+    if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice && Preferences.controlsScheme == 'Arrows')
+    {
+      var amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
+      var playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
+      var playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
+      final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
 
-			extraStrumline.enterMiniMode(0.4 * amplification);
-			extraStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
-			extraStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET + cutoutSize; // Centered style
-			extraStrumline.x += 30;
-			extraStrumline.fadeInArrows();
-		} else {
-			extraStrumline.setNoteSpacing(0.95);
-		}
-	}
+      extraStrumline.enterMiniMode(0.4 * amplification);
+      extraStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
+      extraStrumline.x = FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET + cutoutSize; // Centered style
+      extraStrumline.x += 30;
+      extraStrumline.fadeInArrows();
+    }
+    else
+    {
+      extraStrumline.setNoteSpacing(0.95);
+    }
+  }
 
-	override function onUpdate(event:UpdateScriptEvent) {
-		super.onUpdate(event);
-		if (PlayState.instance == null) return;
-		if (extraStrumline != null) processNotes();
-	}
+  override function onUpdate(event:UpdateScriptEvent)
+  {
+    super.onUpdate(event);
+    if (PlayState.instance == null) return;
+    if (extraStrumline != null) processNotes();
+  }
 
-	function createExtraOpp(name){
-		if (iconP3 != null) iconP3.kill();
-		iconP3 = new HealthIcon('extra', 1);
-		var iconData = {
-			id: 'yuri',
-			scale: 0.75,
-			offsets: [75, -25]
-		};
-		iconP3.zIndex = 850;
-		PlayState.instance.add(iconP3);
-		iconP3.cameras = [PlayState.instance.camHUD];
-		iconP3.configure(iconData);
-		iconP3.updateHitbox();
-		iconP3.isLegacyStyle = true;
-		trace(iconP3.isLegacyStyle);
-		if (extraOpp != null) extraOpp.kill();
-		extraOpp = CharacterDataParser.fetchCharacter(name);
-		if (extraOpp != null) {
-			extraOpp.set_characterType(CharacterType.OTHER);
-			PlayState.instance.currentStage.addCharacter(extraOpp, CharacterType.OTHER);
-		}
-		extraOpp.zIndex = 70;
-		var stageCharData = PlayState.instance.currentStage._data.characters.dad;
-		extraOpp.x = (stageCharData.position[0] - extraOpp.characterOrigin.x) - 250;
-		extraOpp.y = (stageCharData.position[1] - extraOpp.characterOrigin.y) + 30;
-		extraOpp.cameraFocusPoint.x += stageCharData.cameraOffsets[0];
-		extraOpp.cameraFocusPoint.y += stageCharData.cameraOffsets[1];
+  function createExtraOpp(name)
+  {
+    if (iconP3 != null) iconP3.kill();
+    iconP3 = new HealthIcon('extra', 1);
+    var iconData = {
+      id: 'yuri',
+      scale: 0.75,
+      offsets: [75, -25]
+    };
+    iconP3.zIndex = 850;
+    PlayState.instance.add(iconP3);
+    iconP3.cameras = [PlayState.instance.camHUD];
+    iconP3.configure(iconData);
+    iconP3.updateHitbox();
+    iconP3.isLegacyStyle = true;
+    trace(iconP3.isLegacyStyle);
+    if (extraOpp != null) extraOpp.kill();
+    extraOpp = CharacterDataParser.fetchCharacter(name);
+    if (extraOpp != null)
+    {
+      extraOpp.set_characterType(CharacterType.OTHER);
+      PlayState.instance.currentStage.addCharacter(extraOpp, CharacterType.OTHER);
+    }
+    extraOpp.zIndex = 70;
+    var stageCharData = PlayState.instance.currentStage._data.characters.dad;
+    extraOpp.x = (stageCharData.position[0] - extraOpp.characterOrigin.x) - 250;
+    extraOpp.y = (stageCharData.position[1] - extraOpp.characterOrigin.y) + 30;
+    extraOpp.cameraFocusPoint.x += stageCharData.cameraOffsets[0];
+    extraOpp.cameraFocusPoint.y += stageCharData.cameraOffsets[1];
 
-		extraOpp.originalPosition.set(extraOpp.x, extraOpp.y);  
-		
-		PlayState.instance.currentStage.refresh();
-	}
+    extraOpp.originalPosition.set(extraOpp.x, extraOpp.y);
 
-	function processNotes(?elapsed:Float):Void { 
-		// Process notes on the opponent's side.
-		if (extraStrumline.notes?.members == null) return;
+    PlayState.instance.currentStage.refresh();
+  }
 
-		// Process notes on the opponent's side.
-		for (note in extraStrumline.notes.members) {
-	 		if (note == null) continue;
-	  		var r = GRhythmUtil.processWindow(note, false);
-	  		if (r.botplayHit) {
-				extraOpp.playSingAnimation(note.noteData.getDirection(), false);
-				extraOpp.holdTimer = 0;
+  function processNotes(?elapsed:Float):Void
+  {
+    // Process notes on the opponent's side.
+    if (extraStrumline.notes?.members == null) return;
 
-				// Command the opponent to hit the note on time.
-				// NOTE: This is what handles the strumline and cleaning up the note itself!
-				extraStrumline.hitNote(note);
+    // Process notes on the opponent's side.
+    for (note in extraStrumline.notes.members)
+    {
+      if (note == null) continue;
+      var r = GRhythmUtil.processWindow(note, false);
+      if (r.botplayHit)
+      {
+        extraOpp.playSingAnimation(note.noteData.getDirection(), false);
+        extraOpp.holdTimer = 0;
 
-				if (note.holdNoteSprite != null) {
-		  			extraStrumline.playNoteHoldCover(note.holdNoteSprite);
-				}
-	  		}
-		}
+        // Command the opponent to hit the note on time.
+        // NOTE: This is what handles the strumline and cleaning up the note itself!
+        extraStrumline.hitNote(note);
 
-		// Process hold notes on the opponent's side.
-		for (holdNote in extraStrumline.holdNotes.members) {
-	  		if (holdNote == null || !holdNote.alive || holdNote.noteData == null) continue;
+        if (note.holdNoteSprite != null)
+        {
+          extraStrumline.playNoteHoldCover(note.holdNoteSprite);
+        }
+      }
+    }
 
-	  		// While the hold note is being hit, and there is length on the hold note...
-	  		if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0) {
-				// Make sure the opponent keeps singing while the note is held.
-				if (PlayState.instance.currentStage != null && extraOpp != null && extraOpp.isSinging()) {
-		  			extraOpp.holdTimer = 0;
-				}
-	  		}
+    // Process hold notes on the opponent's side.
+    for (holdNote in extraStrumline.holdNotes.members)
+    {
+      if (holdNote == null || !holdNote.alive || holdNote.noteData == null) continue;
 
-	  		if (holdNote.missedNote && !holdNote.handledMiss) {
-				// When the opponent drops a hold note.
-				holdNote.handledMiss = true;
+      // While the hold note is being hit, and there is length on the hold note...
+      if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+      {
+        // Make sure the opponent keeps singing while the note is held.
+        if (PlayState.instance.currentStage != null && extraOpp != null && extraOpp.isSinging())
+        {
+          extraOpp.holdTimer = 0;
+        }
+      }
 
-				// We dropped a hold note.
-				// Play miss animation, but don't penalize.
-				if (PlayState.instance.currentStage != null) extraOpp.playSingAnimation(holdNote.noteData.getDirection(), true);
-	  		}
-		}
-	}
+      if (holdNote.missedNote && !holdNote.handledMiss)
+      {
+        // When the opponent drops a hold note.
+        holdNote.handledMiss = true;
 
-	function calcSectionLength(?duration:Int = 1){
-		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
-		return durSeconds;
-	}
+        // We dropped a hold note.
+        // Play miss animation, but don't penalize.
+        if (PlayState.instance.currentStage != null) extraOpp.playSingAnimation(holdNote.noteData.getDirection(), true);
+      }
+    }
+  }
 
-	function stutterNotes(?elapsed:Float):Void
-		{
-			if (extraStrumline == null || extraStrumline.notes.members == null) return;
+  function calcSectionLength(?duration:Int = 1)
+  {
+    var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+    return durSeconds;
+  }
 
-			// Process hold notes on the opponent's side.
-			for (holdNote in extraStrumline.holdNotes.members)
-				{
-					if (holdNote == null || !holdNote.alive) continue;
-					
-					// While the hold note is being hit, and there is length on the hold note...
-					if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
-						{
-							if (extraOpp.isSinging()) extraOpp.animation.curAnim.restart();
-						}
-				}  
-		}
+  function stutterNotes(?elapsed:Float):Void
+  {
+    if (extraStrumline == null || extraStrumline.notes.members == null) return;
 
-	function onSongRetry(event:ScriptEvent)
-		{
-			super.onSongRetry(event);
-			PlayState.instance.playerStrumline.noteHoldCovers.clear();
-			PlayState.instance.opponentStrumline.noteHoldCovers.clear();
-			if (extraStrumline != null){
-				extraStrumline.noteHoldCovers.clear();
-				extraStrumline.vwooshNotes();
-				extraStrumline.clean();
-				extraStrumline.handleSkippedNotes();
-			}
-			if (FlxG.onMobile && ControlsHandler.usingExternalInputDevice) return;
-			final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
-			if (PlayState.instance.playerStrumline.x != (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0))
-				FlxTween.tween(PlayState.instance.playerStrumline, {x: (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0)}, 1.25, {ease: FlxEase.quadInOut});
-			if (PlayState.instance.opponentStrumline.x != Constants.STRUMLINE_X_OFFSET + cutoutSize)
-				FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET + cutoutSize}, 1.25, {ease: FlxEase.quadInOut});
-			PlayState.instance.currentStage.getGirlfriend().idleSuffix = '-alt';
-			PlayState.instance.currentStage.getBoyfriend().x = bfStartingX;
-			if (extraStrumline.x != 0 - extraStrumline.width)
-				FlxTween.tween(extraStrumline, {x: 0 - extraStrumline.width}, 1.25, {ease: FlxEase.quadInOut});
-		}
+    // Process hold notes on the opponent's side.
+    for (holdNote in extraStrumline.holdNotes.members)
+    {
+      if (holdNote == null || !holdNote.alive) continue;
 
-	function onStepHit(event:SongTimeScriptEvent):Void
-		{	
-			iconP3?.onStepHit(Std.int(Conductor.instance.currentStep));
-			if (options.psychholds) stutterNotes();	
+      // While the hold note is being hit, and there is length on the hold note...
+      if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+      {
+        if (extraOpp.isSinging()) extraOpp.animation.curAnim.restart();
+      }
+    }
+  }
 
-			switch(event.step)
-			{
-				case 192:
-					if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
-					FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width - PlayState.instance.playerStrumline.width + 5}, 1.25, {ease: FlxEase.quadInOut, onUpdate: function(twn:FlxTween) {
-							for (covers in PlayState.instance.playerStrumline.noteHoldCovers) {
-								var alpha = covers.alpha;
-								var visible = covers.visible;
-								covers.revive();
-								covers.alpha = alpha;
-								covers.visible = visible;
-							}
-						}
-					});
-		
-					FlxTween.tween(PlayState.instance.opponentStrumline, {x: FlxG.width / 2 - PlayState.instance.opponentStrumline.width / 2 + 5}, 1.25, {ease: FlxEase.quadInOut, onUpdate: function(twn:FlxTween) {
-							for (covers in PlayState.instance.opponentStrumline.noteHoldCovers) {
-								var alpha = covers.alpha;
-								var visible = covers.visible;
-								covers.revive();
-								covers.alpha = alpha;
-								covers.visible = visible;
-							}
-						}
-					});
-					FlxTween.tween(extraStrumline, {x: 5}, 1.25, {ease: FlxEase.quadInOut, onUpdate: function(twn:FlxTween) {
-							for (covers in extraStrumline.noteHoldCovers) {
-								var alpha = covers.alpha;
-								var visible = covers.visible;
-								covers.revive();
-								covers.alpha = alpha;
-								covers.visible = visible;
-							}
-						}
-					});
-				case 286:
-					extraOpp.playAnimation('breath', false, false);
-				case 704:
-					//Add Syor Icon lol
-					FlxTween.tween(PlayState.instance.currentStage.getBoyfriend(), { x: PlayState.instance.currentStage.getBoyfriend().x + 100}, 0.5, { ease: FlxEase.quadOut});
-				case 832:
-					PlayState.instance.camGame.shake(0.002, calcSectionLength(2));
-			}
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+    PlayState.instance.playerStrumline.noteHoldCovers.clear();
+    PlayState.instance.opponentStrumline.noteHoldCovers.clear();
+    if (extraStrumline != null)
+    {
+      extraStrumline.noteHoldCovers.clear();
+      extraStrumline.vwooshNotes();
+      extraStrumline.clean();
+      extraStrumline.handleSkippedNotes();
+    }
+    if (FlxG.onMobile && ControlsHandler.usingExternalInputDevice) return;
+    final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
+    if (PlayState.instance.playerStrumline.x != (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0))
+      FlxTween.tween(PlayState.instance.playerStrumline, {
+      x: (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0)
+    }, 1.25, {ease: FlxEase.quadInOut});
+    if (PlayState.instance.opponentStrumline.x != Constants.STRUMLINE_X_OFFSET
+      + cutoutSize) FlxTween.tween(PlayState.instance.opponentStrumline, {x: Constants.STRUMLINE_X_OFFSET + cutoutSize}, 1.25, {ease: FlxEase.quadInOut});
+    PlayState.instance.currentStage.getGirlfriend().idleSuffix = '-alt';
+    PlayState.instance.currentStage.getBoyfriend().x = bfStartingX;
+    if (extraStrumline.x != 0 - extraStrumline.width) FlxTween.tween(extraStrumline, {x: 0 - extraStrumline.width}, 1.25, {ease: FlxEase.quadInOut});
+  }
 
-		}
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+    iconP3?.onStepHit(Std.int(Conductor.instance.currentStep));
+    if (options.psychholds) stutterNotes();
 
+    switch (event.step)
+    {
+      case 192:
+        if (FlxG.onMobile && !ControlsHandler.usingExternalInputDevice) return;
+        FlxTween.tween(PlayState.instance.playerStrumline, {x: FlxG.width - PlayState.instance.playerStrumline.width + 5}, 1.25, {
+          ease: FlxEase.quadInOut,
+          onUpdate: function(twn:FlxTween)
+          {
+            for (covers in PlayState.instance.playerStrumline.noteHoldCovers)
+            {
+              var alpha = covers.alpha;
+              var visible = covers.visible;
+              covers.revive();
+              covers.alpha = alpha;
+              covers.visible = visible;
+            }
+          }
+        });
+
+        FlxTween.tween(PlayState.instance.opponentStrumline, {x: FlxG.width / 2 - PlayState.instance.opponentStrumline.width / 2 + 5}, 1.25, {
+          ease: FlxEase.quadInOut,
+          onUpdate: function(twn:FlxTween)
+          {
+            for (covers in PlayState.instance.opponentStrumline.noteHoldCovers)
+            {
+              var alpha = covers.alpha;
+              var visible = covers.visible;
+              covers.revive();
+              covers.alpha = alpha;
+              covers.visible = visible;
+            }
+          }
+        });
+        FlxTween.tween(extraStrumline, {x: 5}, 1.25, {
+          ease: FlxEase.quadInOut,
+          onUpdate: function(twn:FlxTween)
+          {
+            for (covers in extraStrumline.noteHoldCovers)
+            {
+              var alpha = covers.alpha;
+              var visible = covers.visible;
+              covers.revive();
+              covers.alpha = alpha;
+              covers.visible = visible;
+            }
+          }
+        });
+      case 286:
+        extraOpp.playAnimation('breath', false, false);
+      case 704:
+        // Add Syor Icon lol
+        FlxTween.tween(PlayState.instance.currentStage.getBoyfriend(), {x: PlayState.instance.currentStage.getBoyfriend().x + 100}, 0.5,
+          {ease: FlxEase.quadOut});
+      case 832:
+        PlayState.instance.camGame.shake(0.002, calcSectionLength(2));
+    }
+  }
 }

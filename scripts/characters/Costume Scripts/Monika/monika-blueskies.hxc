@@ -1,8 +1,9 @@
 import ddto.character.MonikaBaseCharacter;
 
-class MonikaBlueSkiesCharacter extends MonikaBaseCharacter {
-
-	public function new() {
-		super('costumes/monika-blueskies');
-	}
+class MonikaBlueSkiesCharacter extends MonikaBaseCharacter
+{
+  public function new()
+  {
+    super('costumes/monika-blueskies');
+  }
 }

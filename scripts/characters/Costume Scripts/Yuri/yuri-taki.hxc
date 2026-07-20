@@ -1,8 +1,9 @@
 import ddto.character.YuriBaseCharacter;
 
-class YuriTakiCharacter extends YuriBaseCharacter {
-
-	function new() {
-		super('costumes/yuri-taki');
-	}
+class YuriTakiCharacter extends YuriBaseCharacter
+{
+  function new()
+  {
+    super('costumes/yuri-taki');
+  }
 }

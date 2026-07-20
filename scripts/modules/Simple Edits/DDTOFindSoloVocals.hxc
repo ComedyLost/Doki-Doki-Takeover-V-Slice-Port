@@ -7,26 +7,33 @@ import funkin.util.FileUtil;
 
 using StringTools;
 
-class FindSoloVocals extends Module {
-	public function new(){
-		super('FindSoloVocals');
-		var DDTOLevelIds = [for (i in 1...9) 'DDTOWeek$i'].concat(['DDTOWeekFanmade', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories']);
-		levelList = LevelRegistry.instance.listSortedLevelIds();
-		levelList = levelList.filter(function(id) {
-		  	return DDTOLevelIds.contains(id);
-		});
-		for (level in levelList) {
-			var levelData = LevelRegistry.instance.fetchEntry(level);
-			if (levelData == null) continue;
-			for (songId in levelData.getSongs()) {
-				if (FileUtil.readDir('mods/Doki Doki Takeover Plus/songs/$songId').length <= 2) {
-					trace(songId);
-					trace(FileUtil.readDir('mods/Doki Doki Takeover Plus/songs/$songId').filter((id) -> {
-						return id.startsWith('Voices');
-					}));
-				}
-			}
-		}
-		trace(levelList);
-	}
+class FindSoloVocals extends Module
+{
+  public function new()
+  {
+    super('FindSoloVocals');
+    var DDTOLevelIds = [for (i in 1...9) 'DDTOWeek$i'].concat(['DDTOWeekFanmade', 'ExtraDDTOFreeplaySongs', 'ExtraDDTOSecretSongs', 'ExtraDDTOSideStories']);
+    levelList = LevelRegistry.instance.listSortedLevelIds();
+    levelList = levelList.filter(function(id)
+    {
+      return DDTOLevelIds.contains(id);
+    });
+    for (level in levelList)
+    {
+      var levelData = LevelRegistry.instance.fetchEntry(level);
+      if (levelData == null) continue;
+      for (songId in levelData.getSongs())
+      {
+        if (FileUtil.readDir('mods/Doki Doki Takeover Plus/songs/$songId').length <= 2)
+        {
+          trace(songId);
+          trace(FileUtil.readDir('mods/Doki Doki Takeover Plus/songs/$songId').filter((id) ->
+          {
+            return id.startsWith('Voices');
+          }));
+        }
+      }
+    }
+    trace(levelList);
+  }
 }

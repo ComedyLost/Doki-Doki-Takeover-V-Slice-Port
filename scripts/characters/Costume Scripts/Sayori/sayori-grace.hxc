@@ -1,8 +1,9 @@
 import ddto.character.SayoriBaseCharacter;
 
-class SayoriGraceCharacter extends SayoriBaseCharacter {
-
-	function new() {
-		super('costumes/sayori-grace');
-	}
+class SayoriGraceCharacter extends SayoriBaseCharacter
+{
+  function new()
+  {
+    super('costumes/sayori-grace');
+  }
 }

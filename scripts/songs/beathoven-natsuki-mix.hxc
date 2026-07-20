@@ -5,13 +5,15 @@ import funkin.save.Save;
 
 class BeathovenNatsukiMix extends Song
 {
-	function new()
-	{
-		super('beathoven-natsuki-mix');
-	}
+  function new()
+  {
+    super('beathoven-natsuki-mix');
+  }
 
-	public override function isSongNew(currentDifficulty:String):Bool{
-		if(Save.instance.hasBeatenSong(this.id) == false) return true;
-		else return false;
-	}
+  public override function isSongNew(currentDifficulty:String):Bool
+  {
+    if (Save.instance.hasBeatenSong(this.id) == false) return true;
+    else
+      return false;
+  }
 }

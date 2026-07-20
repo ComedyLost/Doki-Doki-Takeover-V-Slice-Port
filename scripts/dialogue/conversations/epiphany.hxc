@@ -5,43 +5,45 @@ import StringTools;
 import funkin.save.Save;
 import funkin.api.newgrounds.NewgroundsClient;
 
-class EpiphanyConversation extends Conversation {
+class EpiphanyConversation extends Conversation
+{
+  // Murdered cuz whoopsies
+  var programList:Array<String> = ['obs', 'bdcam', 'fraps', 'xsplit', // TIL c# program
+    'hycam2', // hueh
+    'twitchstudio', // why
+    'streamlabs', 'bandicam'];
 
-	// Murdered cuz whoopsies
-  	var programList:Array<String> = [
-		'obs',
-		'bdcam',
-		'fraps',
-		'xsplit', // TIL c# program
-		'hycam2', // hueh
-		'twitchstudio', // why
-		'streamlabs',
-		'bandicam'
-	];
-  
-  	function new() {
-		super('epiphany');
+  function new()
+  {
+    super('epiphany');
 
-		save = DokiPreferences.getDokiSave();
- 	}
+    save = DokiPreferences.getDokiSave();
+  }
 
-  	override function onCreate(event){
-		super.onCreate(event);
-		if (save.selfaware) {
-			if (!NewgroundsClient.isLoggedIn()) { 
-				_data.dialogue[4].speed = 3;
-				_data.dialogue[4].text[0] = "\"...\"";
-				_data.dialogue[5].speed = 1;	
-			}
-			else _data.dialogue[4].text[0] = "\"Isn't that right, " + getUsername() + "?\"";
-		} else {
-			_data.dialogue[4].speed = 3;
-			_data.dialogue[4].text[0] = "\"...\"";
-			_data.dialogue[5].speed = 1;
-		}
-  	}
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    if (save.selfaware)
+    {
+      if (!NewgroundsClient.isLoggedIn())
+      {
+        _data.dialogue[4].speed = 3;
+        _data.dialogue[4].text[0] = "\"...\"";
+        _data.dialogue[5].speed = 1;
+      }
+      else
+        _data.dialogue[4].text[0] = "\"Isn't that right, " + getUsername() + "?\"";
+    }
+    else
+    {
+      _data.dialogue[4].speed = 3;
+      _data.dialogue[4].text[0] = "\"...\"";
+      _data.dialogue[5].speed = 1;
+    }
+  }
 
-	  function getUsername(){
-		return NewgroundsClient.user.name;
-	}
+  function getUsername()
+  {
+    return NewgroundsClient.user.name;
+  }
 }

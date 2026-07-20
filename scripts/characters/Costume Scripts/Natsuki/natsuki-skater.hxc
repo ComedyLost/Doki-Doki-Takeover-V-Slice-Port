@@ -1,7 +1,9 @@
 import ddto.character.NatsukiBaseCharacter;
 
-class NatsukiSkaterCharacter extends NatsukiBaseCharacter {
-	function new() {
-		super('costumes/natsuki-skater');
-	}
+class NatsukiSkaterCharacter extends NatsukiBaseCharacter
+{
+  function new()
+  {
+    super('costumes/natsuki-skater');
+  }
 }

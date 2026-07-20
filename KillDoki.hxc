@@ -1,8 +1,6 @@
 import funkin.play.PlayState;
-
 import funkin.modding.module.Module;
 import funkin.util.FileUtil;
-
 import Date;
 import funkin.modding.PolymodHandler;
 
@@ -10,117 +8,140 @@ using StringTools;
 
 class KillDoki extends Module
 {
-	var DDTODIRECTORYNAME:String;
+  var DDTODIRECTORYNAME:String;
 
-	function new()
-	{
-		super('KillDoki', 1, {state: PlayState});
+  function new()
+  {
+    super('KillDoki', 1, {state: PlayState});
 
-		#if mobile
-		active = false;
-		return;
-		#end
-		save = DokiPreferences.getDokiSave();
-		for (mod in PolymodHandler.getAllMods()) {
-			if (mod.id == 'doki-doki-takeover-plus') DDTODIRECTORYNAME =  mod.dirName;
-		}
-	}
+    #if mobile
+    active = false;
+    return;
+    #end
+    save = DokiPreferences.getDokiSave();
+    for (mod in PolymodHandler.getAllMods())
+    {
+      if (mod.id == 'doki-doki-takeover-plus') DDTODIRECTORYNAME = mod.dirName;
+    }
+  }
 
-	var deadDoki:Bool;
-	var currentName:String;
-	
-	function file(path:String) {
-		return 'mods/$DDTODIRECTORYNAME/$path';
-	}
+  var deadDoki:Bool;
+  var currentName:String;
 
-  	function onNoteHit(event:HitNoteScriptEvent) {
-    	super.onNoteHit(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
+  function file(path:String)
+  {
+    return 'mods/$DDTODIRECTORYNAME/$path';
+  }
 
-		if (!save.chrcheck) return;
+  function onNoteHit(event:HitNoteScriptEvent)
+  {
+    super.onNoteHit(event);
+    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+    if (PlayState.instance.isMinimalMode) return;
 
-		if (!event.note.noteData.getMustHitNote() && deadDoki) {
-      		event.cancelEvent();
-      		PlayState.instance.vocals.opponentVolume = 0;
-    	}
-  	}
+    if (!save.chrcheck) return;
 
-	function onUpdate(event) {
-		super.onUpdate(event);
-		if (!save.chrcheck) return;
-		if (PlayState.instance?.currentStage?.getDad() == null) return;
-		if (deadDoki && currentName != PlayState.instance.currentStage.getDad().characterId) {
-			// Check again
-			currentName = PlayState.instance.currentStage.getDad().characterId;
-			for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
-				if (PlayState.instance.currentStage.getDad().characterId.contains(dokis)) {
-					//if (!Assets.exists(Paths.file('chrs/' + dokis + '.chr'))) {
-					if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr'))) {
-						deadDoki = true;
-						PlayState.instance.currentStage.getDad().visible = false;
-						PlayState.instance.iconP2.visible = false;
-					}
-					break;
-				} else {
-					deadDoki = false;
-				}
-			}	
-		}
-		if (deadDoki) {
-			if (PlayState.instance.currentStage.getDad().visible) PlayState.instance.currentStage.getDad().visible = false;
-			if (PlayState.instance.iconP2.visible) PlayState.instance.iconP2.visible = false;
-		}
-	}
+    if (!event.note.noteData.getMustHitNote() && deadDoki)
+    {
+      event.cancelEvent();
+      PlayState.instance.vocals.opponentVolume = 0;
+    }
+  }
 
-	public function onFocusGained(event:FocusScriptEvent):Void{
-		if (!save.chrcheck) return;
-		currentName = PlayState.instance?.currentStage?.getDad()?.characterId ?? '';
-		if (currentName == '') return;
-		for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
-			if (PlayState.instance.currentStage.getDad().characterId.contains(dokis)) {
-				if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr'))) {
-					deadDoki = true;
-					PlayState.instance.currentStage.getDad().visible = false;
-					PlayState.instance.iconP2.visible = false;
-					PlayState.instance.vocals.opponentVolume = 0;
-				} else {
-					deadDoki = false;
-					PlayState.instance.currentStage.getDad().visible = true;
-					PlayState.instance.iconP2.visible = true;
-					PlayState.instance.vocals.opponentVolume = 1;
-				}
-				break;
-			}
-		}
-	}
+  function onUpdate(event)
+  {
+    super.onUpdate(event);
+    if (!save.chrcheck) return;
+    if (PlayState.instance?.currentStage?.getDad() == null) return;
+    if (deadDoki && currentName != PlayState.instance.currentStage.getDad().characterId)
+    {
+      // Check again
+      currentName = PlayState.instance.currentStage.getDad().characterId;
+      for (dokis in ['monika', 'yuri', 'sayori', 'natsuki'])
+      {
+        if (PlayState.instance.currentStage.getDad().characterId.contains(dokis))
+        {
+          // if (!Assets.exists(Paths.file('chrs/' + dokis + '.chr'))) {
+          if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr')))
+          {
+            deadDoki = true;
+            PlayState.instance.currentStage.getDad().visible = false;
+            PlayState.instance.iconP2.visible = false;
+          }
+          break;
+        }
+        else
+        {
+          deadDoki = false;
+        }
+      }
+    }
+    if (deadDoki)
+    {
+      if (PlayState.instance.currentStage.getDad().visible) PlayState.instance.currentStage.getDad().visible = false;
+      if (PlayState.instance.iconP2.visible) PlayState.instance.iconP2.visible = false;
+    }
+  }
 
-	override function onCountdownStart(event) {
-		super.onCountdownStart(event);
-		deadDoki = false;
-		if (event.eventCanceled) return;
-		if (!save.chrcheck) return;
-		currentName = PlayState.instance?.currentStage?.getDad()?.characterId ?? '';
-		if (currentName == '') return;
-		for (dokis in ['monika', 'yuri', 'sayori', 'natsuki']) {
-			if (PlayState.instance.currentStage.getDad().characterId.contains(dokis)) {
-				if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr'))) {
-					deadDoki = true;
-					PlayState.instance.currentStage.getDad().visible = false;
-					PlayState.instance.iconP2.visible = false;
-				}
-				break;
-			}
-		}
-	}
+  public function onFocusGained(event:FocusScriptEvent):Void
+  {
+    if (!save.chrcheck) return;
+    currentName = PlayState.instance?.currentStage?.getDad()?.characterId ?? '';
+    if (currentName == '') return;
+    for (dokis in ['monika', 'yuri', 'sayori', 'natsuki'])
+    {
+      if (PlayState.instance.currentStage.getDad().characterId.contains(dokis))
+      {
+        if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr')))
+        {
+          deadDoki = true;
+          PlayState.instance.currentStage.getDad().visible = false;
+          PlayState.instance.iconP2.visible = false;
+          PlayState.instance.vocals.opponentVolume = 0;
+        }
+        else
+        {
+          deadDoki = false;
+          PlayState.instance.currentStage.getDad().visible = true;
+          PlayState.instance.iconP2.visible = true;
+          PlayState.instance.vocals.opponentVolume = 1;
+        }
+        break;
+      }
+    }
+  }
 
-	override function onSongStart(event) {
-		super.onSongStart(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
+  override function onCountdownStart(event)
+  {
+    super.onCountdownStart(event);
+    deadDoki = false;
+    if (event.eventCanceled) return;
+    if (!save.chrcheck) return;
+    currentName = PlayState.instance?.currentStage?.getDad()?.characterId ?? '';
+    if (currentName == '') return;
+    for (dokis in ['monika', 'yuri', 'sayori', 'natsuki'])
+    {
+      if (PlayState.instance.currentStage.getDad().characterId.contains(dokis))
+      {
+        if (!FileUtil.fileExists(file('chrs/' + dokis + '.chr')))
+        {
+          deadDoki = true;
+          PlayState.instance.currentStage.getDad().visible = false;
+          PlayState.instance.iconP2.visible = false;
+        }
+        break;
+      }
+    }
+  }
 
-		if (!save.chrcheck) return;
+  override function onSongStart(event)
+  {
+    super.onSongStart(event);
+    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+    if (PlayState.instance.isMinimalMode) return;
 
-      	if (deadDoki) PlayState.instance.vocals.opponentVolume = 0;
-	}
+    if (!save.chrcheck) return;
+
+    if (deadDoki) PlayState.instance.vocals.opponentVolume = 0;
+  }
 }

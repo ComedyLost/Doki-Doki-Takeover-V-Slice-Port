@@ -8,138 +8,159 @@ import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.play.PlayStatePlaylist;
 
-class BakaSong extends Song {
-	function new() {
-		super('baka');
-	}
+class BakaSong extends Song
+{
+  function new()
+  {
+    super('baka');
+  }
 
-	var bakaOverlay:FunkinSprite;
-	var hasPlayedIntroCutscene:Bool;
-	var backupShake;
+  var bakaOverlay:FunkinSprite;
+  var hasPlayedIntroCutscene:Bool;
+  var backupShake;
 
-	/*public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String> {
-		switch (variationId) {
-			case 'alt':
-				return [""];
-		  	default:
-				return ['alt'];
-		}  
-	}*/
+  /*public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String> {
+    switch (variationId) {
+      case 'alt':
+        return [""];
+        default:
+        return ['alt'];
+    }  
+  }*/
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+    if (PlayState.instance.isMinimalMode) return;
 
-	override function onCreate(event) {
-		super.onCreate(event);
-		if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-		if (PlayState.instance.isMinimalMode) return;
+    hasPlayedIntroCutscene = false;
 
-		hasPlayedIntroCutscene = false;
+    bakaOverlay = new FunkinSprite(0, 0);
+    bakaOverlay.frames = Paths.getSparrowAtlas('clubroom/BakaBGDoodles');
+    bakaOverlay.animation.addByPrefix('normal', 'Normal Overlay', 24, true);
+    bakaOverlay.animation.addByPrefix('party rock is', 'Rock Overlay', 24, true);
+    bakaOverlay.animation.addByPrefix('FUCK', 'Tank Overlay', 24, true);
+    bakaOverlay.animation.play('normal');
+    bakaOverlay.scrollFactor.set();
+    bakaOverlay.zIndex = 400;
+    bakaOverlay.alpha = 0;
+    bakaOverlay.cameras = [PlayState.instance.camHUD];
+    bakaOverlay.setGraphicSize(Std.int(FlxG.width));
+    bakaOverlay.updateHitbox();
+    bakaOverlay.screenCenter();
+    PlayState.instance.add(bakaOverlay);
+  }
 
-		bakaOverlay = new FunkinSprite(0, 0);
-		bakaOverlay.frames = Paths.getSparrowAtlas('clubroom/BakaBGDoodles');
-		bakaOverlay.animation.addByPrefix('normal', 'Normal Overlay', 24, true);
-		bakaOverlay.animation.addByPrefix('party rock is', 'Rock Overlay', 24, true);
-		bakaOverlay.animation.addByPrefix('FUCK', 'Tank Overlay', 24, true);
-		bakaOverlay.animation.play('normal');
-		bakaOverlay.scrollFactor.set();
-		bakaOverlay.zIndex = 400;
-		bakaOverlay.alpha = 0;
-		bakaOverlay.cameras = [PlayState.instance.camHUD];
-		bakaOverlay.setGraphicSize(Std.int(FlxG.width));
-		bakaOverlay.updateHitbox();
-		bakaOverlay.screenCenter();
-		PlayState.instance.add(bakaOverlay);
-	}
+  function calcSectionLength(?duration:Int = 1)
+  {
+    var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+    return durSeconds;
+  }
 
-	function calcSectionLength(?duration:Int = 1) {
-		var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
-		return durSeconds;
-	}
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
 
-	function onSongRetry(event:ScriptEvent) {
-		super.onSongRetry(event);
+    hasPlayedIntroCutscene = true;
+  }
 
-		hasPlayedIntroCutscene = true;
-	}
+  function startDialogue()
+  {
+    PlayState.instance.startConversation('baka');
+  }
 
-	function startDialogue() {
-		PlayState.instance.startConversation('baka');
-	}
+  function transitionToDialogue()
+  {
+    trace('Transitioning to dialogue.');
 
-	function transitionToDialogue() {
-		trace('Transitioning to dialogue.');
+    PlayState.instance.camCutscene.visible = true;
 
-		PlayState.instance.camCutscene.visible = true;
+    var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+    black.cameras = [PlayState.instance.camCutscene];
+    black.zIndex = 1000000;
+    PlayState.instance.add(black);
 
-		var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
-		black.cameras = [PlayState.instance.camCutscene];
-		black.zIndex = 1000000;
-		PlayState.instance.add(black);
+    black.alpha = 1.0;
 
-		black.alpha = 1.0;
+    FlxTween.tween(black, {alpha: 0}, 1, {
+      ease: FlxEase.linear,
+      startDelay: 0.25,
+      onComplete: function(input)
+      {
+        // black.visible = false;
+        startDialogue();
+      }
+    });
+  }
 
-		FlxTween.tween(black, {alpha: 0}, 1, {
-			ease: FlxEase.linear,
-			startDelay: 0.25,
-			onComplete: function(input) {
-				// black.visible = false;
-				startDialogue();
-			}
-		});
-	}
+  override function onPause(event)
+  {
+    super.onPause(event);
+    if (FlxG.camera._fxShakeDuration > 0)
+    {
+      backupShake = FlxG.camera._fxShakeDuration;
+      FlxG.camera._fxShakeDuration = 0;
+    }
+  }
 
-	override function onPause(event) {
-		super.onPause(event);
-		if (FlxG.camera._fxShakeDuration > 0) {
-			backupShake = FlxG.camera._fxShakeDuration;
-			FlxG.camera._fxShakeDuration = 0;
-		}
-	}
+  override function onResume(event)
+  {
+    super.onResume(event);
+    if (backupShake != null)
+    {
+      FlxG.camera._fxShakeDuration = backupShake;
+      backupShake = null;
+    }
+  }
 
-	override function onResume(event) {
-		super.onResume(event);
-		if (backupShake != null) {
-			FlxG.camera._fxShakeDuration = backupShake;
-			backupShake = null;
-		}
-	}
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+    switch (event.step)
+    {
+      case 64:
+        FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
+      case 128:
+        if (PlayState.instance.currentVariation != 'alt') PlayState.instance.camGame.shake(0.002, calcSectionLength(2));
+        if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
+        if (PlayState.instance.currentVariation == 'alt')
+        {
+          bakaOverlay.animation.play('FUCK');
+          PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
+        }
+        else
+          bakaOverlay.animation.play('party rock is');
+      case 448:
+        FlxTween.tween(bakaOverlay, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
+      case 576:
+        bakaOverlay.animation.play('normal');
+        FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
+      case 704:
+        if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
+        if (PlayState.instance.currentVariation == 'alt')
+        {
+          bakaOverlay.animation.play('FUCK');
+          PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
+        }
+        else
+          bakaOverlay.animation.play('party rock is');
+    }
+  }
 
-	function onStepHit(event:SongTimeScriptEvent):Void {
-		switch (event.step) {
-			case 64:
-				FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
-			case 128:
-				if (PlayState.instance.currentVariation != 'alt') PlayState.instance.camGame.shake(0.002, calcSectionLength(2));
-				if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
-				if (PlayState.instance.currentVariation == 'alt') {
-					bakaOverlay.animation.play('FUCK');
-					PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
-				} else bakaOverlay.animation.play('party rock is');
-			case 448:
-				FlxTween.tween(bakaOverlay, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
-			case 576:
-				bakaOverlay.animation.play('normal');
-				FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
-			case 704:
-				if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
-				if (PlayState.instance.currentVariation == 'alt') {
-					bakaOverlay.animation.play('FUCK');
-					PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
-				} else bakaOverlay.animation.play('party rock is');
-		}
-	}
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    bakaOverlay.alpha = 0;
+    bakaOverlay.animation.play('normal');
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
 
-	public function onCountdownStart(event):Void {
-		super.onCountdownStart(event);
-		bakaOverlay.alpha = 0;
-		bakaOverlay.animation.play('normal');
-		if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
-		if (!hasPlayedIntroCutscene) {
-			trace('Pausing countdown to play cutscene.');
+      hasPlayedIntroCutscene = true;
 
-			hasPlayedIntroCutscene = true;
+      event.cancel(); // CANCEL THE COUNTDOWN!
 
-			event.cancel(); // CANCEL THE COUNTDOWN!
-
-			transitionToDialogue();
-		}
-	}
+      transitionToDialogue();
+    }
+  }
 }

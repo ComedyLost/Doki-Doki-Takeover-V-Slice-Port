@@ -13,44 +13,51 @@ import flixel.FlxSprite;
 
 // Meant to act the same as in DDTO
 // Couldn't get fully working tho
-class DDTOModifiers extends Module {
-	public function new(){
-		super('DDTOModifiers');
+class DDTOModifiers extends Module
+{
+  public function new()
+  {
+    super('DDTOModifiers');
 
-		active = false; //Disabled as I couldn't get the menu to fully work yet
-	}
-	
-	var modifierMenu:FlxSprite;
-	var mainCam:FunkinCamera;
+    active = false; // Disabled as I couldn't get the menu to fully work yet
+  }
 
-	//Modifiers menu from original DDTO
-	override function onSubStateOpenEnd(event) {
-        super.onSubStateOpenEnd(event);
-        if (Std.isOfType(event.targetState, FreeplayState)) {
-			var state = event.targetState;
-			state.dj.onIntroDone.add(function() {
-				mainCam = new FunkinCamera('MainCam');
-				FlxG.cameras.add(mainCam, false);
-				mainCam.bgColor = 0x0;
-				mainCam.visible = true;
-			
-				modifierMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('freeplay/extra/modifiers'));
-				modifierMenu.setGraphicSize(Std.int(modifierMenu.width * 0.6));
-				modifierMenu.updateHitbox();
-				modifierMenu.x = (FlxG.width - modifierMenu.width) - 10;
-				modifierMenu.y += modifierMenu.height + 10;
-				modifierMenu.cameras = [mainCam];
-				
-				state.add(modifierMenu);
-				state.refresh();			
-			});
-		}
-	}
+  var modifierMenu:FlxSprite;
+  var mainCam:FunkinCamera;
 
-	override function onStateOpenEnd(event) {
-        super.onStateOpenEnd(event);
+  // Modifiers menu from original DDTO
+  override function onSubStateOpenEnd(event)
+  {
+    super.onSubStateOpenEnd(event);
+    if (Std.isOfType(event.targetState, FreeplayState))
+    {
+      var state = event.targetState;
+      state.dj.onIntroDone.add(function()
+      {
+        mainCam = new FunkinCamera('MainCam');
+        FlxG.cameras.add(mainCam, false);
+        mainCam.bgColor = 0x0;
+        mainCam.visible = true;
 
-        if (Std.isOfType(event.targetState, FreeplayState)) {
-		}
-	}
+        modifierMenu = new FlxSprite(0, 0).loadGraphic(Paths.image('freeplay/extra/modifiers'));
+        modifierMenu.setGraphicSize(Std.int(modifierMenu.width * 0.6));
+        modifierMenu.updateHitbox();
+        modifierMenu.x = (FlxG.width - modifierMenu.width) - 10;
+        modifierMenu.y += modifierMenu.height + 10;
+        modifierMenu.cameras = [mainCam];
+
+        state.add(modifierMenu);
+        state.refresh();
+      });
+    }
+  }
+
+  override function onStateOpenEnd(event)
+  {
+    super.onStateOpenEnd(event);
+
+    if (Std.isOfType(event.targetState, FreeplayState))
+    {
+    }
+  }
 }
