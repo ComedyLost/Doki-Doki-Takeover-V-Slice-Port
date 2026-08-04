@@ -1,0 +1,230 @@
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.Conductor;
+import funkin.modding.module.ModuleHandler;
+
+class TakeoverMedleySong extends Song
+{
+  function new()
+  {
+    super('takeover-medley');
+  }
+
+  var currentStage(get, never):Stage;
+
+  function get_currentStage():Stage
+  {
+    return PlayState.instance?.currentStage;
+  }
+
+  var metadataDisplay(get, never):ModuleHandler;
+
+  function get_metadataDisplay():ModuleHandler
+  {
+    return ModuleHandler.getModule('Credits');
+  }
+
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
+    if (PlayState.instance.isMinimalMode) return;
+
+  }
+
+  function calcSectionLength(?duration:Int = 1)
+  {
+    var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+    return durSeconds;
+  }
+
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+  }
+
+  override function onPause(event)
+  {
+    super.onPause(event);
+    if (FlxG.camera._fxShakeDuration > 0)
+    {
+      backupShake = FlxG.camera._fxShakeDuration;
+      FlxG.camera._fxShakeDuration = 0;
+    }
+  }
+
+  override function onResume(event)
+  {
+    super.onResume(event);
+    if (backupShake != null)
+    {
+      FlxG.camera._fxShakeDuration = backupShake;
+      backupShake = null;
+    }
+  }
+
+  var lastStep:Int = 0;
+
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+		if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
+    {
+			lastStep = event.step;
+			return;
+		}
+
+		for (step in lastStep...event.step)
+    {
+      switch (step)
+      {
+        case 1:
+          FlxTween.tween(whiteflash, {alpha: 1}, 2.6, {
+            ease: FlxEase.sineOut,
+            onComplete: function(tween:FlxTween)
+            {
+              blackScreen.visible = false;
+              FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineOut});
+            }
+          });
+        case 20:
+          metadataDisplay.tweenIn();
+        case 48:
+          FlxTween.tween(cg1, {alpha: 0.001}, 1, {
+            ease: FlxEase.sineOut,
+            onComplete: function(tween:FlxTween)
+            {
+              cg1.loadGraphic(Paths.image('credits/CreditsShit2', 'doki', true));
+              cg1.screenCenter();
+            }
+          });
+        case 54:
+          metadataDisplay.tweenOut();
+          FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+          FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 460}, 2, {ease: FlxEase.sineOut});
+        case 76:
+          forcedPause = 'monika';
+          summmonStickies(true, 8);
+          creditsCharSwap("monika-pixelnew", true);
+        case 208, 464, 592, 720, 848, 976, 1104, 1300, 1744, 1880, 2008, 2072, 2136, 2200:
+          summmonStickies(true, 8);
+        case 239:
+          defaultCamZoom = 0.5;
+          moveCamera('centered');
+          forcedPause = 'senpai';
+          camFollow.y += 50;
+          // Worst thing known to man right now
+
+          FlxTween.tween(p2Box, {x: p2Box.x - 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(p2Boxtop, {x: p2Boxtop.x - 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(dad, {x: dad.x - 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+
+          FlxTween.tween(p1Box, {x: p1Box.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(p1Boxtop, {x: p1Boxtop.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(boyfriend, {x: boyfriend.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+
+          cursorDDTO.setPosition(500, 1060);
+          FlxTween.tween(senpaiBox, {y: senpaiBox.y - 900}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(senpaiBoxtop, {y: senpaiBoxtop.y - 900}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(cursorDDTO, {y: cursorDDTO.y - 900 + 10}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(gf, {y: gf.y - 900}, calcSectionLength(), {ease: FlxEase.sineOut});
+        case 336:
+          summmonStickies(true, 8);
+          addcharacter("senpai-angry", 2);
+          gf.y -= 900;
+        case 440:
+          FlxTween.tween(senpaiBox, {y: senpaiBox.y - 1200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(senpaiBoxtop, {y: senpaiBoxtop.y - 1200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(cursorDDTO, {y: cursorDDTO.y - 1200 + 10}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(gf, {y: gf.y - 1200}, calcSectionLength(), {ease: FlxEase.sineOut});
+        case 447:
+          moveCamera('centered');
+          defaultCamZoom = 0.7;
+
+          FlxTween.tween(p2Box, {x: p2Box.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(p2Boxtop, {x: p2Boxtop.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(dad, {x: dad.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+
+          FlxTween.tween(p1Box, {x: p1Box.x - 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(p1Boxtop, {x: p1Boxtop.x - 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+          FlxTween.tween(boyfriend, {x: boyfriend.x - 200}, calcSectionLength(), {ease: FlxEase.sineOut});
+        case 460:
+          forcedPause = 'sayori';
+          creditsCharSwap("sayori");
+          senpaiBox.visible = false;
+          senpaiBoxtop.visible = false;
+          gf.visible = false;
+        case 844:
+          forcedPause = 'natsuki';
+          creditsCharSwap("natsuki");
+        case 1228:
+          forcedPause = 'yuri';
+          creditsCharSwap("yuri");
+          summmonStickies(true, 8);
+        case 1392:
+          if (staticcredits != null) FlxTween.tween(staticcredits, {alpha: 1}, calcSectionLength(5), {ease: FlxEase.sineOut});
+          FlxTween.tween(dad, {alpha: 0}, 5, {ease: FlxEase.sineOut});
+          FlxTween.tween(extrachar1, {alpha: 1}, 5, {ease: FlxEase.sineOut});
+        case 1488:
+          if (staticcredits != null) staticcredits.alpha = 0.0001;
+          dad.alpha = 1;
+          extrachar1.alpha = 0;
+          creditsCharSwap("yuri");
+          summmonStickies(true, 8);
+        case 1616:
+          forcedPause = 'protag';
+          creditsCharSwap("protag");
+          summmonStickies(true, 8);
+        case 66, 450, 834, 1218, 1606, 1866:
+          prepareCharSwap();
+        case 1876:
+          forcedPause = 'monika';
+          creditsCharSwap("monika");
+          cursorDDTO.visible = false;
+        case 2240:
+          FlxTween.tween(camHUD, {alpha: 0}, 5, {ease: FlxEase.sineOut});
+          FlxTween.tween(camFollow, {y: -930}, 5, {ease: FlxEase.sineOut});
+        case 2264:
+          camZooming = false;
+        case 2280:
+          FlxTween.tween(cg1, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
+        case 2322:
+          FlxTween.tween(cg1, {alpha: 0.001}, 1, {
+            ease: FlxEase.sineOut,
+            onComplete: function(tween:FlxTween)
+            {
+              cg1.loadGraphic(Paths.image('credits/DokiTakeoverLogo', 'doki'));
+              cg1.screenCenter();
+            }
+          });
+        case 2330:
+          FlxTween.tween(cg1, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
+        case 2358:
+          FlxTween.tween(cg2, {alpha: 1}, 1, {ease: FlxEase.sineOut});
+      }
+    }
+    lastStep = event.step;
+  }
+
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      transitionToDialogue();
+    }
+  }
+}
