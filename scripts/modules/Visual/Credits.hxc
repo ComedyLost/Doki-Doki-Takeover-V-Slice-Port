@@ -28,7 +28,7 @@ class Credits extends Module
   var metaIconTween:FlxTween;
   var metaArtistTween:FlxTween;
   var tweenOutTimer:FlxTimer;
-  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'clubroom', 'clubroomfestival', 'dokiglitcher', 'musicroom', 'evilClubroom', 'youandme', 'wilted', 'libitina', 'va11halla', 'credits'];
 
   override function onPause(event)
   {

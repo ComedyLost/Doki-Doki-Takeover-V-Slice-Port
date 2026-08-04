@@ -44,7 +44,7 @@ class WiltedStage extends Stage
     staticShader.setFloat('iTime', time);
 
     camBG.zoom = PlayState.instance.camGame.zoom;
-    camBG.targetOffset = FlxG.camera.targetOffset;
+    camBG.scroll = FlxG.camera.scroll;
   }
 
   override function buildStage()
@@ -62,7 +62,6 @@ class WiltedStage extends Stage
 
     camBG.copyFrom(PlayState.instance.camGame);
     camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
-    camBG.follow(PlayState.instance.cameraFollowPoint, null, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
 
     FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
     PlayState.instance.camGame.bgColor = 0x0;
