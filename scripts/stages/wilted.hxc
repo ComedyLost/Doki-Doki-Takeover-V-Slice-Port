@@ -21,12 +21,6 @@ class WiltedStage extends Stage
   function new()
   {
     super('wilted');
-    FunkinMemory.cacheTexture(Paths.image('characters/senpai-nonpixel/spritemap1'));
-    FunkinMemory.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
-    FunkinMemory.cacheTexture(Paths.image('wilt/p1'));
-    FunkinMemory.cacheTexture(Paths.image('wilt/p2'));
-    FunkinMemory.cacheTexture(Paths.image('wilt/bg'));
-    FunkinMemory.cacheTexture(Paths.image('wilt/bg2'));
   }
 
   var time:Float = 0;
@@ -56,6 +50,13 @@ class WiltedStage extends Stage
   override function buildStage()
   {
     super.buildStage();
+    FunkinMemory.cacheTexture(Paths.image('characters/senpai-nonpixel/spritemap1'));
+    FunkinMemory.cacheTexture(Paths.image('characters/SenpaiNonPixel_Assets'));
+    FunkinMemory.cacheTexture(Paths.image('wilt/p1'));
+    FunkinMemory.cacheTexture(Paths.image('wilt/p2'));
+    FunkinMemory.cacheTexture(Paths.image('wilt/bg'));
+    FunkinMemory.cacheTexture(Paths.image('wilt/bg2'));
+
     camBG = new FunkinCamera('playStateCamBG');
     camBG.bgColor = 0x000000;
 

@@ -6,6 +6,7 @@ import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import lime.app.Application;
 import funkin.play.character.CharacterDataParser;
+import openfl.system.System;
 
 class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
 {
@@ -69,7 +70,7 @@ class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
         GameOverSubState.instance.startDeathMusic(1.0, false);
         deathSpriteMonika.animation.play('deathLoop', true);
       }
-      else if (name == 'finalDeath') Application.current.window.close();
+      else if (name == 'finalDeath') System.exit(1);
     });  
   }
 
