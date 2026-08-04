@@ -71,7 +71,6 @@ class YourDemiseSong extends Song
       }
     }, 5); // Before, 3, 2, 1, GO!, After
 
-    trace(countdownTimer.loopsLeft);
     return true;
   }
 
@@ -351,24 +350,39 @@ class YourDemiseSong extends Song
     PlayState.instance.endSong();
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+    super.onStepHit(event);
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
     {
-      case 0:
-        if (PlayStatePlaylist.isStoryMode) FlxTween.tween(blackScreen, {alpha: 0}, 0.5);
-      case 264:
-        blackScreen.alpha = 1;
-      case 328:
-        stageSwap(true);
-        ModuleHandler.getModule('Credits').scriptCall('manualCreditsSummon');
-        blackScreen.alpha = 0;
-      case 840:
-        stageSwap(false);
-      case 1640:
-        stageSwap(true);
-      case 1864:
-        FlxTween.tween(blackScreen, {alpha: 1}, 0.5);
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (event.step)
+      {
+        case 0:
+          if (PlayStatePlaylist.isStoryMode) FlxTween.tween(blackScreen, {alpha: 0}, 0.5);
+        case 264:
+          blackScreen.alpha = 1;
+        case 328:
+          stageSwap(true);
+          ModuleHandler.getModule('Credits').manualCreditsSummon();
+          blackScreen.alpha = 0;
+        case 840:
+          stageSwap(false);
+        case 1640:
+          stageSwap(true);
+        case 1864:
+          FlxTween.tween(blackScreen, {alpha: 1}, 0.5);
+      }  
+    }
+    lastStep = event.step;
   }
 }

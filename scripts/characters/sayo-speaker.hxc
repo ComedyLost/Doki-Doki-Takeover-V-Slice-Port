@@ -1,23 +1,82 @@
-import funkin.play.character.SparrowCharacter;
+import funkin.play.character.AnimateAtlasCharacter;
 import funkin.play.character.CharacterType;
 import funkin.play.PlayState;
+import funkin.data.character.CharacterDataParser;
 
-class SayoSpeakerCharacter extends SparrowCharacter
+class SayoSpeakerCharacter extends AnimateAtlasCharacter
 {
   function new()
   {
     super('sayo-speaker');
   }
 
+  public var speaker:BaseCharacter;
+
+  override function set_alpha(val:Float):Float
+  {
+    super.set_alpha(val);
+
+    if (speaker != null) speaker.alpha = val;
+
+    return val;
+  }
+
+  override function set_x(val:Float):Float
+  {
+    super.set_x(val);
+
+    if (speaker != null)
+    {
+      speaker.x = this.x - 20 - (-this.globalOffsets[0] * this.scale.x);
+    }
+  }
+  
+  override function set_y(val:Float):Float
+  {
+    super.set_y(val);
+
+    if (speaker != null)
+    {
+      speaker.y = this.y + 280 - (-this.globalOffsets[1] * this.scale.y);
+    }
+  }
+
   function onCreate(event:ScriptEvent)
   {
     super.onCreate(event);
-    this.idleSuffix = '-alt';
+    // this.idleSuffix = '-alt';
+    if (!this.debug)
+    {
+      speaker = CharacterDataParser.fetchCharacter('nogf');
+      speaker.danceEvery = this.danceEvery % 2;
+    }  
+  }
+
+  public function onAdd(event:ScriptEvent)
+  {
+    super.onAdd(event);
+    if (speaker == null) return;
+    speaker.zIndex = this.zIndex + 1;
+    speaker.flipX = this.flipX;
+
+    currentStage.addCharacter(speaker, CharacterType.OTHER);
+    speaker.characterType = CharacterType.GF;
+    currentStage.refresh(); // Apply z-index.
+    speaker.x = this.x - 75 - (-this.globalOffsets[0] * this.scale.x);
+    speaker.y = this.y + 275 - (-this.globalOffsets[1] * this.scale.y);
+  }
+
+  public function destroy()
+  {
+    if (speaker != null)
+    {
+      speaker.destroy();
+      speaker = null;
+    }
   }
 
   override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
   {
-    // FlxG.watch.addQuick('playAnim(${characterName})', name);
     if (name == 'popout') this.idleSuffix = '';
     super.playAnimation(name, restart, ignoreOther, reversed);
   }

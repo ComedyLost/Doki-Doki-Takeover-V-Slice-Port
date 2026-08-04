@@ -4,75 +4,63 @@
     "renderType": "multianimateatlas",
     "assetPath": "shared:characters/yuri/default",
     "flipX": false,
+    "playerCameraOffsets": [0, 115],
     "singTime": 6,
     "animations": [
         {
             "name": "idle",
-            "prefix": "Yuri Idle",
-            "offsets": [0, 0]
+            "prefix": "Idle"
         },
         {
             "name": "idle-alt",
-            "prefix": "Yuri Idle-alt",
-            "offsets": [0, 0]
+            "prefix": "Idle Alt"
         },
         {
             "name": "breath",
-            "prefix": "Yuri Breath",
-            "offsets": [11, 0]
+            "prefix": "Breath"
         },
         {
             "name": "singLEFT",
-            "prefix": "Yuri Sing Note Left",
-            "offsets": [-10, -10]
+            "prefix": "Left"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Yuri Sing Note Right",
-            "offsets": [6, 0]
+            "prefix": "Right"
         },
         {
             "name": "singUP",
-            "prefix": "Yuri Sing Note Up",
-            "offsets": [9, 12]
+            "prefix": "Up"
         },
         {
             "name": "singDOWN",
-            "prefix": "Yuri Sing Note Down",
-            "offsets": [-20, -19]
+            "prefix": "Down"
         }
     ],
     "costumes": "yuri",
 	"costumelist": [
 		{
-			"subfolder":true,
 			"internal_Name": "blueskies",
-			"charFile":"yuri-blueskies"
+			"assetPath": "shared:characters/yuri/blueskies"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "casual",
-			"charFile":"yuri-casual"
+			"assetPath": "shared:characters/yuri/casual"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "picnic",
-			"charFile":"yuri-picnic"
+			"assetPath": "shared:characters/yuri/picnic"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "taki",
-			"charFile":"yuri-taki"
+			"assetPath": "shared:characters/yuri/taki"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "derby",
-			"charFile":"yuri-derby"
+			"assetPath": "shared:characters/yuri/derby"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "tabi",
-			"charFile":"yuri-tabi"
+			"assetPath": "shared:characters/yuri/tabi"
 		}
 	],
     "scale": 1,

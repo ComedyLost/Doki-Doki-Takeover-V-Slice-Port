@@ -1,9 +1,0 @@
-import ddto.character.CrazyYuriBaseCharacter;
-
-class CrazyYuriPicnicCharacter extends CrazyYuriBaseCharacter
-{
-  function new()
-  {
-    super('costumes/yuri-crazy-picnic');
-  }
-}

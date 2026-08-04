@@ -5,56 +5,40 @@
       "zIndex": 10,
       "position": [-700, -520],
       "scale": [1.6, 1.6],
-      "animType": "sparrow",
       "name": "DDLC Far BG",
-      "isPixel": false,
       "assetPath": "clubroom/DDLCfarbg",
-      "scroll": [0.9, 0.9],
-      "animations": []
+      "scroll": [0.9, 0.9]
     },
     {
       "danceEvery": 0,
       "zIndex": 20,
       "position": [-700, -520],
       "scale": [1.6, 1.6],
-      "animType": "sparrow",
       "name": "DDLC BG",
-      "isPixel": false,
-      "assetPath": "clubroom/DDLCbg",
-      "scroll": [1, 1],
-      "animations": []
+      "assetPath": "clubroom/DDLCbg"
     },
     {
       "danceEvery": 0,
       "zIndex": 50,
       "position": [-700, -520],
       "scale": [1.6, 1.6],
-      "animType": "sparrow",
       "name": "Club Lights",
-      "isPixel": false,
-      "assetPath": "clubroom/clublights",
-      "scroll": [1, 1],
-      "animations": []
+      "assetPath": "clubroom/clublights"
     },
     {
       "danceEvery": 2,
       "zIndex": 40,
       "position": [-49, 247],
       "scale": [0.7, 0.7],
-      "animType": "sparrow",
+      "animType": "animateatlas",
       "name": "BG Sayori",
-      "isPixel": false,
       "startingAnimation": "idle",
       "assetPath": "bgdoki/sayori",
-      "scroll": [1, 1],
       "animations": [
         {
-          "offsets": [0, 0],
-          "flipY": false,
+          "animType": "symbol",
           "frameRate": 24,
           "prefix": "Sayori BG",
-          "looped": false,
-          "flipX": false,
           "name": "idle"
         }
       ]
@@ -64,20 +48,15 @@
       "zIndex": 40,
       "position": [1044, 178],
       "scale": [0.7, 0.7],
-      "animType": "sparrow",
+      "animType": "animateatlas",
       "name": "BG Yuri",
-      "isPixel": false,
       "startingAnimation": "idle",
       "assetPath": "bgdoki/yuri",
-      "scroll": [1, 1],
       "animations": [
         {
-          "offsets": [0, 0],
-          "flipY": false,
+          "animType": "symbol",
           "frameRate": 24,
           "prefix": "Yuri BG",
-          "looped": false,
-          "flipX": false,
           "name": "idle"
         }
       ]
@@ -87,20 +66,15 @@
       "zIndex": 40,
       "position": [1247, 303],
       "scale": [0.7, 0.7],
-      "animType": "sparrow",
+      "animType": "animateatlas",
       "name": "BG Natsuki",
-      "isPixel": false,
       "startingAnimation": "idle",
       "assetPath": "bgdoki/natsuki",
-      "scroll": [1, 1],
       "animations": [
         {
-          "offsets": [0, 0],
-          "flipY": false,
+          "animType": "symbol",
           "frameRate": 24,
           "prefix": "Natsu BG",
-          "looped": false,
-          "flipX": false,
           "name": "idle"
         }
       ]
@@ -110,20 +84,15 @@
       "zIndex": 40,
       "position": [150, 152],
       "scale": [0.7, 0.7],
-      "animType": "sparrow",
+      "animType": "animateatlas",
       "name": "BG Protag",
-      "isPixel": false,
       "startingAnimation": "idle",
       "assetPath": "bgdoki/protag",
-      "scroll": [1, 1],
       "animations": [
         {
-          "offsets": [0, 0],
-          "flipY": false,
+          "animType": "symbol",
           "frameRate": 24,
           "prefix": "Protag-kun BG",
-          "looped": false,
-          "flipX": false,
           "name": "idle"
         }
       ]
@@ -133,20 +102,15 @@
       "zIndex": 40,
       "position": [320, 173],
       "scale": [0.7, 0.7],
-      "animType": "sparrow",
+      "animType": "animateatlas",
       "name": "BG Monika",
-      "isPixel": false,
       "startingAnimation": "idle",
       "assetPath": "bgdoki/monika",
-      "scroll": [1, 1],
       "animations": [
         {
-          "offsets": [0, 0],
-          "flipY": false,
+          "animType": "symbol",
           "frameRate": 24,
           "prefix": "Moni BG",
-          "looped": false,
-          "flipX": false,
           "name": "idle"
         }
       ]
@@ -156,12 +120,9 @@
       "zIndex": 100,
       "position": [-700, -520],
       "scale": [1.6, 1.6],
-      "animType": "sparrow",
       "name": "Front Desks",
-      "isPixel": false,
       "assetPath": "clubroom/DesksFront",
-      "scroll": [1.3, 1],
-      "animations": []
+      "scroll": [1.3, 1]
     }
   ],
   "cameraZoom": 0.75,

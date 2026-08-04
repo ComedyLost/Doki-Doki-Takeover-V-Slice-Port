@@ -1,11 +1,11 @@
-import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.character.AnimateAtlasCharacter;
 import funkin.play.PlayState;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
 import flixel.FlxSprite;
 import funkin.play.character.CharacterType;
 
-class TankmanDokiCharacter extends MultiSparrowCharacter
+class TankmanDokiCharacter extends AnimateAtlasCharacter
 {
   function new()
   {

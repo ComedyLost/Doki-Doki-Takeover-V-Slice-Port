@@ -2,51 +2,52 @@
   "props": [
     {
       "zIndex": 20,
-      "position": [-260, -285],
-      "scale": [1.1, 1.1],
+      "position": [-250, -167],
+      "scale": [1, 1],
       "animType": "sparrow",
       "name": "Epiphany BG",
       "isPixel": false,
       "assetPath": "bigmonika/BG",
-      "scroll": [0.8, 0.8],
+      "scroll": [0.4, 0.6],
       "animations": []
     },
     {
       "zIndex": 110,
-      "position": [-260, -235],
-      "scale": [1.1, 1.1],
+      "position": [-328, -115],
+      "scale": [1, 1],
       "animType": "sparrow",
       "name": "Epiphany FG",
       "isPixel": false,
       "assetPath": "bigmonika/FG",
-      "scroll": [0.8, 0.8],
+      "scroll": [1, 1],
       "animations": []
     },
     {
       "zIndex": 40,
-      "position": [-260, -285],
-      "scale": [1.1, 1.1],
+      "position": [-250, -167],
+      "scale": [1, 1],
       "animType": "sparrow",
       "name": "Epiphany Main Lights",
       "isPixel": false,
       "assetPath": "bigmonika/lights",
-      "scroll": [0.8, 0.8],
+      "scroll": [0.4, 0.6],
+      "blend": "SCREEN",
       "animations": []
     },
     {
       "zIndex": 50,
-      "position": [-260, -285],
-      "scale": [1.1, 1.1],
+      "position": [-250, -167],
+      "scale": [1, 1],
       "animType": "sparrow",
       "name": "Epiphany Window Lights",
       "isPixel": false,
       "alpha": 1,
       "assetPath": "bigmonika/WindowLight",
-      "scroll": [0.8, 0.8],
+      "scroll": [0.4, 0.6],
       "animations": []
     }
   ],
-  "cameraZoom": 0.75,
+  "cameraZoom": 0.8,
   "version": "1.0.0",
   "characters": {
     "bf": {
@@ -56,7 +57,7 @@
     },
     "dad": {
       "zIndex": 120,
-      "position": [760, 655],
+      "position": [730, 700],
       "cameraOffsets": [-50, 0]
     },
     "gf": {

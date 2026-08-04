@@ -1,6 +1,5 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
@@ -32,16 +31,14 @@ class LoveNFunkinSong extends Song
     options = DokiPreferences.getDokiSave();
   }
 
-  var playStrumDefaultPos = [];
-  var oppStrumDefaultPos = [];
-  var yuri;
-  var natsuki;
-  var monika;
+  var yuri:BaseCharacter;
+  var natsuki:BaseCharacter;
+  var monika:BaseCharacter;
   var dokiData:Array<Float> = [];
-  var sideWindow:FlxSprite;
+  var sideWindow:FunkinSprite;
   var camGame2:FunkinCamera;
   var savedChar:String;
-  var poemVideo:FlxAtlasSprite;
+  var poemVideo:FunkinSprite;
 
   public override function isSongNew(currentDifficulty:String):Bool
   {
@@ -73,7 +70,7 @@ class LoveNFunkinSong extends Song
     poemVideo.alpha = 0.001;
     PlayState.instance.add(poemVideo);
 
-    sideWindow = new FlxSprite(0, 0, Paths.image('notepad/SideWindow'));
+    sideWindow = new FunkinSprite(0, 0, Paths.image('notepad/SideWindow'));
     sideWindow.setGraphicSize(Std.int(sideWindow.width / PlayState.instance.stageZoom));
     sideWindow.updateHitbox();
     sideWindow.y = FlxG.height - sideWindow.height;
@@ -83,6 +80,9 @@ class LoveNFunkinSong extends Song
     PlayState.instance.add(sideWindow);
 
     savedChar = ''; // Used so we can reset the character if they are on the side
+
+    createDokis();
+    PlayState.instance.iconP2.configure({id: 'love-n-funkin'});
   }
 
   function onNoteHit(callback)
@@ -108,12 +108,6 @@ class LoveNFunkinSong extends Song
     super.onUpdate(event);
     if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
     if (PlayState.instance.isMinimalMode) return;
-
-    if (PlayState.instance.iconP2 != null && PlayState.instance.iconP2.characterId != 'love-n-funkin')
-    {
-      PlayState.instance.iconP2.characterId = 'love-n-funkin';
-      PlayState.instance.iconP2.loadCharacter('love-n-funkin');
-    }
 
     if (camGame2 != null) camGame2.zoom = FlxG.camera.zoom;
     processNotes(event);
@@ -165,15 +159,6 @@ class LoveNFunkinSong extends Song
     }
   }
 
-  override function onSongLoaded(event)
-  {
-    super.onSongLoaded(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
-
-    createDokis();
-  }
-
   override function onSongEnd(event)
   {
     super.onSongEnd(event);
@@ -201,12 +186,11 @@ class LoveNFunkinSong extends Song
   function createDokis()
   {
     if (yuri != null || natsuki != null || monika != null) return;
-    PlayState.instance.iconP2.loadCharacter('love-n-funkin');
     var costume = ModuleHandler.getModule("CostumeSwapper");
 
-    var natsukiName = costume.scriptCall('getCostumeName', ['natsuki']);
-    var yuriName = costume.scriptCall('getCostumeName', ['yuri']);
-    var monikaName = costume.scriptCall('getCostumeName', ['monika']);
+    var natsukiName = costume.getCostumeName('natsuki');
+    var yuriName = costume.getCostumeName('yuri');
+    var monikaName = 'monika';
 
     yuri = CharacterDataParser.fetchCharacter(yuriName);
     if (yuri != null)
@@ -214,7 +198,7 @@ class LoveNFunkinSong extends Song
       yuri.set_characterType(CharacterType.OTHER);
       PlayState.instance.currentStage.addCharacter(yuri, CharacterType.OTHER);
     }
-    yuri.zIndex = PlayState.instance.currentStage.getDad().zIndex - 1;
+    yuri.zIndex = stageCharData.zIndex - 1;
     var stageCharData = PlayState.instance.currentStage._data.characters.dad;
     yuri.x = (stageCharData.position[0] - yuri.characterOrigin.x) + 200;
     yuri.y = (stageCharData.position[1] - yuri.characterOrigin.y) - 20;
@@ -227,7 +211,7 @@ class LoveNFunkinSong extends Song
       natsuki.set_characterType(CharacterType.OTHER);
       PlayState.instance.currentStage.addCharacter(natsuki, CharacterType.OTHER);
     }
-    natsuki.zIndex = PlayState.instance.currentStage.getDad().zIndex + 1;
+    natsuki.zIndex = stageCharData.zIndex + 1;
     var stageCharData = PlayState.instance.currentStage._data.characters.dad;
     natsuki.x = (stageCharData.position[0] - natsuki.characterOrigin.x) - 200;
     natsuki.y = (stageCharData.position[1] - natsuki.characterOrigin.y) + 20;
@@ -240,7 +224,7 @@ class LoveNFunkinSong extends Song
       monika.set_characterType(CharacterType.OTHER);
       PlayState.instance.currentStage.addCharacter(monika, CharacterType.OTHER);
     }
-    monika.zIndex = PlayState.instance.currentStage.getDad().zIndex - 2;
+    monika.zIndex = stageCharData.zIndex - 2;
     var stageCharData = PlayState.instance.currentStage._data.characters.dad;
     monika.x = (stageCharData.position[0] - monika.characterOrigin.x) + 450;
     monika.y = (stageCharData.position[1] - monika.characterOrigin.y) - 20;
@@ -295,7 +279,9 @@ class LoveNFunkinSong extends Song
         yuri.dance();
     }
     PlayState.instance.cameraZoomRate = 4;
-    PlayState.instance.iconP2.loadCharacter('love-n-funkin');
+    FlxG.signals.postUpdate.addOnce(() -> {
+      PlayState.instance.iconP2.configure({id: 'love-n-funkin'});
+    });
   }
 
   function onStepHit(event:SongTimeScriptEvent):Void

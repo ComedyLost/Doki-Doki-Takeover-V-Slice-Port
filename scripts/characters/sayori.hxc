@@ -5,79 +5,135 @@ import funkin.play.PlayState;
 import funkin.play.character.CharacterType;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
-import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import StringTools;
-import funkin.graphics.FunkinSprite;
 import funkin.FunkinMemory;
 import funkin.util.assets.FlxAnimationUtil;
+import flixel.util.FlxSave;
+import Reflect;
+import thx.Dynamics;
+
+using funkin.util.tools.ArrayTools;
+using funkin.util.AnsiUtil;
 
 // player offset fix by cyn0x8
 class SayoriBaseCharacter extends MultiAnimateAtlasCharacter
 {
+  var SaveData:FlxSave;
+
   public function new(characterId:String)
   {
     // This tells CharacterDataParser to load Sayori instead of an invalid character!
     if (characterId == "UNKNOWN") characterId = "sayori";
     super(characterId);
+    DEFAULT_PATH = _data.assetPath;
+    _data = Dynamics.clone(_data); // Duplicate to prevent modifying the cached version
+    var save = new FlxSave();
+    save.bind("CostumesV2", "FunkinCrew");
+    SaveData = save.data;
+    _data.assetPath = getCostumePath();
   }
 
-  public var defaultColor;
-  public var missColor;
+  private var DEFAULT_PATH:Null<String> = null;
+
+  var festivalStages:Array<String> = ['clubroomfestival', 'dokiglitcher'];
+
+  public var currentCostume(get, never):String;
+
+  function get_currentCostume():String
+  {
+    var costumeName:String = Reflect.field(SaveData, '${_data.costumes}costume') ?? '';
+    if (costumeName == '') return 'default';
+    return costumeName;
+  }
+
+  final FESTIVAL_COLORS:Array<FlxColor> = [0x828282, 0x424282];
+
+  final DEFAULT_COLORS:Array<FlxColor> = [0xFFFFFF, 0x8282FF];
+
+  public var defaultColor(get, never):FlxColor;
+
+  function get_defaultColor():FlxColor
+  {
+    if (PlayState.instance == null) return DEFAULT_COLORS[0];
+    if (festivalStages.contains(PlayState.instance.currentStageId.toLowerCase())) return FESTIVAL_COLORS[0];
+    return DEFAULT_COLORS[0];
+  }
+
+  public var missColor(get, never):FlxColor;
+  
+  function get_missColor():FlxColor
+  {
+    if (PlayState.instance == null) return DEFAULT_COLORS[1];
+    if (festivalStages.contains(PlayState.instance.currentStageId.toLowerCase())) return FESTIVAL_COLORS[1];
+    return DEFAULT_COLORS[1];
+  }
 
   public function onCreate(event):Void
   {
     super.onCreate(event);
-    var isFestival = switch (PlayState.instance?.currentStageId?.toLowerCase() ?? '')
-    {
-      case 'clubroomfestival', 'dokiglitcher': true;
-      default: false;
-    }
-    defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
-    missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
     this.color = defaultColor;
-    addGameOverAssets();
+  }
+
+  private function getCostumePath():String
+  {
+    if (_data.costumelist == null) return DEFAULT_PATH;
+
+    if (currentCostume == 'default') return DEFAULT_PATH;
+
+    for (costume in _data.costumelist)
+    {
+      var internal_name:String = costume.internal_Name;
+      var assetPath:String = costume.assetPath;
+
+      if (internal_name != currentCostume) continue;
+
+      trace(' DDTO '.bold().bg_magenta() + ' Found costume: $internal_name | $assetPath');
+      return assetPath;
+    }
+
+    return DEFAULT_PATH;
   }
 
   // Add the game over assets from BF for all Dokis
-  function addGameOverAssets()
+  function addGameOverAssets():Void
   {
-    var subTexture = Paths.getSparrowAtlas('characters/DokiGameOver');
-    FunkinMemory.cacheTexture(Paths.image('characters/DokiGameOver'));
+    // I'm too lazy to actually add these to the sprites
+    var subTexture:FlxAnimateFrames = Paths.getAnimateAtlas('characters/dokigameover', 'shared', _data.atlasSettings);
+    FunkinMemory.cacheTexture(Paths.image('characters/dokigameover/spritemap1'));
     subTexture.parent.destroyOnNoUse = false;
     this.frames.addAtlas(subTexture);
     var animations = [{
       name: "firstDeath",
       flipX: true,
-      prefix: "DokiGameOverIntro",
-      assetPath: "characters/DokiGameOver",
-      offsets: [-48, 151]
+      prefix: "First Death",
+      offsets: [-40, -30]
     }, {
       name: "deathLoop",
       flipX: true,
-      prefix: "DokiGameOverLoop",
-      assetPath: "characters/DokiGameOver",
-      looped: true,
-      offsets: [-72, 137]
+      prefix: "Death Loop",
+      offsets: [-40, -30],
+      looped: true
     }, {
       name: "deathConfirm",
       flipX: true,
-      prefix: "DokiGameOverConfirm",
-      assetPath: "characters/DokiGameOver",
-      offsets: [-52, 153]
+      prefix: "Death Confirm",
+      offsets: [-40, -30]
     }];
     for (anim in animations)
     {
-      FlxAnimationUtil.addAtlasAnimation(super, anim);
+      FlxAnimationUtil.addTextureAtlasAnimation(super, anim);
       if (anim.offsets == null) setAnimationOffsets(anim.name, 0, 0);
       else
-        setAnimationOffsets(anim.name, anim.offsets[0] + 20, anim.offsets[1] - 300);
+        setAnimationOffsets(anim.name, anim.offsets[0], anim.offsets[1]);
     }
   }
 
-  override function onAdd()
+  override function onAdd():Void
   {
+    super.onAdd();
     if (characterType != CharacterType.BF) return;
+    addGameOverAssets();
     GameOverSubState.musicSuffix = '-doki';
     GameOverSubState.blueBallSuffix = '-doki';
 
@@ -86,9 +142,12 @@ class SayoriBaseCharacter extends MultiAnimateAtlasCharacter
 
   public function resetCameraFocusPoint():Void
   {
-    super.resetCameraFocusPoint();
-    // Force offsets down if character is BF
-    if (currentStage?.characters?.get('bf') == super) this.cameraFocusPoint.y += 100;
+    var sprite:BaseCharacter = this.clone();
+    var isPlayer:Bool = (currentStage?.characters.get('bf') == super);
+    var cameraOffsets:Array<Float> = (isPlayer ? _data.playerCameraOffsets.clone() : _data.cameraOffsets.clone());
+    var charCenterX = this.originalPosition.x + sprite.width / 2;
+    var charCenterY = this.originalPosition.y + sprite.height / 2;
+    this.cameraFocusPoint = new FlxPoint(charCenterX + cameraOffsets[0], charCenterY + cameraOffsets[1]);
   }
 
   public var gameOverAnims:Array<String> = ['firstDeath', 'deathLoop', 'deathConfirm'];
@@ -134,7 +193,7 @@ class SayoriBaseCharacter extends MultiAnimateAtlasCharacter
     }
   }
 
-  function onNoteHit(event:NoteScriptEvent)
+  function onNoteHit(event:NoteScriptEvent):Void
   {
     // Override the hit note animation.
     switch (event.note.kind)

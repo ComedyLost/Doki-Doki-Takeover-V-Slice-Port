@@ -1,9 +1,0 @@
-import ddto.character.YuriBaseCharacter;
-
-class YuriTabiCharacter extends YuriBaseCharacter
-{
-  function new()
-  {
-    super('costumes/yuri-tabi');
-  }
-}

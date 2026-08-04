@@ -1,74 +1,45 @@
 {
     "version": "1.0.0",
     "name": "Epiphany Monika",
-    "renderType": "multisparrow",
-    "assetPath": "characters/big_monikia_base",
+    "renderType": "animateatlas",
+    "assetPath": "shared:characters/big-monika/default/basic",
     "flipX": false,
     "singTime": 6,
+    "atlasSettings": {
+        "cacheOnLoad": true
+    },
     "animations": [
         {
             "name": "idle",
-            "prefix": "Big Monika Idle",
-            "offsets": [
-                0,
-                0
-            ]
+            "prefix": "Idle"
         },
         {
             "name": "singUP",
-            "prefix": "Big Monika Sing Up",
-            "offsets": [
-                1,
-                13
-            ]
+            "prefix": "Up"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Big Monika Sing Right",
-            "offsets": [
-                -22,
-                1
-            ]
+            "prefix": "Right"
         },
         {
             "name": "singDOWN",
-            "prefix": "Big Monika Sing Down",
-            "offsets": [
-                1,
-                -54
-            ]
+            "prefix": "Down"
         },
         {
             "name": "singLEFT",
-            "prefix": "Big Monika Sing Left",
-            "offsets": [
-                87,
-                -15
-            ]
+            "prefix": "Left"
         },
         {
             "name": "lastNOTE_start",
-            "prefix": "Big Monika Last Note0",
-            "offsets": [
-                4,
-                -1
-            ]
+            "prefix": "Last Note"
         },
         {
             "name": "lastNOTE_end",
-            "prefix": "Big Monika Last Note First",
-            "offsets": [
-                272,
-                29
-            ]
+            "prefix": "Last Note End"
         },
         {
             "name": "lastNOTE_retry",
-            "prefix": "Big Monika Last Note Shrug",
-            "offsets": [
-                273,
-                19
-            ]
+            "prefix": "Last Note Shrug"
         }
     ],
     "startingAnimation": "",

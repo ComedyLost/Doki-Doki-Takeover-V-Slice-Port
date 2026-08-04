@@ -5,74 +5,67 @@
     "assetPath": "shared:characters/monika/default",
     "flipX": false,
     "singTime": 6,
+    "playerCameraOffsets": [0, 115],
     "cameraOffsets": [0, 15],
+    "death": {"cameraOffsets": [-12, -100]},
     "animations": [
         {
             "name": "idle",
-            "prefix": "Monika Returns Idle",
-            "offsets": [0, -20]
+            "prefix": "Idle"
         },
         {
             "name": "singUP",
-            "prefix": "Monika Returns Up",
-            "offsets": [-37, -15]
+            "prefix": "Up"
+        },
+        {
+            "name": "singUP-end",
+            "prefix": "Up End"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Monika Returns Right",
-            "offsets": [-14, -25]
+            "prefix": "Right"
         },
         {
             "name": "singDOWN",
-            "prefix": "Monika Returns Down",
-            "offsets": [35, -52]
+            "prefix": "Down"
         },
         {
             "name": "singLEFT",
-            "prefix": "Monika Returns Left",
-            "offsets": [39, 0]
+            "prefix": "Left"
         }
     ],
 	"costumes": "monika",
 	"costumelist": [
 		{
-			"subfolder":true,
 			"internal_Name": "blueskies",
-			"charFile":"monika-blueskies"
+            "assetPath": "shared:characters/monika/blueskies"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "valentine",
-			"charFile":"monika-valentine"
+			"assetPath": "shared:characters/monika/valentine"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "hex",
-			"charFile":"monika-hex"
+			"assetPath": "shared:characters/monika/hex"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "senpai",
-			"charFile":"monika-senpai"
+			"assetPath": "shared:characters/monika/senpai"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "vigilante",
-			"charFile":"monika-vigilante"
+			"assetPath": "shared:characters/monika/vigilante"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "casual",
-			"charFile":"monika-casual"
+			"assetPath": "shared:characters/monika/casual"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "casuallong",
-			"charFile":"monika-casuallong"
+			"assetPath": "shared:characters/monika/casuallong"
 		}
 	],
     "startingAnimation": "",
     "isPixel": false,
-    "scale": 0.9,
     "Made_With": "the cigs Converter"
 }

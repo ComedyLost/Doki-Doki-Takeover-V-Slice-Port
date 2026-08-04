@@ -1,26 +1,14 @@
 {
     "version": "1.0.0",
     "name": "Speaker",
-    "renderType": "sparrow",
-    "assetPath": "characters/SPEAKER_ass_sets",
+    "renderType": "animateatlas",
+    "assetPath": "shared:characters/speaker-ddto",
     "flipX": false,
     "singTime": 4,
     "animations": [
         {
-            "name": "danceLeft",
-            "prefix": "GF Dancing Beat",
-            "offsets": [
-                0,
-                -9
-            ]
-        },
-        {
-            "name": "danceRight",
-            "prefix": "GF Dancing Beat",
-            "offsets": [
-                0,
-                -9
-            ]
+            "name": "idle",
+            "prefix": "Idle"
         }
     ],
     "startingAnimation": "",

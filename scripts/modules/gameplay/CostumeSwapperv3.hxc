@@ -1,0 +1,456 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import funkin.save.Save;
+import flixel.util.FlxSave;
+import funkin.modding.module.Module;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.FunkinMemory;
+import haxe.Json;
+import funkin.modding.module.ModuleHandler;
+import haxe.ds.StringMap;
+import funkin.modding.events.ScriptEvent;
+import funkin.modding.events.ScriptEventDispatcher;
+// Fecth Character recreation
+import funkin.play.character.ScriptedAnimateAtlasCharacter;
+import funkin.play.character.ScriptedBaseCharacter;
+import funkin.play.character.ScriptedMultiSparrowCharacter;
+import funkin.play.character.ScriptedMultiAnimateAtlasCharacter;
+import funkin.play.character.ScriptedPackerCharacter;
+import funkin.play.character.ScriptedSparrowCharacter;
+import funkin.play.character.AnimateAtlasCharacter;
+import funkin.play.character.BaseCharacter;
+import funkin.play.character.SparrowCharacter;
+import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.character.MultiAnimateAtlasCharacter;
+import funkin.play.character.PackerCharacter;
+import funkin.play.character.CharacterDataParser;
+import funkin.data.character.CharacterRenderType;
+
+using StringTools;
+
+typedef CostumeList =
+{
+  var subfolder:Bool;
+  var internal_Name:String;
+  var charFile:String;
+}
+
+// This code fucking sucks ass 😭
+
+class CostumeSwapper extends Module
+{
+  var SaveData:Save;
+
+  public var playerCostumeArray:Array<CostumeList> = [];
+  public var girlfriendCostumeArray:Array<CostumeList> = [];
+  public var dadCostumeArray:Array<CostumeList> = [];
+
+  var defaultCostumes = {
+    protagcostume: '',
+    monikacostume: '',
+    yuricostume: '',
+    sayoricostume: '',
+    natsukicostume: '',
+    gfcostume: '',
+    bfcostume: ''
+  };
+
+  public static function getDokiCostume()
+  {
+    var binder = new FlxSave();
+    binder.bind("CostumesV2", "FunkinCrew");
+    return binder.data;
+  }
+
+  public function new()
+  {
+    super('CostumeSwapper');
+    active = false;
+    any = DokiPreferences.getDokiSave();
+    var binder = new FlxSave();
+    binder.bind("CostumesV2", "FunkinCrew");
+    SaveData = binder.data;
+    SaveData.protagcostume ??= '';
+    SaveData.monikacostume ??= '';
+    SaveData.yuricostume ??= '';
+    SaveData.sayoricostume ??= '';
+    SaveData.natsukicostume ??= '';
+    SaveData.gfcostume ??= '';
+    SaveData.bfcostume ??= '';
+    binder.flush();
+  }
+
+  public function onSongRetry(event):Void
+  {
+    super.onSongRetry(event);
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+
+    songLoadCostumeSwap();
+  }
+
+  function songLoadCostumeSwap(?firstLoad:Bool = false)
+  { // Does the costume swap on song load, fixes the default characters showing up on restart
+    switch (PlayState.instance.currentSong.id.toLowerCase())
+    {
+      case "mstsoobf", "epiphany-with-lyrics", "epiphany", "tutorial":
+        return; // Force default characters since those songs might break with costumes
+      default: // Nothing
+    }
+    var playerJSON = CharacterDataParser.parseCharacterData(PlayState.instance.currentChart.characters.player);
+    var girlfriendJSON = CharacterDataParser.parseCharacterData(PlayState.instance.currentChart.characters.girlfriend);
+    var dadJSON = CharacterDataParser.parseCharacterData(PlayState.instance.currentChart.characters.opponent);
+
+    if (any.costumesanywhere)
+    {
+      if (PlayState.instance.currentChart.characters.player == 'bf') playerJSON = CharacterDataParser.parseCharacterData('bf-doki');
+      if (PlayState.instance.currentChart.characters.girlfriend == 'gf') girlfriendJSON = CharacterDataParser.parseCharacterData('gf-realdoki');
+      if (PlayState.instance.currentChart.characters.opponent == 'gf') dadJSON = CharacterDataParser.parseCharacterData('gf-realdoki');
+    }
+
+    if (playerJSON?.costumes != null) playerCostumeArray = playerJSON.costumelist;
+    if (girlfriendJSON?.costumes != null) girlfriendCostumeArray = girlfriendJSON.costumelist;
+    if (dadJSON?.costumes != null) dadCostumeArray = dadJSON.costumelist;
+
+    var playerCostume = checkCostume(playerJSON);
+    var girlfriendCostume = checkCostume(girlfriendJSON);
+    var dadCostume = checkCostume(dadJSON);
+
+    if (playerCostume != '')
+    {
+      for (costume in playerCostumeArray)
+      {
+        var internal_name:String = '' + costume.internal_Name;
+        var charafile:String = '' + costume.charFile;
+        var subfolder:Bool = costume.subfolder;
+
+        if (internal_name != playerCostume) continue;
+
+        trace('found costume!');
+        if (subfolder) setCharacter('bf', 'costumes/$charafile');
+        else
+          setCharacter('bf', charafile);
+      }
+    }
+    if (girlfriendCostume != '')
+    {
+      for (costume in girlfriendCostumeArray)
+      {
+        var internal_name:String = '' + costume.internal_Name;
+        var charafile:String = '' + costume.charFile;
+        var subfolder:Bool = costume.subfolder;
+
+        if (internal_name != girlfriendCostume) continue;
+
+        trace('found costume!');
+        if (subfolder) setCharacter('gf', 'costumes/$charafile');
+        else
+          setCharacter('gf', charafile);
+      }
+    }
+    if (dadCostume != '')
+    {
+      for (costume in dadCostumeArray)
+      {
+        var internal_name:String = '' + costume.internal_Name;
+        var charafile:String = '' + costume.charFile;
+        var subfolder:Bool = costume.subfolder;
+
+        if (internal_name != dadCostume) continue;
+
+        trace('found costume!');
+        if (subfolder) setCharacter('dad', 'costumes/$charafile');
+        else
+          setCharacter('dad', charafile);
+      }
+    }
+    if (firstLoad)
+    {
+      var cameraFocusPoint = PlayState.instance.currentStage.getDad()?.cameraFocusPoint;
+      if (cameraFocusPoint != null) PlayState.instance.tweenCameraToPosition(cameraFocusPoint.x, cameraFocusPoint.y, 0);
+    }
+  }
+
+  function getCostumeName(character:String)
+  { // For use in songs that add characters manually
+    var json = CharacterDataParser.parseCharacterData(character);
+
+    if (json?.costumes != null) var costumeArray = json.costumelist;
+    else
+      return character;
+
+    var costumeName = checkCostume(json);
+
+    if (costumeName != '')
+    {
+      for (costume in costumeArray)
+      {
+        var internal_name:String = '' + costume.internal_Name;
+        var charafile:String = '' + costume.charFile;
+        var subfolder:Bool = costume.subfolder;
+
+        if (internal_name != costumeName) continue;
+
+        trace('found costume!');
+        if (subfolder) return "costumes/" + charafile;
+        else
+          return charafile;
+      }
+    }
+    else
+      return character;
+  }
+
+  function costumeSwap(name:String, replace:String)
+  {
+    var json = CharacterDataParser.parseCharacterData(name);
+
+    if (json?.costumes != null) var costumeArray = json.costumelist;
+    else
+      return;
+
+    var costumeName = checkCostume(json);
+
+    if (costumeName != '')
+    {
+      for (costume in costumeArray)
+      {
+        var internal_name:String = '' + costume.internal_Name;
+        var charafile:String = '' + costume.charFile;
+        var subfolder:Bool = costume.subfolder;
+
+        if (internal_name != costumeName) continue;
+
+        trace('found costume!');
+        if (subfolder) setCharacter(replace, 'costumes/$charafile');
+        else
+          setCharacter(replace, charafile);
+      }
+    }
+  }
+
+  function checkCostume(jsonFile)
+  {
+    var costumeoverride;
+    if (jsonFile == null) return '';
+    switch (jsonFile?.costumes)
+    {
+      case 'protag':
+        costumeoverride = SaveData.protagcostume;
+      case 'monika':
+        costumeoverride = SaveData.monikacostume;
+      case 'yuri':
+        costumeoverride = SaveData.yuricostume;
+      case 'sayori':
+        costumeoverride = SaveData.sayoricostume;
+      case 'natsuki':
+        costumeoverride = SaveData.natsukicostume;
+      case 'gf':
+        costumeoverride = SaveData.gfcostume;
+      case 'bf':
+        costumeoverride = SaveData.bfcostume;
+    }
+    if (costumeoverride == 'hueh') return '';
+    else
+      return costumeoverride;
+  }
+
+  var hasLoaded:Bool = false;
+
+  override function onSubStateCloseBegin(event)
+  {
+    if (event.targetState is PlayState) hasLoaded = false;
+  }
+
+  override function onStateChangeBegin(event)
+  {
+    if (FlxG.state is PlayState) hasLoaded = false;
+  }
+
+  var cachedCharacters:Map<String, BaseCharacter> = new StringMap();
+
+  // Cache costume textures to prevent lag
+  override function onSongLoaded(event)
+  {
+    super.onSongLoaded(event);
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+
+    if (!hasLoaded)
+    {
+      trace('$hasLoaded | uh oh shouldn\'t be loading if that\'s true');
+      hasLoaded = true;
+      songLoadCostumeSwap(true);
+    }
+
+    cachedCharacters?.clear();
+
+    for (events in event.events)
+    {
+      if (events.eventKind == 'ChangeCharacterCL')
+      {
+        var json = CharacterDataParser.parseCharacterData(events.value.newchar);
+        if (json?.costumes == null) continue;
+
+        if (checkCostume(json) == '') continue;
+
+        var costumeArray = json.costumelist;
+
+        var character:String;
+
+        for (costume in costumeArray)
+        {
+          var internal_name:String = '' + costume.internal_Name;
+          var charafile:String = '' + costume.charFile;
+          var subfolder:Bool = costume.subfolder;
+
+          if (internal_name != checkCostume(json)) continue;
+
+          trace('found costume!');
+          if (subfolder) character = "costumes/" + charafile;
+          else
+            character = charafile;
+        }
+        var character = fetchCharacter(events.value.newchar);
+        if (!cachedCharacters.exists(events.value.newchar)) cachedCharacters.set(events.value.newchar, []);
+        cachedCharacters.get(events.value.newchar).push(character);
+      }
+    }
+  }
+
+  public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+  {
+    var script = scriptEvent;
+    if (scriptEvent.eventData.eventKind == "ChangeCharacterCL" || scriptEvent.eventData.eventKind == "ChangeCharacter")
+    {
+      if (scriptEvent.eventCanceled) return;
+      scriptEvent.eventData.activated = true;
+      var eventProps = scriptEvent.eventData.value;
+      var json = CharacterDataParser.parseCharacterData(eventProps.newchar);
+      if (json?.costumes == null || checkCostume(json) == '') return;
+      script.cancelEvent(); // Remove Event if breaks
+      setCharacter(eventProps.character, eventProps.newchar, true, true);
+    }
+  }
+
+  function setCharacter(character:String = 'bf', newChar:String, ?currentZIndex:Bool = false, ?fromCache:Bool = false)
+  {
+    var characterData = switch (character)
+    {
+      case 'bf': [PlayState.instance?.currentStage?.getBoyfriend(), CharacterType.BF, PlayState.instance.currentStage._data.characters.bf];
+      case 'gf': [PlayState.instance?.currentStage?.getGirlfriend(), CharacterType.GF, PlayState.instance.currentStage._data.characters.girlfriend];
+      case 'dad': [PlayState.instance?.currentStage?.getDad(), CharacterType.DAD, PlayState.instance.currentStage._data.characters.dad];
+    }
+    var curZIndex:Int = characterData[2]?.zIndex ?? 0;
+    if (characterData[0] != null)
+    {
+      if (currentZIndex) curZIndex = characterData[0].zIndex;
+      characterData[0].destroy();
+    }
+    var newCharacter = (fromCache ? cachedCharacters.get(newChar).shift() : CharacterDataParser.fetchCharacter(newChar));
+    if (newCharacter != null)
+    {
+      if (fromCache)
+      {
+        var event = new ScriptEvent('CREATE', true);
+        ScriptEventDispatcher.callEvent(newCharacter, event);
+        event.cancel();
+      }
+      PlayState.instance.currentStage.addCharacter(newCharacter, characterData[1]);
+      newCharacter.zIndex = curZIndex;
+      PlayState.instance.currentStage.refresh();
+    }
+  }
+
+  function fetchCharacter(charId:String, debug:Bool = false):Null<BaseCharacter>
+  {
+    if (charId == null || charId == '' || !CharacterDataParser.characterCache.exists(charId))
+    {
+      // Gracefully handle songs that don't use this character,
+      // or throw an error if the character is missing.
+
+      if (charId != null && charId != '') trace('Failed to build character, not found in cache: ${charId}');
+      return null;
+    }
+
+    var charData:Null<CharacterData> = CharacterDataParser.characterCache.get(charId);
+    var charScriptClass:Null<String> = CharacterDataParser.characterScriptedClass.get(charId);
+
+    var char:Null<BaseCharacter> = null;
+
+    if (charScriptClass != null)
+    {
+      if (charData != null) switch (charData.renderType)
+      {
+        case CharacterRenderType.AnimateAtlas:
+          char = ScriptedAnimateAtlasCharacter.scriptInit(charScriptClass, charId);
+        case CharacterRenderType.MultiSparrow:
+          char = ScriptedMultiSparrowCharacter.scriptInit(charScriptClass, charId);
+        case CharacterRenderType.Sparrow:
+          char = ScriptedSparrowCharacter.scriptInit(charScriptClass, charId);
+        case CharacterRenderType.Packer:
+          char = ScriptedPackerCharacter.scriptInit(charScriptClass, charId);
+        case CharacterRenderType.MultiAnimateAtlas:
+          char = ScriptedMultiAnimateAtlasCharacter.scriptInit(charScriptClass, charId);
+        default:
+          // We're going to assume that the script class does the rendering.
+          char = ScriptedBaseCharacter.scriptInit(charScriptClass, charId, CharacterRenderType.Custom);
+      }
+    }
+    else
+    {
+      if (charData != null) switch (charData.renderType)
+      {
+        case CharacterRenderType.AnimateAtlas:
+          char = new AnimateAtlasCharacter(charId);
+        case CharacterRenderType.MultiSparrow:
+          char = new MultiSparrowCharacter(charId);
+        case CharacterRenderType.Sparrow:
+          char = new SparrowCharacter(charId);
+        case CharacterRenderType.Packer:
+          char = new PackerCharacter(charId);
+        case CharacterRenderType.MultiAnimateAtlas:
+          char = new MultiAnimateAtlasCharacter(charId);
+        default:
+          trace(' WARNING '.warning() + ' Creating character with undefined renderType ${charData.renderType}');
+          char = new BaseCharacter(charId, CharacterRenderType.Custom);
+      }
+    }
+
+    switch (charData.renderType)
+    {
+      case CharacterRenderType.AnimateAtlas:
+        char.loadAtlas();
+        char.loadAnimations();
+      case CharacterRenderType.MultiSparrow:
+        char.buildSprites();
+      case CharacterRenderType.Sparrow:
+        char.loadSpritesheet();
+        char.loadAnimations();
+      case CharacterRenderType.Packer:
+        char.loadSpritesheet();
+        char.loadAnimations();
+      case CharacterRenderType.MultiAnimateAtlas:
+        char.loadAtlases();
+        char.loadAnimations();
+      default:
+        // Fuck you I fucking hate you
+        if (char != null)
+        {
+          var event = new ScriptEvent('CREATE', true);
+          ScriptEventDispatcher.callEvent(char, event);
+        }
+    }
+
+    if (char == null)
+    {
+      trace('Failed to instantiate character: ${charId}');
+      return null;
+    }
+
+    trace('Successfully instantiated character (${debug ? 'debug' : 'stable'}): ${charId}');
+
+    char.debug = debug;
+
+    return char;
+  }
+}

@@ -5,93 +5,74 @@
   "assetPath": "shared:characters/boyfriend/default",
   "flipX": true,
   "singTime": 8.0,
-  "offsets": [20, 0],
-  "cameraOffsets": [0, 40],
+  "offsets": [15, 20],
+  "cameraOffsets": [0, 20],
   "healthIcon": {"id": "bfdoki"},
   "animations": [
     {
       "name": "idle",
-      "prefix": "BF idle dance",
-      "offsets": [11, -50]
+      "prefix": "Idle"
     },
     {
       "name": "singLEFT",
-      "prefix": "BF NOTE LEFT",
-      "offsets": [29, -46]
+      "prefix": "Left"
     },
     {
       "name": "singDOWN",
-      "prefix": "BF NOTE DOWN",
-      "offsets": [12, -72]
+      "prefix": "Down"
     },
     {
       "name": "singUP",
-      "prefix": "BF NOTE UP",
-      "offsets": [-31, -22]
+      "prefix": "Up"
     },
     {
       "name": "singRIGHT",
-      "prefix": "BF NOTE RIGHT",
-      "offsets": [-38, -45]
+      "prefix": "Right"
     },
     {
       "name": "singLEFTmiss",
-      "prefix": "BF NOTE LEFT MISS",
-      "offsets": [25, -54]
+      "prefix": "Left Miss"
     },
     {
       "name": "singDOWNmiss",
-      "prefix": "BF NOTE DOWN MISS",
-      "offsets": [1, -84]
+      "prefix": "Down Miss"
     },
     {
       "name": "singUPmiss",
-      "prefix": "BF NOTE UP MISS",
-      "offsets": [-30, -23]
+      "prefix": "Up Miss"
     },
     {
       "name": "singRIGHTmiss",
-      "prefix": "BF NOTE RIGHT MISS",
-      "offsets": [-34, -43]
+      "prefix": "Right Miss"
     },
     {
       "name": "hey",
-      "prefix": "BF HEY!!",
-      "offsets": [-13, 12]
+      "prefix": "Hey"
     },
     {
       "name": "firstDeath",
-      "renderType": "sparrow",
-      "prefix": "DokiGameOverIntro",
-      "assetPath": "characters/DokiGameOver",
-      "offsets": [-48, 151]
-    },
-    {
-      "name": "fakeDeath",
-      "renderType": "sparrow",
-      "prefix": "BF dies",
-      "assetPath": "characters/THOT DIEDED",
-      "offsets": [27, 0]
+      "prefix": "First Death",
+      "offsets": [-80, 80],
+      "assetPath": "shared:characters/dokigameover"
     },
     {
       "name": "deathLoop",
-      "renderType": "sparrow",
-      "prefix": "DokiGameOverLoop",
-      "assetPath": "characters/DokiGameOver",
-      "looped": true,
-      "offsets": [-72, 137]
+      "prefix": "Death Loop",
+      "offsets": [-80, 80],
+      "assetPath": "shared:characters/dokigameover",
+      "looped": true
     },
     {
       "name": "deathConfirm",
-      "renderType": "sparrow",
-      "prefix": "DokiGameOverConfirm",
-      "assetPath": "characters/DokiGameOver",
-      "offsets": [-52, 153]
+      "prefix": "Death Confirm",
+      "offsets": [-80, 80],
+      "assetPath": "shared:characters/dokigameover"
     }
   ],
   "costumes": "bf",
 	"costumelist": [
 		{
+      "isCharacter": true,
 			"subfolder":true,
 			"internal_Name": "casual",
 			"charFile":"bf-classic"

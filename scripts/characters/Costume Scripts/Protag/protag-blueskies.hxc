@@ -1,9 +1,0 @@
-import ddto.character.ProtagBaseCharacter;
-
-class ProtagBlueSkiesCharacter extends ProtagBaseCharacter
-{
-  function new()
-  {
-    super('costumes/protag-blueskies');
-  }
-}

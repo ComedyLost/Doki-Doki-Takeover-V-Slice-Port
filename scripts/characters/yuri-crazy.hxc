@@ -42,28 +42,28 @@ class CrazyYuriBaseCharacter extends MultiAnimateAtlasCharacter
   // Add the game over assets from BF for all Dokis
   function addGameOverAssets()
   {
-    var subTexture = Paths.getSparrowAtlas('characters/DokiGameOver');
-    FunkinMemory.cacheTexture(Paths.image('characters/DokiGameOver'));
+    var subTexture = Paths.getSparrowAtlas('characters/dokigameover');
+    FunkinMemory.cacheTexture(Paths.image('characters/dokigameover'));
     subTexture.parent.destroyOnNoUse = false;
     this.frames.addAtlas(subTexture);
     var animations = [{
       name: "firstDeath",
       flipX: true,
       prefix: "DokiGameOverIntro",
-      assetPath: "characters/DokiGameOver",
+      assetPath: "characters/dokigameover",
       offsets: [-48, 151]
     }, {
       name: "deathLoop",
       flipX: true,
       prefix: "DokiGameOverLoop",
-      assetPath: "characters/DokiGameOver",
+      assetPath: "characters/dokigameover",
       looped: true,
       offsets: [-72, 137]
     }, {
       name: "deathConfirm",
       flipX: true,
       prefix: "DokiGameOverConfirm",
-      assetPath: "characters/DokiGameOver",
+      assetPath: "characters/dokigameover",
       offsets: [-52, 153]
     }];
     for (anim in animations)

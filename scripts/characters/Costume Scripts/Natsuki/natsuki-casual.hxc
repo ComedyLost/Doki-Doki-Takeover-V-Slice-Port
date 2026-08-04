@@ -1,9 +1,0 @@
-import ddto.character.NatsukiBaseCharacter;
-
-class NatsukiCasualCharacter extends NatsukiBaseCharacter
-{
-  function new()
-  {
-    super('costumes/natsuki-casual');
-  }
-}

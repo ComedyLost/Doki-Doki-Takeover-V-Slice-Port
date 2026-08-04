@@ -1,9 +1,0 @@
-import ddto.character.SayoriBaseCharacter;
-
-class SayoriBlueSkiesCharacter extends SayoriBaseCharacter
-{
-  function new()
-  {
-    super('costumes/sayori-blueskies');
-  }
-}

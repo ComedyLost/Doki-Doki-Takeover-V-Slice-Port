@@ -5,7 +5,7 @@
   "fallback": "funkin",
   "assets": {
     "note": {
-      "assetPath": "shared:notestyle/doki/Dokinotes",
+      "assetPath": "shared:notestyle/doki/DokiNotes2",
       "scale": 0.7,
       "data": {
         "left": { "prefix": "purple0" },
@@ -15,26 +15,26 @@
       }
     },
     "noteStrumline": {
-      "assetPath": "shared:notestyle/doki/Dokistrum",
+      "assetPath": "shared:notestyle/doki/DokiStrumlineNew",
       "scale": 0.7,
       "offsets": [25, 25],
       "data": {
         "leftStatic": { "prefix": "arrowLEFT0" },
         "leftPress": { "prefix": "left press0" },
         "leftConfirm": { "prefix": "left confirm0" },
-        "leftConfirmHold": { "prefix": "loop left confirm0" },
+        "leftConfirmHold": { "prefix": "left confirm0" },
         "downStatic": { "prefix": "arrowDOWN0" },
         "downPress": { "prefix": "down press0" },
         "downConfirm": { "prefix": "down confirm0" },
-        "downConfirmHold": { "prefix": "loop down confirm0" },
+        "downConfirmHold": { "prefix": "down confirm0" },
         "upStatic": { "prefix": "arrowUP0" },
         "upPress": { "prefix": "up press0" },
         "upConfirm": { "prefix": "up confirm0" },
-        "upConfirmHold": { "prefix": "loop up confirm0" },
+        "upConfirmHold": { "prefix": "up confirm0" },
         "rightStatic": { "prefix": "arrowRIGHT0" },
         "rightPress": { "prefix": "right press0" },
         "rightConfirm": { "prefix": "right confirm0" },
-        "rightConfirmHold": { "prefix": "loop right confirm0" }
+        "rightConfirmHold": { "prefix": "right confirm0" }
       }
     },
     "holdNote": {
@@ -44,24 +44,25 @@
       "data": {}
     },
     "noteSplash": {
+      "offsets": [-5, -40],
       "assetPath": "shared:notestyle/doki/DokiSplash",
       "data": {
         "enabled": true,
         "leftSplashes": [
-          { "prefix": "note impact 1 purple0" },
-          { "prefix": "note impact 2 purple0" }
+          { "prefix": "note splash purple 2 instance 1" },
+          { "prefix": "note splash purple 2 instance 1" }
         ],
         "rightSplashes": [
-          { "prefix": "note impact 1 red0" },
-          { "prefix": "note impact 2 red0" }
+          { "prefix": "note splash red 2 instance 1" },
+          { "prefix": "note splash red 2 instance 1" }
         ],
         "upSplashes": [
-          { "prefix": "note impact 1 green0" },
-          { "prefix": "note impact 2 green0" }
+          { "prefix": "note splash green 2 instance 1" },
+          { "prefix": "note splash green 2 instance 1" }
         ],
         "downSplashes": [
-          { "prefix": "note impact 1  blue0" },
-          { "prefix": "note impact 2 blue0" }
+          { "prefix": "note splash blue 2 instance 1" },
+          { "prefix": "note splash blue 2 instance 1" }
         ]
       }
     },

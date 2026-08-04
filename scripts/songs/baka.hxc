@@ -62,6 +62,8 @@ class BakaSong extends Song
     super.onSongRetry(event);
 
     hasPlayedIntroCutscene = true;
+    FlxTween.cancelTweensOf(bakaOverlay);
+    FlxTween.tween(bakaOverlay, {alpha: 0}, 0.5, {ease: FlxEase.sineOut, onComplete: _ -> bakaOverlay.animation.play('normal')});
   }
 
   function startDialogue()
@@ -113,44 +115,56 @@ class BakaSong extends Song
     }
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+		if ((PlayState.instance?.isGameOverState ?? true)) return;
+
+    if (lastStep > event.step)
     {
-      case 64:
-        FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
-      case 128:
-        if (PlayState.instance.currentVariation != 'alt') PlayState.instance.camGame.shake(0.002, calcSectionLength(2));
-        if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
-        if (PlayState.instance.currentVariation == 'alt')
-        {
-          bakaOverlay.animation.play('FUCK');
-          PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
-        }
-        else
-          bakaOverlay.animation.play('party rock is');
-      case 448:
-        FlxTween.tween(bakaOverlay, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
-      case 576:
-        bakaOverlay.animation.play('normal');
-        FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
-      case 704:
-        if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
-        if (PlayState.instance.currentVariation == 'alt')
-        {
-          bakaOverlay.animation.play('FUCK');
-          PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
-        }
-        else
-          bakaOverlay.animation.play('party rock is');
+			lastStep = event.step;
+			return;
+		}
+
+		for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 64:
+          FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
+        case 128:
+          if (PlayState.instance.currentVariation != 'alt') PlayState.instance.camGame.shake(0.002, calcSectionLength(2));
+          if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
+          if (PlayState.instance.currentVariation == 'alt')
+          {
+            bakaOverlay.animation.play('FUCK');
+            PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
+          }
+          else
+            bakaOverlay.animation.play('party rock is');
+        case 448:
+          FlxTween.tween(bakaOverlay, {alpha: 0}, calcSectionLength(2), {ease: FlxEase.sineOut});
+        case 576:
+          bakaOverlay.animation.play('normal');
+          FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(2), {ease: FlxEase.sineOut});
+        case 704:
+          if (bakaOverlay.alpha != 1) FlxTween.tween(bakaOverlay, {alpha: 1}, calcSectionLength(1), {ease: FlxEase.sineOut});
+          if (PlayState.instance.currentVariation == 'alt')
+          {
+            bakaOverlay.animation.play('FUCK');
+            PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
+          }
+          else
+            bakaOverlay.animation.play('party rock is');
+      }  
     }
+    lastStep = event.step;
   }
 
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    bakaOverlay.alpha = 0;
-    bakaOverlay.animation.play('normal');
     if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
     if (!hasPlayedIntroCutscene)
     {

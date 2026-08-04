@@ -46,6 +46,7 @@ class JoyrideSong extends Song
 
     encoreTime = 0;
     sunshine = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/SayoSunshine'));
+    sunshine.screenCenter();
     sunshine.alpha = 0.001;
     sunshine.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(sunshine);
@@ -104,29 +105,40 @@ class JoyrideSong extends Song
     }
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
     super.onStepHit(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.isGameOverState ?? true) return;
 
-    switch (event.step)
+    if (lastStep > event.step)
     {
-      case 126:
-        encoreTime = 2;
-      // PlayState.instance.currentCameraZoom = 1.3;
-      case 254:
-        encoreTime = 0;
-      // PlayState.instance.currentCameraZoom = 1.6;
-      case 270, 780:
-        encoreTime = 2;
-      // PlayState.instance.currentCameraZoom = 1;
-      case 512:
-        encoreTime = 0;
-      case 768:
-        // PlayState.instance.currentCameraZoom = 1.6;
-      case 1024:
-        encoreTime = 0;
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (event.step)
+      {
+        case 126:
+          encoreTime = 2;
+        // PlayState.instance.currentCameraZoom = 1.3;
+        case 254:
+          encoreTime = 0;
+        // PlayState.instance.currentCameraZoom = 1.6;
+        case 270, 780:
+          encoreTime = 2;
+        // PlayState.instance.currentCameraZoom = 1;
+        case 512:
+          encoreTime = 0;
+        case 768:
+          // PlayState.instance.currentCameraZoom = 1.6;
+        case 1024:
+          encoreTime = 0;
+      }  
+    }
+    lastStep = event.step;
   }
 }

@@ -1,123 +1,72 @@
 {
     "version": "1.0.0",
     "name": "Tankman (Doki)",
-    "renderType": "multisparrow",
-    "assetPath": "characters/DDLCTankman",
+    "renderType": "animateatlas",
+    "assetPath": "shared:characters/tankman-doki",
     "flipX": true,
     "singTime": 4,
-    "cameraOffsets": [0, 60],
+    "offsets": [0, 40],
+    "cameraOffsets": [0, 100],
+    "atlasSettings": {
+        "swfMode": false
+    },    
     "animations": [
         {
             "name": "idle",
-            "prefix": "Tankman Idle Dance",
-            "offsets": [
-                0,
-                0
-            ]
+            "prefix": "Idle"
         },
         {
             "name": "singUP",
-            "prefix": "Tankman UP note",
-            "offsets": [
-                28,
-                54
-            ]
+            "prefix": "Up"
         },
         {
             "name": "singDOWN",
-            "prefix": "Tankman DOWN note",
-            "offsets": [
-                66,
-                -107
-            ]
+            "prefix": "Down"
         },
         {
             "name": "singUP-alt",
-            "prefix": "TANKMAN UGH",
-            "offsets": [
-                -12,
-                -8
-            ]
+            "prefix": "Ugh"
         },
         {
             "name": "singUPmiss",
-            "prefix": "Tankman MISS UP note",
-            "offsets": [
-                28,
-                54
-            ]
+            "prefix": "Up Miss"
         },
         {
             "name": "singDOWNmiss",
-            "prefix": "Tankman MISS DOWN note",
-            "offsets": [
-                66,
-                -120
-            ]
+            "prefix": "Down Miss"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Tankman Right Note",
-            "offsets": [
-                -25,
-                -12
-            ]
+            "prefix": "Right"
         },
         {
             "name": "singRIGHTmiss",
-            "prefix": "Tankman MISS Right Note",
-            "offsets": [
-                -35,
-                -18
-            ]
+            "prefix": "Right Miss"
         },
         {
             "name": "singLEFT",
-            "prefix": "Tankman Note Left",
-            "offsets": [
-                143,
-                -31
-            ]
+            "prefix": "Left"
         },
         {
             "name": "singLEFTmiss",
-            "prefix": "Tankman MISS Note Left",
-            "offsets": [
-                157,
-                -30
-            ]
+            "prefix": "Left Miss"
         },
         {
-            "name": "hey",
-            "prefix": "Tankman Taunt",
-            "offsets": [
-                169,
-                -24
-            ]
+            "name": "firstWin",
+            "prefix": "You Lost"
         },
         {
             "name": "firstDeath",
-            "prefix": "Tankman Gameover Start",
-            "offsets": [
-                14,
-                11
-            ]
+            "prefix": "First Death"
         },
         {
             "name": "deathLoop",
-            "prefix": "Tankman Gameover Idle",
-            "offsets": [
-                8,
-                0
-            ]
+            "prefix": "Death Loop",
+            "looped": true
         },
         {
             "name": "deathConfirm",
-            "prefix": "Tankman Gameover Confirm",
-            "offsets": [
-                8,
-                65
-            ]
+            "prefix": "Death Confirm"
         }
     ],
     "startingAnimation": "",

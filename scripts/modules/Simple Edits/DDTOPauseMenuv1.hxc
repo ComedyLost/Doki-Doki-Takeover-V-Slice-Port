@@ -17,17 +17,17 @@ import StringTools;
 import funkin.FunkinMemory;
 import funkin.play.cutscene.VideoCutscene;
 
+using funkin.util.tools.ArrayTools;
+
 class DDTOPauseMenu extends Module
 {
   public function new()
   {
-    super("DDTOPauseMenu");
+    super("DDTOPauseMenu", null, {state: PlayState});
 
-    if (FlxG.onMobile)
-    {
-      active = false;
-      return;
-    }
+    #if mobile
+    active = false;
+    #end
     for (image in ['Credits_LeftSide', 'DDLCStart_Screen_Assets', 'Va11Pause', 'LibitinaPause'])
     {
       FunkinMemory.cacheTexture(Paths.image(image));
@@ -89,7 +89,6 @@ class DDTOPauseMenu extends Module
     state.add(levelInfo);
 
     // Not needed since most DDTO songs are on normal difficulty or have a different name for a difficulty
-    // Plus .toTitleCase() does not work in hxc files
 
     /*levelDifficulty = new FlxText(20, 15 + 32, 0, "", 32);
       levelDifficulty.text = StringTools.replace(PlayState.instance.currentDifficulty, "-", " ");
@@ -436,41 +435,33 @@ class DDTOPauseMenu extends Module
         ease: FlxEase.quartInOut,
         startDelay: 0.2
       });
-      for (entry in state.currentMenuEntries.copy())
-      {
-        switch (entry.text)
-        {
-          case 'Resume':
-            entry.callback = resume;
-          case 'Enable Practice Mode', 'Practice Mode':
-            entry.callback = () ->
-            {
-              if (PlayState.instance == null) return;
-
-              PlayState.instance.isPracticeMode = true;
-              state.regenerateMenu();
-              for (entry in state.currentMenuEntries.copy())
-              {
-                if (entry.text == 'Change Difficulty')
-                {
-                  state.currentMenuEntries.remove(entry);
-                  state.clearAndAddMenuEntries();
-                  state.changeSelection(0);
-                }
-              }
-              updateOptions();
-            }
-          case 'Change Difficulty':
-            state.currentMenuEntries.remove(entry);
-            state.clearAndAddMenuEntries();
-            state.changeSelection(0);
-        }
-      }
+      updateEntries();
       if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") createVallMenu();
       else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") createLibMenu();
       else
         createDokiMenu();
     }
+  }
+
+  function updateEntries()
+  {
+    var state:PauseSubState = FlxG.state.subState;
+    state.currentMenuEntries = state.currentMenuEntries.map(entry -> {
+      switch (entry.text)
+      {
+        case 'Resume': 
+          return {text: entry.text, callback: resume};
+        case 'Enable Practice Mode', 'Practice Mode':
+          var callback:PauseSubState->Void = entry.callback;
+          return {text: entry.text, callback: () -> {callback(state); updateEntries(); updateOptions();}, filter: entry.filter};
+        case 'Change Difficulty':
+          var difficultiesInVariation = PlayState.instance.currentSong.listDifficulties(PlayState.instance.currentChart.variation, true) ?? [];
+          return {text: entry.text, callback: entry.callback, filter: (difficultiesInVariation.length > 1)}
+      }
+      return entry;
+    });
+    state.clearAndAddMenuEntries();
+    state.changeSelection(0);
   }
 
   function resume()

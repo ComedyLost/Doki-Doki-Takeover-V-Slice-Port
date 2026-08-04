@@ -1,66 +1,42 @@
 {
     "version": "1.0.0",
     "name": "Epiphany Monika (Dress)",
-    "assetPath": "characters/Doki_BigMonikaDress_Assets",
+    "assetPath": "shared:characters/big-monika/dress/basic",
     "flipX": false,
     "singTime": 6,
+    "renderType": "animateatlas",
+    "atlasSettings": {
+        "cacheOnLoad": true
+    },
 	"healthIcon": {"id": "bigmonika"},
     "animations": [
         {
             "name": "idle",
-            "prefix": "Big Monika Idle",
-            "offsets": [
-                0,
-                0
-            ]
+            "prefix": "Idle"
         },
         {
             "name": "singUP",
-            "prefix": "Big Monika Sing Up",
-            "offsets": [
-                158,
-                13
-            ]
+            "prefix": "Up"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Big Monika Sing Right",
-            "offsets": [
-                -14,
-                1
-            ]
+            "prefix": "Right"
         },
         {
             "name": "singDOWN",
-            "prefix": "Big Monika Sing Down",
-            "offsets": [
-                3,
-                -54
-            ]
+            "prefix": "Down"
         },
         {
             "name": "singLEFT",
-            "prefix": "Big Monika Sing Left",
-            "offsets": [
-                164,
-                -16
-            ]
+            "prefix": "Left"
         },
         {
             "name": "lastNOTE_start",
-            "prefix": "Big Monika Last Note0",
-            "offsets": [
-                157,
-                -1
-            ]
+            "prefix": "Last Note"
         },
         {
             "name": "lastNOTE_end",
-            "prefix": "Big Monika Last Note First",
-            "offsets": [
-                313,
-                -8
-            ]
+            "prefix": "Last Note End"
         }
     ],
     "startingAnimation": "",

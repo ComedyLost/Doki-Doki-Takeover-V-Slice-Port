@@ -2,170 +2,107 @@ import funkin.play.character.MultiAnimateAtlasCharacter;
 import funkin.play.PlayState;
 import funkin.play.GameOverSubState;
 import funkin.play.PauseSubState;
-import flixel.FlxSprite;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import lime.app.Application;
+import funkin.play.character.CharacterDataParser;
 
 class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
 {
-  var epiphany:Bool;
-  var epiphanyLyrics:Bool;
-  var curSong:String;
-  var curOpponent:String;
+  var isEpiphany:Bool;
+  var isLyrics:Bool;
   var deathSpriteMonika:FunkinSprite;
-  var targetX:Float;
-  var targetY:Float;
-  var didDeathLoop:Bool;
-  var monikaDeathSkin:String;
-  var doRareDeathScreen:Bool;
 
   function new()
   {
     super('bf-doki');
+    // _data = CharacterDataParser.fetchCharacterData('yuri');
   }
 
   function onCreate(event:ScriptEvent)
   {
     super.onCreate(event);
-    this.alpha = 1;
-    PlayState.instance?.resetCamera(false, true);
-    curSong = PlayState.instance?.currentSong?.id?.toLowerCase() ?? '';
-    epiphany = false;
-    epiphanyLyrics = false;
-    if (curSong == "epiphany")
-    {
-      if (PlayState.instance.currentVariation != 'lyrics')
-      {
-        epiphany = true;
-      }
-      else
-      {
-        epiphanyLyrics = true;
-      }
-    }
     GameOverSubState.musicSuffix = '-doki';
+    GameOverSubState.blueBallSuffix = '-doki';
 
     PauseSubState.musicSuffix = '-doki';
-    if (epiphanyLyrics)
+
+    if (PlayState.instance == null)
     {
-      GameOverSubState.blueBallSuffix = '-bigmonika';
-      monikaDeathSkin = "characters/Doki_BigMonikaDress_Assets";
+      isEpiphany = false;
+      isLyrics = false;
+      return;
     }
-    else if (epiphany)
-    {
-      monikaDeathSkin = "characters/big_monikia_death";
-      if (FlxG.random.bool(0.05))
-      {
-        GameOverSubState.blueBallSuffix = '-rare';
-        doRareDeathScreen = true;
-      }
-      else
-      {
-        GameOverSubState.blueBallSuffix = '-bigmonika';
-      }
-    }
-    else
-    {
-      GameOverSubState.blueBallSuffix = '-doki';
-    }
+    isEpiphany = (PlayState.instance?.currentSong?.id?.toLowerCase() == 'epiphany');
+    isLyrics = (isEpiphany && PlayState.instance?.currentVariation == 'lyrics');
+    if (isEpiphany) GameOverSubState.blueBallSuffix = '-bigmonika';
+    if (!isLyrics && FlxG.random.bool(0.05)) GameOverSubState.blueBallSuffix = '-rare';
   }
 
   function createDeathSprites()
   {
-    if (epiphanyLyrics || epiphany)
+    var normalPath:String = switch (isLyrics)
     {
-      deathSpriteMonika = FunkinSprite.createSparrow(42, -1, monikaDeathSkin);
-      var opponent = PlayState.instance.currentStage.getDad();
-      deathSpriteMonika.x = opponent.originalPosition.x;
-      deathSpriteMonika.y = opponent.originalPosition.y;
-      deathSpriteMonika.animation.addByPrefix('firstDeath', "Big Monika Retry Start", 24, true);
-      deathSpriteMonika.animation.addByPrefix('deathLoop', "Big Monika Retry Loop", 24, false);
-      deathSpriteMonika.animation.addByPrefix('deathConfirm', "Big Monika Retry End", 24, false);
-      if (epiphany)
-      {
-        deathSpriteMonika.animation.addByPrefix('finalDeath', "Big Monika ZAMN SCARY", 24, false);
-      }
-      deathSpriteMonika.visible = true;
+      case true: 'shared:characters/big-monika/dress/death';
+      case false: 'shared:characters/big-monika/default/death';
     }
+    var assetLibrary:String = Paths.getLibrary(normalPath);
+    var assetPath:String = Paths.stripLibrary(normalPath);
+
+    if (deathSpriteMonika != null && !deathSpriteMonika.alive)
+    {
+      deathSpriteMonika.revive();
+    }
+  
+    deathSpriteMonika = FunkinSprite.createTextureAtlas(0, 0, assetPath, assetLibrary);
+    var opponent = currentStage.getDad();
+    deathSpriteMonika.x = opponent.originalPosition.x;
+    deathSpriteMonika.y = opponent.originalPosition.y;
+    deathSpriteMonika.anim.addByFrameLabel('firstDeath', 'First Death', 24, false);
+    deathSpriteMonika.anim.addByFrameLabel('deathLoop', 'Death Loop', 24, true);
+    deathSpriteMonika.anim.addByFrameLabel('deathConfirm', 'Death Confirm', 24, false);
+    if (!isLyrics) deathSpriteMonika.anim.addByFrameLabel('finalDeath', 'Final Death', 24, false);
+    deathSpriteMonika.animation.onFinish.add(function(name:String)
+    {
+      if (name == 'firstDeath')
+      {
+        GameOverSubState.instance.startDeathMusic(1.0, false);
+        deathSpriteMonika.animation.play('deathLoop', true);
+      }
+      else if (name == 'finalDeath') Application.current.window.close();
+    });  
   }
 
   function playAnimation(name:String, restart:Bool, ignoreOther:Bool)
   {
-    if (epiphanyLyrics || epiphany)
-    {
-      if (name == "firstDeath")
-      {
-        didDeathLoop = false;
-        GameOverSubState.instance.resetCameraZoom();
-        this.alpha = 0;
-        var gfPoint = PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint;
-        targetX = gfPoint.x;
-        targetY = gfPoint.y;
-        PlayState.instance.tweenCameraToPosition(targetX, targetY, 0);
-        createDeathSprites();
-        GameOverSubState.instance.add(deathSpriteMonika);
-        if (!doRareDeathScreen || epiphanyLyrics)
-        {
-          deathSpriteMonika.animation.play("firstDeath");
-          deathSpriteMonika.x += 10;
-          deathSpriteMonika.y += 130;
-        }
-        else
-        {
-          FlxG.state.subState.mustNotExit = true;
-          deathSpriteMonika.animation.play("finalDeath");
-          deathSpriteMonika.x -= 460;
-        }
-      }
-      else if (name == "deathLoop")
-      {
-        deathSpriteMonika.animation.play("deathLoop");
-        deathSpriteMonika.y += 36;
-        didDeathLoop = true;
-      }
-      else if (name == "deathConfirm")
-      {
-        deathSpriteMonika.animation.play("deathConfirm");
-        if (epiphany)
-        {
-          deathSpriteMonika.x -= 111;
-        }
-        else
-        {
-          deathSpriteMonika.x -= 119;
-        }
-        if (!didDeathLoop)
-        {
-          deathSpriteMonika.y += 31;
-        }
-        else
-        {
-          deathSpriteMonika.y -= 5;
-        }
-      }
-    }
     super.playAnimation(name, restart, ignoreOther);
-  }
-
-  override function onAnimationFinished(name:String)
-  {
-    super.onAnimationFinished(name);
-    if (name == 'firstDeath')
+    if (this.debug || GameOverSubState.instance == null) return;
+    if (isEpiphany)
     {
-      if (doRareDeathScreen)
+      switch (name)
       {
-        Application.current.window.close();
-        // PlayState.instance.close();
-        deathSpriteMonika.alpha = 0;
+        case 'firstDeath':
+          GameOverSubState.instance.resetCameraZoom();
+          var gfPoint = currentStage.getGirlfriend().cameraFocusPoint;
+          PlayState.instance.tweenCameraToPosition(gfPoint.x, gfPoint.y, 0);
+          createDeathSprites();
+          GameOverSubState.instance.add(deathSpriteMonika);
+          if (GameOverSubState.blueBallSuffix != '-rare')
+          {
+            deathSpriteMonika.animation.play("firstDeath");
+          }
+          else
+          {
+            FlxG.state.subState.mustNotExit = true;
+            deathSpriteMonika.animation.play("finalDeath");
+          }
+        case 'deathConfirm':
+          deathSpriteMonika.animation.play("deathConfirm");
+          PlayState.instance.subStateClosed.addOnce((_) ->
+          {
+            deathSpriteMonika.kill();
+          });      
       }
     }
-  }
-
-  function onSongRetry(event:ScriptEvent)
-  {
-    super.onSongRetry(event);
-    PlayState.instance?.resetCamera(false, true);
-    this.alpha = 1;
   }
 }

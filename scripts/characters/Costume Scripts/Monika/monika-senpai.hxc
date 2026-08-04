@@ -1,9 +1,0 @@
-import ddto.character.MonikaBaseCharacter;
-
-class MonikaSenpaiCharacter extends MonikaBaseCharacter
-{
-  function new()
-  {
-    super('costumes/monika-senpai');
-  }
-}

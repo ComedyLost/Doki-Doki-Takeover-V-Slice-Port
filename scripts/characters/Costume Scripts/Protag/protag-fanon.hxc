@@ -1,9 +1,0 @@
-import ddto.character.ProtagBaseCharacter;
-
-class ProtagFanonCharacter extends ProtagBaseCharacter
-{
-  function new()
-  {
-    super('costumes/protag-fanon');
-  }
-}

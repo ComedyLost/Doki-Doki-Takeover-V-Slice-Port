@@ -6,83 +6,68 @@
     "singTime": 6,
     "renderType": "multianimateatlas",
     "healthIcon": {"id": "sayori"},
-    "offsets": [0, 30],
-    "cameraOffsets": [0, 4],
+    "playerCameraOffsets": [0, 115],
+    "cameraOffsets": [0, 15],
+    "death": {"cameraOffsets": [-30, -200]},
     "animations": [
         {
             "name": "singLEFT",
-            "prefix": "Sayo Sing Note Left",
-            "offsets": [18, 33]
+            "prefix": "Left"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Sayo Sing Note Right",
-            "offsets": [-53, 32]
+            "prefix": "Right"
         },
         {
             "name": "singDOWN",
-            "prefix": "Sayo Sing Note Down",
-            "offsets": [-33, 6]
+            "prefix": "Down"
         },
         {
             "name": "danceLeft",
-            "prefix": "Sayo Idle nrw test",
-            "frameIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            "offsets": [0, 30]
+            "prefix": "Dance Left"
         },
         {
             "name": "danceRight",
-            "prefix": "Sayo Idle nrw test",
-            "frameIndices": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
-            "offsets": [0, 30]
+            "prefix": "Dance Right"
         },
         {
             "name": "singUP",
-            "prefix": "Sayo Sing Note Up",
-            "offsets": [-36, 78]
+            "prefix": "Up"
         },
         {
             "name": "nara",
-            "prefix": "Sayo Nara animated",
-            "offsets": [11, 32]
+            "prefix": "Nara"
         }
     ],
 	"costumes": "sayori",
 	"costumelist": [
 		{
-			"subfolder":true,
 			"internal_Name": "blueskies",
-			"charFile":"sayori-blueskies"
+			"assetPath": "shared:characters/sayori/blueskies"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "casual",
-			"charFile":"sayori-casual"
+			"assetPath": "shared:characters/sayori/casual"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "picnic",
-			"charFile":"sayori-picnic"
+			"assetPath": "shared:characters/sayori/picnic"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "grace",
-			"charFile":"sayori-grace"
+			"assetPath": "shared:characters/sayori/grace"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "minus",
-			"charFile":"sayori-minus"
+			"assetPath": "shared:characters/sayori/minus"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "sleepwear",
-			"charFile":"sayori-sleepwear"
+			"assetPath": "shared:characters/sayori/sleepwear"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "zipper",
-			"charFile":"sayori-zipper"
+			"assetPath": "shared:characters/sayori/zipper"
 		}
 	],
     "startingAnimation": "danceRight",

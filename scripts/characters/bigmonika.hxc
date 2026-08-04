@@ -1,10 +1,9 @@
-import funkin.play.character.MultiSparrowCharacter;
+import funkin.play.character.AnimateAtlasCharacter;
 import funkin.play.character.CharacterType;
 import funkin.play.PlayState;
-import flixel.addons.effects.FlxTrail;
 import funkin.save.Save;
 
-class BigMonikaCharacter extends MultiSparrowCharacter
+class BigMonikaCharacter extends AnimateAtlasCharacter
 {
   function new()
   {
@@ -14,21 +13,20 @@ class BigMonikaCharacter extends MultiSparrowCharacter
   override function onAnimationFinished(name:String)
   {
     super.onAnimationFinished(name);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (name == 'lastNOTE_start')
+    if (this.debug) return;
+    if (PlayState.instance?.currentStage == null) return;
+    switch (name)
     {
-      if (Save.instance.hasBeatenSong('epiphany', ['normal']) == false)
-      {
-        this.playAnimation('lastNOTE_end', true, true, false);
-      }
-      else
-      {
-        this.playAnimation('lastNOTE_retry', true, true, false);
-      }
-    }
-    if (name == 'lastNOTE_end' || name == 'lastNOTE_retry')
-    {
-      this.alpha = 0;
+      case 'lastNOTE_start':
+        if (!Save.instance.hasBeatenSong('epiphany', ['normal']))
+        {
+          this.playAnimation('lastNOTE_end', true, true, false);
+        }
+        else
+        {
+          this.playAnimation('lastNOTE_retry', true, true, false);
+        }
+      case 'lastNOTE_end', 'lastNOTE_retry': this.alpha = 0;
     }
   }
 

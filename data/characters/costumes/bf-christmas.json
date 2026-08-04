@@ -116,7 +116,7 @@
 		{
 			"name": "firstDeath",
 			"prefix": "DokiGameOverIntro",
-			"assetPath": "characters/DokiGameOver",
+			"assetPath": "characters/dokigameover",
 			"offsets": [-48, 151]
 		},
 		{
@@ -128,14 +128,14 @@
 		{
 			"name": "deathLoop",
 			"prefix": "DokiGameOverLoop",
-	  		"assetPath": "characters/DokiGameOver",
+	  		"assetPath": "characters/dokigameover",
 	  		"looped": true,
 	  		"offsets": [-72, 137]
 		},
 		{
 	  		"name": "deathConfirm",
 	  		"prefix": "DokiGameOverConfirm",
-	  		"assetPath": "characters/DokiGameOver",
+	  		"assetPath": "characters/dokigameover",
 	  		"offsets": [-52, 153]
 		}
 	],

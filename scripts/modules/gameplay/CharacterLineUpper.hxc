@@ -1,0 +1,88 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import funkin.save.Save;
+import flixel.util.FlxSave;
+import funkin.modding.module.Module;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import funkin.FunkinMemory;
+import haxe.Json;
+import funkin.modding.module.ModuleHandler;
+import haxe.ds.StringMap;
+import funkin.modding.events.ScriptEvent;
+import funkin.modding.events.ScriptEventDispatcher;
+
+using StringTools;
+
+typedef CostumeList =
+{
+  var subfolder:Bool;
+  var internal_Name:String;
+  var charFile:String;
+}
+
+// This code fucking sucks ass 😭
+
+class CharacterLineUp extends Module
+{
+  public function new()
+  {
+    super('CharacterLineUp');
+  }
+
+  var hasLoaded:Bool = false;
+
+  override function onSubStateCloseBegin(event)
+  {
+    if (event.targetState is PlayState) hasLoaded = false;
+  }
+
+  override function onStateChangeBegin(event)
+  {
+    if (FlxG.state is PlayState) hasLoaded = false;
+  }
+
+  // Cache costume textures to prevent lag
+  override function onSongLoaded(event)
+  {
+    super.onSongLoaded(event);
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+
+    return;
+    if (!hasLoaded)
+    {
+      var currentStage:Stage = PlayState.instance.currentStage;
+      for (characterId in ['monika', 'sayori', 'yuri', 'natsuki'])
+      {
+        if (characterId == currentStage.getDad().characterId) continue;
+        var character:BaseCharacter = CharacterDataParser.fetchCharacter(characterId);
+        currentStage.addCharacter(character, CharacterType.OTHER);
+        stageCharData = currentStage._data.characters.dad;
+        character.zIndex = stageCharData.zIndex;
+
+        // Start with the per-stage character position.
+        // Subtracting the origin ensures characters are positioned relative to their feet.
+        // Subtracting the global offset allows positioning on a per-character basis.
+        // We previously applied the global offset here but that is now done elsewhere.
+        character.x = stageCharData.position[0] - character.characterOrigin.x;
+        character.y = stageCharData.position[1] - character.characterOrigin.y;
+  
+        var finalScale = character.getBaseScale() * stageCharData.scale;
+        character.setScale(finalScale); // Don't use scale.set for characters!
+        character.originalPosition.set(character.x, character.y);
+  
+        // Reset the camera focus point to be based on the new original position.
+        character.resetCameraFocusPoint();
+  
+        character.cameraFocusPoint.x += stageCharData.cameraOffsets[0];
+        character.cameraFocusPoint.y += stageCharData.cameraOffsets[1];
+  
+        character.scrollFactor.x = stageCharData.scroll[0];
+        character.scrollFactor.y = stageCharData.scroll[1];
+  
+        character.alpha = stageCharData.alpha;
+        character.angle = stageCharData.angle;  
+      }
+    }
+  }
+}

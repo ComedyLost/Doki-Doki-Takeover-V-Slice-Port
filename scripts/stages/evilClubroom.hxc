@@ -63,6 +63,7 @@ class EvilClubroomStage extends Stage
     camBG = new FunkinCamera('playStateCamBG');
     camBG.bgColor = 0x000000;
     camBG.copyFrom(PlayState.instance.camGame);
+    camBG.target = null;
     FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
     PlayState.instance.camGame.bgColor = 0x0;
     getNamedProp('Epiphany Main Lights').blend = 12;
@@ -139,7 +140,7 @@ class EvilClubroomStage extends Stage
     super.onUpdate(event);
 
     camBG.zoom = PlayState.instance.camGame.zoom;
-    camBG.targetOffset = FlxG.camera.targetOffset;
+    camBG.scroll = FlxG.camera.scroll;
   }
 
   function maskStateChange()
@@ -180,29 +181,6 @@ class EvilClubroomStage extends Stage
     if (FlxG.random.bool(20))
     {
       maskStateChange();
-    }
-    switch (event.beat)
-    {
-      case 585:
-        FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(), {ease: FlxEase.sineIn});
-      case 648:
-        FlxTween.tween(dokiBackdrop, {alpha: 0.001}, calcSectionLength(0.5), {ease: FlxEase.sineOut});
-        popup.alpha = 1;
-        popup.animation.play('startDeleting');
-        popup.animation.curAnim.frameRate = 24 * PlayState.instance.playbackRate;
-      case 788:
-        var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-        if (opponentStrumline != null)
-        {
-          for (arrow in opponentStrumline.members)
-          {
-            FlxTween.cancelTweensOf(arrow);
-            FlxTween.tween(arrow, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
-          }
-        }
-        FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
-      case 790:
-        FlxTween.tween(blackCover, {alpha: 1}, 0.7 * PlayState.instance.playbackRate);
     }
   }
 

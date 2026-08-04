@@ -96,8 +96,7 @@ class DokiPreferences extends Module
           save.data.pixel = value;
           save.flush();
         }, save.data.pixel);
-      preferencePage.createPrefItemCheckbox("Self Awareness",
-        "Allows Monika to access to your PC name\n(IF DISABLED SHE'LL USE YOUR NEWGROUNDS NAME IF LOGGED IN).", (value) ->
+      preferencePage.createPrefItemCheckbox("Self Awareness", "Allows Monika to access to your Newgrounds name.", (value) ->
         {
           save.data.selfaware = value;
           save.flush();
@@ -152,10 +151,6 @@ class DokiPreferences extends Module
         save.data.nowidescreen = value;
         save.flush();
       }, save.data.nowidescreen);
-      /*preferencePage.createPrefItemCheckbox("Mirror Mode", "Play as the opponent (UNFINISHED & DOES NOTHING).", (value) -> {
-        save.data.mirror = value;
-        save.flush();
-      }, save.data.mirror);*/
       preferencePage.itemDesc.text = preferencePage.preferenceDesc[preferencePage.items.selectedIndex];
     }
   }

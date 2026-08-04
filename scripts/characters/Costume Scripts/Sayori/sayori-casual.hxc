@@ -1,9 +1,0 @@
-import ddto.character.SayoriBaseCharacter;
-
-class SayoriCasualCharacter extends SayoriBaseCharacter
-{
-  function new()
-  {
-    super('costumes/sayori-casual');
-  }
-}

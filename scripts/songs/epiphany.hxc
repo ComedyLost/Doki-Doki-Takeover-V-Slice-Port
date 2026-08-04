@@ -11,12 +11,16 @@ import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayStatePlaylist;
 import flixel.tweens.FlxEase;
 import funkin.save.Save;
+import haxe.ds.StringMap;
+import funkin.Conductor;
+
+using funkin.util.tools.MapTools;
 
 class EpiphanySong extends Song
 {
   var lyrics:FlxText;
   var hasPlayedCutscene:Bool;
-  var lyricData:Array<Dynamic>;
+  var lyricData:Map<Int, String> = new StringMap();
 
   function new()
   {
@@ -34,8 +38,7 @@ class EpiphanySong extends Song
   override function onUpdate(event:UpdateScriptEvent)
   {
     super.onUpdate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
     if (PlayState.instance.currentVariation != 'lyrics') return;
     processNotes(event);
   }
@@ -125,9 +128,9 @@ class EpiphanySong extends Song
   function onCreate(event:ScriptEvent)
   {
     super.onCreate(event);
+    lyricData.clear();
     hasPlayedCutscene = false;
     if (PlayState.instance.currentVariation != 'lyrics') return;
-    lyricData = [];
 
     var lyricFile = coolTextFile('songs/' + PlayState.instance.currentSong.id.toLowerCase() + '/lyrics');
 
@@ -136,9 +139,8 @@ class EpiphanySong extends Song
     for (lyric in lyricFile)
     {
       var data:Array<String> = lyric.split('::');
-      lyricData.push([Std.parseInt(data[0]), data[1]]);
+      lyricData.set(data[0], data[1]);
     }
-
     lyrics = new FlxText();
     lyrics.fieldWidth = FlxG.width;
     lyrics.setFormat(Paths.font("HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
@@ -150,7 +152,7 @@ class EpiphanySong extends Song
     PlayState.instance.add(lyrics);
   }
 
-  public static function coolTextFile(path:String):Array<String>
+  public function coolTextFile(path:String):Array<String>
   {
     var fullText:String = Assets.getText(Paths.txt(path));
 
@@ -160,20 +162,72 @@ class EpiphanySong extends Song
     return firstArray;
   }
 
+  var lastStep:Int = 0;
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    if (PlayState.instance.currentVariation != 'lyrics') return;
-    if (lyrics != null)
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
     {
-      for (i in 0...lyricData.length)
+      lastStep = event.step;
+      return;
+    }
+    for (step in lastStep...event.step)
       {
-        if (event.step == lyricData[i][0])
+        if (lyricData.exists(step + 1))
         {
-          lyrics.text = lyricData[i][1];
+          lyrics.text = lyricData.get(step + 1);
           lyrics.screenCenter(0x01);
         }
       }
+    lastStep = event.step;
+  }
+
+    function calcSectionLength(?duration:Int = 1)
+  {
+    var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+    return durSeconds;
+  }
+
+  var lastBeat:Int = 0;
+  function onBeatHit(event:SongTimeScriptEvent):Void
+  {
+    if (PlayState.instance?.isGameOverState ?? true) return;
+    var currentStage:Stage = PlayState.instance.currentStage;
+
+    if (lastStep > event.step)
+    {
+      lastBeat = event.beat;
+      return;
     }
+
+    for (beat in lastBeat...event.beat)
+    {
+      switch (beat + 1)
+      {
+        case 585:
+          FlxTween.tween(currentStage.dokiBackdrop, {alpha: 1}, calcSectionLength(), {ease: FlxEase.sineIn});
+        case 648:
+          FlxTween.tween(currentStage.dokiBackdrop, {alpha: 0.001}, calcSectionLength(0.5), {ease: FlxEase.sineOut});
+          currentStage.popup.alpha = 1;
+          currentStage.popup.animation.play('startDeleting');
+          currentStage.popup.animation.curAnim.frameRate = 24 * PlayState.instance.playbackRate;
+        case 788:
+          var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+          if (opponentStrumline != null)
+          {
+            for (arrow in opponentStrumline.members)
+            {
+              FlxTween.cancelTweensOf(arrow);
+              FlxTween.tween(arrow, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
+            }
+          }
+          FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, calcSectionLength(0.25), {ease: FlxEase.sineOut});
+        case 790:
+          FlxTween.tween(currentStage.blackCover, {alpha: 1}, 0.7 * PlayState.instance.playbackRate);
+      }  
+    }
+    lastBeat = event.beat;
   }
 
   function onSongRetry(event:ScriptEvent)

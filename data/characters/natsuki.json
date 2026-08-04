@@ -5,93 +5,63 @@
     "assetPath": "shared:characters/natsuki/default",
     "flipX": false,
     "singTime": 6,
+    "offsets": [25, 0],
     "cameraOffsets": [0, -50],
     "animations": [
         {
             "name": "idle",
-            "prefix": "Nat Idle",
-            "offsets": [
-                0,
-                0
-            ]
+            "prefix": "Idle"
         },
         {
             "name": "singLEFT",
-            "prefix": "Nat Sing Note Left",
-            "offsets": [
-                -24,
-                -11
-            ]
+            "prefix": "Left"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Nat Sing Note Right",
-            "offsets": [
-                -68,
-                11
-            ]
+            "prefix": "Right"
         },
         {
             "name": "singDOWN",
-            "prefix": "Nat Sing Note DOWN",
-            "offsets": [
-                -2,
-                -5
-            ]
+            "prefix": "Down"
         },
         {
             "name": "singUP",
-            "prefix": "Nat Sing Note Up",
-            "offsets": [
-                36,
-                4
-            ]
+            "prefix": "Up"
         },
         {
             "name": "hmmph",
-            "prefix": "Nat hmph",
-            "offsets": [
-                -24,
-                -11
-            ]
+            "prefix": "Hmph"
         }
     ],
 	"costumes": "natsuki",
 	"costumelist": [
 		{
-			"subfolder":true,
 			"internal_Name": "blueskies",
-			"charFile":"natsuki-blueskies"
+			"assetPath": "shared:characters/natsuki/blueskies"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "buff",
-			"charFile":"natsuki-buff"
+			"assetPath": "shared:characters/natsuki/buffsuki"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "casual",
-			"charFile":"natsuki-casual"
+			"assetPath": "shared:characters/natsuki/casual"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "hank",
-			"charFile":"natsuki-hank"
+			"assetPath": "shared:characters/natsuki/hank"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "kapi",
-			"charFile":"natsuki-kapi"
+			"assetPath": "shared:characters/natsuki/kapi"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "sunday",
-			"charFile":"natsuki-sunday"
+			"assetPath": "shared:characters/natsuki/sunday"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "skater",
-			"charFile":"natsuki-skater"
+			"assetPath": "shared:characters/natsuki/skater"
 		}
 	],
     "startingAnimation": "",
