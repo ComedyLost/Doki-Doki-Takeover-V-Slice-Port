@@ -1,0 +1,57 @@
+import funkin.play.PlayState;
+import funkin.audio.FunkinSound;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import openfl.filters.ShaderFilter;
+import flixel.addons.display.FlxRuntimeShader;
+import flixel.util.FlxTimer;
+import ddto.cutscene.DokiConversation;
+
+class MyConfessionEndConversation extends DokiConversation
+{
+  function new()
+  {
+    super('my-confession-end');
+  }
+
+  var time:Int = 0;
+  var staticShader = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/StaticShader")));
+  var shaderstat = new ShaderFilter(staticShader);
+
+  override function onUpdate(event)
+  {
+    super.onUpdate(event);
+    time++;
+    staticShader.setFloat('iTime', time);
+  }
+
+  override public function advanceConversation():Void
+  {
+    if (currentDialogueEntry == 8 && Std.string(state) == "Idle")
+    {
+      PlayState.instance.disableKeys = true;
+      PlayState.instance.camCutscene.filters = [shaderstat];
+      FunkinSound.playOnce(Paths.sound("glitchin"), 0.6);
+      new FlxTimer().start(0.4, function(e:FlxTimer)
+      {
+        PlayState.instance.camCutscene.filters = [];
+        PlayState.instance.disableKeys = false;
+        super.advanceConversation();
+      });
+    }
+    else
+    {
+      super.advanceConversation();
+    }
+  }
+
+  override public function onDialogueLine(event:DialogueScriptEvent):Void
+  {
+    super.onDialogueLine(event);
+    if (currentDialogueEntry == 8)
+    {
+      rightSpeaker.visible = false;
+      FlxTween.tween(PlayState.instance.currentConversation.music, {volume: 0.0}, 1, {ease: FlxEase.linear});
+    }
+  }
+}

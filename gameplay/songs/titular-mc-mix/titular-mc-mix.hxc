@@ -1,9 +1,8 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
@@ -26,6 +25,8 @@ class TitularMCMixSong extends Song
 
   var camGame2:FunkinCamera;
 
+  final ASSET_PATH:String = 'gameplay/songs/${this.id}';
+
   function calcSectionLength(?duration:Int = 1)
   {
     if (duration == null) duration = 1;
@@ -38,8 +39,8 @@ class TitularMCMixSong extends Song
     super.onUpdate(event);
 
     if (camGame2 == null || PlayState.instance.camGame == null) return;
-    camGame2.zoom = PlayState.instance.camGame.zoom;
-    camGame2.targetOffset = FlxG.camera.targetOffset;
+    camGame2.zoom = FlxG.camera.zoom;
+    camGame2.scroll = FlxG.camera.scroll;
   }
 
   function oneMore()
@@ -47,14 +48,14 @@ class TitularMCMixSong extends Song
     var dadMidPoint:FlxPoint = PlayState.instance.currentStage.getDad().getGraphicMidpoint();
     var funnyX:Float = dadMidPoint.x - 120;
     var funnyY:Float = dadMidPoint.y - 120;
-    var funnyglow:FlxSprite = new FlxSprite(funnyX, funnyY, Paths.image('dumb/glwo'));
+    var funnyglow:FunkinSprite = new FunkinSprite(funnyX, funnyY, Paths.image('$ASSET_PATH/glwo'));
     funnyglow.alpha = 0.001;
     funnyglow.scale.set(2, 2);
     PlayState.instance.currentStage.add(funnyglow);
-    var ring:BGSprite = new FlxSprite(funnyX, funnyY, Paths.image('dumb/ring'));
+    var ring:BGSprite = new FunkinSprite(funnyX, funnyY, Paths.image('$ASSET_PATH/ring'));
     ring.scale.set(2, 2);
     PlayState.instance.currentStage.add(ring);
-    var onemore:BGSprite = new FlxSprite(funnyX, funnyY, Paths.image('dumb/onemore'));
+    var onemore:BGSprite = new FunkinSprite(funnyX, funnyY, Paths.image('$ASSET_PATH/onemore'));
     onemore.alpha = 0.001;
     onemore.scale.set(2, 2);
     PlayState.instance.currentStage.add(onemore);
@@ -114,23 +115,36 @@ class TitularMCMixSong extends Song
     });
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+		if ((PlayState.instance?.isGameOverState ?? true)) return;
+
+    if (lastStep > event.step)
     {
-      case 730:
-        PlayState.instance.tweenCameraZoom(1, calcSectionLength(), true, FlxEase.expoOut);
-        oneMore();
-      case 736:
-        PlayState.instance.tweenCameraZoom(0.75, calcSectionLength(), true, FlxEase.expoOut);
+			lastStep = event.step;
+			return;
+		}
+
+		for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 730:
+          PlayState.instance.tweenCameraZoom(1, calcSectionLength(), true, FlxEase.expoOut);
+          oneMore();
+        case 736:
+          PlayState.instance.tweenCameraZoom(0.75, calcSectionLength(), true, FlxEase.expoOut);
+      }  
     }
+    lastStep = event.step;
   }
 
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     camGame2 = new FunkinCamera('playStateCamGame2');
     FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);

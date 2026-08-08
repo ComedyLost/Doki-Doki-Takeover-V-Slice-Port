@@ -1,0 +1,211 @@
+import funkin.play.PlayState;
+import flixel.tweens.FlxTween;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import flixel.tweens.FlxEase;
+import funkin.play.song.Song;
+import funkin.play.Countdown;
+import funkin.Conductor;
+import funkin.play.PlayStatePlaylist;
+import funkin.modding.module.ModuleHandler;
+import flixel.util.FlxTimer;
+
+class WiltedSong extends Song
+{
+  function new()
+  {
+    super('wilted');
+  }
+
+  var hasPlayedIntroCutscene:Bool;
+  var noteStyleSwap:ModuleHandler;
+  var camFadeValue:Float;
+
+  var wiltedhey:FunkinSprite;
+  var wiltedhey_senpai:FunkinSprite;
+  var wiltedHmph:FunkinSprite;
+
+  var currentStage(get, never):Stage;
+
+  function get_currentStage():Stage
+  {
+    return PlayState.instance?.currentStage;
+  }
+  
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    if (currentStage == null || PlayState.instance.isMinimalMode) return;
+
+    noteStyleSwap = ModuleHandler.getModule('SwappingNotestyles');
+
+    wiltedhey = FunkinSprite.createSparrow(0, 0, 'gameplay/stages/wilted/wilted-monika-mid');
+    wiltedhey.animation.addByPrefix('Hey', 'Hey', 24, false);
+    wiltedhey.zIndex = 500;
+    wiltedhey.y = 40;
+    wiltedhey.x = 780;
+    wiltedhey.alpha = 0;
+    wiltedhey.scale.set(1.25, 1.25);
+    currentStage.add(wiltedhey);
+
+    wiltedhey_senpai = FunkinSprite.createSparrow(0, 0, 'gameplay/stages/wilted/wilted-senpai-mid');
+    wiltedhey_senpai.animation.addByPrefix('Hey_Senpai', 'Hey_Senpai', 24, false);
+    wiltedhey_senpai.zIndex = 400;
+    wiltedhey_senpai.y = 90;
+    wiltedhey_senpai.x = 90;
+    wiltedhey_senpai.alpha = 0;
+    wiltedhey_senpai.scale.set(1.25, 1.25);
+    currentStage.add(wiltedhey_senpai);
+
+    wiltedHmph = FunkinSprite.createSparrow(0, 0, 'gameplay/stages/wilted/wilted-ending');
+    wiltedHmph.animation.addByPrefix('Hmph', 'Hmph', 24, false);
+    wiltedHmph.zIndex = 600;
+    wiltedHmph.y = 29;
+    wiltedHmph.x = 190;
+    wiltedHmph.alpha = 0;
+    wiltedHmph.scale.set(1.25, 1.25);
+    currentStage.add(wiltedHmph);
+
+    if (PlayState.instance.playerStrumline.noteStyle.id.toLowerCase() != 'ddto')
+    {
+      noteStyleSwap.swapPlayerStrumlines('ddto');
+      PlayState.instance.playerStrumline.fadeInArrows();
+    }
+    if (PlayState.instance.opponentStrumline.noteStyle.id.toLowerCase() != 'ddtopixel')
+    {
+      noteStyleSwap.swapOpponentStrumlines('ddtopixel');
+      PlayState.instance.opponentStrumline.fadeInArrows();
+    }
+
+    PlayState.instance.tweenCameraToPosition(currentStage.stageCamera.x, currentStage.stageCamera.y, 0);
+
+    hasPlayedIntroCutscene = false;
+  }
+
+  function calcSectionLength(?duration:Int = 1)
+  {
+    var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
+    return durSeconds;
+  }
+
+  override function onPause(event)
+  {
+    super.onPause(event);
+    if (FlxG.camera._fxFadeDuration > 0)
+    {
+      camFadeValue = FlxG.camera._fxFadeDuration;
+      FlxG.camera._fxFadeDuration = 0;
+    }
+  }
+
+  override function onResume(event)
+  {
+    super.onResume(event);
+    if (camFadeValue != null)
+    {
+      FlxG.camera._fxShakeDuration = camFadeValue;
+      camFadeValue = null;
+    }
+  }
+
+  var lastStep:Int = 0;
+
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+		if ((PlayState.instance?.isGameOverState ?? true)) return;
+
+    if (lastStep > event.step)
+    {
+			lastStep = event.step;
+			return;
+		}
+
+		for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 16:
+          ModuleHandler.getModule('Credits').manualCreditsSummon();
+        case 512:
+          currentStage.glitchEffect();
+        case 516:
+          currentStage.glitchEffect();
+        // addcharacter("senpai-angry", 1);
+        case 520:
+          currentStage.glitchEffect();
+          currentStage.getNamedProp('Wilted Window').loadGraphic(Paths.image('gameplay/stages/wilted/wilted-window-hating'));
+        case 656:
+          // PlayState.instance.currentCameraZoom = 0.8;
+          currentStage.getNamedProp('Wilted BG').loadGraphic(Paths.image('gameplay/stages/wilted/wilted-bg-swap'));
+          PlayState.instance.camHUD.flash(0xFFFFFFFF, 0.5);
+        case 912:
+          wiltedhey.alpha = 1;
+          wiltedhey.animation.play('Hey');
+          wiltedhey_senpai.alpha = 1;
+          wiltedhey_senpai.animation.play('Hey_Senpai');
+        case 928:
+          PlayState.instance.camHUD.flash(0xFFFFFFFF, 0.5);
+          wiltedhey_senpai.alpha = 0;
+          wiltedhey.alpha = 0;
+          currentStage.getNamedProp('Wilted BG').loadGraphic(Paths.image('gameplay/stages/wilted/wilted-bg'));
+        case 1056:
+          // Start final thing
+          wiltedHmph.alpha = 1;
+          wiltedHmph.animation.play('Hmph');
+          new FlxTimer().start(1, function(tmr)
+          {
+            currentStage.getNamedProp('Wilted BG').alpha = 0;
+            currentStage.getNamedProp('Wilted Window').alpha = 0;
+            currentStage.getBoyfriend().alpha = 0;
+            currentStage.getDad().alpha = 0;
+          });
+        case 1100:
+          // Fade to black
+          faded = true;
+          FlxG.camera.fade(0xFF000000, 0.7);
+      }  
+    }
+    lastStep = event.step;
+  }
+
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+    PlayState.instance.tweenCameraToPosition(currentStage.stageCamera.x, currentStage.stageCamera.y, 0);
+    currentStage.getGirlfriend().alpha = 0;
+    if (PlayState.instance.playerStrumline.noteStyle.id.toLowerCase() != 'ddto') 
+      noteStyleSwap.swapPlayerStrumlines('ddto');
+    if (PlayState.instance.opponentStrumline.noteStyle.id.toLowerCase() != 'ddtopixel') 
+      noteStyleSwap.swapOpponentStrumlines('ddtopixel');
+    if (FlxG.camera._fxFadeAlpha > 0) FlxG.camera.fade(0xFF000000, 0.7, true);
+    currentStage.getNamedProp('Wilted Window').loadGraphic(Paths.image('gameplay/stages/wilted/wilted-window-dating'));
+    currentStage.getNamedProp('Wilted BG').loadGraphic(Paths.image('gameplay/stages/wilted/wilted-bg'));
+    currentStage.getNamedProp('Wilted BG').alpha = 1;
+    currentStage.getNamedProp('Wilted Window').alpha = 1;
+    wiltedhey.alpha = 0;
+    wiltedhey_senpai.alpha = 0;
+    wiltedHmph.alpha = 0;
+    currentStage.getBoyfriend().alpha = 1;
+    currentStage.getDad().alpha = 1;
+    if (wiltedhey.getCurrentAnimation() == 'Hey') wiltedhey.animation.curAnim.stop();
+    if (wiltedhey_senpai.getCurrentAnimation() == 'Hey_Senpai') wiltedhey_senpai.animation.curAnim.stop();
+    if (wiltedHmph.getCurrentAnimation() == 'Hmph') wiltedHmph.animation.curAnim.stop();
+  }
+  
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    return;
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      transitionToDialogue();
+    }
+  }
+}

@@ -3,6 +3,7 @@ import funkin.play.PlayState;
 import funkin.play.cutscene.VideoCutscene;
 import openfl.utils.Assets;
 import funkin.play.PlayStatePlaylist;
+import funkin.assets.Paths as NewPaths;
 
 class RainCloudsSong extends Song
 {
@@ -15,6 +16,21 @@ class RainCloudsSong extends Song
 
     hasPlayedVideoCutscene = false;
     hasPlayedIntroCutscene = false;
+  }
+  
+  public override function queryAssets(type:AssetType):Array<AssetPath>
+  {
+    var results = super.queryAssets(type);
+
+    switch (type)
+    {
+      case "VIDEO":
+        results = results.concat([NewPaths.video('gameplay/songs/rain-clouds/cutscene', 'mp4')]);
+      default:
+        // nothing
+    }
+
+    return results;
   }
 
   public override function onCountdownStart(event:CountdownScriptEvent):Void
@@ -56,7 +72,7 @@ class RainCloudsSong extends Song
 
   function startVideo()
   {
-    VideoCutscene.play(Paths.videos('sayoIntro'));
+    VideoCutscene.play(NewPaths.video('gameplay/songs/rain-clouds/cutscene'));
   }
 
   /**

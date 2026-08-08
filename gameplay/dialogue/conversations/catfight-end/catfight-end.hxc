@@ -1,0 +1,9 @@
+import ddto.cutscene.DokiConversation;
+
+class CatfightEndConversation extends DokiConversation
+{
+  function new()
+  {
+    super('catfight-end');
+  }
+}

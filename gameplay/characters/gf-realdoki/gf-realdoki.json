@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "DDTO Girlfriend",
-  "assetPath": "shared:characters/girlfriend/default",
+  "assetPath": "gameplay/characters/gf-realdoki/costumes/default",
   "renderType": "multianimateatlas",
   "startingAnimation": "danceRight",
   "singTime": 8.0,

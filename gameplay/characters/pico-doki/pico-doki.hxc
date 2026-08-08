@@ -1,0 +1,28 @@
+import funkin.play.character.AnimateAtlasCharacter;
+import funkin.play.PlayState;
+import funkin.play.GameOverSubState;
+import funkin.play.PauseSubState;
+
+class PicoDokiCharacter extends AnimateAtlasCharacter
+{
+  function new()
+  {
+    super('pico-doki');
+  }
+
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
+
+    GameOverSubState.musicSuffix = '-doki';
+    GameOverSubState.blueBallSuffix = '';
+
+    PauseSubState.musicSuffix = '-doki';
+  }
+
+  function onNoteMiss(event:NoteScriptEvent)
+  {
+    if (event.eventCanceled) return;
+    super.onNoteMiss(event);
+  }
+}

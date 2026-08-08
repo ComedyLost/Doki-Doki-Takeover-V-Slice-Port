@@ -1,23 +1,15 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.util.FlxTimer;
-import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
-import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.util.FlxTweenUtil;
-import funkin.play.PlayStatePlaylist;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
 import funkin.save.Save;
-import flixel.text.FlxText;
-import flixel.text.FlxTextBorderStyle;
-import funkin.modding.module.ModuleHandler;
 import funkin.modding.module.Module;
 import funkin.graphics.FunkinCamera;
-import flixel.group.FlxTypedSpriteGroup;
 import funkin.modding.module.Module;
 import funkin.ui.FullScreenScaleMode;
 import StringTools;
@@ -40,9 +32,11 @@ class LoveNFunkinSong extends Song
   var savedChar:String;
   var poemVideo:FunkinSprite;
 
+  final STAGE_PATH:String = 'gameplay/stages/musicroom';
+
   public override function isSongNew(currentDifficulty:String):Bool
   {
-    if (Save.instance.hasBeatenSong(this.id) == false) return true;
+    if (!Save.instance.hasBeatenSong(this.id)) return true;
     else
       return false;
   }
@@ -50,18 +44,18 @@ class LoveNFunkinSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     camGame2 = new FunkinCamera('playStateCamGame2');
     FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
     camGame2.bgColor = 0x000000;
 
-    var poemSprite:String = (PlayState.instance.currentVariation == 'pico') ? 'notepad/picohandoatlas' : 'notepad/handoatlas';
-    poemVideo = FunkinSprite.createTextureAtlas(0, 0, poemSprite, null, {applyStageMatrix: true});
+    var poemSprite:String = '$STAGE_PATH/love-n-funkin/';
+    if (PlayState.instance.currentVariation == 'pico') poemSprite += 'poem-pico';
+    else poemSprite += 'poem-gf';
+    poemVideo = FunkinSprite.createTextureAtlas(0, 0, poemSprite, {applyStageMatrix: true});
     if (PlayState.instance.currentVariation == 'pico') poemVideo.anim.addBySymbol('hando', 'lnf video Pico');
-    else
-      poemVideo.anim.addBySymbol('hando', 'lnf video');
+    else poemVideo.anim.addBySymbol('hando', 'lnf video');
     poemVideo.anim.play('hando');
     poemVideo.scrollFactor.set();
     poemVideo.setGraphicSize(Std.int(poemVideo.width / PlayState.instance.stageZoom));
@@ -70,7 +64,7 @@ class LoveNFunkinSong extends Song
     poemVideo.alpha = 0.001;
     PlayState.instance.add(poemVideo);
 
-    sideWindow = new FunkinSprite(0, 0, Paths.image('notepad/SideWindow'));
+    sideWindow = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/love-n-funkin/side-window'));
     sideWindow.setGraphicSize(Std.int(sideWindow.width / PlayState.instance.stageZoom));
     sideWindow.updateHitbox();
     sideWindow.y = FlxG.height - sideWindow.height;
@@ -106,8 +100,7 @@ class LoveNFunkinSong extends Song
   override function onUpdate(event:UpdateScriptEvent)
   {
     super.onUpdate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     if (camGame2 != null) camGame2.zoom = FlxG.camera.zoom;
     processNotes(event);
@@ -162,8 +155,7 @@ class LoveNFunkinSong extends Song
   override function onSongEnd(event)
   {
     super.onSongEnd(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
   }
 
   override function onDestroy(event)
@@ -186,46 +178,40 @@ class LoveNFunkinSong extends Song
   function createDokis()
   {
     if (yuri != null || natsuki != null || monika != null) return;
-    var costume = ModuleHandler.getModule("CostumeSwapper");
+    
+    var stageCharData = PlayState.instance.currentStage._data.characters.dad;
 
-    var natsukiName = costume.getCostumeName('natsuki');
-    var yuriName = costume.getCostumeName('yuri');
-    var monikaName = 'monika';
-
-    yuri = CharacterDataParser.fetchCharacter(yuriName);
+    yuri = CharacterDataParser.fetchCharacter('yuri');
     if (yuri != null)
     {
       yuri.set_characterType(CharacterType.OTHER);
       PlayState.instance.currentStage.addCharacter(yuri, CharacterType.OTHER);
     }
     yuri.zIndex = stageCharData.zIndex - 1;
-    var stageCharData = PlayState.instance.currentStage._data.characters.dad;
     yuri.x = (stageCharData.position[0] - yuri.characterOrigin.x) + 200;
     yuri.y = (stageCharData.position[1] - yuri.characterOrigin.y) - 20;
 
     yuri.originalPosition.set(yuri.x, yuri.y);
 
-    natsuki = CharacterDataParser.fetchCharacter(natsukiName);
+    natsuki = CharacterDataParser.fetchCharacter('natsuki');
     if (natsuki != null)
     {
       natsuki.set_characterType(CharacterType.OTHER);
       PlayState.instance.currentStage.addCharacter(natsuki, CharacterType.OTHER);
     }
     natsuki.zIndex = stageCharData.zIndex + 1;
-    var stageCharData = PlayState.instance.currentStage._data.characters.dad;
     natsuki.x = (stageCharData.position[0] - natsuki.characterOrigin.x) - 200;
     natsuki.y = (stageCharData.position[1] - natsuki.characterOrigin.y) + 20;
 
     natsuki.originalPosition.set(natsuki.x, natsuki.y);
 
-    monika = CharacterDataParser.fetchCharacter(monikaName);
+    monika = CharacterDataParser.fetchCharacter('monika');
     if (monika != null)
     {
       monika.set_characterType(CharacterType.OTHER);
       PlayState.instance.currentStage.addCharacter(monika, CharacterType.OTHER);
     }
     monika.zIndex = stageCharData.zIndex - 2;
-    var stageCharData = PlayState.instance.currentStage._data.characters.dad;
     monika.x = (stageCharData.position[0] - monika.characterOrigin.x) + 450;
     monika.y = (stageCharData.position[1] - monika.characterOrigin.y) - 20;
 
@@ -237,8 +223,7 @@ class LoveNFunkinSong extends Song
   override function onCountdownStart(event)
   {
     super.onCountdownStart(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     PlayState.instance.iconP2.loadCharacter('love-n-funkin');
   }
@@ -287,8 +272,7 @@ class LoveNFunkinSong extends Song
   function onStepHit(event:SongTimeScriptEvent):Void
   {
     super.onStepHit(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
     if (options.psychholds) stutterNotes();
 
     switch (event.step)

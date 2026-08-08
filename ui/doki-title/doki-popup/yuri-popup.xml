@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="yuri-popup.png">
+	<!-- Created with Adobe Animate version 21.0.6.41649 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="yuri-popup0000" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0001" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0002" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0003" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0004" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0005" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0006" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0007" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0008" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0009" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0010" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0011" x="8" y="8" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0012" x="507" y="8" width="491" height="607" frameX="-3" frameY="0" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0013" x="1006" y="8" width="497" height="603" frameX="0" frameY="-4" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0014" x="1511" y="8" width="495" height="606" frameX="-1" frameY="-4" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0015" x="8" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0016" x="8" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0017" x="8" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0018" x="510" y="623" width="494" height="606" frameX="-2" frameY="-6" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0019" x="510" y="623" width="494" height="606" frameX="-2" frameY="-6" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0020" x="1012" y="623" width="491" height="606" frameX="-3" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0021" x="1511" y="623" width="487" height="610" frameX="-5" frameY="-2" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0022" x="8" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0023" x="507" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0024" x="507" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0025" x="507" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0026" x="1006" y="1241" width="491" height="607" frameX="-3" frameY="0" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0027" x="1006" y="8" width="497" height="603" frameX="0" frameY="-4" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0028" x="1511" y="8" width="495" height="606" frameX="-1" frameY="-4" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0029" x="8" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0030" x="8" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0031" x="8" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0032" x="510" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0033" x="510" y="623" width="494" height="606" frameX="-2" frameY="-5" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0034" x="1012" y="623" width="491" height="606" frameX="-3" frameY="-4" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0035" x="1511" y="623" width="487" height="610" frameX="-5" frameY="-2" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0036" x="8" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0037" x="507" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0038" x="507" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0039" x="507" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0040" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0041" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0042" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0043" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0044" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0045" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0046" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0047" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+	<SubTexture name="yuri-popup0048" x="1505" y="1241" width="491" height="606" frameX="-3" frameY="-1" frameWidth="497" frameHeight="612"/>
+</TextureAtlas>

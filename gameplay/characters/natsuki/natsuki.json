@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Natsuki",
     "renderType": "multianimateatlas",
-    "assetPath": "shared:characters/natsuki/default",
+    "assetPath": "gameplay/characters/natsuki/costumes/default",
     "flipX": false,
     "singTime": 6,
     "offsets": [25, 0],
@@ -37,31 +37,31 @@
 	"costumelist": [
 		{
 			"internal_Name": "blueskies",
-			"assetPath": "shared:characters/natsuki/blueskies"
+			"assetPath": "gameplay/characters/natsuki/costumes/blueskies"
 		},
 		{
 			"internal_Name": "buff",
-			"assetPath": "shared:characters/natsuki/buffsuki"
+			"assetPath": "gameplay/characters/natsuki/costumes/buffsuki"
 		},
 		{
 			"internal_Name": "casual",
-			"assetPath": "shared:characters/natsuki/casual"
+			"assetPath": "gameplay/characters/natsuki/costumes/casual"
 		},
 		{
 			"internal_Name": "hank",
-			"assetPath": "shared:characters/natsuki/hank"
+			"assetPath": "gameplay/characters/natsuki/costumes/hank"
 		},
 		{
 			"internal_Name": "kapi",
-			"assetPath": "shared:characters/natsuki/kapi"
+			"assetPath": "gameplay/characters/natsuki/costumes/kapi"
 		},
 		{
 			"internal_Name": "sunday",
-			"assetPath": "shared:characters/natsuki/sunday"
+			"assetPath": "gameplay/characters/natsuki/costumes/sunday"
 		},
 		{
 			"internal_Name": "skater",
-			"assetPath": "shared:characters/natsuki/skater"
+			"assetPath": "gameplay/characters/natsuki/costumes/skater"
 		}
 	],
     "startingAnimation": "",

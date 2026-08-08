@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="natsuki-popup.png">
+	<!-- Created with Adobe Animate version 20.0.3.25487 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="natsuki-popup0000" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0001" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0002" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0003" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0004" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0005" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0006" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0007" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0008" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0009" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0010" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0011" x="0" y="0" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0012" x="571" y="0" width="571" height="473" frameX="-1" frameY="0" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0013" x="1142" y="0" width="555" height="467" frameX="-9" frameY="-6" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0014" x="1697" y="0" width="563" height="461" frameX="-5" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0015" x="2260" y="0" width="572" height="462" frameX="-1" frameY="-10" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0016" x="2832" y="0" width="574" height="462" frameX="0" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0017" x="2832" y="0" width="574" height="462" frameX="0" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0018" x="3406" y="0" width="571" height="461" frameX="-1" frameY="-12" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0019" x="3406" y="0" width="571" height="461" frameX="-1" frameY="-12" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0020" x="0" y="473" width="571" height="461" frameX="-1" frameY="-12" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0021" x="571" y="473" width="566" height="465" frameX="-3" frameY="-7" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0022" x="1137" y="473" width="574" height="470" frameX="0" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0023" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0024" x="2282" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0025" x="2282" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0026" x="2853" y="473" width="562" height="467" frameX="-5" frameY="-6" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0027" x="1697" y="0" width="563" height="461" frameX="-5" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0028" x="2260" y="0" width="572" height="462" frameX="-1" frameY="-10" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0029" x="2832" y="0" width="574" height="462" frameX="0" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0030" x="2832" y="0" width="574" height="462" frameX="0" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0031" x="3415" y="473" width="571" height="462" frameX="-1" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0032" x="3415" y="473" width="571" height="462" frameX="-1" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0033" x="0" y="943" width="571" height="462" frameX="-1" frameY="-11" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0034" x="571" y="943" width="567" height="463" frameX="-3" frameY="-9" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0035" x="1137" y="473" width="574" height="470" frameX="0" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0036" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0037" x="2282" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0038" x="2282" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0039" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0040" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0041" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0042" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0043" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0044" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0045" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0046" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0047" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0048" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+	<SubTexture name="natsuki-popup0049" x="1711" y="473" width="571" height="470" frameX="-1" frameY="-3" frameWidth="574" frameHeight="473"/>
+</TextureAtlas>

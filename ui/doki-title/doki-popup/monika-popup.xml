@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="monika-popup.png">
+	<!-- Created with Adobe Animate version 21.0.6.41649 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="monika-popup0000" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0001" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0002" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0003" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0004" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0005" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0006" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0007" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0008" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0009" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0010" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0011" x="8" y="8" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0012" x="506" y="8" width="490" height="607" frameX="-3" frameY="0" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0013" x="1004" y="8" width="494" height="604" frameX="0" frameY="-3" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0014" x="1506" y="8" width="494" height="605" frameX="0" frameY="-3" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0015" x="2008" y="8" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0016" x="2008" y="8" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0017" x="2008" y="8" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0018" x="2507" y="8" width="490" height="603" frameX="-4" frameY="-6" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0019" x="2507" y="8" width="490" height="603" frameX="-4" frameY="-6" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0020" x="3005" y="8" width="490" height="604" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0021" x="3503" y="8" width="486" height="607" frameX="-4" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0022" x="8" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0023" x="8" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0024" x="8" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0025" x="8" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0026" x="506" y="623" width="490" height="607" frameX="-3" frameY="0" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0027" x="1004" y="623" width="494" height="604" frameX="0" frameY="-3" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0028" x="1506" y="623" width="494" height="605" frameX="0" frameY="-3" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0029" x="2008" y="623" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0030" x="2008" y="623" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0031" x="2008" y="623" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0032" x="2008" y="623" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0033" x="2008" y="623" width="491" height="603" frameX="-3" frameY="-5" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0034" x="2507" y="623" width="490" height="605" frameX="-3" frameY="-3" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0035" x="3005" y="623" width="486" height="607" frameX="-4" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0036" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0037" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0038" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0039" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0040" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0041" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0042" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0043" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0044" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0045" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0046" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0047" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+	<SubTexture name="monika-popup0048" x="3499" y="623" width="490" height="606" frameX="-3" frameY="-1" frameWidth="494" frameHeight="609"/>
+</TextureAtlas>

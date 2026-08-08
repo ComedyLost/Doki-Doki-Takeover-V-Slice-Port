@@ -1,10 +1,9 @@
 import funkin.play.PlayState;
 import funkin.play.song.Song;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
 import funkin.play.cutscene.dialogue.DialogueBox;
@@ -24,8 +23,7 @@ class EpiphanyOneMillionSong extends Song
   override function onUpdate(event:UpdateScriptEvent)
   {
     super.onUpdate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
   }
 
   public override function onCountdownStart(event:CountdownScriptEvent):Void

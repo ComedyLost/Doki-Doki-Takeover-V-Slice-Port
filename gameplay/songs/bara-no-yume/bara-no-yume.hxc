@@ -5,7 +5,6 @@ import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayState;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.song.Song;
-import flixel.FlxSprite;
 import funkin.play.cutscene.dialogue.ConversationState;
 import funkin.audio.FunkinSound;
 import funkin.play.cutscene.VideoCutscene;
@@ -18,7 +17,7 @@ class BaraNoYumeSong extends Song
   var hasPlayedVideoCutscene:Bool;
   var hasPlayedIntroCutscene:Bool;
   var hasPlayedOutroCutscene:Bool;
-  var redStatic:FlxSprite;
+  var redStatic:FunkinSprite;
 
   public function new()
   {
@@ -94,7 +93,7 @@ class BaraNoYumeSong extends Song
   {
     super.onCreate(event);
 
-    redStatic = new FlxSprite();
+    redStatic = new FunkinSprite();
     redStatic.frames = Paths.getSparrowAtlas('HomeStatic');
     redStatic.cameras = [PlayState.instance.camHUD];
     redStatic.animation.addByPrefix('idle', 'HomeStatic', 24, true);

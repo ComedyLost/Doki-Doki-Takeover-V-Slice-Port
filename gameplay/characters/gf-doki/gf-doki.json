@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "DDTO Girlfriend (Pixel)",
-  "assetPath": "characters/gfdoki",
+  "assetPath": "gameplay/characters/gf-doki/gfdoki",
   "startingAnimation": "danceRight",
   "isPixel": true,
   "scale": 6,

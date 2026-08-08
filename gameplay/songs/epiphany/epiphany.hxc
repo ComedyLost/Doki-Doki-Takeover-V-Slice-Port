@@ -1,10 +1,9 @@
 import funkin.play.PlayState;
 import funkin.play.song.Song;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
 import funkin.play.cutscene.dialogue.DialogueBox;
@@ -85,7 +84,7 @@ class EpiphanySong extends Song
 
     PlayState.instance.camCutscene.visible = true;
 
-    var black:FlxSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+    var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
     black.cameras = [PlayState.instance.camCutscene];
     black.zIndex = 1000000;
     PlayState.instance.add(black);
@@ -112,7 +111,7 @@ class EpiphanySong extends Song
   function startDialogue()
   {
     if (PlayState.instance.currentVariation == 'lyrics') PlayState.instance.startConversation('epiphany-lyrics');
-    else if (Save.instance.hasBeatenSong('epiphany', ['normal']) == false) PlayState.instance.startConversation('epiphany');
+    else if (!Save.instance.hasBeatenSong('epiphany', ['normal'])) PlayState.instance.startConversation('epiphany');
     else
       PlayState.instance.startConversation('epiphany-retry');
     PlayState.instance.currentConversation.completeCallback = fadeArrows;
@@ -130,9 +129,14 @@ class EpiphanySong extends Song
     super.onCreate(event);
     lyricData.clear();
     hasPlayedCutscene = false;
-    if (PlayState.instance.currentVariation != 'lyrics') return;
 
-    var lyricFile = coolTextFile('songs/' + PlayState.instance.currentSong.id.toLowerCase() + '/lyrics');
+    var lyricFile:String = 'gameplay/songs/${this.id}/subtitles/lyrics';
+    if (PlayState.instance.currentVariation != Constants.DEFAULT_VARIATION)
+    {
+      lyricFile += '-${PlayState.instance.currentVariation}';
+    }
+
+    var lyricFile = coolTextFile(lyricFile);
 
     if (lyricFile == null) return; // No lyrics detected
 
@@ -143,7 +147,7 @@ class EpiphanySong extends Song
     }
     lyrics = new FlxText();
     lyrics.fieldWidth = FlxG.width;
-    lyrics.setFormat(Paths.font("HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+    lyrics.setFormat(Paths.font("ui/fonts/HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
     lyrics.screenCenter(0x01);
     lyrics.y = (FlxG.height * 0.72);
     lyrics.borderSize = 1.25;
@@ -154,6 +158,7 @@ class EpiphanySong extends Song
 
   public function coolTextFile(path:String):Array<String>
   {
+    if (!Assets.exists(Paths.txt(path))) return null;
     var fullText:String = Assets.getText(Paths.txt(path));
 
     // Split into lines and remove empty lines
@@ -173,17 +178,17 @@ class EpiphanySong extends Song
       return;
     }
     for (step in lastStep...event.step)
+    {
+      if (lyricData.exists(step + 1))
       {
-        if (lyricData.exists(step + 1))
-        {
-          lyrics.text = lyricData.get(step + 1);
-          lyrics.screenCenter(0x01);
-        }
+        lyrics.text = lyricData.get(step + 1);
+        lyrics.screenCenter(0x01);
       }
+    }
     lastStep = event.step;
   }
 
-    function calcSectionLength(?duration:Int = 1)
+  function calcSectionLength(?duration:Int = 1)
   {
     var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
     return durSeconds;
@@ -213,7 +218,7 @@ class EpiphanySong extends Song
           currentStage.popup.animation.play('startDeleting');
           currentStage.popup.animation.curAnim.frameRate = 24 * PlayState.instance.playbackRate;
         case 788:
-          var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+          var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
           if (opponentStrumline != null)
           {
             for (arrow in opponentStrumline.members)

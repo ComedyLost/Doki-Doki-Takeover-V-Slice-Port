@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "BUNDLE OF SUNSHINE",
+  "titleAsset": "ui/story-mode/levels/weekS",
+  "visible": true,
+  "capsule": {
+    "name": "WEEK S"
+  },
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/SayoriWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/SayoriWeek",
+      "alpha": 0,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#A1F9FF",
+  "songs": ["rain-clouds", "my-confession"]
+}

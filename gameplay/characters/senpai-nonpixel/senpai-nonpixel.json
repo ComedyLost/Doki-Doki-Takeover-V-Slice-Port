@@ -1,100 +1,55 @@
 {
     "version": "1.0.0",
     "name": "Senpai (Non-Pixel)",
-    "assetPath": "shared:characters/senpai-nonpixel",
+    "assetPath": "gameplay/characters/senpai-nonpixel/senpai-nonpixel",
     "flipX": false,
     "singTime": 4,
     "renderType": "multianimateatlas",
-    "healthIcon": {"id": "senpai-real"},    
     "offsets": [0, -25],
     "animations": [
         {
             "name": "idle",
-            "prefix": "Senpai Returns",
-            "offsets": [
-                8,
-                24
-            ]
+            "prefix": "Idle"
         },
         {
             "name": "singLEFT",
-            "prefix": "Senpai Returns Left",
-            "offsets": [
-                47,
-                32
-            ]
+            "prefix": "Left"
         },
         {
             "name": "singRIGHT",
-            "prefix": "Senpai Returns Right",
-            "offsets": [
-                -11,
-                29
-            ]
+            "prefix": "Right"
         },
         {
             "name": "singUP",
-            "prefix": "Senpai Returns Up",
-            "offsets": [
-                11,
-                43
-            ]
+            "prefix": "Up"
         },
         {
             "name": "singDOWN",
-            "prefix": "Senpai Returns Down",
-            "offsets": [
-                24,
-                -5
-            ]
+            "prefix": "Down"
         },
         {
             "name": "swap",
-            "prefix": "Senpai Swap",
-            "offsets": [
-                13,
-                29
-            ]
+            "prefix": "Swap"
         },
         {
             "name": "idle-alt",
-            "prefix": "Senpai Returns Angy",
-            "offsets": [
-                9,
-                29
-            ]
+            "prefix": "Idle Alt"
         },
         {
             "name": "singLEFT-alt",
-            "prefix": "Senpai Returns Left Angy",
-            "offsets": [
-                60,
-                32
-            ]
+            "prefix": "Left Alt"
         },
         {
             "name": "singRIGHT-alt",
-            "prefix": "Senpai Returns Right Angy",
-            "offsets": [
-                -1,
-                29
-            ]
+            "prefix": "Right Alt"
         },
         {
             "name": "singUP-alt",
-            "prefix": "Senpai Returns Up Angy",
-            "offsets": [
-                17,
-                43
-            ]
+            "prefix": "Up Alt"
         },
         {
             "name": "singDOWN-alt",
-            "prefix": "Senpai Returns Down Angy",
-            "offsets": [
-                49,
-                -12
-            ]
+            "prefix": "Down Alt"
         }
     ],
     "startingAnimation": "",

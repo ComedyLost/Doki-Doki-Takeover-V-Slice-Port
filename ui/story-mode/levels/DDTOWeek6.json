@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "THE GOOD ENDING",
+  "titleAsset": "ui/story-mode/levels/weekF",
+  "visible": true,
+  "capsule": {
+    "name": "FESTIVAL"
+  },
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/FestivalWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/FestivalWeek",
+      "alpha": 0,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#F7BBDB",
+  "songs": ["crucify-yuri-mix", "beathoven-natsuki-mix", "its-complicated-sayori-mix", "glitcher-monika-mix"]
+}

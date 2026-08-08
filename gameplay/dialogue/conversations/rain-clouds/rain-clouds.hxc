@@ -1,0 +1,9 @@
+import ddto.cutscene.DokiConversation;
+
+class RainCloudsConversation extends DokiConversation
+{
+  function new()
+  {
+    super('rain-clouds');
+  }
+}

@@ -1,12 +1,11 @@
 {
     "version": "1.0.0",
     "name": "Pico (DDTO)",
-    "assetPath": "shared:characters/pico-doki",
+    "assetPath": "gameplay/characters/pico-doki/pico-doki",
     "renderType": "animateatlas",
     "singTime": 4,
     "offsets": [30, 30],
     "cameraOffsets": [0, 100],
-    "healthIcon": {"id": "pico-doki"},
     "atlasSettings": {
         "swfMode": false
     },    

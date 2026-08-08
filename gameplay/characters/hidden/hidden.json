@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Hidden",
     "renderType": "sparrow",
-    "assetPath": "characters/hidden",
+    "assetPath": "gameplay/characters/hidden/hidden",
     "flipX": false,
     "singTime": 4,
     "animations": [

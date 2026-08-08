@@ -1,16 +1,15 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
 import flixel.addons.text.FlxTypeText;
 import flixel.text.FlxTextBorderStyle;
 import flixel.text.FlxText;
-import flixel.addons.display.FlxBackdrop;
+import funkin.graphics.FunkinBackdrop;
 import funkin.Conductor;
 import flixel.effects.FlxFlicker;
 import funkin.util.FlxTweenUtil;
@@ -30,21 +29,21 @@ import funkin.modding.module.ModuleHandler;
 
 class YouAndMeSong extends Song
 {
-  var vignette:FlxSprite;
-  var staticshock:FlxSprite;
+  var vignette:FunkinSprite;
+  var staticshock:FunkinSprite;
   var funnytext:FlxTypeText;
   var blackbarTop:FunkinSprite;
   var blackbarBottom:FunkinSprite;
-  var dokiBackdrop:FlxBackdrop;
+  var dokiBackdrop:FunkinBackdrop;
   var options:Array<FunkinSprite>;
   var selectDokiSection:Bool = false;
   var selectedDoki:Bool = false;
   var chosenDoki:Int = 0;
-  var select:FlxSprite;
-  var bg:FlxSprite;
+  var select:FunkinSprite;
+  var bg:FunkinSprite;
   var huehTimer:FlxTimer;
   var funnyChar:String = 'protag';
-  var whiteflash:FlxSprite;
+  var whiteflash:FunkinSprite;
   var newVocals:FunkinSound;
   var characterImages:Array<Dynamic>;
   var ending:Bool = false;
@@ -57,13 +56,12 @@ class YouAndMeSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
     ending = false;
 
     characterImages = [];
 
-    dokiBackdrop = new FlxBackdrop(Paths.image('scrollingBG'));
+    dokiBackdrop = new FunkinBackdrop(Paths.image('scrollingBG'));
     dokiBackdrop.updateHitbox();
     dokiBackdrop.zIndex = 55;
     dokiBackdrop.velocity.set(-40, -40);
@@ -75,7 +73,7 @@ class YouAndMeSong extends Song
     funnytext.alignment = "left";
     funnytext.borderSize = 0.3;
     funnytext.borderStyle = FlxTextBorderStyle.OUTLINE;
-    funnytext.font = Paths.font("Journal.ttf");
+    funnytext.font = Paths.font("ui/fonts/Journal.ttf");
     funnytext.cameras = [PlayState.instance.camGame];
     funnytext.scrollFactor.set(0, 0);
     PlayState.instance.add(funnytext);
@@ -92,14 +90,14 @@ class YouAndMeSong extends Song
     blackbarBottom.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(blackbarBottom);
 
-    bg = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    bg = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     bg.alpha = 0;
     bg.scrollFactor.set();
     bg.cameras = [PlayState.instance.camCutscene];
     PlayState.instance.add(bg);
     characterImages.push(bg);
 
-    whiteflash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    whiteflash = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     whiteflash.scrollFactor.set();
     whiteflash.alpha = 1;
     whiteflash.cameras = [PlayState.instance.camHUD];
@@ -120,7 +118,7 @@ class YouAndMeSong extends Song
     {
       var funnyx:Int = 69;
 
-      var funnySprite:FlxSprite = new FlxSprite(funnyx + (i * 294), 164);
+      var funnySprite:FunkinSprite = new FunkinSprite(funnyx + (i * 294), 164);
       funnySprite.frames = Paths.getSparrowAtlas('extraui/' + charList[i] + 'Card');
       switch (charList[i])
       {
@@ -232,7 +230,7 @@ class YouAndMeSong extends Song
         FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
         FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
 
-        var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+        var playerStrumline:FunkinSprite = PlayState.instance.playerStrumline;
         if (playerStrumline != null)
         {
           for (arrow in playerStrumline.members)
@@ -298,7 +296,7 @@ class YouAndMeSong extends Song
           selectDokiSection = true;
         });
       case 1252:
-        var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+        var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
         if (opponentStrumline != null)
         {
           if (opponentStrumline.strumlineScale.x != 1)
@@ -520,7 +518,7 @@ class YouAndMeSong extends Song
     whiteflash.alpha = 1;
     dokiBackdrop.alpha = 0;
     bg.alpha = 0;
-    var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+    var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
     if (opponentStrumline != null)
     {
       for (arrow in opponentStrumline.members)
@@ -528,7 +526,7 @@ class YouAndMeSong extends Song
         arrow.visible = false;
       }
     }
-    var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+    var playerStrumline:FunkinSprite = PlayState.instance.playerStrumline;
     if (playerStrumline != null)
     {
       for (arrow in playerStrumline.members)

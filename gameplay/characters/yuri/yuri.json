@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Yuri",
     "renderType": "multianimateatlas",
-    "assetPath": "shared:characters/yuri/default",
+    "assetPath": "gameplay/characters/yuri/costumes/default",
     "flipX": false,
     "playerCameraOffsets": [0, 115],
     "singTime": 6,
@@ -40,27 +40,27 @@
 	"costumelist": [
 		{
 			"internal_Name": "blueskies",
-			"assetPath": "shared:characters/yuri/blueskies"
+			"assetPath": "gameplay/characters/yuri/costumes/blueskies"
 		},
 		{
 			"internal_Name": "casual",
-			"assetPath": "shared:characters/yuri/casual"
+			"assetPath": "gameplay/characters/yuri/costumes/casual"
 		},
 		{
 			"internal_Name": "picnic",
-			"assetPath": "shared:characters/yuri/picnic"
+			"assetPath": "gameplay/characters/yuri/costumes/picnic"
 		},
 		{
 			"internal_Name": "taki",
-			"assetPath": "shared:characters/yuri/taki"
+			"assetPath": "gameplay/characters/yuri/costumes/taki"
 		},
 		{
 			"internal_Name": "derby",
-			"assetPath": "shared:characters/yuri/derby"
+			"assetPath": "gameplay/characters/yuri/costumes/derby"
 		},
 		{
 			"internal_Name": "tabi",
-			"assetPath": "shared:characters/yuri/tabi"
+			"assetPath": "gameplay/characters/yuri/costumes/tabi"
 		}
 	],
     "scale": 1,

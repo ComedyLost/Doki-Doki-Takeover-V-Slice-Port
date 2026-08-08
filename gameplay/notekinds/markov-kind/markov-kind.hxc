@@ -1,0 +1,105 @@
+import funkin.play.notes.notekind.ScriptedNoteKind;
+import funkin.graphics.FunkinSprite;
+import funkin.play.PlayState;
+
+using StringTools;
+
+class MarkovNoteKind extends ScriptedNoteKind
+{
+
+  final NOTE_ASSET_PATH:String = 'gameplay/notekinds/markov-kind';
+
+  public function new()
+  {
+    super("markov", "Markov Note");
+    save = DokiPreferences.getDokiSave();
+    this.params = [{
+      name: "shouldHit",
+      description: "Opponent Hit",
+      type: "Float",
+      data: {
+        min: 0,
+        max: 1,
+        defaultValue: 0
+      }
+    }];
+    this.scoreable = false;
+  }
+
+  function onNoteHit(callback)
+  {
+    super.onNoteHit(callback);
+    this.noanim = ((callback.note.params[0]?.value ?? 0) == 0);
+    if (callback.judgement == "perfect")
+    {
+      if (callback.note.noteData.getStrumlineIndex() == 0) callback.cancelEvent(); // Don't let botplay hit the notes either
+      return; // Botplay or opponent
+    }
+    PlayState.instance.health = -1; // Fucking MURDERS YOU
+  }
+
+  function onNoteIncoming(callback)
+  {
+    callback.note.lowPriority = true;
+    if (!save.markov)
+    {
+      if (callback.note.noteData.getStrumlineIndex() == 0) callback.note.kill();
+      return;
+    }
+    else if (save.random)
+    {
+      callback.note.kill(); // No Markov notes to prevent getting fucked over
+      return;
+    }
+
+    var strumline = switch (callback.note.noteData.getStrumlineIndex())
+    {
+      case 0: PlayState.instance.playerStrumline;
+      case 1: PlayState.instance.opponentStrumline;
+    }
+
+    if (callback.note.get_isHoldNote())
+    {
+      if (!strumline.noteStyle.id.endsWith('pixel'))
+      { // Pixel holds don't have a custom hold sprite
+        callback.note.holdNoteSprite.loadGraphic(Paths.image('$NOTE_ASSET_PATH/markov-hold-notes'));
+
+        callback.note.holdNoteSprite.updateColorTransform();
+        callback.note.holdNoteSprite.updateClipping();
+        callback.note.holdNoteSprite.updateHitbox();
+      }
+    }
+
+    if (strumline.noteStyle.id.endsWith('pixel')) callback.note.frames = Paths.getSparrowAtlas('$NOTE_ASSET_PATH/markov-pixel-notes');
+    else
+    {
+      callback.note.frames = Paths.getSparrowAtlas('$NOTE_ASSET_PATH/markov-notes');
+      callback.note.x -= 4;
+    }
+
+    callback.note.animation.addByPrefix('greenScroll', 'green0', 24, true);
+    callback.note.animation.addByPrefix('redScroll', 'red0', 24, true);
+    callback.note.animation.addByPrefix('blueScroll', 'blue0', 24, true);
+    callback.note.animation.addByPrefix('purpleScroll', 'purple0', 24, true);
+
+    callback.note.updateHitbox();
+
+    var penis:String;
+
+    if (callback.note.noteData.data % 4 == 0) penis = "purpleScroll";
+    if (callback.note.noteData.data % 4 == 1) penis = "blueScroll";
+    if (callback.note.noteData.data % 4 == 2) penis = "greenScroll";
+    if (callback.note.noteData.data % 4 == 3) penis = "redScroll";
+
+    if (callback.note.animation.curAnim == null)
+    {
+      callback.note.active = true;
+      callback.note.animation.play(penis);
+    }
+  }
+
+  function onNoteMiss(callback)
+  {
+    callback.cancelEvent(); // Do nothing when missed
+  }
+}

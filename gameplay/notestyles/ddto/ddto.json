@@ -1,0 +1,201 @@
+{
+  "version": "1.1.0",
+  "name": "Doki (Normal)",
+  "author": "MC07",
+  "fallback": "funkin",
+  "assets": {
+    "note": {
+      "assetPath": "gameplay/notestyles/ddto/DokiNotes",
+      "scale": 0.7,
+      "data": {
+        "left": { "prefix": "purple0" },
+        "down": { "prefix": "blue0" },
+        "up": { "prefix": "green0" },
+        "right": { "prefix": "red0" }
+      }
+    },
+    "noteStrumline": {
+      "assetPath": "gameplay/notestyles/ddto/DokiStrumline",
+      "scale": 0.7,
+      "offsets": [25, 25],
+      "data": {
+        "leftStatic": { "prefix": "arrowLEFT0" },
+        "leftPress": { "prefix": "left press0" },
+        "leftConfirm": { "prefix": "left confirm0" },
+        "leftConfirmHold": { "prefix": "left confirm0" },
+        "downStatic": { "prefix": "arrowDOWN0" },
+        "downPress": { "prefix": "down press0" },
+        "downConfirm": { "prefix": "down confirm0" },
+        "downConfirmHold": { "prefix": "down confirm0" },
+        "upStatic": { "prefix": "arrowUP0" },
+        "upPress": { "prefix": "up press0" },
+        "upConfirm": { "prefix": "up confirm0" },
+        "upConfirmHold": { "prefix": "up confirm0" },
+        "rightStatic": { "prefix": "arrowRIGHT0" },
+        "rightPress": { "prefix": "right press0" },
+        "rightConfirm": { "prefix": "right confirm0" },
+        "rightConfirmHold": { "prefix": "right confirm0" }
+      }
+    },
+    "holdNote": {
+      "assetPath": "gameplay/notestyles/ddto/DokiHoldNotes",
+      "scale": 0.7,
+      "offsets": [1, 0],
+      "data": {}
+    },
+    "noteSplash": {
+      "offsets": [-2, -40],
+      "assetPath": "gameplay/notestyles/ddto/DokiSplash",
+      "data": {
+        "enabled": true,
+        "leftSplashes": [
+          { "prefix": "note splash purple 2 instance 1" },
+          { "prefix": "note splash purple 2 instance 1" }
+        ],
+        "rightSplashes": [
+          { "prefix": "note splash red 2 instance 1" },
+          { "prefix": "note splash red 2 instance 1" }
+        ],
+        "upSplashes": [
+          { "prefix": "note splash green 2 instance 1" },
+          { "prefix": "note splash green 2 instance 1" }
+        ],
+        "downSplashes": [
+          { "prefix": "note splash blue 2 instance 1" },
+          { "prefix": "note splash blue 2 instance 1" }
+        ]
+      }
+    },
+    "holdNoteCover": {
+      "assetPath": "",
+      "offsets": [0, 0],
+      "data": {
+        "enabled": true,
+        "left": {
+          "assetPath": "gameplay/notestyles/funkin/hold-cover-left",
+          "start": { "prefix": "holdCoverStartPurple" },
+          "hold": { "prefix": "holdCoverPurple" },
+          "end": { "prefix": "holdCoverEndPurple" }
+        },
+        "right": {
+          "assetPath": "gameplay/notestyles/funkin/hold-cover-right",
+          "start": { "prefix": "holdCoverStartRed" },
+          "hold": { "prefix": "holdCoverRed" },
+          "end": { "prefix": "holdCoverEndRed" }
+        },
+        "up": {
+          "assetPath": "gameplay/notestyles/funkin/hold-cover-up",
+          "start": { "prefix": "holdCoverStartGreen" },
+          "hold": { "prefix": "holdCoverGreen" },
+          "end": { "prefix": "holdCoverEndGreen" }
+        },
+        "down": {
+          "assetPath": "gameplay/notestyles/funkin/hold-cover-down",
+          "start": { "prefix": "holdCoverStartBlue" },
+          "hold": { "prefix": "holdCoverBlue" },
+          "end": { "prefix": "holdCoverEndBlue" }
+        }
+      }
+    },
+    "countdownThree": {
+      "data": {
+        "audioPath": "gameplay/notestyles/funkin/countdown/sound/intro-three"
+      },
+      "assetPath": null
+    },
+    "countdownTwo": {
+      "data": {
+        "audioPath": "gameplay/notestyles/funkin/countdown/sound/intro-two"
+      },
+      "assetPath": "gameplay/notestyles/ddto/countdown/graphics/ready",
+      "scale": 0.7,
+      "isPixel": false
+    },
+    "countdownOne": {
+      "data": {
+        "audioPath": "gameplay/notestyles/funkin/countdown/sound/intro-one"
+      },
+      "assetPath": "gameplay/notestyles/ddto/countdown/graphics/set",
+      "scale": 0.7,
+      "isPixel": false
+    },
+    "countdownGo": {
+      "data": {
+        "audioPath": "gameplay/notestyles/funkin/countdown/sound/intro-go"
+      },
+      "assetPath": "gameplay/notestyles/ddto/countdown/graphics/go",
+      "scale": 0.7,
+      "isPixel": false
+    },
+    "judgementSick": {
+      "assetPath": "gameplay/notestyles/ddto/popup/sick",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "judgementGood": {
+      "assetPath": "gameplay/notestyles/ddto/popup/good",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "judgementBad": {
+      "assetPath": "gameplay/notestyles/ddto/popup/bad",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "judgementShit": {
+      "assetPath": "gameplay/notestyles/ddto/popup/shit",
+      "scale": 0.65,
+      "isPixel": false
+    },
+    "comboNumber0": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num0",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber1": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num1",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber2": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num2",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber3": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num3",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber4": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num4",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber5": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num5",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber6": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num6",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber7": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num7",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber8": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num8",
+      "isPixel": false,
+      "scale": 0.45
+    },
+    "comboNumber9": {
+      "assetPath": "gameplay/notestyles/ddto/popup/num9",
+      "isPixel": false,
+      "scale": 0.45
+    }
+  }
+}

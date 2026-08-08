@@ -30,8 +30,7 @@ class BakaSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     hasPlayedIntroCutscene = false;
 

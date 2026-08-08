@@ -1,16 +1,8 @@
 {
     "version": "1.0.0",
     "name": "Zipper",
-    "assetPath": "characters/zipper",
+    "assetPath": "gameplay/characters/zipper/zipper",
     "singTime": 4,
-    "isPixel": false,
-    "scale": 1,
-    "healthIcon": {
-        "id": "zipper",
-        "isPixel": false,
-        "flipX": false,
-        "scale": 1
-    },
     "animations": [
         {
             "name": "idle",
@@ -18,9 +10,7 @@
             "offsets": [
                 0,
                 0
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singUP",
@@ -28,9 +18,7 @@
             "offsets": [
                 113,
                 44
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singLEFT",
@@ -38,9 +26,7 @@
             "offsets": [
                 220,
                 -85
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singRIGHT",
@@ -48,9 +34,7 @@
             "offsets": [
                 0,
                 -10
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singDOWN",
@@ -58,9 +42,7 @@
             "offsets": [
                 90,
                 -120
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singUP-alt",
@@ -68,9 +50,7 @@
             "offsets": [
                 240,
                 -30
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singLEFT-alt",
@@ -78,9 +58,7 @@
             "offsets": [
                 240,
                 -30
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singRIGHT-alt",
@@ -88,9 +66,7 @@
             "offsets": [
                 240,
                 -30
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         },
         {
             "name": "singDOWN-alt",
@@ -98,10 +74,7 @@
             "offsets": [
                 240,
                 -30
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            ]
         }
-    ],
-    "flipX": false
+    ]
 }

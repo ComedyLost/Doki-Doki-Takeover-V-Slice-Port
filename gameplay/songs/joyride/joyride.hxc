@@ -1,23 +1,10 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
-import flixel.util.FlxTimer;
-import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
-import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
-import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.util.FlxTweenUtil;
 import funkin.play.PlayStatePlaylist;
-import funkin.play.character.CharacterDataParser;
-import funkin.play.character.CharacterType;
-import flixel.text.FlxText;
-import flixel.text.FlxTextBorderStyle;
-import funkin.modding.module.ModuleHandler;
-import funkin.modding.module.Module;
-import funkin.graphics.FunkinCamera;
-import flixel.group.FlxTypedSpriteGroup;
 import funkin.save.Save;
 
 class JoyrideSong extends Song
@@ -27,13 +14,15 @@ class JoyrideSong extends Song
     super('joyride');
   }
 
-  var curDokiLight;
-  var pastDokiLight;
+  var curDokiLight:FlxColor;
+  var pastDokiLight:FlxColor;
   var encoreTime:Int;
+
+  final STAGE_PATH:String = 'gameplay/stages/musicroom';
 
   public override function isSongNew(currentDifficulty:String):Bool
   {
-    if (Save.instance.hasBeatenSong(this.id) == false) return true;
+    if (!Save.instance.hasBeatenSong(this.id)) return true;
     else
       return false;
   }
@@ -41,11 +30,10 @@ class JoyrideSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     encoreTime = 0;
-    sunshine = new FlxSprite(0, 0).loadGraphic(Paths.image('musicroom/SayoSunshine'));
+    sunshine = new FunkinSprite(0, 0).loadGraphic(Paths.image('$STAGE_PATH/sunshine-sayori'));
     sunshine.screenCenter();
     sunshine.alpha = 0.001;
     sunshine.cameras = [PlayState.instance.camHUD];
@@ -92,7 +80,7 @@ class JoyrideSong extends Song
           curDokiLight = FlxG.random.int(0, dokiLights.length - 1, [pastDokiLight]);
           pastDokiLight = curDokiLight;
 
-          var funnyFlash:FlxSprite;
+          var funnyFlash:FunkinSprite;
 
           if (encoreTime == 2) // Can turn into a switch if need be
             funnyFlash = sunshine;

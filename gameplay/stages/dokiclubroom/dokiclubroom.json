@@ -132,5 +132,5 @@
     "dad": { "zIndex": 60, "position": [300, 850], "cameraOffsets": [100, -100] },
     "gf": { "zIndex": 50, "cameraOffsets": [0, 0], "position": [750, 775] }
   },
-  "name": "The gameplay/stages/clubroom"
+  "name": "The Clubroom"
 }

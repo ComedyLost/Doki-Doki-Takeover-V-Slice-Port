@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Ghost Intro",
-    "assetPath": "characters/ghost/LibiIntro_Assets",
+    "assetPath": "gameplay/characters/ghost-intro/LibiIntro_Assets",
     "singTime": 6.1,
     "isPixel": false,
     "scale": 1,

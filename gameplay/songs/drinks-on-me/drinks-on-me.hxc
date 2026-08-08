@@ -1,7 +1,6 @@
 import funkin.play.PlayState;
 import funkin.play.song.Song;
 import funkin.graphics.FunkinSprite;
-import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import funkin.Conductor;
@@ -14,7 +13,6 @@ import flixel.text.FlxText;
 import funkin.util.FlxTweenUtil;
 import funkin.play.Countdown;
 import funkin.save.Save;
-import funkin.effects.RetroCameraFade;
 import Date;
 import funkin.mobile.input.ControlsHandler;
 import funkin.ui.FullScreenScaleMode;
@@ -29,9 +27,11 @@ class DrinksOnMeSong extends Song
   }
 
   var encoreTime:Int = 0;
-  var cg1:FlxSprite;
-  var cg2:FlxSprite;
-  var blackScreen:FlxSprite;
+  var cg1:FunkinSprite;
+  var cg2:FunkinSprite;
+  var blackScreen:FunkinSprite;
+
+  final STAGE_PATH:String = 'gameplay/stages/va11halla';
 
   function onNoteIncoming(callback)
   {
@@ -50,23 +50,22 @@ class DrinksOnMeSong extends Song
   function onCreate(event:ScriptEvent):Void
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    cg1 = new FlxSprite().loadGraphic(Paths.image('va11halla/intro1'));
+    cg1 = new FunkinSprite().loadGraphic(Paths.image('$STAGE_PATH/intro-1'));
     cg1.antialiasing = false;
     cg1.alpha = 0;
     cg1.cameras = [PlayState.instance.camHUD];
     cg1.screenCenter();
     cg1.zIndex = 3000;
     PlayState.instance.add(cg1);
-    cg2 = new FlxSprite().loadGraphic(Paths.image('va11halla/intro2'));
+    cg2 = new FunkinSprite().loadGraphic(Paths.image('$STAGE_PATH/intro-2'));
     cg2.antialiasing = false;
     cg2.alpha = 0;
     cg2.cameras = [PlayState.instance.camHUD];
     cg2.zIndex = 3000;
     PlayState.instance.add(cg2);
-    blackScreen = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreen = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreen.scrollFactor.set();
     blackScreen.alpha = 1;
     blackScreen.zIndex = 2500;
@@ -94,22 +93,20 @@ class DrinksOnMeSong extends Song
       || (FlxG.onMobile
         && ControlsHandler.usingExternalInputDevice)) PlayState.instance.playerStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET)
         + (cutoutSize / 2.0);
-    new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
-    {
+    FlxG.signals.postUpdate.addOnce(() -> {
       Countdown.skipCountdown();
     });
   }
 
   function calcSectionLength(?duration:Int = 1)
   {
-    if (duration == null) duration = 1;
     var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
     return durSeconds;
   }
 
   public static function coolTextFile(?path:String):Array<String>
   {
-    var fullText:String = Assets.getText(Paths.txt('nicoText'));
+    var fullText:String = Assets.getText(Paths.txt('gameplay/songs/${this.id}/nico-text'));
 
     // Split into lines and remove empty lines
     var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
@@ -127,7 +124,7 @@ class DrinksOnMeSong extends Song
     var randomText:String = nicoText[FlxG.random.int(0, nicoText.length - 1)];
     var funnyText:FlxText = new FlxText(0, 0, 0, randomText, 50);
     funnyText.scrollFactor.set();
-    funnyText.font = Paths.font("CyberpunkWaifus.ttf");
+    funnyText.font = Paths.font("ui/fonts/CyberpunkWaifus.ttf");
     funnyText.setPosition(FlxG.width + funnyText.width, FlxG.random.int(0, 650));
     funnyText.antialiasing = false;
     funnyText.cameras = [PlayState.instance.camHUD];
@@ -143,8 +140,7 @@ class DrinksOnMeSong extends Song
 
   function onBeatHit(event:SongTimeScriptEvent):Void
   {
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     switch (encoreTime)
     {
@@ -156,8 +152,7 @@ class DrinksOnMeSong extends Song
 
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     switch (event.step)
     {
@@ -213,7 +208,7 @@ class DrinksOnMeSong extends Song
         blackScreen.alpha = 0;
       case 111:
         PlayState.instance.cameraZoomRate = 4;
-        ModuleHandler.getModule('Credits').scriptCall('manualCreditsSummon');
+        ModuleHandler.getModule('Credits').manualCreditsSummon();
         if (save.pixel)
         {
           var tweenFunction = function(x)
@@ -235,10 +230,7 @@ class DrinksOnMeSong extends Song
       case 512:
         PlayState.instance.camHUD.flash(0xFFFDC1FF, calcSectionLength(0.2));
         PlayState.instance.currentStage.getNamedProp('Dana').alpha = 1;
-        new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
-        {
-          PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
-        });
+        PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
       case 752:
         PlayState.instance.tweenCameraZoom(1.4, calcSectionLength(1), true, FlxEase.expoOut);
       case 768:

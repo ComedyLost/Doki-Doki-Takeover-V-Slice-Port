@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "CUTE ON THE OUTSIDE",
+  "titleAsset": "ui/story-mode/levels/weekN",
+  "visible": true,
+  "capsule": {
+    "name": "WEEK N"
+  },
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/NatsukiWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/NatsukiWeek",
+      "alpha": 0,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#EE89AB",
+  "songs": ["my-sweets", "baka"]
+}

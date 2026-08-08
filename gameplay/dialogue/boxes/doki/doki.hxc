@@ -1,0 +1,99 @@
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.play.cutscene.dialogue.ConversationState;
+import funkin.play.cutscene.dialogue.DialogueBox;
+import funkin.audio.FunkinSound;
+import flixel.text.FlxTextBorderStyle;
+import funkin.play.PlayState;
+import Reflect;
+
+class DokiDialogueBox extends DialogueBox
+{
+  function new()
+  {
+    super('doki');
+  }
+
+  var none:FunkinSound;
+  var bfSFX:FunkinSound;
+  var gfSFX:FunkinSound;
+  var moniSFX:FunkinSound;
+  var sayoSFX:FunkinSound;
+  var natsuSFX:FunkinSound;
+  var yuriSFX:FunkinSound;
+  var protagSFX:FunkinSound;
+  var zipSFX:FunkinSound;
+
+  final DEFAULT_SOUND_PATH:String = 'gameplay/dialogue/boxes/doki/sounds';
+
+  function set_animOffsets(value:Array<Float>):Array<Float>
+  {
+    // This should do NOTHING as the textbox shouldn't move at all
+    return value;
+  }
+
+  function set_globalOffsets(value:Array<Float>):Array<Float>
+  {
+    // This should do NOTHING as the textbox shouldn't move at all
+    return value;
+  }
+
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    PlayState.instance.disableKeys = false; // Re-enable inputs if the game disables them
+    textDisplay.borderStyle = FlxTextBorderStyle.OUTLINE;
+
+    none = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/pixelText'), 0.6);
+    bfSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/bfText'), 0.6);
+    gfSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/gfText'), 0.6);
+    moniSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/monikaText'), 0.6);
+    sayoSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/sayoriText'), 0.6);
+    natsuSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/natsukiText'), 0.6);
+    yuriSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/yuriText'), 0.6);
+    protagSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/mcText'), 0.6);
+    zipSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/zipperText'), 0.6);
+
+    this.screenCenter(0x01);
+    textDisplay.fieldWidth = Std.int(boxSprite.width * 0.85);
+  }
+
+  override public function playAnimation(name:String, restart:Bool = false, reversed:Bool = false):Void
+  {
+    super.playAnimation(name, restart, reversed);
+    textDisplay.sounds = switch (name)
+    {
+      case 'bf': [bfSFX];
+      case 'gf': [gfSFX];
+      case 'moni': [moniSFX];
+      case 'sayo': [sayoSFX];
+      case 'natsu': [natsuSFX];
+      case 'yuri', 'glitchyuri': [yuriSFX];
+      case 'protag': [protagSFX];
+      case 'zipper': [zipSFX];
+      case 'empty': [none];
+      default: [none];
+    }
+  }
+
+  public function onDialogueStart(event:DialogueScriptEvent):Void
+  {
+    playAnimation('enter', true);
+    super.onDialogueStart(event);
+  }
+
+  public function onDialogueLine(event:DialogueScriptEvent):Void
+  {
+    // Override the default box animation behavior by switching the state
+    // event.conversation.state = ConversationState.Opening;
+
+    FunkinSound.playOnce(Paths.sound('gameplay/dialogue/boxes/roses/click-advance'), 0.6);
+    super.onDialogueEnd(event);
+  }
+
+  public function onDialogueEnd(event:DialogueScriptEvent):Void
+  {
+    super.onDialogueEnd(event);
+    textDisplay.visible = false;
+  }
+}

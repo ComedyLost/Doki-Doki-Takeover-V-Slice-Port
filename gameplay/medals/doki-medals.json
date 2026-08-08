@@ -1,0 +1,74 @@
+[
+  {
+    "id": "habits",
+    "points": 20,
+    "name": "Old Habits Die Hard",
+    "icon": "monika-pixel"
+  },
+  {
+    "id": "sunshine",
+    "points": 20,
+    "name": "Bundle of Sunshine",
+    "icon": "sayori"
+  },
+  {
+    "id": "cute",
+    "points": 20,
+    "name": "Cute on the Outside",
+    "icon": "natsuki"
+  },
+  {
+    "id": "maiden",
+    "points": 20,
+    "name": "Maiden of Mystery",
+    "icon": "yuri"
+  },
+  {
+    "id": "president",
+    "points": 20,
+    "name": "President of the Club",
+    "icon": "monika"
+  },
+  {
+    "id": "good-ending",
+    "points": 35,
+    "name": "The Good Ending",
+    "icon": "all"
+  },
+  {
+    "id": "friendship",
+    "points": 35,
+    "name": "Friendship and Literature",
+    "icon": "all"
+  },
+  {
+    "id": "btn",
+    "points": 20,
+    "name": "Back to Normal",
+    "icon": "protag"
+  },
+  {
+    "id": "files-cleared",
+    "points": 45,
+    "name": "Game Files Cleared",
+    "icon": "big-monika"
+  },
+  {
+    "id": "devotion",
+    "points": 75,
+    "name": "True Devotion",
+    "icon": "big-monika-happy"
+  },
+  {
+    "id": "eye",
+    "points": 100,
+    "name": "Third Eye Awakened",
+    "icon": "libitina"
+  },
+  {
+    "id": "wrong-vn",
+    "points": 20,
+    "name": "Oops, Wrong VN",
+    "icon": "jill"
+  },
+]

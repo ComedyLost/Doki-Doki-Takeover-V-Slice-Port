@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "name": "Doki Doki Takeover Plus",
+  "artists": ["Team TBD"],
+  "albumOSTName": "TAKEOVER OST",
+  "albumArtAsset": "ui/freeplay/albums/takeover",
+  "albumTitleAsset": "ui/freeplay/albums/takeover-text"
+}

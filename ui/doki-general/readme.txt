@@ -1,0 +1,1 @@
+Assets here are used in multiple different places and don't belong in one folder

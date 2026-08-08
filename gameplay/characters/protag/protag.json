@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "MC",
     "renderType": "multianimateatlas",
-    "assetPath": "shared:characters/protag/default",
+    "assetPath": "gameplay/characters/protag/costumes/default",
     "flipX": false,
     "singTime": 6,
     "offsets": [10, 30],
@@ -57,29 +57,24 @@
 	"costumes": "protag",
 	"costumelist": [
 		{
-			"subfolder":true,
 			"internal_Name": "casual",
-			"charFile":"protag-casual"
+			"assetPath": "gameplay/characters/protag/costumes/casual"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "hotline",
-			"charFile":"protag-hotline"
+			"assetPath": "gameplay/characters/protag/costumes/hotline"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "henry",
-			"charFile":"protag-henry"
+			"assetPath": "gameplay/characters/protag/costumes/henry"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "fanon",
-			"charFile":"protag-fanon"
+			"assetPath": "gameplay/characters/protag/costumes/fanon"
 		},
 		{
-			"subfolder":true,
 			"internal_Name": "blueskies",
-			"charFile":"protag-blueskies"
+			"assetPath": "gameplay/characters/protag/costumes/blueskies"
 		}
 	],
     "isPixel": false,

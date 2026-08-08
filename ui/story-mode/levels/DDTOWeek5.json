@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "PRESIDENT OF THE CLUB",
+  "titleAsset": "ui/story-mode/levels/weekM",
+  "visible": true,
+  "capsule": {
+    "name": "WEEK M"
+  },
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/MonikaWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/MonikaWeek",
+      "alpha": 0,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#80C842",
+  "songs": ["reconciliation"]
+}

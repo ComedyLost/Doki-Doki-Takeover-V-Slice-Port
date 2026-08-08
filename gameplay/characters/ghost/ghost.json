@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Ghost",
-    "assetPath": "characters/ghost/Libitina",
+    "assetPath": "gameplay/characters/ghost/Libitina",
     "singTime": 6.1,
     "isPixel": false,
     "scale": 1,

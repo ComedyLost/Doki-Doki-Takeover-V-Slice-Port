@@ -1,55 +1,28 @@
 {
   "props": [
     {
-      "name": "solid",
-      "assetPath": "#FFFFFF",
-      "position": [-500, -1000],
-      "scale": [2400, 2000],
-      "scroll": [0, 0]
-    },
-    {
-      "danceEvery": 0,
       "zIndex": 70,
       "position": [-35, 0],
       "scale": [1.25, 1.25],
-      "animType": "sparrow",
       "name": "Wilted BG",
-      "isPixel": false,
-      "assetPath": "wilt/bg",
-      "scroll": [0.85, 1],
-      "animations": []
+      "assetPath": "gameplay/stages/wilted/wilted-bg",
+      "scroll": [0.85, 1]
     },
     {
-      "danceEvery": 0,
       "zIndex": 80,
       "position": [0, 0],
       "scale": [1.25, 1.25],
-      "animType": "sparrow",
       "name": "Wilted Window",
-      "isPixel": false,
-      "assetPath": "wilt/p1",
-      "scroll": [1, 1],
-      "animations": []
+      "assetPath": "gameplay/stages/wilted/wilted-window-dating",
+      "scroll": [1, 1]
     }
   ],
   "cameraZoom": 0.70,
   "version": "1.0.0",
   "characters": {
-    "bf": {
-      "zIndex": 90,
-      "position": [1450, 860],
-      "cameraOffsets": [-250, 60]
-    },
-    "dad": {
-      "zIndex": 100,
-      "position": [425, 925],
-      "cameraOffsets": [300, 50]
-    },
-    "gf": {
-      "zIndex": 0,
-      "cameraOffsets": [0, 150],
-      "position": [892, 625]
-    }
+    "bf": { "zIndex": 90, "position": [1450, 860], "cameraOffsets": [-250, 60] },
+    "dad": { "zIndex": 100, "position": [425, 925], "cameraOffsets": [300, 50] },
+    "gf": { "zIndex": 0, "cameraOffsets": [0, 150], "position": [892, 625] }
   },
   "name": "Wilted"
 }

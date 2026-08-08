@@ -1,15 +1,14 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.util.FlxTweenUtil;
-import flixel.addons.display.FlxBackdrop;
+import funkin.graphics.FunkinBackdrop;
 import flixel.FlxCamera;
 import funkin.save.Save;
 
@@ -20,17 +19,16 @@ class DeepBreathsSong extends Song
     super('deep-breaths');
   }
 
-  var sparkleBG:FlxBackdrop;
-  var sparkleFG:FlxBackdrop;
-  var pinkOverlay:FlxSprite;
+  var sparkleBG:FunkinBackdrop;
+  var sparkleFG:FunkinBackdrop;
+  var pinkOverlay:FunkinSprite;
 
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    sparkleBG = new FlxBackdrop(Paths.image('clubroom/YuriSparkleBG'));
+    sparkleBG = new FunkinBackdrop(Paths.image('clubroom/YuriSparkleBG'));
     sparkleBG.scrollFactor.set(0.1, 0);
     sparkleBG.velocity.set(-16, 0);
     sparkleBG.alpha = 0;
@@ -40,7 +38,7 @@ class DeepBreathsSong extends Song
     sparkleBG.screenCenter();
     PlayState.instance.currentStage.add(sparkleBG);
 
-    sparkleFG = new FlxBackdrop(Paths.image('clubroom/YuriSparkleFG'));
+    sparkleFG = new FunkinBackdrop(Paths.image('clubroom/YuriSparkleFG'));
     sparkleFG.scrollFactor.set(0.1, 0);
     sparkleFG.velocity.set(-48, 0);
     sparkleFG.setGraphicSize(Std.int((sparkleFG.width * 1.2) / FlxCamera.defaultZoom));
@@ -50,7 +48,7 @@ class DeepBreathsSong extends Song
     sparkleFG.screenCenter();
     PlayState.instance.add(sparkleFG);
 
-    pinkOverlay = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFF281F2);
+    pinkOverlay = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFF281F2);
     pinkOverlay.alpha = 0;
     pinkOverlay.zIndex = 200;
     pinkOverlay.blend = 12;

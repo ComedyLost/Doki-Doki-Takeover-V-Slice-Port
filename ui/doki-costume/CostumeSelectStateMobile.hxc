@@ -1,0 +1,643 @@
+import haxe.Json;
+import lime.utils.Assets;
+import flixel.FlxObject;
+import funkin.graphics.FunkinSprite;
+import funkin.graphics.FunkinBackdrop;
+import funkin.ui.MusicBeatState;
+import flixel.group.FlxTypedSpriteGroup;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.effects.FlxFlicker;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.text.FlxText;
+import flixel.math.FlxMath;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import lime.app.Application;
+import StringTools;
+import funkin.Conductor;
+import flixel.text.FlxTextBorderStyle;
+import funkin.ui.mainmenu.MainMenuState;
+import flixel.sound.FlxSound;
+import funkin.modding.base.ScriptedMusicBeatState;
+import funkin.save.Save;
+import flixel.util.FlxColor;
+
+typedef CostumeData =
+{
+  var data:String;
+  var name:String;
+  var desc:String;
+  var color:String;
+  @:optional var unlock:String;
+}
+
+typedef CostumeCharacter =
+{
+  var id:String;
+  var charName:String;
+  var costumes:Array<CostumeData>;
+}
+
+typedef CostumeJSON =
+{
+  var list:Array<CostumeCharacter>;
+}
+
+class CostumeSelectStateMobile extends MusicBeatState
+{
+  var curSelected:Int = 0;
+  var costumeSelected:Int = 0;
+  var hueh:Int = 0;
+  var chara:FunkinSprite;
+  private var grpControls:FlxTypedSpriteGroup<FlxText>;
+  private var grpControlshueh:FlxTypedSpriteGroup<FlxText>;
+  var selectingcostume:Bool = false;
+  var logo:FunkinSprite;
+  var save:Save;
+
+  var flavorBar:FunkinSprite;
+  var backdrop:FunkinBackdrop;
+  var logoBl:FunkinSprite;
+  var costumeLabel:FlxText;
+  var controlLabel:FlxText;
+  var flavorText:FlxText;
+
+  var colorTween1:FunkinSprite = new FunkinSprite(-9000, -9000).makeGraphic(1, 1, 0xFFFDFFFF);
+  var colorTween2:FunkinSprite = new FunkinSprite(-9000, -9000).makeGraphic(1, 1, 0xFFFDDBF1);
+  var SaveData:Save;
+
+  var character:Array<String> = ['bf', 'gf', 'monika', 'sayori', 'natsuki', 'yuri', 'protag'];
+  // costume unlocks
+  var costumeUnlocked:Array<Dynamic> = [ // Boyfriend
+    [true, // Uniform, unlocked by default
+      true, // Regular, unlocked by default
+      true, // Minus, unlocked by default
+      true, // Soft, save check for Soft Mod or mirror mode It's complicated with festy costume
+      true, // Mr. Cow, save checks for DDLC. If you played this mod and don't have this unlocked then I am extremely dissappointed in you.
+      true, // Blue Skies, 90% Accuracy on Your Demise
+      true, // HoloFunk, unlocked by clicking on sticker
+      true // MCBF, V-Slice exclusive
+    ], // Girlfriend
+    [true, // Uniform, unlocked by default
+      true, // Regular, unlocked by default
+      true, // Minus, unlocked by default
+      true, // Soft Pico, save check for Soft Mod or mirror mode It's complicated with festy costume
+      true, // Blue Skies, play Love n' Funkin' on Mirror Mode
+      true, // HoloFunk, unlocked by clicking on sticker
+      true // TBD-tan, beat Libitina
+    ], // Monika
+    [true, // Uniform, unlocked by default
+      true, // Casual, unlocked by default
+      true, // valentine, unlocks if Epiphany with Lyrics is beaten
+      true, // Festival, unlocks if Glitcher (Hard) is 90%+ accuracy
+      true, // Friends, play Wilted on Mirror Mode
+      true, // Blue Skies, play Reconciliation (Hard) on Mirror Mode
+      true // Vigilante, choose Monika on You and Me
+    ], // Sayori
+    [true, // Uniform, unlocked by default
+      true, // Casual, unlocked by default
+      true, // Sleep Wear, save check for BAD ENDING
+      true, // Picnic, choose Sayori on You and Me
+      true, // Festival, unlocks if It's Complicated (Hard) is 90%+ accuracy
+      true, // Friends, unlocks if Constricted (Hard) is 90%+ accuracy
+      true // Blue Skies, play My Confession (Hard) on Mirror Mode
+    ], // Natsuki
+    [true, // Uniform, unlocked by default
+      true, // Casual, unlocked by default
+      true, // Skater, choose Natsuki on You and Me
+      true, // Festival, unlocks if Beathoven (Hard) is 90%+ accuracy
+      true, // Friends, save checks for Sunday
+      true, // Antipathy, unlocked by clicking on artwork
+      true // Blue Skies, pick Natsu on Catfight (Hard)
+    ], // Yuri
+    [true, // Uniform, unlocked by default
+      true, // Casual, unlocked by default
+      true, // Derby, pick Yuri on Catfight (Hard)
+      true, // Picnic, choose Yuri on You and Me
+      true, // Festival, unlocks if Crucify (Hard) is 90%+ accuracy
+      true, // Friends, save check for Tabi
+      true // Blue Skies, play Deep Breaths (Hard) on Mirror Mode
+    ], // Protag
+    [true, // Uniform, unlocked by default
+      true, // Casual, unlocked by default
+      true, // Hotline, save check for Hotline 024
+      true, // Henry, unlocks if Titular is 90%+ accuracy
+      true // Blue Skies, fail You and Me by not picking a doki
+    ]];
+  var costumeJSON:CostumeJSON = null;
+
+  var defaultCostumes = {
+    protagcostume: '',
+    monikacostume: '',
+    yuricostume: '',
+    sayoricostume: '',
+    natsukicostume: '',
+    gfcostume: '',
+    bfcostume: ''
+  };
+
+  override function create()
+  {
+    FlxG.mouse.visible = true;
+
+    SaveData = CostumeSwapper.getDokiCostume();
+
+    Save.instance.flush();
+
+    options = DokiPreferences.getDokiSave();
+
+    Conductor.instance.forceBPM(124);
+
+    if (FlxG.sound?.music != null) FlxG.sound.music.stop();
+    FlxG.sound.music = new FlxSound().loadEmbedded(Paths.music('breakfast-doki'), true, true);
+
+    FlxG.sound.music.volume = 0;
+    FlxG.sound.music.play();
+
+    FlxTween.tween(FlxG.sound.music, {volume: 0.6}, 2.5, {ease: FlxTween.linear});
+
+    persistentUpdate = persistentDraw = true;
+
+    var costumestring:String = Assets.getText(Paths.json('costumeData'));
+
+    costumeJSON = Json.parse(costumestring);
+
+    backdrop = new FunkinBackdrop(Paths.image('scrollingBG'));
+    backdrop.velocity.set(-40, -40);
+    add(backdrop);
+
+    chara = new FunkinSprite(522, 9).loadGraphic(Paths.image('costume/bf'));
+    chara.scale.set(0.7, 0.7);
+    chara.updateHitbox();
+    add(chara);
+
+    flavorBar = new FunkinSprite(0, 605).makeGraphic(1280, 63, 0xFFFF8ED0);
+    flavorBar.alpha = 0.4;
+    flavorBar.screenCenter(0x01);
+    flavorBar.scrollFactor.set();
+    flavorBar.visible = false;
+    add(flavorBar);
+
+    flavorText = new FlxText(354, 608, 933, "I'm a test, this is for scale!", 40);
+    flavorText.scrollFactor.set(0, 0);
+    flavorText.setFormat(Paths.font("riffic.ttf"), 20, 0xFFFFFFFF, 'center', FlxTextBorderStyle.OUTLINE, 0xFF000000);
+    flavorText.borderSize = 2;
+    flavorText.borderQuality = 1;
+    flavorText.visible = false;
+    add(flavorText);
+
+    logo = new FunkinSprite(-60, 0).loadGraphic(Paths.image('Credits_LeftSide'));
+    add(logo);
+
+    logoBl = new FunkinSprite(40, -40);
+    logoBl.frames = Paths.getSparrowAtlas('DDLCStart_Screen_Assets');
+    logoBl.scale.set(0.5, 0.5);
+    logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
+    logoBl.animation.play('bump');
+    logoBl.updateHitbox();
+    add(logoBl);
+
+    grpControls = new FlxTypedSpriteGroup();
+    add(grpControls);
+
+    for (i in 0...costumeJSON.list.length)
+    {
+      var id:String = getString(costumeJSON.list[i].charName, 'characterName');
+
+      controlLabel = new FlxText(60, (40 * i) + 370, 0, id, 3);
+      controlLabel.setFormat(Paths.font("riffic.ttf"), 38, 0xFFFFFFFF, 'left');
+      controlLabel.scale.set(0.7, 0.7);
+      controlLabel.updateHitbox();
+      controlLabel.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFF7CFF, 2);
+      controlLabel.ID = i;
+      grpControls.add(controlLabel);
+      // DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
+    }
+
+    changeItem(0);
+
+    super.create();
+  }
+
+  var selectedSomethin:Bool = false;
+
+  override function update(elapsed:Float)
+  {
+    if (FlxG.sound.music != null) Conductor.instance.update();
+
+    super.update(elapsed);
+
+    if (!selectedSomethin)
+    {
+      #if debug
+      var daChoice:String = character[curSelected];
+
+      var selection = costumeJSON.list[curSelected].costumes[costumeSelected];
+      // trace(costumeUnlocked[curSelected][costumeSelected]);
+
+      if (FlxG.mouse.pressed && !selectingcostume)
+      {
+        trace(flavorText.x + " and " + flavorText.y);
+        flavorText.x = (FlxG.mouse.x - flavorText.width / 2);
+        flavorText.y = (FlxG.mouse.y - flavorText.height);
+      }
+
+      if (FlxG.mouse.pressed && selectingcostume)
+      {
+        trace(chara.x + " and " + chara.y);
+        chara.x = (FlxG.mouse.x - chara.width / 2);
+        chara.y = (FlxG.mouse.y - chara.height);
+      }
+      #end
+
+      if (controls.UI_UP_P && !selectingcostume)
+      {
+        changeItem(-1);
+      }
+
+      if (controls.UI_DOWN_P && !selectingcostume)
+      {
+        changeItem(1);
+      }
+
+      if (controls.UI_DOWN_P && selectingcostume)
+      {
+        changecostume(1, true);
+      }
+
+      if (controls.UI_UP_P && selectingcostume)
+      {
+        changecostume(-1, false);
+      }
+      if (controls.BACK && !selectingcostume)
+      {
+        FlxG.mouse.visible = false;
+        selectedSomethin = true;
+        Save.instance.flush();
+        FlxG.sound.music.stop();
+        FlxG.sound.play(Paths.sound('cancelMenu'));
+        var targetState:NextState = () -> new MainMenuState();
+        if (options.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
+        FlxG.switchState(targetState);
+      }
+      if (controls.BACK && selectingcostume)
+      {
+        FlxG.sound.play(Paths.sound('cancelMenu'));
+        costumeselect(false);
+
+        // Initial bug is that, if you have a selected character, but
+        // try to select a locked character, and then hit ESC, the
+        // selected character is rendered black
+        // This fix should hopefully resolve it.
+
+        if (chara.color == 0x000000) chara.color = 0xFFFFFF;
+      }
+      if (controls.ACCEPT) if (!selectingcostume) costumeselect(true);
+      else
+        savecostume();
+    }
+  }
+
+  function loadcharacter(char:String, costume:String)
+  {
+    // I'm pissed, gotta throw this here too cause offsets break due to the costumeoverride being blank
+    // trace(costume);
+    var charCostume:String = costume;
+    if (charCostume == '' || charCostume == null)
+    {
+      switch (char)
+      {
+        case 'protag':
+          charCostume = SaveData.protagcostume;
+        case 'monika':
+          charCostume = SaveData.monikacostume;
+        case "yuri":
+          charCostume = SaveData.yuricostume;
+        case 'sayori':
+          charCostume = SaveData.sayoricostume;
+        case 'natsuki':
+          charCostume = SaveData.natsukicostume;
+        case 'gf':
+          charCostume = SaveData.gfcostume;
+        case 'bf':
+          charCostume = SaveData.bfcostume;
+      }
+    }
+
+    FlxTween.cancelTweensOf(colorTween1);
+    FlxTween.cancelTweensOf(colorTween2);
+
+    if (charCostume != null && charCostume != 'hueh' && charCostume != '') chara.loadGraphic(Paths.image('costume/' + char + '-' + charCostume));
+    else
+      chara.loadGraphic(Paths.image('costume/' + char));
+
+    if (costumeUnlocked[curSelected][costumeSelected])
+    {
+      // JSON array is always ordered, so should be fine
+      var nameText:String = getString(costumeJSON.list[curSelected].costumes[costumeSelected].name, 'costumeName');
+      var descText:String = getString(costumeJSON.list[curSelected].costumes[costumeSelected].desc, 'costumeDesc');
+
+      // Descriptions for hidden costumes
+      switch (char)
+      {
+        case 'natsuki':
+          {
+            switch (charCostume)
+            {
+              case 'buff':
+                nameText = getString('nameBuff', 'costumeName');
+                descText = getString('descBuff_NA', 'costumeDesc');
+            }
+          }
+        case 'bf':
+          {
+            switch (charCostume)
+            {
+              case 'sutazu':
+                nameText = getString('nameSutazu', 'costumeName');
+                descText = getString('descSutazu', 'costumeDesc');
+            }
+          }
+        case 'gf':
+          {
+            switch (charCostume)
+            {
+              case 'sayo':
+                nameText = getString('charSayo', 'costumeName');
+                descText = getString('descSayoGF', 'costumeDesc');
+            }
+          }
+        case 'sayori':
+          {
+            switch (charCostume)
+            {
+              case 'minus':
+                nameText = getString('nameMinus', 'costumeName');
+                descText = getString('descMinus_SA', 'costumeDesc');
+            }
+          }
+        case 'protag':
+          {
+            switch (charCostume)
+            {
+              case 'fanon':
+                nameText = getString('nameFanon', 'costumeName');
+                descText = getString('descFanon', 'costumeDesc');
+            }
+          }
+      }
+
+      if (grpControlshueh != null
+        && grpControlshueh.members[costumeSelected].text != nameText) grpControlshueh.members[costumeSelected].text = nameText;
+
+      flavorText.text = descText;
+    }
+    else
+    {
+      var text:String = '';
+
+      // Checking unlock value if its null or not
+      if (costumeJSON.list[curSelected].costumes[costumeSelected].unlock != null) text = costumeJSON.list[curSelected].costumes[costumeSelected].unlock;
+      else
+        text = "Unlocked by default.";
+
+      flavorText.text = 'cmnLock' + ": " + text;
+    }
+  }
+
+  function costumeselect(goku:Bool)
+  {
+    var daChoice:String = character[curSelected];
+
+    if (goku)
+    {
+      flavorText.visible = true;
+      flavorBar.visible = true;
+
+      FlxG.sound.play(Paths.sound('confirmMenu'));
+
+      var daSelection = costumeJSON.list[curSelected];
+      trace(daSelection);
+
+      grpControlshueh = new FlxTypedSpriteGroup();
+      add(grpControlshueh);
+
+      for (i in 0...daSelection.costumes.length)
+      {
+        hueh = daSelection.costumes.length;
+
+        if (costumeUnlocked[curSelected][i])
+        {
+          var label:String = getString(daSelection.costumes[i].name, 'costumeName');
+          costumeLabel = new FlxText(60, (40 * i) + 370, 0, label, 3);
+        }
+        else
+          costumeLabel = new FlxText(60, (40 * i) + 370, 0, "???", 3);
+
+        costumeLabel.setFormat(Paths.font("riffic.ttf"), 38, 0xFFFFFFFF, 'left');
+        costumeLabel.scale.set(0.7, 0.7);
+        costumeLabel.updateHitbox();
+        costumeLabel.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFF7CFF, 2);
+        costumeLabel.ID = i;
+        grpControlshueh.add(costumeLabel);
+      }
+
+      costumeSelected = 0;
+      selectingcostume = true;
+      grpControls.visible = false;
+
+      changecostume();
+    }
+    else
+    {
+      flavorText.visible = false;
+      flavorBar.visible = false;
+      remove(grpControlshueh);
+      costumeSelected = 0;
+      selectingcostume = false;
+      grpControls.visible = true;
+
+      chara.color = 0xFFFFFF;
+      loadcharacter(daChoice);
+    }
+  }
+
+  function changeItem(huh:Int = 0)
+  {
+    if (huh == null) huh = 0;
+    FlxG.sound.play(Paths.sound('scrollMenu'));
+    curSelected += huh;
+
+    if (curSelected >= character.length) curSelected = 0;
+    if (curSelected < 0) curSelected = character.length - 1;
+    var daChoice:String = character[curSelected];
+
+    if (!selectingcostume)
+    {
+      chara.color = 0xFFFFFF;
+      loadcharacter(daChoice);
+    }
+
+    grpControls.forEach(function(txt:FlxText)
+    {
+      if (txt.ID == curSelected) txt.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFFCFFF, 2);
+      else
+        txt.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFF7CFF, 2);
+    });
+  }
+
+  function changecostume(huh:Int = 0, goingforward:Bool = true)
+  {
+    if (huh == null) huh = 0;
+    if (goingforward == null) goingforward = true;
+    var daChoice:String = character[curSelected];
+    FlxG.sound.play(Paths.sound('scrollMenu'));
+    costumeSelected += huh;
+
+    trace(hueh);
+
+    if (costumeSelected >= hueh) costumeSelected = 0;
+    if (costumeSelected < 0) costumeSelected = hueh - 1;
+
+    // Checking for data string value
+    var selection = costumeJSON.list[curSelected].costumes[costumeSelected];
+    if (selection.data == '') loadcharacter(daChoice, 'hueh')
+    else
+      loadcharacter(daChoice, selection.data);
+
+    if (costumeUnlocked[curSelected][costumeSelected]) chara.color = 0xFFFFFF;
+    else
+      chara.color = 0x000000;
+
+    if (grpControlshueh != null)
+    {
+      grpControlshueh.forEach(function(txt:FlxText)
+      {
+        if (txt.ID == costumeSelected) txt.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFFCFFF, 2);
+        else
+          txt.setBorderStyle(FlxTextBorderStyle.OUTLINE, 0xFFFF7CFF, 2);
+      });
+    }
+  }
+
+  function savecostume()
+  {
+    var daChoice:String = character[curSelected];
+    var colorthingie = 0xFFFDDBF1;
+
+    // For a better way of getting data value
+    var selection = costumeJSON.list[curSelected].costumes[costumeSelected];
+    if (costumeUnlocked[curSelected][costumeSelected])
+    {
+      switch (curSelected)
+      {
+        case 6:
+          SaveData.protagcostume = selection.data;
+
+          if (costumeSelected == 0 && FlxG.keys.pressed.B) SaveData.protagcostume = "fanon";
+        case 5:
+          SaveData.yuricostume = selection.data;
+        case 4:
+          SaveData.natsukicostume = selection.data;
+
+          if (costumeSelected == 0 && FlxG.keys.pressed.B) SaveData.natsukicostume = "buff";
+        case 3:
+          SaveData.sayoricostume = selection.data;
+
+          if (costumeSelected == 0 && FlxG.keys.pressed.B) SaveData.sayoricostume = "minus";
+        case 2:
+          SaveData.monikacostume = selection.data;
+
+          if (costumeSelected == 1 && (controls.UI_LEFT || controls.UI_RIGHT)) SaveData.monikacostume = "casuallong";
+        case 1:
+          SaveData.gfcostume = selection.data;
+
+          /*if (costumeSelected == 0 && FlxG.keys.pressed.B) //Breaks the whole menu since the sayo costume isn't defined
+            {
+              colorthingie = 0xFF94D9FA;
+              SaveData.gfcostume = "sayo";
+          }*/
+
+          if (costumeSelected == 1 && (controls.UI_LEFT || controls.UI_RIGHT)) SaveData.gfcostume = "christmas";
+        default:
+          SaveData.bfcostume = selection.data;
+
+          // Variations
+          if (costumeSelected == 0 && FlxG.keys.pressed.B)
+          {
+            colorthingie = 0xFFFFADD7;
+            SaveData.bfcostume = "sutazu";
+          }
+          if (costumeSelected == 1 && (controls.UI_LEFT || controls.UI_RIGHT)) SaveData.bfcostume = "christmas";
+          if (costumeSelected == 2 && controls.UI_LEFT)
+          {
+            colorthingie = 0xFFF8F4C1;
+            SaveData.bfcostume = "minus-yellow";
+          }
+          if (costumeSelected == 2 && controls.UI_RIGHT)
+          {
+            colorthingie = 0xFFBFE6FF;
+            SaveData.bfcostume = "minus-mean";
+          }
+          if (costumeSelected == 3 && (controls.UI_LEFT || controls.UI_RIGHT)) SaveData.bfcostume = "soft-classic";
+          if (costumeSelected == 6 && (controls.UI_LEFT || controls.UI_RIGHT)) SaveData.bfcostume = "aloe-classic";
+      }
+
+      Save.instance.flush();
+      chara.color = 0xFFFFFF;
+      loadcharacter(daChoice);
+
+      if (daChoice == "natsuki" && costumeSelected == 0 && SaveData.natsukicostume == "buff") FlxG.sound.play(Paths.sound('buff'));
+      else
+        FlxG.sound.play(Paths.sound('confirmMenu'));
+    }
+  }
+
+  override function beatHit()
+  {
+    super.beatHit();
+
+    logoBl.animation.play('bump', true);
+  }
+
+  // Janky TSV reader
+  function getString(flag:String, path:String)
+  {
+    var text = getTranslationFile(path);
+
+    for (j in 0...text.length)
+    {
+      var curArray = text[j];
+      if (curArray.indexOf(flag) != -1)
+      {
+        return curArray[1];
+      }
+    }
+  }
+
+  function getTranslationFile(fileName:String):Array<Array<String>>
+  {
+    var fullText:String = Assets.getText(Paths.file('locales/en-US/' + fileName + '.tsv'));
+
+    var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
+    var swagGoodArray:Array<Array<String>> = [];
+
+    var fix_a:Array<String> = ["<N>", "<T>", "<LQ>", "<RQ>", "<C>", "<Q>"];
+    var fix_b:Array<String> = ["\n", "\t", "“", "”", ",", '"'];
+
+    for (i in firstArray)
+    {
+      for (j in 0...fix_a.length)
+      {
+        while (i.indexOf(fix_a[j]) != -1)
+        {
+          i = StringTools.replace(i, fix_a[j], fix_b[j]);
+        }
+      }
+      swagGoodArray.push(i.split('	'));
+    }
+
+    return swagGoodArray;
+  }
+}

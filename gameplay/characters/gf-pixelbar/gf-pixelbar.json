@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Pixel GF (Va11halla)",
     "renderType": "sparrow",
-    "assetPath": "characters/gfPixelbar",
+    "assetPath": "gameplay/characters/gf-pixelbar/gfPixelbar",
     "flipX": false,
     "singTime": 4,
     "animations": [

@@ -1,15 +1,14 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.util.FlxTweenUtil;
-import flixel.addons.display.FlxBackdrop;
+import funkin.graphics.FunkinBackdrop;
 import flixel.FlxCamera;
 import funkin.Highscore;
 import funkin.play.character.CharacterType;
@@ -43,8 +42,7 @@ class CatfightSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     if (playerCharacter == 'yuri')
     {
@@ -103,7 +101,7 @@ class CatfightSong extends Song
 
     PlayState.instance.camCutscene.visible = true;
 
-    var black:FlxSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+    var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
     black.cameras = [PlayState.instance.camCutscene];
     black.zIndex = 1000000;
     PlayState.instance.add(black);
@@ -188,7 +186,7 @@ class CatfightSong extends Song
     playerCharacter = (isYuri ? 'yuri' : 'natsuki');
     who = (isYuri ? 'catfightYuriPopup' : 'catfightNatPopup');
     anim = (isYuri ? 'PopUpYuri' : 'PopUpNatsuki');
-    var catpopup:FlxSprite = new FlxSprite(400, 400);
+    var catpopup:FunkinSprite = new FunkinSprite(400, 400);
     catpopup.frames = Paths.getSparrowAtlas('extraui/' + who);
     catpopup.animation.addByPrefix('idle', anim, 24, false);
     catpopup.setGraphicSize(Std.int(catpopup.width * 0.7));

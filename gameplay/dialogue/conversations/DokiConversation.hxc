@@ -1,0 +1,97 @@
+package ddto.cutscene;
+
+import funkin.play.cutscene.dialogue.Conversation;
+import funkin.play.PlayState;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import funkin.util.PlatformUtil;
+import flixel.util.FlxSave;
+
+using StringTools;
+
+class DokiConversation extends Conversation
+{
+  function new(id:String, ?params:Dynamic)
+  {
+    super((id == 'unknown' ? 'rain-clouds' : id), null);
+  }
+
+  var leftSpeaker:FunkinSprite;
+  var rightSpeaker:FunkinSprite;
+
+  // These characters have to be flipped
+  final FLIPPED_CHARACTERS:Array<String> = ['bf_', 'gf_', 'mc_', 'monika_'];
+
+  final PORTRAITS_PATH:String = 'gameplay/dialogue/speakers/doki-portraits';
+
+  override function playSpeakerAnimation()
+  {
+    super.playSpeakerAnimation();
+    var nextSpeakerAnimation:String = currentDialogueEntryData.speakerAnimation;
+    var nextSpeakerId:String = currentDialogueEntryData.speaker;
+
+    var character:String = switch (nextSpeakerId)
+    {
+      case 'yurileft', 'yuriright': 'yuri_';
+      case 'sayorileft', 'sayoriright': 'sayori_';
+      case 'natsukileft', 'natsukiright': 'natsuki_';
+      case 'monikaleft', 'monikaright': 'monika_';
+      case 'bfleft', 'bfright': 'bf_';
+      case 'gfleft', 'gfright': 'gf_';
+      default: nextSpeakerId.replace('left', '').replace('right', '');
+    }
+    var direction:String = (nextSpeakerId.endsWith('left') ? 'left' : 'right');
+    var sprite:FunkinSprite = switch (direction)
+    {
+      case 'left': leftSpeaker;
+      case 'right': rightSpeaker;
+    }
+    sprite.visible = true;
+    sprite.flipX = (FLIPPED_CHARACTERS.contains(character) == (direction == 'left'));
+    var charAnim:String = '$character$nextSpeakerAnimation';
+    if (isAnimated(charAnim))
+    {
+      sprite.loadSparrow(Paths.getSparrowAtlas('$PORTRAITS_PATH/$charAnim'));
+      sprite.animation.addByPrefix('play', '$charAnim', 24, true);
+      sprite.animation.play('play', true);
+    }
+    else
+    {
+      sprite.loadGraphic(Paths.image('$PORTRAITS_PATH/$charAnim'));
+    }
+  }
+
+  function isAnimated(charId:String):Bool
+  {
+    return Assets.exists(Paths.file('$PORTRAITS_PATH/$charId.xml'));
+  }
+
+
+  public function onDialogueStart(event:DialogueScriptEvent):Void
+  {
+    super.onDialogueStart(event);
+    if (leftSpeaker != null) leftSpeaker.visible = false;
+    if (rightSpeaker != null) rightSpeaker.visible = false;
+  }
+
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    leftSpeaker = FunkinSprite.create(150, 50);
+    leftSpeaker.setGraphicSize(Std.int(leftSpeaker.width * .9));
+    leftSpeaker.zIndex = 290;
+    leftSpeaker.updateHitbox();
+    leftSpeaker.visible = false;
+    leftSpeaker.scrollFactor.set();
+    add(leftSpeaker);
+    rightSpeaker = FunkinSprite.create(600, 50);
+    rightSpeaker.setGraphicSize(Std.int(rightSpeaker.width * .9));
+    rightSpeaker.zIndex = 290;
+    rightSpeaker.flipX = true;
+    rightSpeaker.updateHitbox();
+    rightSpeaker.visible = false;
+    rightSpeaker.scrollFactor.set();
+    add(rightSpeaker);
+    refresh();
+  }
+}

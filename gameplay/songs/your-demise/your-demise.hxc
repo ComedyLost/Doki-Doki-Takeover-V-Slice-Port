@@ -4,174 +4,41 @@ import funkin.graphics.shaders.WiggleEffectRuntime;
 import funkin.graphics.shaders.WiggleEffectType;
 import flixel.addons.effects.FlxTrail;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
-import flixel.util.FlxTimer;
-import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
+import funkin.audio.FunkinSound;
 import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.cutscene.dialogue.ConversationState;
 import flixel.tweens.FlxEase;
 import funkin.Conductor;
 import funkin.modding.module.ModuleHandler;
+
+// Countdown
+import flixel.util.FlxTimer;
+import funkin.play.Countdown;
+import funkin.play.CountdownStep;
 import funkin.util.EaseUtil;
+import funkin.modding.events.ScriptEvent;
+import funkin.modding.events.CountdownScriptEvent;
 
 class YourDemiseSong extends Song
 {
   var hasPlayedVideoCutscene:Bool;
   var hasPlayedIntroCutscene:Bool;
   var hasPlayedOutroCutscene:Bool;
-  var blackScreen:FlxSprite;
-  var redStatic:FlxSprite;
+  var blackScreen:FunkinSprite;
+  var redStatic:FunkinSprite;
 
   function new()
   {
     super('your-demise');
   }
 
-  var countdownStep;
-  var countdownTimer:FlxTimer;
-
-  function performCountdown()
-  {
-    countdownStep = 5;
-    PlayState.instance.isInCountdown = true;
-    Conductor.instance.update(PlayState.instance.startTimestamp + Conductor.instance.beatLengthMs * -5);
-    // Handle onBeatHit events manually
-    // @:privateAccess
-    // PlayState.instance.dispatchEvent(new SongTimeScriptEvent(SONG_BEAT_HIT, 0, 0));
-
-    // The timer function gets called based on the beat of the song.
-    countdownTimer = new FlxTimer();
-
-    countdownTimer.start(Conductor.instance.beatLengthMs / 1000, function(tmr:FlxTimer)
-    {
-      if (PlayState.instance == null)
-      {
-        tmr.cancel();
-        return;
-      }
-
-      countdownStep = tmr.loopsLeft - 1;
-
-      // onBeatHit events are now properly dispatched by the Conductor even at negative timestamps,
-      // so calling this is no longer necessary.
-      // PlayState.instance.dispatchEvent(new SongTimeScriptEvent(SONG_BEAT_HIT, 0, 0));
-
-      // Countdown graphic.
-      showCountdownGraphic(countdownStep);
-
-      // Countdown sound.
-      playCountdownSound(countdownStep);
-
-      // Event handling bullshit.
-      if (countdownStep < 0)
-      {
-        stopCountdown();
-      }
-    }, 5); // Before, 3, 2, 1, GO!, After
-
-    return true;
-  }
-
-  override function onPause(event)
-  {
-    super.onPause(event);
-    if (countdownTimer != null && countdownTimer.active == true)
-    {
-      countdownTimer.active = false;
-    }
-  }
-
-  override function onResume(event)
-  {
-    super.onResume(event);
-    if (countdownTimer != null && countdownTimer.active == false)
-    {
-      countdownTimer.active = true;
-    }
-  }
-
-  function stopCountdown()
-  {
-    if (countdownTimer != null)
-    {
-      countdownTimer.cancel();
-      countdownTimer.destroy();
-      countdownTimer = null;
-    }
-  }
-
-  public static function playCountdownSound(index:Int):Void
-  {
-    var soundPath:String;
-
-    switch (index)
-    {
-      case 3:
-        soundPath = 'intro3-glitch';
-      case 2:
-        soundPath = 'intro2-glitch';
-      case 1:
-        soundPath = 'intro1-glitch';
-      case 0:
-        soundPath = 'introGo-glitch';
-      default:
-        // null
-    }
-
-    if (soundPath == null) return;
-
-    FunkinSound.playOnce(Paths.sound(soundPath), Constants.COUNTDOWN_VOLUME);
-  }
-
-  function showCountdownGraphic(index:Int):Void
-  {
-    var spritePath:String = null;
-
-    switch (index)
-    {
-      case 2:
-        spritePath = 'weeb/pixelUI/ready-pixel';
-      case 1:
-        spritePath = 'weeb/pixelUI/set-pixel';
-      case 0:
-        spritePath = 'weeb/pixelUI/demise-date';
-      default:
-        // null
-    }
-
-    if (spritePath == null) return;
-
-    var fadeEase = FlxEase.cubeInOut;
-    fadeEase = EaseUtil.stepped(8);
-
-    var countdownSprite:FunkinSprite = FunkinSprite.create(0, 0, spritePath);
-    countdownSprite.scrollFactor.set(0, 0);
-    countdownSprite.updateHitbox();
-    countdownSprite.antialiasing = false;
-    countdownSprite.setGraphicSize(Std.int(countdownSprite.width * 0.7));
-    countdownSprite.setGraphicSize(Std.int(countdownSprite.width * Constants.PIXEL_ART_SCALE));
-
-    // Fade sprite in, then out, then destroy it.
-    FlxTween.tween(countdownSprite, {alpha: 0}, Conductor.instance.beatLengthMs / 1000, {
-      ease: fadeEase,
-      onComplete: function(twn:FlxTween)
-      {
-        countdownSprite.destroy();
-      }
-    });
-
-    countdownSprite.cameras = [PlayState.instance.camHUD];
-    PlayState.instance.add(countdownSprite);
-    countdownSprite.screenCenter();
-  }
-
   function onCreate(event:ScriptEvent):Void
   {
     super.onCreate(event);
 
-    redStatic = new FlxSprite();
+    redStatic = new FunkinSprite();
     redStatic.frames = Paths.getSparrowAtlas('HomeStatic');
     redStatic.cameras = [PlayState.instance.camHUD];
     redStatic.animation.addByPrefix('idle', 'HomeStatic', 24, true);
@@ -181,7 +48,7 @@ class YourDemiseSong extends Song
     redStatic.alpha = 0;
     PlayState.instance.add(redStatic);
 
-    blackScreen = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreen = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreen.scrollFactor.set();
     blackScreen.alpha = 1;
     PlayState.instance.add(blackScreen);
@@ -192,8 +59,8 @@ class YourDemiseSong extends Song
 
   function hideHud()
   {
-    var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-    var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+    var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
+    var playerStrumline:FunkinSprite = PlayState.instance.playerStrumline;
     if (opponentStrumline != null)
     {
       for (arrow in opponentStrumline.strumlineNotes.members)
@@ -217,8 +84,8 @@ class YourDemiseSong extends Song
 
   function returnHud()
   {
-    var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
-    var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+    var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
+    var playerStrumline:FunkinSprite = PlayState.instance.playerStrumline;
     if (opponentStrumline != null)
     {
       for (arrow in opponentStrumline.strumlineNotes.members)
@@ -262,8 +129,10 @@ class YourDemiseSong extends Song
     }
     else
     {
-      event.cancel();
-      performCountdown();
+      FlxG.signals.postUpdate.addOnce(() -> {
+        if (event.eventCanceled) return;
+        YourDemiseCountdown.performCountdown();
+      });
     }
   }
 
@@ -285,6 +154,7 @@ class YourDemiseSong extends Song
         startEndDialogue();
       }	
   }*/
+
   function stageSwap(swap:Bool)
   {
     glitchEffect();
@@ -384,5 +254,151 @@ class YourDemiseSong extends Song
       }  
     }
     lastStep = event.step;
+  }
+}
+
+// Custom class to handle the countdown cuz fuck making a new notestyle
+class YourDemiseCountdown
+{
+  var countdownStep:CountdownStep;
+
+  public static function performCountdown():Bool
+  {
+    countdownStep = CountdownStep.BEFORE;
+
+    Countdown.stopCountdown();
+
+    PlayState.instance.isInCountdown = true;
+    Conductor.instance.update(PlayState.instance.startTimestamp + Conductor.instance.beatLengthMs * -5);
+
+    // The timer function gets called based on the beat of the song.
+    Countdown.countdownTimer = new FlxTimer();
+
+    Countdown.countdownTimer.start(Conductor.instance.beatLengthMs / 1000, function(tmr:FlxTimer)
+    {
+      if (PlayState.instance == null)
+      {
+        tmr.cancel();
+        return;
+      }
+
+      countdownStep = decrement(countdownStep);
+      var countdownStepInt:Int = tmr.loopsLeft - 1;
+
+      // onBeatHit events are now properly dispatched by the Conductor even at negative timestamps,
+      // so calling this is no longer necessary.
+      // PlayState.instance.dispatchEvent(new SongTimeScriptEvent(SONG_BEAT_HIT, 0, 0));
+
+      // Countdown graphic.
+      showCountdownGraphic(countdownStepInt);
+
+      // Countdown sound.
+      playCountdownSound(countdownStepInt);
+
+      // Event handling bullshit.
+      var cancelled:Bool = propagateCountdownEvent(countdownStep);
+
+      if (cancelled)
+      {
+        Countdown.pauseCountdown();
+      }
+
+      if (countdownStep == CountdownStep.AFTER)
+      {
+        Countdown.stopCountdown();
+      }
+    }, 5); // Before, 3, 2, 1, GO!, After
+
+    return true;
+  }
+
+  public static function playCountdownSound(index:Int):Void
+  {
+    var soundPath:String = switch (index)
+    {
+      case 3, 2, 1: 'gameplay/notestyles/ddtopixel/countdown/sounds-glitch/intro$index-glitch';
+      case 0: 'gameplay/notestyles/ddtopixel/countdown/sounds-glitch/introGo-glitch';
+      default: null;
+    }
+
+    if (soundPath == null) return;
+
+    FunkinSound.playOnce(Paths.sound(soundPath), Constants.COUNTDOWN_VOLUME);
+  }
+
+  public static function showCountdownGraphic(index:Int):Void
+  {
+    var assetPath:Null<String> = switch (index)
+    {
+      case 2: 'gameplay/notestyles/ddtopixel/countdown/graphics-glitch/ready';
+      case 1: 'gameplay/notestyles/ddtopixel/countdown/graphics-glitch/set';
+      case 0: 'gameplay/notestyles/ddtopixel/countdown/graphics-glitch/demise';
+      default: null;
+    }
+    if (assetPath == null) return;
+
+    var countdownSprite:FunkinSprite = new FunkinSprite();
+    countdownSprite.loadTexture(assetPath);
+    countdownSprite.scale.x = 6;
+    countdownSprite.scale.y = 6;
+    countdownSprite.scrollFactor.set(0, 0);
+    countdownSprite.antialiasing = false;
+    countdownSprite.updateHitbox();
+
+    var fadeEase = EaseUtil.stepped(8);
+
+    // Fade sprite in, then out, then destroy it.
+    FlxTween.tween(countdownSprite, {alpha: 0}, Conductor.instance.beatLengthMs / 1000, {
+      ease: fadeEase,
+      onComplete: function(twn:FlxTween)
+      {
+        countdownSprite.destroy();
+      }
+    });
+
+    countdownSprite.cameras = [PlayState.instance.camHUD];
+    PlayState.instance.add(countdownSprite);
+    countdownSprite.screenCenter();
+  }
+
+  public static function decrement(step:CountdownStep):CountdownStep
+  {
+    switch (step)
+    {
+      case CountdownStep.BEFORE:
+        return CountdownStep.THREE;
+      case CountdownStep.THREE:
+        return CountdownStep.TWO;
+      case CountdownStep.TWO:
+        return CountdownStep.ONE;
+      case CountdownStep.ONE:
+        return CountdownStep.GO;
+      case CountdownStep.GO:
+        return CountdownStep.AFTER;
+      default:
+        return CountdownStep.AFTER;
+    }
+  }
+
+  static function propagateCountdownEvent(index:CountdownStep):Bool
+  {
+    var event:ScriptEvent;
+
+    switch (index)
+    {
+      case CountdownStep.BEFORE:
+        event = new CountdownScriptEvent('COUNTDOWN_START', index);
+      case CountdownStep.THREE, CountdownStep.TWO, CountdownStep.ONE, CountdownStep.GO: // I didn't know you could use `|` in a switch/case block!
+        event = new CountdownScriptEvent('COUNTDOWN_STEP', index);
+      case CountdownStep.AFTER:
+        event = new CountdownScriptEvent('COUNTDOWN_END', index, false);
+      default:
+        return true;
+    }
+
+    // Modules, stages, characters.
+    PlayState.instance.dispatchEvent(event);
+
+    return event.eventCanceled;
   }
 }

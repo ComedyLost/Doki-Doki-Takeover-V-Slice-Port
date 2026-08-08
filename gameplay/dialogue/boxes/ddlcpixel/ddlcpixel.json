@@ -1,0 +1,50 @@
+{
+  "version": "1.1.0",
+  "name": "DDLC Boxes",
+  "assetPath": "gameplay/dialogue/boxes/ddlcpixel/dialogueBox-monika",
+  "isPixel": true,
+  "flipX": false,
+  "flipY": false,
+  "offsets": [-660, -340],
+  "scale": 5.4,
+
+  "text": {
+    "offsets": [225, 450],
+    "width": 800,
+    "color": "#3F2021",
+    "fontFamily": "Pixel Arial 11 Bold",
+    "shadowColor": "#D89494",
+    "shadowWidth": 2
+  },
+
+  "animations": [
+    {
+      "name": "enter",
+      "prefix": "Text Box Appear instance",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "speaking",
+      "prefix": "Text Box Appear instance",
+      "frameIndices": [5],
+      "offsets": [0, 0]
+    },
+    {
+      "name": "enterHating",
+      "assetPath": "gameplay/dialogue/boxes/ddlcpixel/dialogueBox-pixel",
+      "prefix": "Text Box Appear instance",
+      "offsets": [0, 0],
+      "frameRate": 24,
+      "looped": false
+    },
+    {
+      "name": "speakingHating",
+      "assetPath": "gameplay/dialogue/boxes/ddlcpixel/dialogueBox-pixel",
+      "prefix": "Text Box Appear instance",
+      "frameIndices": [4],
+      "offsets": [0, 0]
+    }
+  ]
+}

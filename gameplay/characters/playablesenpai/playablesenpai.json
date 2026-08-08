@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Senpai (Playable)",
     "renderType": "sparrow",
-    "assetPath": "characters/playablesenpai",
+    "assetPath": "gameplay/characters/playablesenpai/playablesenpai",
     "flipX": true,
     "singTime": 4,
     "offsets": [0, 3],
@@ -11,10 +11,7 @@
         "cameraOffsets": [-50, 70],
         "cameraZoom": 0.9
     },    
-    "healthIcon": {
-        "id": "senpai-ddto",
-        "isPixel": true
-    },    
+    "healthIcon": {"id": "senpai-ddto"},    
     "animations": [
         {
             "name": "danceLeft",

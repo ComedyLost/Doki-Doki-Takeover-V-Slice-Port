@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Pixel BF (Va11halla)",
     "renderType": "multisparrow",
-    "assetPath": "characters/newbfPixelbar",
+    "assetPath": "gameplay/characters/bf-pixelbar/newbfPixelbar",
     "flipX": true,
     "singTime": 4,
     "healthIcon": {
@@ -57,7 +57,7 @@
             "name": "singRIGHTmiss",
             "prefix": "BF Right Miss",
             "offsets": [
-                -4,
+                0,
                 0
             ]
         },
@@ -96,21 +96,21 @@
         {
             "name": "firstDeath",
             "prefix": "BF Dies pixel",
-            "assetPath": "characters/bfPixelsDEAD",
-            "offsets": [25, -10]
+            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+            "offsets": [0, -4]
         },
         {
             "name": "deathLoop",
             "prefix": "Retry Loop",
-            "assetPath": "characters/bfPixelsDEAD",
+            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
             "looped": true,
-            "offsets": [20, -12.5]
+            "offsets": [-5, -6]
         },
         {
             "name": "deathConfirm",
             "prefix": "RETRY CONFIRM",
-            "assetPath": "characters/bfPixelsDEAD",
-            "offsets": [20, -12.5]
+            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+            "offsets": [-5, -6]
         }
     ],
     "startingAnimation": "",

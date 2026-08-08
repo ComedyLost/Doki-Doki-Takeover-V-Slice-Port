@@ -1,6 +1,6 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import funkin.audio.FunkinSound;
 import funkin.play.song.Song;
 import funkin.Conductor;
@@ -15,33 +15,32 @@ class NeetSong extends Song
     super('neet');
   }
 
-  var spotlight:FlxSprite;
+  var spotlight:FunkinSprite;
   var shakeCamera:Bool = false;
   var hasPlayedIntroCutscene:Bool;
 
-  var sayori:FlxSprite;
-  var natsuki:FlxSprite;
-  var yuri:FlxSprite;
-  var monika:FlxSprite;
-  var protag:FlxSprite;
-  var deskfront:FlxSprite;
-  var blackScreenBG:FlxSprite;
+  var sayori:FunkinSprite;
+  var natsuki:FunkinSprite;
+  var yuri:FunkinSprite;
+  var monika:FunkinSprite;
+  var protag:FunkinSprite;
+  var deskfront:FunkinSprite;
+  var blackScreenBG:FunkinSprite;
 
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     var stage = PlayState.instance.currentStage;
 
-    blackScreenBG = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+    blackScreenBG = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
     blackScreenBG.alpha = 0.0001;
     blackScreenBG.zIndex = 54;
     blackScreenBG.scrollFactor.set();
     PlayState.instance.currentStage.add(blackScreenBG);
 
-    spotlight = new FlxSprite(-700, -520).loadGraphic(Paths.image('clubroom/NEETspotlight'));
+    spotlight = new FunkinSprite(-700, -520).loadGraphic(Paths.image('clubroom/NEETspotlight'));
     spotlight.setGraphicSize(Std.int(spotlight.width * 1.6));
     spotlight.alpha = 0.001;
     spotlight.blend = 12;

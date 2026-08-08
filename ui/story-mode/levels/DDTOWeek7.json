@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "FRIENDSHIP AND LITERATURE",
+  "titleAsset": "ui/story-mode/levels/weekEN",
+  "visible": true,
+  "capsule": {
+    "name": "AFTER CLUB"
+  },
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/EncoreWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/EncoreWeek",
+      "alpha": 0,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#F7BBDB",
+  "songs": ["hot-air-balloon", "shrinking-violet", "joyride", "our-harmony"]
+}

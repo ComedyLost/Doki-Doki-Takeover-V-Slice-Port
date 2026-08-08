@@ -2,11 +2,9 @@
     "version": "1.0.0",
     "name": "Angry DDTO Boyfriend (Pixel)",
     "renderType": "multisparrow",
-    "assetPath": "characters/bfPixelangryNew",
+    "assetPath": "gameplay/characters/pixelbfangry-new/bf-pixel-angry-new",
     "flipX": true,
-    "healthIcon": {
-        "id": "pixelbfdokiangry"
-    },
+    "healthIcon": {"id": "pixelbf-new", "isPixel": false},
     "singTime": 4,
     "death": {
         "cameraOffsets": [-150, 50]
@@ -87,21 +85,21 @@
         {
             "name": "firstDeath",
             "prefix": "BF Dies pixel",
-            "assetPath": "characters/bfPixelsDEAD",
-            "offsets": [25, -10]
+            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+            "offsets": [0, -4]
         },
         {
             "name": "deathLoop",
             "prefix": "Retry Loop",
-            "assetPath": "characters/bfPixelsDEAD",
+            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
             "looped": true,
-            "offsets": [20, -12.5]
+            "offsets": [-5, -6]
         },
         {
             "name": "deathConfirm",
             "prefix": "RETRY CONFIRM",
-            "assetPath": "characters/bfPixelsDEAD",
-            "offsets": [20, -12.5]
+            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+            "offsets": [-5, -6]
         }
     ],
     "startingAnimation": "",

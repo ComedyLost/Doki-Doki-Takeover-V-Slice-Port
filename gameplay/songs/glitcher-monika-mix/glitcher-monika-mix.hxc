@@ -18,9 +18,9 @@ import funkin.play.stage.Stage;
 
 class GlitcherMonikaMixSong extends Song
 {
-  var pixel = new FlxRuntimeShader(Assets.getText(Paths.frag("PixelShader")));
+  var pixel = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/PixelShader")));
   var pixelshader = new ShaderFilter(pixel);
-  var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("BloomShader")));
+  var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/BloomShader")));
   var shaderstat = new ShaderFilter(bloom);
   var pixelTween:FlxTween;
   var noFestivalMode:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
@@ -208,7 +208,7 @@ class GlitcherMonikaMixSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    if (pixelTween != null && pixelTween.active == true) pixelTween.cancel();
+    if (pixelTween != null && pixelTween.active) pixelTween.cancel();
     bloom.setFloat('funrange', 0.1);
     bloom.setFloat('funsteps', 0.005);
     bloom.setFloat('funthreshhold', 0.8);

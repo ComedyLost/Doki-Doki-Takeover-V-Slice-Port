@@ -1,13 +1,10 @@
 {
     "version": "1.0.0",
     "name": "Duet",
-    "assetPath": "characters/Duet",
+    "assetPath": "gameplay/characters/duetnew/Duet",
     "flipX": false,
     "singTime": 4,
-    "healthIcon": {
-      "id": "duet",
-      "isPixel": true
-    },
+    "healthIcon": {"id": "duet"},
     "animations": [
         {
             "name": "singUP",

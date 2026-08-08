@@ -1,0 +1,205 @@
+{
+  "version": "1.1.0",
+  "name": "Doki (Pixel)",
+  "author": "Team TBD",
+  "fallback": "pixel",
+  "assets": {
+    "note": {
+      "assetPath": "gameplay/notestyles/ddtopixel/notes",
+      "scale": 6.0,
+      "isPixel": true,
+      "data": {
+        "left": { "prefix": "noteLeft" },
+        "down": { "prefix": "noteDown" },
+        "up": { "prefix": "noteUp" },
+        "right": { "prefix": "noteRight" }
+      }
+    },
+    "noteStrumline": {
+      "assetPath": "gameplay/notestyles/ddtopixel/notes",
+      "scale": 6.0,
+      "offsets": [28, 32],
+      "isPixel": true,
+      "data": {
+        "leftStatic": { "prefix": "staticLeft0" },
+        "leftPress": { "prefix": "pressedLeft0" },
+        "leftConfirm": { "prefix": "confirmLeft0" },
+        "leftConfirmHold": { "prefix": "confirmLeft0" },
+        "downStatic": { "prefix": "staticDown0" },
+        "downPress": { "prefix": "pressedDown0" },
+        "downConfirm": { "prefix": "confirmDown0" },
+        "downConfirmHold": { "prefix": "confirmDown0" },
+        "upStatic": { "prefix": "staticUp0" },
+        "upPress": { "prefix": "pressedUp0" },
+        "upConfirm": { "prefix": "confirmUp0" },
+        "upConfirmHold": { "prefix": "confirmUp0" },
+        "rightStatic": { "prefix": "staticRight0" },
+        "rightPress": { "prefix": "pressedRight0" },
+        "rightConfirm": { "prefix": "confirmRight0" },
+        "rightConfirmHold": { "prefix": "confirmRight0" }
+      }
+    },
+    "holdNote": {
+      "assetPath": "gameplay/notestyles/ddtopixel/note-holds",
+      "scale": 6.0,
+      "offsets": [2, 1],
+      "isPixel": true,
+      "data": {}
+    },
+    "noteSplash": {
+      "assetPath": "gameplay/notestyles/ddtopixel/pixel-note-splash",
+      "scale": 6.0,
+      "isPixel": true,
+      "offsets": [22, 15],
+      "alpha": 0.8,
+      "data": {
+        "enabled": true,
+        "leftSplashes": [
+          { "prefix": "note splash purple 1" },
+          { "prefix": "note splash purple 1" }
+        ],
+        "rightSplashes": [
+          { "prefix": "note splash red 1" },
+          { "prefix": "note splash red 1" }
+        ],
+        "upSplashes": [
+          { "prefix": "note splash green 1" },
+          { "prefix": "note splash green 1" }
+        ],
+        "downSplashes": [
+          { "prefix": "note splash blue 1" },
+          { "prefix": "note splash blue 1" }
+        ]
+      }
+    },
+    "holdNoteCover": {
+      "assetPath": "gameplay/notestyles/pixel/pixel-note-hold-cover",
+      "scale": 6.0,
+      "isPixel": true,
+      "offsets": [29, -4],
+      "data": {
+        "enabled": true,
+        "left": {
+          "start": { "prefix": "loop0000" },
+          "hold": { "prefix": "loop" },
+          "end": { "prefix": "explode" }
+        },
+        "right": {
+          "start": { "prefix": "loop0000" },
+          "hold": { "prefix": "loop" },
+          "end": { "prefix": "explode" }
+        },
+        "up": {
+          "start": { "prefix": "loop0000" },
+          "hold": { "prefix": "loop" },
+          "end": { "prefix": "explode" }
+        },
+        "down": {
+          "start": { "prefix": "loop0000" },
+          "hold": { "prefix": "loop" },
+          "end": { "prefix": "explode" }
+        }
+      }
+    },
+    "countdownThree": {
+      "data": {
+        "audioPath": "gameplay/notestyles/pixel/countdown/sound/intro-three"
+      },
+      "assetPath": null
+    },
+    "countdownTwo": {
+      "data": {
+        "audioPath": "gameplay/notestyles/pixel/countdown/sound/intro-two"
+      },
+      "assetPath": "gameplay/notestyles/pixel/countdown/graphics/ready",
+      "scale": 6.0,
+      "isPixel": true
+    },
+    "countdownOne": {
+      "data": {
+        "audioPath": "gameplay/notestyles/pixel/countdown/sound/intro-one"
+      },
+      "assetPath": "gameplay/notestyles/pixel/countdown/graphics/set",
+      "scale": 6.0,
+      "isPixel": true
+    },
+    "countdownGo": {
+      "data": {
+        "audioPath": "gameplay/notestyles/pixel/countdown/sound/intro-go"
+      },
+      "assetPath": "gameplay/notestyles/pixel/countdown/graphics/go",
+      "scale": 6.0,
+      "isPixel": true
+    },
+    "judgementSick": {
+      "assetPath": "gameplay/notestyles/pixel/popup/sick",
+      "scale": 4.2,
+      "isPixel": true
+    },
+    "judgementGood": {
+      "assetPath": "gameplay/notestyles/pixel/popup/good",
+      "scale": 4.2,
+      "isPixel": true
+    },
+    "judgementBad": {
+      "assetPath": "gameplay/notestyles/pixel/popup/bad",
+      "scale": 4.2,
+      "isPixel": true
+    },
+    "judgementShit": {
+      "assetPath": "gameplay/notestyles/pixel/popup/shit",
+      "scale": 4.2,
+      "isPixel": true
+    },
+    "comboNumber0": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-0",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber1": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-1",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber2": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-2",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber3": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-3",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber4": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-4",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber5": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-5",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber6": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-6",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber7": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-7",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber8": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-8",
+      "isPixel": true,
+      "scale": 4.2
+    },
+    "comboNumber9": {
+      "assetPath": "gameplay/notestyles/pixel/popup/digit-9",
+      "isPixel": true,
+      "scale": 4.2
+    }
+  }
+}

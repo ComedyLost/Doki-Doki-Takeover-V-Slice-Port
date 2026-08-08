@@ -1,13 +1,14 @@
 {
   "version": "1.0.0",
   "name": "Senpai (DDTO Ver)",
-  "assetPath": "characters/senpai",
+  "assetPath": "gameplay/characters/senpai/senpai",
   "singTime": 8.0,
   "isPixel": true,
   "scale": 6,
   "healthIcon": {
     "id": "senpai-ddto",
-    "isPixel": true
+    "shouldBop": true,
+    "isPixel": false
   },
   "animations": [
     {

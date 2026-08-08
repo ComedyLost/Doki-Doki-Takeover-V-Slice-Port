@@ -1,0 +1,159 @@
+import flixel.addons.transition.FlxTransitionableState;
+import funkin.graphics.FunkinSprite;
+import funkin.ui.mainmenu.MainMenuState;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.ui.options.OptionsState;
+import funkin.ui.title.TitleState;
+import funkin.ui.MusicBeatState;
+import funkin.ui.story.StoryMenuState;
+import funkin.Conductor;
+import funkin.ui.title.AttractState;
+import funkin.audio.FunkinSound;
+import funkin.modding.base.ScriptedMusicBeatState;
+import funkin.modding.base.MusicBeatState;
+import funkin.modding.module.Module;
+import Std;
+import funkin.util.ReflectUtil;
+import funkin.ui.freeplay.SongMenuItem;
+import funkin.modding.base.ScriptedMusicBeatSubState;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import funkin.PlayerSettings;
+import funkin.save.Save;
+import flixel.FlxState;
+
+class DokiMenuOverrides extends Module
+{
+  public function new()
+  {
+    super('DokiMenuOverrides');
+
+    save = DokiPreferences.getDokiSave();
+  }
+
+  var redirectStates:Map<FlxState, MusicBeatState> = [MainMenuState => new DokiMainMenuState()];
+
+  override function onCreate(event)
+  {
+    super.onCreate(event);
+    // FlxG.signals.preStateCreate.add(switchStateOverride);
+  }
+
+  function switchStateOverride(state:FlxState)
+  {
+    for (redirectState in redirectStates.keys())
+    {
+      if (state is redirectState)
+      {
+        state._requestedSubState = null;
+        FlxG.game._state = redirectStates.get(redirectState);
+      }
+    }
+  }
+
+  override function onUpdate(event:UpdateScriptEvent)
+  {
+    super.onUpdate(event);
+    if (save?.menus)
+    {
+      if (Std.isOfType(FlxG.state, StoryMenuState))
+      {
+        if (!FlxG.state.exitingMenu && !FlxG.state.selectedLevel && PlayerSettings.player1.controls.BACK)
+        {
+          FlxG.state.exitingMenu = true;
+          // FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
+          FunkinSound.playOnce(Paths.sound('cancelMenu'));
+        }
+      }
+      else if (Std.isOfType(FlxG.state.subState, FreeplayState))
+      {
+        // Override base game exit function to prevent it from trying to go to the original main menu
+        if (FlxG.state.subState.controls.active && PlayerSettings.player1.controls.BACK)
+        {
+          FlxG.state.subState.controls.active = false;
+          customReturnMenu();
+        }
+      }
+    }
+  }
+
+  function customReturnMenu()
+  {
+    FlxTween.globalManager.clear();
+    FlxTimer.globalManager.clear();
+    if (FlxG.state.subState.dj != null) FlxG.state.subState.dj.onIntroDone.removeAll();
+
+    FunkinSound.playOnce(Paths.sound('cancelMenu'));
+
+    var longestTimer:Float = 0;
+
+    FlxG.state.subState.backingCard?.disappear();
+
+    for (grpSpr in FlxG.state.subState.exitMovers.keys())
+    {
+      var moveData:MoveData = FlxG.state.subState.exitMovers.get(grpSpr);
+      if (moveData == null) continue;
+
+      for (spr in grpSpr)
+      {
+        if (spr == null) continue;
+
+        var funnyMoveShit:MoveData = moveData;
+
+        var moveDataX = funnyMoveShit.x ?? spr.x;
+        var moveDataY = funnyMoveShit.y ?? spr.y;
+        var moveDataSpeed = funnyMoveShit.speed ?? 0.2;
+        var moveDataWait = funnyMoveShit.wait ?? 0.0;
+
+        FlxTween.tween(spr, {x: moveDataX, y: moveDataY}, moveDataSpeed, {ease: FlxEase.expoIn});
+
+        longestTimer = Math.max(longestTimer, moveDataSpeed + moveDataWait);
+      }
+    }
+
+    for (caps in FlxG.state.subState.grpCapsules.members)
+    {
+      caps.doJumpIn = false;
+      caps.doLerp = false;
+      caps.doJumpOut = true;
+    }
+
+    FlxG.state.subState._parentState.persistentUpdate = false;
+    FlxG.state.subState._parentState.persistentDraw = true;
+
+    new FlxTimer().start(longestTimer, (_) ->
+    {
+      FlxTransitionableState.skipNextTransIn = true;
+      FlxTransitionableState.skipNextTransOut = true;
+      FunkinSound.playMusic('freakyMenu-DDTO', {
+        overrideExisting: true,
+        restartTrack: false,
+        // Continue playing this music between states, until a different music track gets played.
+        persist: true
+      });
+      FlxG.sound.music.fadeIn(4.0, 0.0, 1.0);
+      FlxG.state.subState.close();
+    });
+  }
+
+  function onStateChangeEnd(event:StateChangeScriptEvent)
+  {
+    super.onStateChangeEnd(event);
+    if ((Std.isOfType(FlxG.state, MainMenuState)) && save?.menus)
+    {
+      FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
+    }
+    else if ((Std.isOfType(FlxG.state, OptionsState)) && save?.menus)
+    {
+      var exitToDokiMenu = function()
+      {
+        FlxG.state.optionsCodex.currentPage.enabled = false;
+        // TODO: Animate this transition?
+        FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
+      }
+      FlxG.state.optionsCodex.pages.get('options').onExit.removeAll();
+      FlxG.state.optionsCodex.pages.get('options').onExit.add(exitToDokiMenu);
+    }
+  }
+}

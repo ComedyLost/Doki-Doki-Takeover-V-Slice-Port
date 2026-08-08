@@ -1,0 +1,45 @@
+{
+  "props": [
+    {
+      "zIndex": 20,
+      "position": [-250, -167],
+      "animType": "sparrow",
+      "name": "Epiphany BG",
+      "assetPath": "gameplay/stages/clubroomevil/classroom",
+      "scroll": [0.4, 0.6] 
+    },
+    {
+      "zIndex": 110,
+      "position": [-350, -200],
+      "animType": "sparrow",
+      "name": "Epiphany FG",
+      "assetPath": "gameplay/stages/clubroomevil/front-desk",
+      "scroll": [1, 1] 
+    },
+    {
+      "zIndex": 40,
+      "position": [-250, -167],
+      "animType": "sparrow",
+      "name": "Epiphany Main Lights",
+      "assetPath": "gameplay/stages/clubroomevil/lights",
+      "scroll": [0.4, 0.6],
+      "blend": "screen" 
+    },
+    {
+      "zIndex": 50,
+      "position": [-250, -167],
+      "animType": "sparrow",
+      "name": "Epiphany Window Lights",
+      "assetPath": "gameplay/stages/clubroomevil/window-light",
+      "scroll": [0.4, 0.6] 
+    }
+  ],
+  "cameraZoom": 0.8,
+  "version": "1.0.0",
+  "characters": {
+    "bf": { "zIndex": 0, "position": [760, 655], "cameraOffsets": [-50, 0] },
+    "dad": { "zIndex": 120, "position": [580, 649], "cameraOffsets": [0, 0] },
+    "gf": { "zIndex": 0, "cameraOffsets": [0, 0], "position": [760, 655] }
+  },
+  "name": "The Space Clubroom"
+}

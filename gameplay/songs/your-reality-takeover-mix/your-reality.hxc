@@ -12,7 +12,7 @@ class YourRealityTakeoverMix extends Song
 
   public override function isSongNew(currentDifficulty:String):Bool
   {
-    if (Save.instance.hasBeatenSong(this.id) == false) return true;
+    if (!Save.instance.hasBeatenSong(this.id)) return true;
     else
       return false;
   }

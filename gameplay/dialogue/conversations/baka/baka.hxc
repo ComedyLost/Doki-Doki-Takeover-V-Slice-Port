@@ -1,0 +1,9 @@
+import ddto.cutscene.DokiConversation;
+
+class BakaConversation extends DokiConversation
+{
+  function new()
+  {
+    super('baka');
+  }
+}

@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Pixel Monika",
-  "assetPath": "characters/monikanew",
+  "assetPath": "gameplay/characters/monika-pixelnew/monikanew",
   "singTime": 8.0,
   "isPixel": true,
   "scale": 6,

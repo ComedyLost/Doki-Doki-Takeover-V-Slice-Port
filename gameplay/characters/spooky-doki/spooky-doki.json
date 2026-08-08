@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Spooky Kids (DDTO)",
-    "assetPath": "shared:characters/spooky-doki",
+    "assetPath": "gameplay/characters/spooky-doki/spooky-doki",
     "renderType": "multianimateatlas",
     "singTime": 4,
     "death": {
@@ -10,181 +10,67 @@
     },
     "offsets": [50, 50],
     "cameraOffsets": [50, 100],
-    "healthIcon": {"id": "spooky-doki"},
     "animations": [
         {
             "name": "singLEFT",
-            "prefix": "SkidPumpLeft",
-            "offsets": [
-                155,
-                77
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Left"
         },
         {
             "name": "singRIGHT",
-            "prefix": "SkidPumpRight",
-            "offsets": [
-                -85,
-                85
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Right"
         },
         {
             "name": "singDOWN",
-            "prefix": "SkidPumpDown",
-            "offsets": [
-                4,
-                81
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Down"
         },
         {
             "name": "singUP",
-            "prefix": "SkidPumpUp",
-            "offsets": [
-                9,
-                110
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Up"
         },
         {
             "name": "singLEFTmiss",
-            "prefix": "SkidPumpLeft MIZZ",
-            "offsets": [
-                143,
-                96
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Left Miss"
         },
         {
             "name": "singRIGHTmiss",
-            "prefix": "SkidPumpRight MIZZ",
-            "offsets": [
-                -72,
-                113
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Right Miss"
         },
         {
             "name": "singDOWNmiss",
-            "prefix": "SkidPumpDown MIZZ",
-            "offsets": [
-                6,
-                96
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Down Miss"
         },
         {
             "name": "singUPmiss",
-            "prefix": "SkidPumpUp MIZZ",
-            "offsets": [
-                15,
-                114
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Up Miss"
         },
         {
             "name": "danceLeft",
-            "prefix": "SkidPumpIdle",
-            "offsets": [
-                0,
-                80
-            ],
-            "frameRate": 12,
-            "frameIndices": [
-                0,
-                2,
-                4,
-                6,
-                8,
-                10
-            ]
+            "prefix": "Dance Left"
         },
         {
             "name": "danceRight",
-            "prefix": "SkidPumpIdle",
-            "offsets": [
-                0,
-                80
-            ],
-            "frameRate": 12,
-            "frameIndices": [
-                13,
-                15,
-                17,
-                19,
-                21
-            ]
+            "prefix": "Dance Right"
         },
         {
             "name": "danceLeft-alt",
-            "prefix": "SPOOKY DANCE",
-            "offsets": [
-                36,
-                89
-            ],
-            "frameRate": 12,
-            "frameIndices": [
-                0,
-                2,
-                4,
-                6
-            ]
+            "prefix": "Dance Left Alt"
         },
         {
             "name": "danceRight-alt",
-            "prefix": "SPOOKY DANCE",
-            "offsets": [
-                38,
-                89
-            ],
-            "frameRate": 12,
-            "frameIndices": [
-                8,
-                10,
-                12,
-                14
-            ]
+            "prefix": "Dance Right Alt"
         },
         {
             "name": "firstDeath",
-            "prefix": "Game Over Start",
-            "offsets": [
-                69,
-                66
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "First Death"
         },
         {
             "name": "deathLoop",
             "looped": true,
-            "prefix": "Game Over Death",
-            "offsets": [
-                69,
-                -99
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Death Loop"
         },
         {
             "name": "deathConfirm",
-            "prefix": "Game Over Retry",
-            "offsets": [
-                69,
-                -80
-            ],
-            "frameRate": 24,
-            "frameIndices": []
+            "prefix": "Death Confirm"
         }
     ],
     "flipX": true

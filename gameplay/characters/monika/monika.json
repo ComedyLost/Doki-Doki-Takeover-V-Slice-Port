@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Monika",
     "renderType": "multianimateatlas",
-    "assetPath": "shared:characters/monika/default",
+    "assetPath": "gameplay/characters/monika/costumes/default",
     "flipX": false,
     "singTime": 6,
     "playerCameraOffsets": [0, 115],
@@ -38,31 +38,31 @@
 	"costumelist": [
 		{
 			"internal_Name": "blueskies",
-            "assetPath": "shared:characters/monika/blueskies"
+            "assetPath": "gameplay/characters/monika/costumes/blueskies"
 		},
 		{
 			"internal_Name": "valentine",
-			"assetPath": "shared:characters/monika/valentine"
+			"assetPath": "gameplay/characters/monika/costumes/valentine"
 		},
 		{
 			"internal_Name": "hex",
-			"assetPath": "shared:characters/monika/hex"
+			"assetPath": "gameplay/characters/monika/costumes/hex"
 		},
 		{
 			"internal_Name": "senpai",
-			"assetPath": "shared:characters/monika/senpai"
+			"assetPath": "gameplay/characters/monika/costumes/senpai"
 		},
 		{
 			"internal_Name": "vigilante",
-			"assetPath": "shared:characters/monika/vigilante"
+			"assetPath": "gameplay/characters/monika/costumes/vigilante"
 		},
 		{
 			"internal_Name": "casual",
-			"assetPath": "shared:characters/monika/casual"
+			"assetPath": "gameplay/characters/monika/costumes/casual"
 		},
 		{
 			"internal_Name": "casuallong",
-			"assetPath": "shared:characters/monika/casuallong"
+			"assetPath": "gameplay/characters/monika/costumes/casuallong"
 		}
 	],
     "startingAnimation": "",

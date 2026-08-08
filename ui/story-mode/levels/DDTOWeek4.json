@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "MAIDEN OF MYSTERY",
+  "titleAsset": "ui/story-mode/levels/weekY",
+  "visible": true,
+  "capsule": {
+    "name": "WEEK Y"
+  },
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/YuriWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/YuriWeek",
+      "alpha": 0,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#AF1BC4",
+  "songs": ["deep-breaths", "obsession"]
+}

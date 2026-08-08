@@ -2,12 +2,11 @@
   "version": "1.0.0",
   "name": "DDTO Boyfriend",
   "renderType": "multianimateatlas",
-  "assetPath": "shared:characters/boyfriend/default",
+  "assetPath": "gameplay/characters/bf-doki/costumes/default",
   "flipX": true,
   "singTime": 8.0,
   "offsets": [15, 20],
   "cameraOffsets": [0, 20],
-  "healthIcon": {"id": "bfdoki"},
   "animations": [
     {
       "name": "idle",
@@ -53,20 +52,20 @@
       "name": "firstDeath",
       "prefix": "First Death",
       "offsets": [-80, 80],
-      "assetPath": "shared:characters/dokigameover"
+      "assetPath": "gameplay/characters/bf-doki/dokigameover"
     },
     {
       "name": "deathLoop",
       "prefix": "Death Loop",
       "offsets": [-80, 80],
-      "assetPath": "shared:characters/dokigameover",
+      "assetPath": "gameplay/characters/bf-doki/dokigameover",
       "looped": true
     },
     {
       "name": "deathConfirm",
       "prefix": "Death Confirm",
       "offsets": [-80, 80],
-      "assetPath": "shared:characters/dokigameover"
+      "assetPath": "gameplay/characters/bf-doki/dokigameover"
     }
   ],
   "costumes": "bf",

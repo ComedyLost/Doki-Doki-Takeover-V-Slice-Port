@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "Tankman (Doki)",
     "renderType": "animateatlas",
-    "assetPath": "shared:characters/tankman-doki",
+    "assetPath": "gameplay/characters/tankman-doki/tankman-doki",
     "flipX": true,
     "singTime": 4,
     "offsets": [0, 40],

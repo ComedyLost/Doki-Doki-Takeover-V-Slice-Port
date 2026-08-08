@@ -1,0 +1,60 @@
+import funkin.graphics.FunkinSprite;
+import flixel.util.FlxTimer;
+import funkin.ui.MusicBeatSubState;
+import funkin.graphics.FunkinCamera;
+import funkin.modding.module.Module;
+import funkin.util.TouchUtil;
+import funkin.ui.UIState;
+import funkin.audio.FunkinSound;
+
+class DokiMissingSubState extends MusicBeatSubState
+{
+  var mainCam:FunkinCamera;
+  var canpressbuttons:Bool = false;
+  var error:FunkinSprite;
+
+  public function new()
+  {
+    super();
+  }
+
+  public override function create():Void
+  {
+    super.create();
+
+    FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/scroll-menu'));
+    mainCam = new FunkinCamera('MainCam');
+    FlxG.cameras.add(mainCam, false);
+    mainCam.bgColor = 0x0;
+    mainCam.visible = true;
+
+    var background:FunkinSprite = new FunkinSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
+    background.alpha = 0.5;
+    background.cameras = [mainCam];
+    add(background);
+
+    error = new FunkinSprite(0, 0).loadGraphic(Paths.image('ui/doki-missing-state/error-character'));
+    error.scale.set(0.5, 0.5);
+    error.updateHitbox();
+    error.screenCenter();
+    error.cameras = [mainCam];
+    add(error);
+
+    new FlxTimer().start(0.2, function(tmr:FlxTimer)
+    {
+      canpressbuttons = true;
+    });
+  }
+
+  override function update(elapsed:Float):Void
+  {
+    super.update(elapsed);
+    if ((controls.ACCEPT || TouchUtil.pressAction(error, mainCam, false)) && canpressbuttons)
+    {
+      FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/cancel-menu'));
+      FlxG.state.subState.persistentUpdate = true;
+      FlxG.state.subState.uiStateMachine.transition(UIState.Idle);
+      close();
+    }
+  }
+}

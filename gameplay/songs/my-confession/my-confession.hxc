@@ -3,10 +3,9 @@ import funkin.graphics.shaders.WiggleEffectRuntime;
 import funkin.graphics.shaders.WiggleEffectType;
 import flixel.addons.effects.FlxTrail;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
@@ -15,8 +14,8 @@ import flixel.math.FlxMath;
 
 class MyConfessionSong extends Song
 {
-  var vignette:FlxSprite;
-  var staticshock:FlxSprite;
+  var vignette:FunkinSprite;
+  var staticshock:FunkinSprite;
   var hasPlayedIntroCutscene:Bool;
 
   var currentStage(get, never):Stage;
@@ -35,7 +34,7 @@ class MyConfessionSong extends Song
   {
     super.onCreate(event);
     hasPlayedIntroCutscene = false;
-    staticshock = new FlxSprite();
+    staticshock = new FunkinSprite();
     staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
     staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
     staticshock.animation.play('idle');
@@ -49,7 +48,7 @@ class MyConfessionSong extends Song
     staticshock.screenCenter();
     PlayState.instance.add(staticshock);
 
-    vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
+    vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
     vignette.scrollFactor.set();
     vignette.alpha = 0;
     vignette.zIndex = 1600;

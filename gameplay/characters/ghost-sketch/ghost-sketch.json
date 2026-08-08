@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Ghost Sketch",
-    "assetPath": "characters/ghost/Libitina_tmp",
+    "assetPath": "gameplay/characters/ghost-sketch/Libitina_tmp",
     "singTime": 6.1,
     "isPixel": false,
     "scale": 1,

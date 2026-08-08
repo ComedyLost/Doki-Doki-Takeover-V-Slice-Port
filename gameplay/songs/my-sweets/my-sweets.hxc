@@ -5,7 +5,6 @@ import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayState;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.song.Song;
-import flixel.FlxSprite;
 import funkin.play.cutscene.dialogue.ConversationState;
 
 class MySweetsSong extends Song
@@ -41,7 +40,7 @@ class MySweetsSong extends Song
 
     PlayState.instance.camCutscene.visible = true;
 
-    var black:FlxSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
+    var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
     black.cameras = [PlayState.instance.camCutscene];
     black.zIndex = 1000000;
     PlayState.instance.add(black);

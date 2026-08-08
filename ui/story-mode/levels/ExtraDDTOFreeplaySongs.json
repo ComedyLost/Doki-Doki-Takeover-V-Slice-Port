@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "name": "EXTRACURRICULAR ACTIVITIES",
+  "titleAsset": "ui/story-mode/levels/weekS",
+  "visible": false,
+  "props": [],
+  "capsule": {
+    "name": "DOKI EXTRAS",
+    "offsets": [5, 0]
+  },
+  "background": "#A1F9FF",
+  "songs": ["poems-n-thorns", "dual-demise", "titular-mc-mix", "epiphany"]
+}

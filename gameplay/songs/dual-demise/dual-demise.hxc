@@ -3,10 +3,9 @@ import funkin.graphics.shaders.WiggleEffectRuntime;
 import funkin.graphics.shaders.WiggleEffectType;
 import flixel.addons.effects.FlxTrail;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
@@ -30,8 +29,7 @@ class DualDemiseSong extends Song
 
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
     if (!save.psychholds) return;
 
     stutterNotes();
@@ -40,8 +38,7 @@ class DualDemiseSong extends Song
   override function onSongLoaded(event)
   {
     super.onSongLoaded(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     createSpirit();
   }
@@ -55,8 +52,7 @@ class DualDemiseSong extends Song
   override function onUpdate(event:UpdateScriptEvent)
   {
     super.onUpdate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
     processNotes(event);
   }
 
@@ -148,8 +144,7 @@ class DualDemiseSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     PlayState.instance.iconP2.loadCharacter('dual-demise');
     PlayState.instance.currentStage.getDad().cameraFocusPoint.x -= 200;

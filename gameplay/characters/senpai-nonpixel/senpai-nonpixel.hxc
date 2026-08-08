@@ -1,0 +1,113 @@
+import funkin.play.character.MultiAnimateAtlasCharacter;
+import funkin.play.character.CharacterType;
+import funkin.play.PlayState;
+import flixel.math.FlxPoint;
+import StringTools;
+
+class SenpaiNonPixelCharacter extends MultiAnimateAtlasCharacter
+{
+  function new()
+  {
+    super('senpai-nonpixel');
+  }
+
+  public var shouldAngry:Bool;
+
+  function onNoteHit(event:NoteScriptEvent)
+  {
+    // Override the hit note animation.
+    switch (event.note.kind)
+    {
+      case "markov":
+        event.cancelEvent();
+      default:
+        if (!event.note.noteData.getMustHitNote() && characterType == CharacterType.DAD)
+        {
+          // Override the hit note animation.
+          if (shouldAngry)
+          {
+            holdTimer = 0;
+            this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
+
+            return;
+          }
+          else
+          {
+            super.onNoteHit(event);
+          }
+        }
+    }
+  }
+
+  override function onAdd()
+  {
+    shouldAngry = false;
+  }
+
+  override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint
+  {
+    var output:FlxPoint = super.getScreenPosition(result, camera);
+    if (flipX)
+    {
+      output.x += (animOffsets[0] * 2 + width - frameWidth) * scale.x;
+    }
+    if (flipY)
+    {
+      output.y += (animOffsets[1] * 2 + height - frameHeight) * scale.y;
+    }
+    return output;
+  }
+
+  public var defaultColor;
+  public var missColor;
+
+  public function onCreate(event):Void
+  {
+    super.onCreate(event);
+    if (PlayState.instance?.currentStage != null) var isFestival = (PlayState.instance.currentStageId.toLowerCase() == 'dokifestival'
+      || PlayState.instance.currentStageId.toLowerCase() == 'dokiglitcher');
+    else
+      var isFestival = false;
+    defaultColor = (!isFestival) ? 0xFFFFFFFF : 0x828282;
+    missColor = (!isFestival) ? 0xFF8282FF : 0x424282;
+    this.color = defaultColor;
+  }
+
+  override public function playSingAnimation(dir:Int, miss:Bool = false, ?suffix:String = ""):Void
+  {
+    holdTimer = 0;
+    if (flipX)
+    {
+      if (dir == 0)
+      {
+        dir = 3;
+      }
+      else if (dir == 3)
+      {
+        dir = 0;
+      }
+    }
+    if (miss)
+    {
+      this.color = missColor;
+      super.playSingAnimation(dir, false, suffix);
+    }
+    else
+    {
+      this.color = defaultColor;
+      super.playSingAnimation(dir, miss, suffix);
+    }
+  }
+
+  override public function playAnimation(name:String, restart:Bool = false, ignoreOther:Bool = false, reversed:Bool = false):Void
+  {
+    // FlxG.watch.addQuick('playAnim(${characterName})', name);
+    if (!StringTools.contains(name, 'sing')) this.color = defaultColor;
+    if (name == 'swap')
+    {
+      shouldAngry = true;
+      this.idleSuffix = '-alt';
+    }
+    super.playAnimation(name, restart, ignoreOther, reversed);
+  }
+}

@@ -10,13 +10,12 @@ import flixel.FlxCamera;
 import funkin.graphics.FunkinCamera;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import flixel.FlxSprite;
 import funkin.graphics.FunkinSprite;
 import funkin.Conductor;
 import flixel.util.FlxTimer;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
-import flixel.addons.display.FlxBackdrop;
+import funkin.graphics.FunkinBackdrop;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
 import funkin.graphics.shaders.WiggleEffectRuntime;
@@ -29,6 +28,7 @@ import funkin.play.PauseSubState;
 import funkin.play.cutscene.VideoCutscene;
 import funkin.FunkinMemory;
 import funkin.graphics.video.FunkinVideoSprite;
+import funkin.assets.Paths as NewPaths;
 
 // Worst thing I ever fucking coded
 // Agonizing pain
@@ -41,21 +41,21 @@ class LibitinaSong extends Song
     save = DokiPreferences.getDokiSave();
   }
 
-  var shaderstatic = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
+  var shaderstatic = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/StaticShader")));
   var staticshader = new ShaderFilter(shaderstatic);
-  var shaderstatic2 = new FlxRuntimeShader(Assets.getText(Paths.frag("StaticShader")));
+  var shaderstatic2 = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/StaticShader")));
   var staticshader2 = new ShaderFilter(shaderstatic2);
 
-  var inverty = new FlxRuntimeShader(Assets.getText(Paths.frag("InvertShader")));
+  var inverty = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/InvertShader")));
 
-  var warp = new FlxRuntimeShader(Assets.getText(Paths.frag("WarpShader")));
+  var warp = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/WarpShader")));
   var warpshader = new ShaderFilter(warp);
 
-  var fish = new FlxRuntimeShader(Assets.getText(Paths.frag("FishEyeShader")));
+  var fish = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/FishEyeShader")));
   var fishshader = new ShaderFilter(fish);
-  var glitch = new FlxRuntimeShader(Assets.getText(Paths.frag("GlitchShader")));
+  var glitch = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/GlitchShader")));
   var glitchshader = new ShaderFilter(glitch);
-  var glitch2 = new FlxRuntimeShader(Assets.getText(Paths.frag("GlitchShader")));
+  var glitch2 = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/GlitchShader")));
   var glitchshader2 = new ShaderFilter(glitch2);
 
   var camGame2:FunkinCamera;
@@ -88,11 +88,13 @@ class LibitinaSong extends Song
   var libFinaleEyes;
   var libFinaleOverlay;
   var libVignette;
-  var blackScreen:FlxSprite;
+  var blackScreen:FunkinSprite;
   var rainBG:FunkinVideoSprite;
   var testVM:FunkinVideoSprite;
   var crackBG:FunkinVideoSprite;
   var hasPlayedCutscene:Bool;
+
+  final STAGE_PATH:String = 'gameplay/stages/libitina';
 
   function calcSectionLength(?duration:Int = 1)
   {
@@ -104,8 +106,7 @@ class LibitinaSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     hasPlayedCutscene = false;
 
@@ -176,8 +177,8 @@ class LibitinaSong extends Song
   function buildStage()
   {
     var stage = PlayState.instance.currentStage;
-    deskBG1 = new FlxSprite(0, 0, Paths.image('libitina/outrodesk'));
-    deskBG1.loadGraphic(Paths.image('libitina/introdesk'));
+    deskBG1 = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/outrodesk'));
+    deskBG1.loadGraphic(Paths.image('$STAGE_PATH/introdesk'));
     deskBG1.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     deskBG1.updateHitbox();
     deskBG1.scrollFactor.set(0, 0);
@@ -185,8 +186,8 @@ class LibitinaSong extends Song
     deskBG1.cameras = [camGame2];
     stage.add(deskBG1);
 
-    deskBG2 = new FlxSprite(0, 0, Paths.image('libitina/outroscreen'));
-    deskBG2.loadGraphic(Paths.image('libitina/introscreen'));
+    deskBG2 = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/outroscreen'));
+    deskBG2.loadGraphic(Paths.image('$STAGE_PATH/introscreen'));
     deskBG2.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     deskBG2.updateHitbox();
     deskBG2.cameras = [camGame2];
@@ -195,7 +196,7 @@ class LibitinaSong extends Song
     deskBG2.zIndex = 20;
     stage.add(deskBG2);
 
-    cursorDDTO = new FlxSprite(800, 730, Paths.image('libitina/mousecursor'));
+    cursorDDTO = new FunkinSprite(800, 730, Paths.image('$STAGE_PATH/mousecursor'));
     cursorDDTO.setGraphicSize(Std.int(cursorDDTO.width / PlayState.instance.stageZoom));
     cursorDDTO.updateHitbox();
     cursorDDTO.cameras = [camGame2];
@@ -204,7 +205,7 @@ class LibitinaSong extends Song
     cursorDDTO.zIndex = 30;
     stage.add(cursorDDTO);
 
-    extractPopup = new FlxSprite(0, 0, Paths.image('libitina/extracting'));
+    extractPopup = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/extracting'));
     extractPopup.setGraphicSize(Std.int(extractPopup.width / PlayState.instance.stageZoom));
     extractPopup.updateHitbox();
     extractPopup.screenCenter();
@@ -220,7 +221,7 @@ class LibitinaSong extends Song
     rainBG.scrollFactor.set();
     stage.add(rainBG);
 
-    if (rainBG.load(Assets.getPath(Paths.videos('rain'), false))) rainBG.play();
+    if (rainBG.load(Assets.getPath(NewPaths.video('$STAGE_PATH/rain')))) rainBG.play();
 
     rainBG.bitmap.onFormatSetup.add(() ->
     {
@@ -238,7 +239,7 @@ class LibitinaSong extends Song
     });
 
     testVM = new FunkinVideoSprite(0, 0);
-    if (testVM.load(Assets.getPath(Paths.videos('testvm'), true))) testVM.play();
+    if (testVM.load(Assets.getPath(NewPaths.video('$STAGE_PATH/test-vm')))) testVM.play();
     testVM.scrollFactor.set();
     testVM.setGraphicSize(Std.int(testVM.width / PlayState.instance.stageZoom));
     testVM.updateHitbox();
@@ -254,8 +255,8 @@ class LibitinaSong extends Song
       testVM.bitmap.play();
     });
 
-    libiWindow = new FlxSprite(0, 0, Paths.image('libitina/granted')); // preload
-    libiWindow.loadGraphic(Paths.image('libitina/bigwindow'));
+    libiWindow = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/granted')); // preload
+    libiWindow.loadGraphic(Paths.image('$STAGE_PATH/bigwindow'));
     libiWindow.setGraphicSize(Std.int(libiWindow.width / PlayState.instance.stageZoom));
     libiWindow.updateHitbox();
     libiWindow.screenCenter();
@@ -264,8 +265,8 @@ class LibitinaSong extends Song
     libiWindow.alpha = 0.001;
     stage.add(libiWindow);
 
-    libHando = new FlxSprite(0, 0);
-    libHando.frames = Paths.getSparrowAtlas('libitina/Hando');
+    libHando = new FunkinSprite(0, 0);
+    libHando.frames = Paths.getSparrowAtlas('$STAGE_PATH/Hando');
     libHando.animation.addByPrefix('idle', 'HandoAnim', 24, true);
     libHando.setGraphicSize(Std.int((libHando.width * 1.5) / PlayState.instance.stageZoom));
     libHando.updateHitbox();
@@ -275,7 +276,7 @@ class LibitinaSong extends Song
     libHando.alpha = 0.001;
     stage.add(libHando);
 
-    deskBG2Overlay = new FlxSprite(0, 0, Paths.image('libitina/lightoverlay'));
+    deskBG2Overlay = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/lightoverlay'));
     deskBG2Overlay.setGraphicSize(Std.int((FlxG.width * 1.2) / PlayState.instance.stageZoom));
     deskBG2Overlay.updateHitbox();
     deskBG2Overlay.screenCenter();
@@ -284,8 +285,8 @@ class LibitinaSong extends Song
     deskBG2Overlay.alpha = 0.001;
     stage.add(deskBG2Overlay);
 
-    libAwaken = new FlxSprite(0, 0);
-    libAwaken.frames = Paths.getSparrowAtlas('libitina/SheAwakens');
+    libAwaken = new FunkinSprite(0, 0);
+    libAwaken.frames = Paths.getSparrowAtlas('$STAGE_PATH/SheAwakens');
     libAwaken.animation.addByPrefix('idle', 'SheAwakens', 24, true);
     libAwaken.setGraphicSize(Std.int((libAwaken.width * 1.1) / PlayState.instance.stageZoom));
     libAwaken.updateHitbox();
@@ -295,7 +296,7 @@ class LibitinaSong extends Song
     libAwaken.scrollFactor.set();
     stage.add(libAwaken);
 
-    ghostBG = new FlxBackdrop(Paths.image('libitina/ghostbg'));
+    ghostBG = new FunkinBackdrop(Paths.image('$STAGE_PATH/ghostbg'));
     ghostBG.setPosition(0, -200);
     ghostBG.scrollFactor.set(0.3, 0.3);
     ghostBG.velocity.set(-40, 0);
@@ -305,7 +306,7 @@ class LibitinaSong extends Song
     ghostBG.alpha = 0.001;
     stage.add(ghostBG);
 
-    eyeBG = new FlxSprite(0, 0, Paths.image('libitina/eyebg'));
+    eyeBG = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/eyebg'));
     eyeBG.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     eyeBG.updateHitbox();
     eyeBG.screenCenter();
@@ -313,8 +314,8 @@ class LibitinaSong extends Song
     eyeBG.alpha = 0.001;
     stage.add(eyeBG);
 
-    eyeMidwayBG = new FlxSprite(0, 0);
-    eyeMidwayBG.frames = Paths.getSparrowAtlas('libitina/EyeMidwayBG');
+    eyeMidwayBG = new FunkinSprite(0, 0);
+    eyeMidwayBG.frames = Paths.getSparrowAtlas('$STAGE_PATH/EyeMidwayBG');
     eyeMidwayBG.animation.addByPrefix('idle', 'MidwayBG', 24, true);
     eyeMidwayBG.setGraphicSize(Std.int((FlxG.width * 1.1) / PlayState.instance.stageZoom));
     eyeMidwayBG.animation.play('idle');
@@ -323,15 +324,15 @@ class LibitinaSong extends Song
     eyeMidwayBG.scrollFactor.set();
     eyeMidwayBG.cameras = [camGame2];
 
-    eyeShadow = new FlxSprite(0, 0, Paths.image('libitina/EyeShadow'));
+    eyeShadow = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/EyeShadow'));
     eyeShadow.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     eyeShadow.updateHitbox();
     eyeShadow.screenCenter();
     eyeShadow.scrollFactor.set();
     eyeShadow.cameras = [camGame2];
 
-    infoBG = new FlxSprite(0, 0);
-    infoBG.frames = Paths.getSparrowAtlas('libitina/InfoMidwayBG');
+    infoBG = new FunkinSprite(0, 0);
+    infoBG.frames = Paths.getSparrowAtlas('$STAGE_PATH/InfoMidwayBG');
     infoBG.animation.addByPrefix('idle', 'InfoBG', 24, true);
     infoBG.animation.play('idle');
     infoBG.setGraphicSize(Std.int((FlxG.width * 1.1) / PlayState.instance.stageZoom));
@@ -341,8 +342,8 @@ class LibitinaSong extends Song
     infoBG.alpha = 0.001;
     stage.add(infoBG);
 
-    infoBG2 = new FlxSprite(0, 0);
-    infoBG2.frames = Paths.getSparrowAtlas('libitina/InfoMidwayBGInvert');
+    infoBG2 = new FunkinSprite(0, 0);
+    infoBG2.frames = Paths.getSparrowAtlas('$STAGE_PATH/InfoMidwayBGInvert');
     infoBG2.animation.addByPrefix('idle', 'InfoBG', 24, true);
     infoBG2.animation.play('idle');
     infoBG2.setGraphicSize(Std.int((FlxG.width * 1.1) / PlayState.instance.stageZoom));
@@ -353,7 +354,7 @@ class LibitinaSong extends Song
     stage.add(infoBG2);
 
     crackBG = new FunkinVideoSprite(-10, -10);
-    if (crackBG.load(Assets.getPath(Paths.videos('crackBG'), true))) crackBG.play();
+    if (crackBG.load(Assets.getPath(NewPaths.video('$STAGE_PATH/crack-bg-video')))) crackBG.play();
     crackBG.scrollFactor.set(0.3, 0.3);
     crackBG.cameras = [camGame2];
     crackBG.setGraphicSize(Std.int(crackBG.width / PlayState.instance.stageZoom));
@@ -368,7 +369,7 @@ class LibitinaSong extends Song
       crackBG.bitmap.play();
     });
 
-    staticshock = new FlxSprite(0, 0);
+    staticshock = new FunkinSprite(0, 0);
     staticshock.frames = Paths.getSparrowAtlas('HomeStatic');
     staticshock.animation.addByPrefix('idle', 'HomeStatic', 24, true);
     staticshock.animation.play('idle');
@@ -379,7 +380,7 @@ class LibitinaSong extends Song
     staticshock.cameras = [camGame2];
     staticshock.alpha = 0.001;
 
-    libFinaleBG = new FlxSprite(0, 0, Paths.image('libitina/finale/FinaleBG'));
+    libFinaleBG = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/finale/FinaleBG'));
     libFinaleBG.setGraphicSize(Std.int(libFinaleBG.width / PlayState.instance.stageZoom));
     libFinaleBG.updateHitbox();
     libFinaleBG.cameras = [camGame2];
@@ -387,8 +388,8 @@ class LibitinaSong extends Song
     libFinaleBG.alpha = 0.001;
     stage.add(libFinaleBG);
 
-    libGhost = new FlxSprite(160, 710);
-    libGhost.frames = Paths.getSparrowAtlas('libitina/finale/LibiFinaleDramatic');
+    libGhost = new FunkinSprite(160, 710);
+    libGhost.frames = Paths.getSparrowAtlas('$STAGE_PATH/finale/LibiFinaleDramatic');
     libGhost.animation.addByPrefix('idle', 'LibiFinale', 24, true);
     libGhost.setGraphicSize(Std.int(libGhost.width / PlayState.instance.stageZoom));
     libGhost.updateHitbox();
@@ -398,7 +399,7 @@ class LibitinaSong extends Song
     libGhost.alpha = 0.001;
     stage.add(libGhost);
 
-    libParty = new FlxSprite(-80, -460, Paths.image('libitina/finale/GOONS1'));
+    libParty = new FunkinSprite(-80, -460, Paths.image('$STAGE_PATH/finale/GOONS1'));
     libParty.setGraphicSize(Std.int(libParty.width / PlayState.instance.stageZoom));
     libParty.updateHitbox();
     libParty.cameras = [camGame2];
@@ -406,7 +407,7 @@ class LibitinaSong extends Song
     libParty.scrollFactor.set();
     stage.add(libParty);
 
-    libRockIs = new FlxSprite(140, -460, Paths.image('libitina/finale/GOONS2'));
+    libRockIs = new FunkinSprite(140, -460, Paths.image('$STAGE_PATH/finale/GOONS2'));
     libRockIs.setGraphicSize(Std.int(libRockIs.width / PlayState.instance.stageZoom));
     libRockIs.updateHitbox();
     libRockIs.cameras = [camGame2];
@@ -414,9 +415,9 @@ class LibitinaSong extends Song
     libRockIs.alpha = 0.001;
     stage.add(libRockIs);
 
-    libFinale = new FlxSprite(0, 0, Paths.image('libitina/finale/Finale4'));
-    libFinale.loadGraphic(Paths.image('libitina/finale/Finale3')); // preload
-    libFinale.loadGraphic(Paths.image('libitina/finale/Finale2'));
+    libFinale = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/finale/Finale4'));
+    libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale3')); // preload
+    libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale2'));
     libFinale.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     libFinale.updateHitbox();
     libFinale.scrollFactor.set();
@@ -424,8 +425,8 @@ class LibitinaSong extends Song
     libFinale.alpha = 0.001;
     stage.add(libFinale);
 
-    libFinaleEyes = new FlxSprite(0, 0);
-    libFinaleEyes.frames = Paths.getSparrowAtlas('libitina/finale/ShesWatching');
+    libFinaleEyes = new FunkinSprite(0, 0);
+    libFinaleEyes.frames = Paths.getSparrowAtlas('$STAGE_PATH/finale/ShesWatching');
     libFinaleEyes.animation.addByPrefix('idle', 'ShesWatching', 24, true);
     libFinaleEyes.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     libFinaleEyes.updateHitbox();
@@ -435,8 +436,8 @@ class LibitinaSong extends Song
     libFinaleEyes.alpha = 0.001;
     stage.add(libFinaleEyes);
 
-    libFinaleOverlay = new FlxSprite(0, 0);
-    libFinaleOverlay.frames = Paths.getSparrowAtlas('libitina/finale/ShesWatching');
+    libFinaleOverlay = new FunkinSprite(0, 0);
+    libFinaleOverlay.frames = Paths.getSparrowAtlas('$STAGE_PATH/finale/ShesWatching');
     libFinaleOverlay.animation.addByPrefix('idle', 'ShesWatching', 24, true);
     libFinaleOverlay.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     libFinaleOverlay.updateHitbox();
@@ -446,8 +447,8 @@ class LibitinaSong extends Song
     libFinaleOverlay.alpha = 0.001;
     stage.add(libFinaleOverlay);
 
-    libVignette = new FlxSprite(0, 0, Paths.image('libitina/vignetteend'));
-    libVignette.loadGraphic(Paths.image('libitina/vignette'));
+    libVignette = new FunkinSprite(0, 0, Paths.image('$STAGE_PATH/vignetteend'));
+    libVignette.loadGraphic(Paths.image('$STAGE_PATH/vignette'));
     libVignette.setGraphicSize(Std.int(libVignette.width / PlayState.instance.stageZoom));
     libVignette.updateHitbox();
     libVignette.scrollFactor.set();
@@ -742,7 +743,7 @@ class LibitinaSong extends Song
         crackBG.alpha = 1;
         crackBG.cameras = [camGame2];
 
-        libVignette.loadGraphic(Paths.image('libitina/vignetteend'));
+        libVignette.loadGraphic(Paths.image('$STAGE_PATH/vignetteend'));
       case 2752, 2817, 2881, 2945, 2960, 2972, 2974, 2976, 2978, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2889, 2890, 2891, 2892, 2893:
         // this code looks so fucking ugly
         // I agree >:D
@@ -753,7 +754,7 @@ class LibitinaSong extends Song
         PlayState.instance.currentStage.remove(libiWindow);
         PlayState.instance.add(libiWindow);
         libiWindow.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 69;
-        libiWindow.loadGraphic(Paths.image('libitina/granted'));
+        libiWindow.loadGraphic(Paths.image('$STAGE_PATH/granted'));
         libiWindow.cameras = [PlayState.instance.camHUD];
         libiWindow.screenCenter();
         libiWindow.alpha = 1;
@@ -770,7 +771,7 @@ class LibitinaSong extends Song
         camGame2.zoom = PlayState.instance.stageZoom;
         PlayState.instance.camHUD.zoom = PlayState.instance.defaultHUDCameraZoom;
 
-        libVignette.loadGraphic(Paths.image('libitina/vignette'));
+        libVignette.loadGraphic(Paths.image('$STAGE_PATH/vignette'));
         libFinaleBG.alpha = 1;
         libGhost.alpha = 1;
 
@@ -815,7 +816,7 @@ class LibitinaSong extends Song
       case 3648:
         // I would've used the switch case but then it wouldn't run the loadGraphic stuff
         libShader(false);
-        libFinale.loadGraphic(Paths.image('libitina/finale/Finale3'));
+        libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale3'));
         libFinale.cameras = [camGame2];
       case 3664:
         libShader(true, false);
@@ -823,7 +824,7 @@ class LibitinaSong extends Song
         libFinaleOverlay.cameras = [camGame2];
       case 3684:
         libShader(false);
-        libFinale.loadGraphic(Paths.image('libitina/finale/Finale4'));
+        libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale4'));
         libFinale.cameras = [camGame2];
       case 3692:
         libShader(false);
@@ -831,7 +832,7 @@ class LibitinaSong extends Song
         libFinaleOverlay.setGraphicSize(Std.int(FlxG.width * 0.86 / PlayState.instance.stageZoom));
         libFinaleOverlay.screenCenter();
 
-        deskBG2.loadGraphic(Paths.image('libitina/outroscreen'));
+        deskBG2.loadGraphic(Paths.image('$STAGE_PATH/outroscreen'));
         PlayState.instance.camHUD.alpha = 0.001;
         libFinale.alpha = 0.001;
         deskBG2.alpha = 1;
@@ -847,7 +848,7 @@ class LibitinaSong extends Song
         rainBG.alpha = 1;
         rainBG.cameras = [camGame2];
 
-        deskBG1.loadGraphic(Paths.image('libitina/outrodesk'));
+        deskBG1.loadGraphic(Paths.image('$STAGE_PATH/outrodesk'));
         deskBG1.alpha = 1;
         deskBG1.cameras = [camGame2];
         deskBG1.zIndex = 110;
@@ -902,8 +903,8 @@ class LibitinaSong extends Song
 
     new FlxTimer().start(delay, function(tmr:FlxTimer)
     {
-      var eye = new FlxSprite(x2, y2);
-      eye.frames = Paths.getSparrowAtlas('libitina/popups' + style2 + '/' + type2);
+      var eye = new FunkinSprite(x2, y2);
+      eye.frames = Paths.getSparrowAtlas('$STAGE_PATH/popups' + style2 + '/' + type2);
       eye.animation.addByPrefix('idle', 'PopupAnim', 24, true);
       eye.scale.set(scale2, scale2);
       eye.cameras = [camGame2];
@@ -930,7 +931,7 @@ class LibitinaSong extends Song
         cameras.filters = [];
       }
       FunkinSound.stopAllAudio();
-      var blueScreen = new FlxSprite().loadGraphic(Paths.image('LibiGameOver'));
+      var blueScreen = new FunkinSprite().loadGraphic(Paths.image('LibiGameOver'));
       blueScreen.scrollFactor.set();
       GameOverSubState.instance.add(blueScreen);
       GameOverSubState.instance.startDeathMusic(1.0, false);

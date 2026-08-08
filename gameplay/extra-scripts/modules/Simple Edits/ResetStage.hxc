@@ -1,0 +1,28 @@
+import funkin.play.PlayState;
+import funkin.play.event.SongEvent;
+import flixel.tweens.FlxTween;
+import funkin.modding.module.Module;
+import funkin.modding.module.ModuleHandler;
+
+class ResetStageModule extends Module
+{
+  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla'];
+
+  override function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+    // Resets stage to not cause any issues on a retry
+    if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
+    var dad:BaseCharacter = PlayState.instance.currentStage.getDad();
+    if (dad != null)
+    {
+      PlayState.instance.tweenCameraToPosition(dad.cameraFocusPoint.x, dad.cameraFocusPoint.y, 0);
+    }
+    for (strums in [PlayState.instance.playerStrumline, PlayState.instance.opponentStrumline])
+    {
+      strums.background.alpha = Preferences.strumlineBackgroundOpacity / 100.0;
+    }
+    PlayState.instance.currentStage.refresh();
+  }
+}

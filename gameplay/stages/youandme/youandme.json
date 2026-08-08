@@ -8,7 +8,7 @@
       "animType": "sparrow",
       "name": "Skybox",
       "isPixel": false,
-      "assetPath": "ynm/skybox",
+      "assetPath": "gameplay/stages/youandme/sky-box",
       "scale": [1.2, 1.2],
       "animations": []
     },
@@ -20,7 +20,7 @@
       "animType": "sparrow",
       "name": "Background Houses",
       "isPixel": false,
-      "assetPath": "ynm/bg3",
+      "assetPath": "gameplay/stages/youandme/background-house",
       "scale": [1.2, 1.2],
       "animations": []
     },
@@ -32,7 +32,7 @@
       "animType": "sparrow",
       "name": "MC House",
       "isPixel": false,
-      "assetPath": "ynm/bg2",
+      "assetPath": "gameplay/stages/youandme/house",
       "scale": [1.2, 1.2],
       "animations": []
     },
@@ -44,7 +44,7 @@
       "animType": "sparrow",
       "name": "Fence",
       "isPixel": false,
-      "assetPath": "ynm/bg",
+      "assetPath": "gameplay/stages/youandme/front",
       "scale": [1.2, 1.2],
       "animations": []
     }

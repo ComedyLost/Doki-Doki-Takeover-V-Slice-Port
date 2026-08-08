@@ -1,8 +1,7 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
-import flixel.util.FlxTimer;
 import funkin.graphics.FunkinSprite;
+import flixel.util.FlxTimer;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.Conductor;
@@ -21,8 +20,7 @@ class ConstrictedSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
     vignette.scrollFactor.set();

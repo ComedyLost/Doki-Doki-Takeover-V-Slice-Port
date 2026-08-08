@@ -1,15 +1,12 @@
 {
   "version": "1.0.1",
   "name": "DDTO Boyfriend (Pixel)",
-  "assetPath": "characters/bfPixelNew",
+  "assetPath": "gameplay/characters/pixelbf-new/bf-pixel-new",
   "flipX": true,
   "renderType": "multisparrow",
   "singTime": 8.0,
   "isPixel": true,
-  "healthIcon": {
-    "isPixel": false,
-    "id": "pixelbfdoki"
-  },
+  "healthIcon": {"isPixel": false},
   "death": {
     "cameraOffsets": [-150, 50]
   },
@@ -53,7 +50,7 @@
     {
       "name": "singRIGHTmiss",
       "prefix": "BF Right Miss",
-      "offsets": [-4, 0]
+      "offsets": [0, 0]
     },
     {
       "name": "singDOWNmiss",
@@ -63,21 +60,21 @@
     {
       "name": "firstDeath",
       "prefix": "BF Dies pixel",
-      "assetPath": "characters/bfPixelsDEAD",
-      "offsets": [25, -10]
+      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "offsets": [0, -4]
     },
     {
       "name": "deathLoop",
       "prefix": "Retry Loop",
-      "assetPath": "characters/bfPixelsDEAD",
+      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
       "looped": true,
-      "offsets": [20, -12.5]
+      "offsets": [-5, -6]
     },
     {
       "name": "deathConfirm",
       "prefix": "RETRY CONFIRM",
-      "assetPath": "characters/bfPixelsDEAD",
-      "offsets": [20, -12.5]
+      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "offsets": [-5, -6]
     }
   ]
 }

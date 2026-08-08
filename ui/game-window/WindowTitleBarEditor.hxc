@@ -1,0 +1,68 @@
+package ddto.ui.gamewindow;
+
+import funkin.play.PlayState;
+import funkin.modding.module.Module;
+import flixel.tweens.FlxTween;
+import funkin.util.WindowUtil;
+import openfl.display.BitmapData;
+import lime.app.Application;
+import lime.graphics.Image;
+
+class WindowTitleBarEditor extends Module
+{
+  function new()
+  {
+    super('WindowTitleBarEditor');
+  }
+
+  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var customTitleBar:Bool;
+
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    customTitleBar = ddtoStages.contains(PlayState.instance.currentStageId);
+    if (customTitleBar)
+    {
+      setIcon(Paths.image('ui/game-window/dokicon'));
+      if (PlayState.instance.currentChart.songName == 'Your Demise') WindowUtil.setWindowTitle('Your Demise');
+      else
+        WindowUtil.setWindowTitle('Friday Night Funkin\': Doki Doki Takeover Plus - ' + PlayState.instance.currentChart.songName);
+    }
+  }
+
+  public static function setIcon(graphic:String)
+  {
+    var icon:Image;
+    if (!Assets.exists(graphic))
+    {
+      trace('ERROR: ' + graphic + " doesn't exist. Check your icon location");
+      return;
+    }
+    var image = Assets.getBytes(graphic);
+    icon = Image.fromBytes(image);
+    Application.current.window.setIcon(icon);
+  }
+
+  override function onSubStateCloseEnd(event)
+  {
+    super.onSubStateCloseEnd(event);
+    if (customTitleBar && PlayState.instance == null)
+    {
+      WindowUtil.setWindowTitle('Friday Night Funkin\'');
+      setIcon(Paths.image('ui/game-window/icon'));
+      customTitleBar = false;
+    }
+  }
+
+  override function onStateChangeEnd(event)
+  {
+    super.onStateChangeEnd(event);
+    if (customTitleBar && PlayState.instance == null)
+    {
+      WindowUtil.setWindowTitle('Friday Night Funkin\'');
+      setIcon(Paths.image('ui/game-window/icon'));
+      customTitleBar = false;
+    }
+  }
+}

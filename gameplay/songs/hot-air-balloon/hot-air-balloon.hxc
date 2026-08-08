@@ -3,10 +3,9 @@ import funkin.graphics.shaders.WiggleEffectRuntime;
 import funkin.graphics.shaders.WiggleEffectType;
 import flixel.addons.effects.FlxTrail;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
@@ -22,11 +21,11 @@ class HotAirBalloonSong extends Song
     super('hot-air-balloon');
   }
 
-  var bakaOverlay:FlxSprite;
+  var bakaOverlay:FunkinSprite;
 
   public override function isSongNew(currentDifficulty:String):Bool
   {
-    if (Save.instance.hasBeatenSong(this.id) == false) return true;
+    if (!Save.instance.hasBeatenSong(this.id)) return true;
     else
       return false;
   }
@@ -34,10 +33,9 @@ class HotAirBalloonSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    bakaOverlay = new FlxSprite(0, 0);
+    bakaOverlay = new FunkinSprite(0, 0);
     bakaOverlay.frames = Paths.getSparrowAtlas('clubroom/BakaBGDoodles');
     bakaOverlay.animation.addByPrefix('normal', 'Normal Overlay', 24, true);
     bakaOverlay.animation.addByPrefix('party rock is', 'Rock Overlay', 24, true);

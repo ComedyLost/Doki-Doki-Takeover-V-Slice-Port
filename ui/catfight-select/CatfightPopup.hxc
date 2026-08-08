@@ -1,0 +1,144 @@
+import funkin.graphics.FunkinBackdrop;
+import funkin.graphics.FunkinSprite;
+import flixel.util.FlxTimer;
+import funkin.PlayerSettings;
+import funkin.ui.MusicBeatSubState;
+import funkin.graphics.FunkinCamera;
+import funkin.modding.module.ModuleHandler;
+import funkin.modding.module.Module;
+import flixel.input.touch.FlxTouch;
+
+class CatfightPopup extends MusicBeatSubState
+{
+  var isFreePlay:Bool = false;
+  var canpressbuttons:Bool = false;
+
+  var curSelected:Int = 1;
+  var selectGrp;
+  var mainCam:FunkinCamera;
+
+  public function new()
+  {
+    super();
+  }
+
+  public override function create():Void
+  {
+    super.create();
+
+    selectGrp = [];
+
+    mainCam = new FunkinCamera('MainCam');
+    FlxG.cameras.add(mainCam, false);
+    mainCam.bgColor = 0x0;
+    mainCam.visible = true;
+
+    var background:FunkinSprite = new FunkinSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
+    background.alpha = 0.5;
+    background.cameras = [mainCam];
+    add(background);
+
+    var select:FunkinSprite = new FunkinSprite(0, 40).loadGraphic(Paths.image('extraui/selecttext'));
+    select.scale.set(0.8, 0.8);
+    select.updateHitbox();
+    select.screenCenter(0x01);
+    select.cameras = [mainCam];
+    add(select);
+
+    var yuri:FunkinSprite = new FunkinSprite(0, 0).loadGraphic(Paths.image('extraui/catfightYuri'));
+    yuri.scale.set(0.6, 0.6);
+    yuri.updateHitbox();
+    yuri.screenCenter();
+    yuri.x -= 300;
+    yuri.y += 60;
+    yuri.cameras = [mainCam];
+    add(yuri);
+
+    var natsuki:FunkinSprite = new FunkinSprite(0, 0).loadGraphic(Paths.image('extraui/catfightNat'));
+    natsuki.scale.set(0.6, 0.6);
+    natsuki.updateHitbox();
+    natsuki.screenCenter();
+    natsuki.x += 300;
+    natsuki.y += 60;
+    natsuki.cameras = [mainCam];
+    add(natsuki);
+
+    selectGrp.push(yuri);
+    selectGrp.push(natsuki);
+
+    new FlxTimer().start(0.2, function(tmr:FlxTimer)
+    {
+      canpressbuttons = true;
+    });
+
+    changeItem(0);
+  }
+
+  override function update(elapsed:Float):Void
+  {
+    super.update(elapsed);
+
+    if (canpressbuttons)
+    {
+      if (PlayerSettings.player1.controls.BACK_P)
+      {
+        FlxG.sound.play(Paths.sound('cancelMenu'));
+
+        FlxG.state.subState.persistentUpdate = true;
+        FlxG.state.subState.controls.active = true;
+        close();
+      }
+
+      if (FlxG.onMobile)
+      {
+        var touch:FlxTouch = FlxG.touches.getFirst();
+        if (touch != null)
+        {
+          if (touch.justPressed && touch.overlaps(selectGrp[0]))
+          {
+            if (curSelected != 0) curSelected = 0;
+            else
+            {
+              ModuleHandler.getModule("CatFightFreeplayFix").scriptCall('detectYuri', [curSelected]);
+              close();
+            }
+          }
+          else if (touch.justPressed && touch.overlaps(selectGrp[1]))
+          {
+            if (curSelected != 1) curSelected = 1;
+            else
+            {
+              ModuleHandler.getModule("CatFightFreeplayFix").scriptCall('detectYuri', [curSelected]);
+              close();
+            }
+          }
+        }
+      }
+
+      if (PlayerSettings.player1.controls.NOTE_LEFT_P) changeItem(-1);
+      if (PlayerSettings.player1.controls.NOTE_RIGHT_P) changeItem(1);
+
+      if (PlayerSettings.player1.controls.ACCEPT_P)
+      {
+        ModuleHandler.getModule("CatFightFreeplayFix").scriptCall('detectYuri', [curSelected]);
+        close();
+      }
+    }
+  }
+
+  function changeItem(amt:Int = 0):Void
+  {
+    FlxG.sound.play(Paths.sound('scrollMenu'));
+
+    curSelected += amt;
+
+    if (curSelected > 1) curSelected = 0;
+    if (curSelected < 0) curSelected = 1;
+
+    for (sel in selectGrp)
+    {
+      sel.color = 0xFF808080;
+      if (selectGrp[curSelected] == sel) sel.color = 0xFFFFFFFF;
+    }
+  }
+}

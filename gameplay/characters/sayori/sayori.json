@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Sayori",
-    "assetPath": "shared:characters/sayori/default",
+    "assetPath": "gameplay/characters/sayori/costumes/default",
     "flipX": false,
     "singTime": 6,
     "renderType": "multianimateatlas",
@@ -43,31 +43,31 @@
 	"costumelist": [
 		{
 			"internal_Name": "blueskies",
-			"assetPath": "shared:characters/sayori/blueskies"
+			"assetPath": "gameplay/characters/sayori/costumes/blueskies"
 		},
 		{
 			"internal_Name": "casual",
-			"assetPath": "shared:characters/sayori/casual"
+			"assetPath": "gameplay/characters/sayori/costumes/casual"
 		},
 		{
 			"internal_Name": "picnic",
-			"assetPath": "shared:characters/sayori/picnic"
+			"assetPath": "gameplay/characters/sayori/costumes/picnic"
 		},
 		{
 			"internal_Name": "grace",
-			"assetPath": "shared:characters/sayori/grace"
+			"assetPath": "gameplay/characters/sayori/costumes/grace"
 		},
 		{
 			"internal_Name": "minus",
-			"assetPath": "shared:characters/sayori/minus"
+			"assetPath": "gameplay/characters/sayori/costumes/minus"
 		},
 		{
 			"internal_Name": "sleepwear",
-			"assetPath": "shared:characters/sayori/sleepwear"
+			"assetPath": "gameplay/characters/sayori/costumes/sleepwear"
 		},
 		{
 			"internal_Name": "zipper",
-			"assetPath": "shared:characters/sayori/zipper"
+			"assetPath": "gameplay/characters/sayori/costumes/zipper"
 		}
 	],
     "startingAnimation": "danceRight",

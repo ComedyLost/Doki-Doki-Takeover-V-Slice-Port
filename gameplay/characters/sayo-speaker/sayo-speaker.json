@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Sayori (Speakers)",
-    "assetPath": "shared:characters/sayo-speaker",
+    "assetPath": "gameplay/characters/sayo-speaker/sayo-speaker",
     "renderType": "animateatlas",
     "flipX": false,
     "singTime": 4,

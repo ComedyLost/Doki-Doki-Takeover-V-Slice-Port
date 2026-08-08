@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "MONIKA'S PROLOGUE WEEK",
+  "titleAsset": "ui/story-mode/levels/prologue",
+  "visible": true,
+  "capsule": {
+    "name": "PROLOGUE"
+  },
+  "background": "#80C842",
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/PrologueWeek",
+      "scale": 1,
+      "danceEvery": 3,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/PrologueWeek",
+      "alpha": 0,
+      "danceEvery": 3,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "songs": ["high-school-conflict", "bara-no-yume", "your-demise", "your-reality-takeover-mix"]
+}

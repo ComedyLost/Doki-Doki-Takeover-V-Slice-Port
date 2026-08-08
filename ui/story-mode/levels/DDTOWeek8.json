@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "name": "THE MAIN GUY",
+  "titleAsset": "ui/story-mode/levels/weekMC",
+  "visible": true,
+  "capsule": {
+    "name": "WEEK MC"
+  },
+  "props": [
+    {
+      "assetPath": "ui/story-mode/props/ProtagWeek",
+      "scale": 1,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    },
+    {
+      "assetPath": "ui/story-mode/props/ProtagWeek",
+      "alpha": 0,
+      "danceEvery": 2,
+      "offsets": [427.5, 95],
+      "animations": [
+        {
+          "name": "idle",
+          "prefix": "idle",
+          "frameRate": 24
+        }
+      ]
+    }
+  ],
+  "background": "#AF5341",
+  "songs": ["neet", "you-and-me"]
+}

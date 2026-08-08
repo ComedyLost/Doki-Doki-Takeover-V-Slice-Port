@@ -1,15 +1,14 @@
 import funkin.play.PlayState;
 import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
-import funkin.graphics.FunkinSprite;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.util.FlxTweenUtil;
-import flixel.addons.display.FlxBackdrop;
+import funkin.graphics.FunkinBackdrop;
 import flixel.FlxCamera;
 import funkin.save.Save;
 
@@ -20,20 +19,19 @@ class ObsessionSong extends Song
     super('obsession');
   }
 
-  var vignette:FlxSprite;
-  var staticshock:FlxSprite;
-  var whiteflash:FlxSprite;
-  var blackScreen:FlxSprite;
-  var blackScreenBG:FlxSprite;
-  var blackScreentwo:FlxSprite;
+  var vignette:FunkinSprite;
+  var staticshock:FunkinSprite;
+  var whiteflash:FunkinSprite;
+  var blackScreen:FunkinSprite;
+  var blackScreenBG:FunkinSprite;
+  var blackScreentwo:FunkinSprite;
 
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
-    if (PlayState.instance.isMinimalMode) return;
+    if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
+    vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
     vignette.scrollFactor.set();
     vignette.alpha = 0;
 
@@ -43,7 +41,7 @@ class ObsessionSong extends Song
     vignette.screenCenter();
     PlayState.instance.add(vignette);
 
-    staticshock = new FlxSprite();
+    staticshock = new FunkinSprite();
     staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
     staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
     staticshock.animation.play('idle');
@@ -58,22 +56,22 @@ class ObsessionSong extends Song
     staticshock.screenCenter();
     PlayState.instance.add(staticshock);
 
-    blackScreen = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreen = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreen.scrollFactor.set();
     blackScreen.cameras = [PlayState.instance.camHUD];
 
-    blackScreenBG = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreenBG = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreenBG.alpha = 0.0001;
     blackScreenBG.zIndex = 55;
     blackScreenBG.scrollFactor.set();
     PlayState.instance.currentStage.add(blackScreenBG);
     PlayState.instance.currentStage.refresh();
 
-    blackScreentwo = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreentwo = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreentwo.scrollFactor.set();
     PlayState.instance.add(blackScreentwo);
 
-    whiteflash = new FlxSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    whiteflash = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     whiteflash.scrollFactor.set();
     whiteflash.cameras = [PlayState.instance.camHUD];
     whiteflash.zIndex = 1500;

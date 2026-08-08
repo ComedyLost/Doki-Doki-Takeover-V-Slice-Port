@@ -1,0 +1,32 @@
+import funkin.play.PlayState;
+import funkin.play.stage.Stage;
+import funkin.graphics.FunkinSprite;
+import funkin.ui.FullScreenScaleMode;
+
+class MusicRoomStage extends Stage
+{
+  function new()
+  {
+    super('musicroom');
+  }
+
+  final STAGE_PATH:String = 'gameplay/stages/musicroom';
+
+  override function buildStage()
+  {
+    super.buildStage();
+    switch (PlayState.instance.currentSong.id.toLowerCase())
+    {
+      case "shrinking-violet":
+        if (PlayState.instance.currentVariation == 'alt') getNamedProp('Music Room BG').loadGraphic(Paths.image('$STAGE_PATH/room-spooky'));
+      case "love-n-funkin":
+        getNamedProp('Music Room BG').loadGraphic(Paths.image('$STAGE_PATH/room-lnf'));
+    }
+    if (PlayState.instance.camGame.width > FlxG.initialWidth)
+    {
+      // Lock camGame width on longer devices to prevent out of bounds from showing
+      PlayState.instance.camGame.width = FlxG.initialWidth;
+      PlayState.instance.camGame.x = FlxG.width / 2 - PlayState.instance.camGame.width / 2;
+    }
+  }
+}

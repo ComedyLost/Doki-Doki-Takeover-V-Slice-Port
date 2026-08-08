@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "name": "Epiphany Monika (Dress)",
-    "assetPath": "shared:characters/big-monika/dress/basic",
+    "assetPath": "gameplay/characters/bigmonika-dress/basic",
     "flipX": false,
     "singTime": 6,
     "renderType": "animateatlas",
