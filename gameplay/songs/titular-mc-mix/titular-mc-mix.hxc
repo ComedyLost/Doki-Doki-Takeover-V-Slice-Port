@@ -25,8 +25,6 @@ class TitularMCMixSong extends Song
 
   var camGame2:FunkinCamera;
 
-  final ASSET_PATH:String = 'gameplay/songs/${this.id}';
-
   function calcSectionLength(?duration:Int = 1)
   {
     if (duration == null) duration = 1;
@@ -38,13 +36,13 @@ class TitularMCMixSong extends Song
   {
     super.onUpdate(event);
 
-    if (camGame2 == null || PlayState.instance.camGame == null) return;
     camGame2.zoom = FlxG.camera.zoom;
     camGame2.scroll = FlxG.camera.scroll;
   }
 
   function oneMore()
   {
+    final ASSET_PATH:String = 'gameplay/songs/${this.id}';
     var dadMidPoint:FlxPoint = PlayState.instance.currentStage.getDad().getGraphicMidpoint();
     var funnyX:Float = dadMidPoint.x - 120;
     var funnyY:Float = dadMidPoint.y - 120;
@@ -150,7 +148,6 @@ class TitularMCMixSong extends Song
     FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
     camGame2.bgColor = 0x000000;
 
-    camGame2.follow(PlayState.instance.cameraFollowPoint, FlxCameraFollowStyle.LOCKON, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
     camGame2.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
   }
 
@@ -255,34 +252,5 @@ class TitularMCMixSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    // Fuck it, random old Titular chance
-    var secretVariant = FlxG.random.bool(50);
-    if (secretVariant)
-    {
-      PlayState.instance.vocals.stop();
-      PlayState.instance.vocals = buildVocals();
-      var playerNoteData:Array<SongNoteData> = [];
-      var opponentNoteData:Array<SongNoteData> = [];
-      var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty('rare');
-      Highscore.tallies.totalNotes = 0;
-      for (notes in animChart.notes)
-      {
-        switch (notes.getStrumlineIndex())
-        {
-          case 0:
-            playerNoteData.push(notes);
-            Highscore.tallies.totalNotes++;
-          case 1:
-            opponentNoteData.push(notes);
-        }
-      }
-      PlayState.instance.playerStrumline.applyNoteData(playerNoteData);
-      PlayState.instance.opponentStrumline.applyNoteData(opponentNoteData);
-    }
-    else
-    {
-      PlayState.instance.vocals.stop();
-      PlayState.instance.vocals = PlayState.instance.currentChart.buildVocals(PlayState.instance.currentInstrumental);
-    }
   }
 }

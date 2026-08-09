@@ -27,6 +27,7 @@ class DDTOPauseMenu extends Module
     #if mobile
     active = false;
     #end
+    return;
     for (image in ['ui/doki-general/credits-left', 'ui/doki-title/logo-bumpin', '$PAUSE_PATH/pause-va11', '$PAUSE_PATH/pause-libitina'])
     {
       FunkinMemory.cacheTexture(Paths.image(image));

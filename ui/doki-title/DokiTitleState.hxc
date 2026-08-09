@@ -149,7 +149,7 @@ class DokiTitleState extends MusicBeatState
     blackScreen = new FunkinSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
     credGroup.add(blackScreen);
 
-    credTextShit = new AtlasText(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
+    credTextShit = new AtlasText(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", 'bold');
     credTextShit.screenCenter();
 
     credTextShit.visible = false;
