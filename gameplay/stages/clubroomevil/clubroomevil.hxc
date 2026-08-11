@@ -32,8 +32,6 @@ class EvilClubroomStage extends Stage
   var shaderstat = new ShaderFilter(bloom);
   var camBG:FunkinCamera;
 
-  var stageCamera:FlxPoint = FlxPoint.get();
-
   final STAGE_PATH:String = 'gameplay/stages/clubroomevil';
   function new()
   {
@@ -82,13 +80,10 @@ class EvilClubroomStage extends Stage
     blackCover.screenCenter();
     blackCover.y = -300;
     add(blackCover);
-    popup = FunkinSprite.createSparrow(0, 0, '$STAGE_PATH/monika-delete-prompt');
+    popup = FunkinSprite.createSparrow(312, 412, '$STAGE_PATH/monika-delete-prompt');
     popup.animation.addByPrefix('startDeleting', 'PopUpAnim', 24, false);
     popup.zIndex = 400;
-    popup.screenCenter();
     popup.alpha = 0;
-    popup.y += 100;
-    popup.x += 75;
     add(popup);
     dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
     dokiBackdrop.updateHitbox();
@@ -123,9 +118,6 @@ class EvilClubroomStage extends Stage
     add(fancyclouds);
     fancyclouds.cameras = [camBG];
     refresh();
-
-    var bg:StageProp = getNamedProp('Epiphany BG');
-    stageCamera.set(bg.x + (bg.width / 2), bg.y + (bg.height / 2));
   }
 
   override function onUpdate(event:UpdateScriptEvent)

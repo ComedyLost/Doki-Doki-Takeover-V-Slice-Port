@@ -39,7 +39,7 @@ class CameraShaderFix extends Module
   override public function onSongLoaded(event)
   {
     super.onSongLoaded(event);
-    FlxG.signals.gameResized.add(fixShaderCoordFix);
+    if (!FlxG.signals.gameResized.has(fixShaderCoordFix)) FlxG.signals.gameResized.add(fixShaderCoordFix);
     fixShaderCoordFix();
   }
 }

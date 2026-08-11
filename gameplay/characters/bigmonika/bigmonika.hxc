@@ -8,6 +8,8 @@ class BigMonikaCharacter extends AnimateAtlasCharacter
   function new()
   {
     super('bigmonika');
+
+    ignoreExclusionPref.push('lastNOTE');
   }
 
   override function onAnimationFinished(name:String)

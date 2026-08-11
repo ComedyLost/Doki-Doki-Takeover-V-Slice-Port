@@ -49,18 +49,19 @@ class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
       case true: 'gameplay/characters/bigmonika-dress/death';
       case false: 'gameplay/characters/bigmonika/death';
     }
-    var assetLibrary:String = Paths.getLibrary(normalPath);
-    var assetPath:String = Paths.stripLibrary(normalPath);
-
     if (deathSpriteMonika != null && !deathSpriteMonika.alive)
     {
       deathSpriteMonika.revive();
     }
-  
-    deathSpriteMonika = FunkinSprite.createTextureAtlas(0, 0, assetPath, assetLibrary);
+    var offsets:Array<Float> = switch (isLyrics)
+    {
+      case true: [110, 35];
+      case false: [-225, -125];
+    }
+    deathSpriteMonika = FunkinSprite.createTextureAtlas(0, 0, normalPath);
     var opponent = currentStage.getDad();
-    deathSpriteMonika.x = opponent.originalPosition.x;
-    deathSpriteMonika.y = opponent.originalPosition.y;
+    deathSpriteMonika.x = opponent.originalPosition.x + offsets[0];
+    deathSpriteMonika.y = opponent.originalPosition.y + offsets[1];
     deathSpriteMonika.anim.addByFrameLabel('firstDeath', 'First Death', 24, false);
     deathSpriteMonika.anim.addByFrameLabel('deathLoop', 'Death Loop', 24, true);
     deathSpriteMonika.anim.addByFrameLabel('deathConfirm', 'Death Confirm', 24, false);
@@ -73,7 +74,7 @@ class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
         deathSpriteMonika.animation.play('deathLoop', true);
       }
       else if (name == 'finalDeath') System.exit(1);
-    });  
+    });
   }
 
   function playAnimation(name:String, restart:Bool, ignoreOther:Bool)
@@ -86,8 +87,8 @@ class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
       {
         case 'firstDeath':
           GameOverSubState.instance.resetCameraZoom();
-          var gfPoint = currentStage.getGirlfriend().cameraFocusPoint;
-          PlayState.instance.tweenCameraToPosition(gfPoint.x, gfPoint.y, 0);
+          var dadPoint:FlxPoint = currentStage.getDad().cameraFocusPoint;
+          PlayState.instance.tweenCameraToPosition(dadPoint.x, dadPoint.y, 0);
           createDeathSprites();
           GameOverSubState.instance.add(deathSpriteMonika);
           GameOverSubState.instance.remove(this);

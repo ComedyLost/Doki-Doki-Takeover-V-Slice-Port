@@ -121,7 +121,7 @@
       "position": [-700, -520],
       "scale": [1.6, 1.6],
       "name": "Front Desks",
-      "assetPath": "gameplay/stages/dokiclubroom/DesksFront",
+      "assetPath": "gameplay/stages/dokiclubroom/desks",
       "scroll": [1.3, 1]
     }
   ],

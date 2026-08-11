@@ -38,7 +38,7 @@
   "version": "1.0.0",
   "characters": {
     "bf": { "zIndex": 0, "position": [760, 655], "cameraOffsets": [-50, 0] },
-    "dad": { "zIndex": 120, "position": [580, 649], "cameraOffsets": [0, 0] },
+    "dad": { "zIndex": 120, "position": [580, 646], "cameraOffsets": [0, 25] },
     "gf": { "zIndex": 0, "cameraOffsets": [0, 0], "position": [760, 655] }
   },
   "name": "The Space Clubroom"

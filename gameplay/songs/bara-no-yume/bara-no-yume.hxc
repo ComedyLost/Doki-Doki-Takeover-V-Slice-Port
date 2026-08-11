@@ -94,7 +94,7 @@ class BaraNoYumeSong extends Song
     super.onCreate(event);
 
     redStatic = new FunkinSprite();
-    redStatic.frames = Paths.getSparrowAtlas('HomeStatic');
+    redStatic.frames = Paths.getSparrowAtlas('gameplay/doki-general/home-static');
     redStatic.cameras = [PlayState.instance.camHUD];
     redStatic.animation.addByPrefix('idle', 'HomeStatic', 24, true);
     redStatic.animation.play('idle');

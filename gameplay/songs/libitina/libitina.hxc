@@ -370,7 +370,7 @@ class LibitinaSong extends Song
     });
 
     staticshock = new FunkinSprite(0, 0);
-    staticshock.frames = Paths.getSparrowAtlas('HomeStatic');
+    staticshock.frames = Paths.getSparrowAtlas('gameplay/doki-general/home-static');
     staticshock.animation.addByPrefix('idle', 'HomeStatic', 24, true);
     staticshock.animation.play('idle');
     staticshock.scrollFactor.set();

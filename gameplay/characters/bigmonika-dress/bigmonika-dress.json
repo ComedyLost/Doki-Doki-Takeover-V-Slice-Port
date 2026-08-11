@@ -5,6 +5,8 @@
     "flipX": false,
     "singTime": 6,
     "renderType": "animateatlas",
+    "offsets": [-25, 20],
+    "cameraOffsets": [25, -8],
     "atlasSettings": {
         "cacheOnLoad": true
     },

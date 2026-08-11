@@ -15,7 +15,7 @@ class MusicRoomStage extends Stage
   override function buildStage()
   {
     super.buildStage();
-    switch (PlayState.instance.currentSong.id.toLowerCase())
+    switch (PlayState.instance.currentSong.id)
     {
       case "shrinking-violet":
         if (PlayState.instance.currentVariation == 'alt') getNamedProp('Music Room BG').loadGraphic(Paths.image('$STAGE_PATH/room-spooky'));

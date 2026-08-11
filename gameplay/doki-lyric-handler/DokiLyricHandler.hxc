@@ -1,0 +1,135 @@
+package ddto.gameplay;
+
+import flixel.group.FlxTypedSpriteGroup;
+import flixel.text.FlxText;
+import flixel.text.FlxTextBorderStyle;
+import funkin.modding.module.Module;
+import funkin.play.PlayState;
+import haxe.ds.IntMap;
+import flixel.util.FlxColor;
+import funkin.graphics.FunkinSprite;
+
+using funkin.util.tools.MapTools;
+using funkin.util.tools.StringTools;
+
+class DokiLyricHandler extends Module
+{
+	function new()
+	{
+		super('DokiLyricHandler', null, {state: PlayState});
+	}
+
+	public var lyricData:Map<Int, String> = new IntMap();
+
+	public var dokiSubtitles:FlxTypedSpriteGroup;
+
+	var dokiBackground:FunkinSprite;
+	var lyrics:FlxText;
+
+	function onStateChangeEnd(event:ScriptEvent):Void
+	{
+		super.onStateChangeEnd(event);
+		createSubtitles();
+	}
+
+	function onSubStateOpenEnd(event:ScriptEvent):Void
+	{
+		super.onSubStateOpenEnd(event);
+		if (!(event.targetState is PlayState)) return;
+		createSubtitles();
+	}
+
+	function createSubtitles():Void
+	{
+		lyricData.clear();
+
+		if (!Preferences.subtitles) return;
+		var lyricFilePath:String = 'gameplay/songs/${PlayState.instance.currentSong.id}/subtitles/lyrics';
+    if (PlayState.instance.currentVariation != Constants.DEFAULT_VARIATION)
+    {
+      lyricFilePath += '-${PlayState.instance.currentVariation}';
+    }
+
+    var lyricFile:String = coolTextFile(lyricFilePath);
+
+    if (lyricFile == null) return; // No lyrics detected
+
+    for (lyric in lyricFile)
+    {
+      var data:Array<String> = lyric.split('::');
+      lyricData.set(data[0], data[1]);
+    }
+		
+		dokiSubtitles = new FlxTypedSpriteGroup();
+    dokiSubtitles.scrollFactor.set();
+		dokiSubtitles.y = (FlxG.height * 0.72);
+    dokiSubtitles.zIndex = 10000;
+    PlayState.instance.add(dokiSubtitles);
+    dokiSubtitles.cameras = [PlayState.instance.camSubtitles];
+
+		dokiBackground = new FunkinSprite(0, 0);
+    dokiBackground.alpha = 0.5;
+    dokiSubtitles.add(dokiBackground);
+		dokiBackground.makeSolidColor(1, 1, FlxColor.BLACK);
+
+    lyrics = new FlxText();
+    lyrics.setFormat(Paths.font("ui/fonts/HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
+    lyrics.borderSize = 1.25;
+    dokiSubtitles.add(lyrics);
+
+		setText('');
+	}
+	
+	public function setText(text:Null<String>):Void
+	{
+		if (!Preferences.subtitles || lyricData.size() == 0) return;
+		
+		if (text.isBlank())
+		{
+			dokiSubtitles.visible = false;
+			return;
+		}
+		dokiSubtitles.visible = true;
+		lyrics.text = text;
+		dokiBackground.makeSolidColor(Math.ceil(lyrics.width), Math.ceil(lyrics.height), FlxColor.BLACK);
+		dokiSubtitles.screenCenter(0x01);
+	}
+
+  public function coolTextFile(path:String):Array<String>
+  {
+    if (!Assets.exists(Paths.txt(path))) return null;
+    var fullText:String = Assets.getText(Paths.txt(path));
+
+    // Split into lines and remove empty lines
+    var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
+
+    return firstArray;
+  }
+
+	var lastStep:Int = 0;
+
+  function onStepHit(event:SongTimeScriptEvent):Void
+  {
+		if (!Preferences.subtitles || lyricData.size() == 0) return;
+
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
+    {
+      lastStep = event.step;
+      return;
+    }
+
+    for (step in lastStep...event.step)
+    {
+      if (lyricData.exists(step + 1)) setText(lyricData.get(step + 1));
+    }
+    lastStep = event.step;
+  }
+
+	function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+		setText('');
+  }
+}

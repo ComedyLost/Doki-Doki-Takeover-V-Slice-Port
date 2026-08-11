@@ -10,16 +10,13 @@ import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayStatePlaylist;
 import flixel.tweens.FlxEase;
 import funkin.save.Save;
-import haxe.ds.StringMap;
 import funkin.Conductor;
 
 using funkin.util.tools.MapTools;
 
 class EpiphanySong extends Song
 {
-  var lyrics:FlxText;
   var hasPlayedCutscene:Bool;
-  var lyricData:Map<Int, String> = new StringMap();
 
   function new()
   {
@@ -61,7 +58,6 @@ class EpiphanySong extends Song
   public override function onCountdownStart(event:CountdownScriptEvent):Void
   {
     super.onCountdownStart(event);
-    PlayState.instance.currentStage.getDad().ignoreExclusionPref = []; // Fixes Monika's glitch animation not playing
     if (PlayState.instance.isChartingMode && !hasPlayedCutscene) hasPlayedCutscene = true;
 
     if (!hasPlayedCutscene && save.freeplayDialogue)
@@ -127,65 +123,7 @@ class EpiphanySong extends Song
   function onCreate(event:ScriptEvent)
   {
     super.onCreate(event);
-    lyricData.clear();
     hasPlayedCutscene = false;
-
-    var lyricFile:String = 'gameplay/songs/${this.id}/subtitles/lyrics';
-    if (PlayState.instance.currentVariation != Constants.DEFAULT_VARIATION)
-    {
-      lyricFile += '-${PlayState.instance.currentVariation}';
-    }
-
-    var lyricFile = coolTextFile(lyricFile);
-
-    if (lyricFile == null) return; // No lyrics detected
-
-    for (lyric in lyricFile)
-    {
-      var data:Array<String> = lyric.split('::');
-      lyricData.set(data[0], data[1]);
-    }
-    lyrics = new FlxText();
-    lyrics.fieldWidth = FlxG.width;
-    lyrics.setFormat(Paths.font("ui/fonts/HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
-    lyrics.screenCenter(0x01);
-    lyrics.y = (FlxG.height * 0.72);
-    lyrics.borderSize = 1.25;
-    lyrics.zIndex = 999999999;
-    lyrics.cameras = [PlayState.instance.camHUD];
-    PlayState.instance.add(lyrics);
-  }
-
-  public function coolTextFile(path:String):Array<String>
-  {
-    if (!Assets.exists(Paths.txt(path))) return null;
-    var fullText:String = Assets.getText(Paths.txt(path));
-
-    // Split into lines and remove empty lines
-    var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
-
-    return firstArray;
-  }
-
-  var lastStep:Int = 0;
-  function onStepHit(event:SongTimeScriptEvent):Void
-  {
-    if (PlayState.instance?.isGameOverState ?? true) return;
-
-    if (lastStep > event.step)
-    {
-      lastStep = event.step;
-      return;
-    }
-    for (step in lastStep...event.step)
-    {
-      if (lyricData.exists(step + 1))
-      {
-        lyrics.text = lyricData.get(step + 1);
-        lyrics.screenCenter(0x01);
-      }
-    }
-    lastStep = event.step;
   }
 
   function calcSectionLength(?duration:Int = 1)
@@ -195,12 +133,13 @@ class EpiphanySong extends Song
   }
 
   var lastBeat:Int = 0;
+  
   function onBeatHit(event:SongTimeScriptEvent):Void
   {
     if (PlayState.instance?.isGameOverState ?? true) return;
     var currentStage:Stage = PlayState.instance.currentStage;
 
-    if (lastStep > event.step)
+    if (lastBeat > event.step)
     {
       lastBeat = event.beat;
       return;
@@ -239,6 +178,5 @@ class EpiphanySong extends Song
   {
     super.onSongRetry(event);
     hasPlayedCutscene = true;
-    if (lyrics != null) lyrics.text = '';
   }
 }
