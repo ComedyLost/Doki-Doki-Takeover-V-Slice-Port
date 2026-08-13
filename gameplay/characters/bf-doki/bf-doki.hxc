@@ -56,7 +56,7 @@ class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
     var offsets:Array<Float> = switch (isLyrics)
     {
       case true: [110, 35];
-      case false: [-225, -125];
+      case false: [-230, -100];
     }
     deathSpriteMonika = FunkinSprite.createTextureAtlas(0, 0, normalPath);
     var opponent = currentStage.getDad();

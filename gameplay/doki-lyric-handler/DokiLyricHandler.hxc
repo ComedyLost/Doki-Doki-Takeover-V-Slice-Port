@@ -14,37 +14,38 @@ using funkin.util.tools.StringTools;
 
 class DokiLyricHandler extends Module
 {
-	function new()
-	{
-		super('DokiLyricHandler', null, {state: PlayState});
-	}
+  function new()
+  {
+    super('DokiLyricHandler', null, {
+      state: PlayState
+    });
+  }
 
-	public var lyricData:Map<Int, String> = new IntMap();
+  public var lyricData:Map<Int, String> = new IntMap();
+  public var dokiSubtitles:FlxTypedSpriteGroup;
 
-	public var dokiSubtitles:FlxTypedSpriteGroup;
+  var dokiBackground:FunkinSprite;
+  var lyrics:FlxText;
 
-	var dokiBackground:FunkinSprite;
-	var lyrics:FlxText;
+  function onStateChangeEnd(event:ScriptEvent):Void
+  {
+    super.onStateChangeEnd(event);
+    createSubtitles();
+  }
 
-	function onStateChangeEnd(event:ScriptEvent):Void
-	{
-		super.onStateChangeEnd(event);
-		createSubtitles();
-	}
+  function onSubStateOpenEnd(event:ScriptEvent):Void
+  {
+    super.onSubStateOpenEnd(event);
+    if (!(event.targetState is PlayState)) return;
+    createSubtitles();
+  }
 
-	function onSubStateOpenEnd(event:ScriptEvent):Void
-	{
-		super.onSubStateOpenEnd(event);
-		if (!(event.targetState is PlayState)) return;
-		createSubtitles();
-	}
+  function createSubtitles():Void
+  {
+    lyricData.clear();
 
-	function createSubtitles():Void
-	{
-		lyricData.clear();
-
-		if (!Preferences.subtitles) return;
-		var lyricFilePath:String = 'gameplay/songs/${PlayState.instance.currentSong.id}/subtitles/lyrics';
+    if (!Preferences.subtitles) return;
+    var lyricFilePath:String = 'gameplay/songs/${PlayState.instance.currentSong.id}/subtitles/lyrics';
     if (PlayState.instance.currentVariation != Constants.DEFAULT_VARIATION)
     {
       lyricFilePath += '-${PlayState.instance.currentVariation}';
@@ -59,41 +60,41 @@ class DokiLyricHandler extends Module
       var data:Array<String> = lyric.split('::');
       lyricData.set(data[0], data[1]);
     }
-		
-		dokiSubtitles = new FlxTypedSpriteGroup();
+
+    dokiSubtitles = new FlxTypedSpriteGroup();
     dokiSubtitles.scrollFactor.set();
-		dokiSubtitles.y = (FlxG.height * 0.72);
+    dokiSubtitles.y = (FlxG.height * 0.72);
     dokiSubtitles.zIndex = 10000;
     PlayState.instance.add(dokiSubtitles);
     dokiSubtitles.cameras = [PlayState.instance.camSubtitles];
 
-		dokiBackground = new FunkinSprite(0, 0);
+    dokiBackground = new FunkinSprite(0, 0);
     dokiBackground.alpha = 0.5;
     dokiSubtitles.add(dokiBackground);
-		dokiBackground.makeSolidColor(1, 1, FlxColor.BLACK);
+    dokiBackground.makeSolidColor(1, 1, FlxColor.BLACK);
 
     lyrics = new FlxText();
     lyrics.setFormat(Paths.font("ui/fonts/HKGrotesk-Bold.otf"), 32, 0xFFFFFFFF, "center", FlxTextBorderStyle.OUTLINE, 0xFF000000);
     lyrics.borderSize = 1.25;
     dokiSubtitles.add(lyrics);
 
-		setText('');
-	}
-	
-	public function setText(text:Null<String>):Void
-	{
-		if (!Preferences.subtitles || lyricData.size() == 0) return;
-		
-		if (text.isBlank())
-		{
-			dokiSubtitles.visible = false;
-			return;
-		}
-		dokiSubtitles.visible = true;
-		lyrics.text = text;
-		dokiBackground.makeSolidColor(Math.ceil(lyrics.width), Math.ceil(lyrics.height), FlxColor.BLACK);
-		dokiSubtitles.screenCenter(0x01);
-	}
+    setText('');
+  }
+
+  public function setText(text:Null<String>):Void
+  {
+    if (!Preferences.subtitles || lyricData.size() == 0) return;
+
+    if (text.isBlank())
+    {
+      dokiSubtitles.visible = false;
+      return;
+    }
+    dokiSubtitles.visible = true;
+    lyrics.text = text;
+    dokiBackground.makeSolidColor(Math.ceil(lyrics.width), Math.ceil(lyrics.height), FlxColor.BLACK);
+    dokiSubtitles.screenCenter(0x01);
+  }
 
   public function coolTextFile(path:String):Array<String>
   {
@@ -106,11 +107,11 @@ class DokiLyricHandler extends Module
     return firstArray;
   }
 
-	var lastStep:Int = 0;
+  var lastStep:Int = 0;
 
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-		if (!Preferences.subtitles || lyricData.size() == 0) return;
+    if (!Preferences.subtitles || lyricData.size() == 0) return;
 
     if (PlayState.instance?.isGameOverState ?? true) return;
 
@@ -127,9 +128,9 @@ class DokiLyricHandler extends Module
     lastStep = event.step;
   }
 
-	function onSongRetry(event:ScriptEvent)
+  function onSongRetry(event:ScriptEvent)
   {
     super.onSongRetry(event);
-		setText('');
+    setText('');
   }
 }

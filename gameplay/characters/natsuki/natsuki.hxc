@@ -31,12 +31,12 @@ class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
     DEFAULT_PATH = _data.assetPath;
     var _clonedData:CharacterData = Dynamics.clone(_data); // Duplicate to prevent modifying the cached version
     _clonedData.assetPath = getCostumePath();
-    Reflect.setField(super, '_data', _clonedData); // It's no longer possible to write to finals
     if (currentCostume == 'buff')
     {
-      this.globalOffsets = _data.offsets = [-50, 0];
-      _data.cameraOffsets = [0, 0];
+      this.globalOffsets = _clonedData.offsets = [-50, 0];
+      _clonedData.cameraOffsets = [0, 0];
     }
+    Reflect.setField(super, '_data', _clonedData); // It's no longer possible to write to finals
   }
 
   private var DEFAULT_PATH:Null<String> = null;
