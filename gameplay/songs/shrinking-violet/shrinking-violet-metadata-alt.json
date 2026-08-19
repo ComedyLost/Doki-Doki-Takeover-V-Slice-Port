@@ -7,22 +7,20 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisall",
-    "songVariations": [    ],
-    "difficulties": [
-      "alt"
-    ],
+    "songVariations": [],
+    "difficulties": ["alt"],
     "characters": {
       "player": "spooky-doki",
       "girlfriend": "nogf",
       "opponent": "yuri",
       "instrumental": "alt",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "album": "takeover",
     "stage": "musicroom",

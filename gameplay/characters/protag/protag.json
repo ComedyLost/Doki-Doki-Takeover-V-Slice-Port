@@ -1,83 +1,78 @@
 {
-    "version": "1.0.0",
-    "name": "MC",
-    "renderType": "multianimateatlas",
-    "assetPath": "gameplay/characters/protag/costumes/default",
-    "flipX": false,
-    "singTime": 6,
-    "offsets": [10, 30],
-    "cameraOffsets": [-10, 20],
-    "death": {
-        "cameraOffsets": [-40, -20],
-        "cameraZoom": 0.9
+  "version": "1.0.0",
+  "name": "MC",
+  "renderType": "multianimateatlas",
+  "assetPath": "gameplay/characters/protag/costumes/default",
+  "flipX": false,
+  "singTime": 6,
+  "offsets": [60, 20],
+  "cameraOffsets": [-10, 20],
+  "death": {
+    "cameraOffsets": [-40, -20],
+    "cameraZoom": 0.9
+  },
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle"
     },
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Protag Idle",
-            "offsets": [0, 0]
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Protag Left",
-            "offsets": [53, 24]
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Protag Right",
-            "offsets": [-55, 4]
-        },
-        {
-            "name": "singUP",
-            "prefix": "Protag Up",
-            "offsets": [-8, 22]
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Protag Down",
-            "offsets": [7, -9]
-        },
-        {
-            "name": "firstDeath",
-            "prefix": "Protag Dies",
-            "offsets": [17, 2]
-        },
-        {
-            "name": "deathLoop",
-            "prefix": "Protag Retry Loop",
-            "offsets": [-167, -27],
-            "looped": true
-        },
-        {
-            "name": "deathConfirm",
-            "prefix": "Protag Retry Confirm",
-            "offsets": [-171, -27]
-        }
-    ],
-	"costumes": "protag",
-	"costumelist": [
-		{
-			"internal_Name": "casual",
-			"assetPath": "gameplay/characters/protag/costumes/casual"
-		},
-		{
-			"internal_Name": "hotline",
-			"assetPath": "gameplay/characters/protag/costumes/hotline"
-		},
-		{
-			"internal_Name": "henry",
-			"assetPath": "gameplay/characters/protag/costumes/henry"
-		},
-		{
-			"internal_Name": "fanon",
-			"assetPath": "gameplay/characters/protag/costumes/fanon"
-		},
-		{
-			"internal_Name": "blueskies",
-			"assetPath": "gameplay/characters/protag/costumes/blueskies"
-		}
-	],
-    "isPixel": false,
-    "scale": 0.98,
-    "Made_With": "the cigs Converter"
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "firstDeath",
+      "assetPath": "gameplay/characters/protag/costumes/default",
+      "prefix": "First Death"
+    },
+    {
+      "name": "deathLoop",
+      "assetPath": "gameplay/characters/protag/costumes/default",
+      "prefix": "Death Loop",
+      "looped": true
+    },
+    {
+      "name": "deathConfirm",
+      "assetPath": "gameplay/characters/protag/costumes/default",
+      "prefix": "Death Confirm"
+    }
+  ],
+  "costumes": "protag",
+  "costumelist": [
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/protag/costumes/casual"
+    },
+    {
+      "internal_Name": "hotline",
+      "assetPath": "gameplay/characters/protag/costumes/hotline"
+    },
+    {
+      "internal_Name": "henry",
+      "assetPath": "gameplay/characters/protag/costumes/henry"
+    },
+    {
+      "internal_Name": "fanon",
+      "assetPath": "gameplay/characters/protag/costumes/fanon"
+    },
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/protag/costumes/blueskies"
+    }
+  ],
+  "isPixel": false,
+  "scale": 0.98,
+  "Made_With": "the cigs Converter"
 }

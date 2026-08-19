@@ -97,10 +97,10 @@ class DokiPreferences extends Module
           save.flush();
         }, save.data.pixel);
       preferencePage.createPrefItemCheckbox("Self Awareness", "Allows Monika to access to your Newgrounds name.", (value) ->
-        {
-          save.data.selfaware = value;
-          save.flush();
-        }, save.data.selfaware);
+      {
+        save.data.selfaware = value;
+        save.flush();
+      }, save.data.selfaware);
       preferencePage.createPrefItemCheckbox("Girlfriend Countdown", "Have Girlfriend count down before the song starts.", (value) ->
       {
         save.data.gfCountdown = value;

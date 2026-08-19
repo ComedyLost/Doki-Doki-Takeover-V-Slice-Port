@@ -1,80 +1,53 @@
 {
-    "version": "1.0.0",
-    "name": "Zipper",
-    "assetPath": "gameplay/characters/zipper/zipper",
-    "singTime": 4,
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Idle",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singUP",
-            "prefix": "Sing Up",
-            "offsets": [
-                113,
-                44
-            ]
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Sing Left",
-            "offsets": [
-                220,
-                -85
-            ]
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Sing Right",
-            "offsets": [
-                0,
-                -10
-            ]
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Sing Down",
-            "offsets": [
-                90,
-                -120
-            ]
-        },
-        {
-            "name": "singUP-alt",
-            "prefix": "scream",
-            "offsets": [
-                240,
-                -30
-            ]
-        },
-        {
-            "name": "singLEFT-alt",
-            "prefix": "scream",
-            "offsets": [
-                240,
-                -30
-            ]
-        },
-        {
-            "name": "singRIGHT-alt",
-            "prefix": "scream",
-            "offsets": [
-                240,
-                -30
-            ]
-        },
-        {
-            "name": "singDOWN-alt",
-            "prefix": "scream",
-            "offsets": [
-                240,
-                -30
-            ]
-        }
-    ]
+  "version": "1.0.0",
+  "name": "Zipper",
+  "assetPath": "gameplay/characters/zipper/zipper",
+  "singTime": 4,
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "Sing Up",
+      "offsets": [113, 44]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Sing Left",
+      "offsets": [220, -85]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Sing Right",
+      "offsets": [0, -10]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Sing Down",
+      "offsets": [90, -120]
+    },
+    {
+      "name": "singUP-alt",
+      "prefix": "scream",
+      "offsets": [240, -30]
+    },
+    {
+      "name": "singLEFT-alt",
+      "prefix": "scream",
+      "offsets": [240, -30]
+    },
+    {
+      "name": "singRIGHT-alt",
+      "prefix": "scream",
+      "offsets": [240, -30]
+    },
+    {
+      "name": "singDOWN-alt",
+      "prefix": "scream",
+      "offsets": [240, -30]
+    }
+  ]
 }

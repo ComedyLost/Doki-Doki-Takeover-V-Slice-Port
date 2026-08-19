@@ -66,7 +66,6 @@ class DokiConversation extends Conversation
     return Assets.exists(Paths.file('$PORTRAITS_PATH/$charId.xml'));
   }
 
-
   public function onDialogueStart(event:DialogueScriptEvent):Void
   {
     super.onDialogueStart(event);

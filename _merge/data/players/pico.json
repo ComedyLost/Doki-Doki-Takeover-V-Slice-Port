@@ -1,3 +1,1 @@
-[
-    { "op": "add", "path": "/ownedChars/-", "value": "pico-doki" }
-]
+[{ "op": "add", "path": "/ownedChars/-", "value": "pico-doki" }]

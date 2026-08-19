@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Senpai (DDTO+)",
-  "assetPath": "dialogue/senpai",
+  "assetPath": "gameplay/dialogue/speakers/senpaiddto/senpai",
   "flipX": false,
   "isPixel": true,
   "scale": 5.4,

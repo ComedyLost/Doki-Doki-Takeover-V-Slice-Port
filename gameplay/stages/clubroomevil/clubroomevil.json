@@ -6,7 +6,7 @@
       "animType": "sparrow",
       "name": "Epiphany BG",
       "assetPath": "gameplay/stages/clubroomevil/classroom",
-      "scroll": [0.4, 0.6] 
+      "scroll": [0.4, 0.6]
     },
     {
       "zIndex": 110,
@@ -14,7 +14,7 @@
       "animType": "sparrow",
       "name": "Epiphany FG",
       "assetPath": "gameplay/stages/clubroomevil/front-desk",
-      "scroll": [1, 1] 
+      "scroll": [1, 1]
     },
     {
       "zIndex": 40,
@@ -23,7 +23,7 @@
       "name": "Epiphany Main Lights",
       "assetPath": "gameplay/stages/clubroomevil/lights",
       "scroll": [0.4, 0.6],
-      "blend": "screen" 
+      "blend": "screen"
     },
     {
       "zIndex": 50,
@@ -31,7 +31,7 @@
       "animType": "sparrow",
       "name": "Epiphany Window Lights",
       "assetPath": "gameplay/stages/clubroomevil/window-light",
-      "scroll": [0.4, 0.6] 
+      "scroll": [0.4, 0.6]
     }
   ],
   "cameraZoom": 0.8,

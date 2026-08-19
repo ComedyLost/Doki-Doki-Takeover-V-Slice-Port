@@ -6,7 +6,6 @@ using StringTools;
 
 class MarkovNoteKind extends ScriptedNoteKind
 {
-
   final NOTE_ASSET_PATH:String = 'gameplay/notekinds/markov-kind';
 
   public function new()
@@ -29,7 +28,7 @@ class MarkovNoteKind extends ScriptedNoteKind
   function onNoteHit(callback)
   {
     super.onNoteHit(callback);
-    this.noanim = ((callback.note.params[0]?.value ?? 0) == 0);
+    this.noanim = ((callback.note.getParam('shouldHit') ?? 0) == 0);
     if (callback.judgement == "perfect")
     {
       if (callback.note.noteData.getStrumlineIndex() == 0) callback.cancelEvent(); // Don't let botplay hit the notes either
@@ -54,15 +53,19 @@ class MarkovNoteKind extends ScriptedNoteKind
 
     var strumline = switch (callback.note.noteData.getStrumlineIndex())
     {
-      case 0: PlayState.instance.playerStrumline;
-      case 1: PlayState.instance.opponentStrumline;
+      case 0:
+        PlayState.instance.playerStrumline;
+      case 1:
+        PlayState.instance.opponentStrumline;
     }
 
-    if (callback.note.get_isHoldNote())
+    if (callback.note.isHoldNote)
     {
       if (!strumline.noteStyle.id.endsWith('pixel'))
       { // Pixel holds don't have a custom hold sprite
-        callback.note.holdNoteSprite.loadGraphic(Paths.image('$NOTE_ASSET_PATH/markov-hold-notes'));
+        var noteKindPath:String = '$NOTE_ASSET_PATH/markov-${strumline.noteStyle.id}-hold-notes';
+        if (Assets.exists(Paths.image(noteKindPath))) callback.note.holdNoteSprite.loadGraphic(Paths.image(noteKindPath));
+        callback.note.holdNoteSprite.loadGraphic(Paths.image(noteKindPath));
 
         callback.note.holdNoteSprite.updateColorTransform();
         callback.note.holdNoteSprite.updateClipping();
@@ -73,7 +76,10 @@ class MarkovNoteKind extends ScriptedNoteKind
     if (strumline.noteStyle.id.endsWith('pixel')) callback.note.frames = Paths.getSparrowAtlas('$NOTE_ASSET_PATH/markov-pixel-notes');
     else
     {
-      callback.note.frames = Paths.getSparrowAtlas('$NOTE_ASSET_PATH/markov-notes');
+      var noteKindPath:String = '$NOTE_ASSET_PATH/markov-${strumline.noteStyle.id}-notes';
+      if (Assets.exists(Paths.image(noteKindPath))) callback.note.frames = Paths.getSparrowAtlas(noteKindPath);
+      else
+        callback.note.frames = Paths.getSparrowAtlas('$NOTE_ASSET_PATH/markov-notes');
       callback.note.x -= 4;
     }
 

@@ -6,28 +6,22 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisonly",
     "songVariations": [],
-    "difficulties": [
-      "normal"
-    ],
+    "difficulties": ["normal"],
     "characters": {
       "player": "sayori",
       "girlfriend": "nogf",
       "opponent": "zipper",
       "instrumental": "",
       "altInstrumentals": [],
-      "opponentVocals": [
-        "zipper"
-      ],
-      "playerVocals": [
-        "sayori"
-      ]
+      "opponentVocals": ["zipper"],
+      "playerVocals": ["sayori"]
     },
     "album": "takeover",
     "stage": "dokiclubroom",

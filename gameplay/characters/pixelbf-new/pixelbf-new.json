@@ -6,7 +6,7 @@
   "renderType": "multisparrow",
   "singTime": 8.0,
   "isPixel": true,
-  "healthIcon": {"isPixel": false},
+  "healthIcon": { "isPixel": false },
   "death": {
     "cameraOffsets": [-150, 50]
   },

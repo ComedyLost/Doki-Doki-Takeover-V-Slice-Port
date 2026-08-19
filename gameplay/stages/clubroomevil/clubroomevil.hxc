@@ -33,6 +33,7 @@ class EvilClubroomStage extends Stage
   var camBG:FunkinCamera;
 
   final STAGE_PATH:String = 'gameplay/stages/clubroomevil';
+
   function new()
   {
     super('clubroomevil');

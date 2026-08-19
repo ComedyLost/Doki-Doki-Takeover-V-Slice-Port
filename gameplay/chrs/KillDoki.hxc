@@ -78,7 +78,6 @@ class KillDoki extends Module
 
   function killTheDoki()
   {
-    
   }
 
   public function onFocusGained(event:FocusScriptEvent):Void

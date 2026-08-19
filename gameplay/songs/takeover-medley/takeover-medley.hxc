@@ -33,7 +33,6 @@ class TakeoverMedleySong extends Song
   {
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
-
   }
 
   function calcSectionLength(?duration:Int = 1)
@@ -71,15 +70,15 @@ class TakeoverMedleySong extends Song
 
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-		if (PlayState.instance?.isGameOverState ?? true) return;
+    if (PlayState.instance?.isGameOverState ?? true) return;
 
     if (lastStep > event.step)
     {
-			lastStep = event.step;
-			return;
-		}
+      lastStep = event.step;
+      return;
+    }
 
-		for (step in lastStep...event.step)
+    for (step in lastStep...event.step)
     {
       switch (step)
       {

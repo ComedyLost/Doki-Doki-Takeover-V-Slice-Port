@@ -30,7 +30,7 @@ class SayoSpeakerCharacter extends AnimateAtlasCharacter
       speaker.x = this.x - 20 - (-this.globalOffsets[0] * this.scale.x);
     }
   }
-  
+
   override function set_y(val:Float):Float
   {
     super.set_y(val);
@@ -49,7 +49,7 @@ class SayoSpeakerCharacter extends AnimateAtlasCharacter
     {
       speaker = CharacterDataParser.fetchCharacter('nogf');
       speaker.danceEvery = this.danceEvery % 2;
-    }  
+    }
   }
 
   public function onAdd(event:ScriptEvent)

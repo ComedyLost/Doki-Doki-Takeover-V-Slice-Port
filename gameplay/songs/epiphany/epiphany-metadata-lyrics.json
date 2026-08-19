@@ -5,12 +5,12 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    }
+    "altInstrumentals": {},
+    "vocals": {}
   },
   "playData": {
     "stickerPack": "justmonika",
-    "songVariations": [    ],
+    "songVariations": [],
     "difficulties": ["lyrics"],
     "characters": {
       "player": "bf-doki",
@@ -34,12 +34,7 @@
       "bpm": 263,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

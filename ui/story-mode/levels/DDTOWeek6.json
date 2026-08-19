@@ -35,5 +35,10 @@
     }
   ],
   "background": "#F7BBDB",
-  "songs": ["crucify-yuri-mix", "beathoven-natsuki-mix", "its-complicated-sayori-mix", "glitcher-monika-mix"]
+  "songs": [
+    "crucify-yuri-mix",
+    "beathoven-natsuki-mix",
+    "its-complicated-sayori-mix",
+    "glitcher-monika-mix"
+  ]
 }

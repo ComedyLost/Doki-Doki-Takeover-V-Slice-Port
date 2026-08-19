@@ -7,17 +7,15 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisall",
     "album": "takeover",
     "songVariations": ["pico"],
-    "difficulties": [
-      "normal"
-    ],
+    "difficulties": ["normal"],
     "characters": {
       "player": "playablegf",
       "girlfriend": "nogf",

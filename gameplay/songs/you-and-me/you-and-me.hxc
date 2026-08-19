@@ -61,7 +61,7 @@ class YouAndMeSong extends Song
 
     characterImages = [];
 
-    dokiBackdrop = new FunkinBackdrop(Paths.image('scrollingBG'));
+    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
     dokiBackdrop.updateHitbox();
     dokiBackdrop.zIndex = 55;
     dokiBackdrop.velocity.set(-40, -40);
@@ -78,13 +78,15 @@ class YouAndMeSong extends Song
     funnytext.scrollFactor.set(0, 0);
     PlayState.instance.add(funnytext);
 
-    blackbarTop = FunkinSprite.create(0, -102, 'TightBars');
+    blackbarTop = FunkinSprite.create(0, -102, 'gameplay/songs/${this.id}/graphics/tight-bars');
+    blackbarTop.scale.x = FlxG.width;
     blackbarTop.updateHitbox();
     blackbarTop.alpha = 0;
     blackbarTop.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(blackbarTop);
 
-    blackbarBottom = FunkinSprite.create(0, 822, 'TightBars');
+    blackbarBottom = FunkinSprite.create(0, 822, 'gameplay/songs/${this.id}/graphics/tight-bars');
+    blackbarBottom.scale.x = FlxG.width;
     blackbarBottom.updateHitbox();
     blackbarBottom.alpha = 0;
     blackbarBottom.cameras = [PlayState.instance.camHUD];
@@ -103,7 +105,7 @@ class YouAndMeSong extends Song
     whiteflash.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(whiteflash);
 
-    select = FunkinSprite.create(0, 0, 'extraui/selecttext');
+    select = FunkinSprite.create(0, 0, 'gameplay/songs/${this.id}/graphics/select-text');
     select.scale.set(0.8, 0.8);
     select.updateHitbox();
     select.x = FlxG.width / 2 - select.width / 2;
@@ -119,7 +121,7 @@ class YouAndMeSong extends Song
       var funnyx:Int = 69;
 
       var funnySprite:FunkinSprite = new FunkinSprite(funnyx + (i * 294), 164);
-      funnySprite.frames = Paths.getSparrowAtlas('extraui/' + charList[i] + 'Card');
+      funnySprite.frames = Paths.getSparrowAtlas('gameplay/songs/${this.id}/graphics/' + charList[i] + 'Card');
       switch (charList[i])
       {
         case 'Natsuki':
@@ -202,135 +204,147 @@ class YouAndMeSong extends Song
     });
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
-    {
-      case 14:
-        FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 639}, 15, {ease: FlxEase.linear});
-      case 16:
-        FlxTween.tween(whiteflash, {alpha: 0}, 3, {ease: FlxEase.sineOut});
-      case 19:
-        funnytext.resetText("A few days passed since Boyfriend and Girlfriend’s last visit to the club.");
-        funnytext.start(0.04);
-      case 84:
-        funnytext.resetText("The Literature Club returned to its original 5 members.");
-        funnytext.start(0.04);
-      case 141:
-        funnytext.resetText("The days continued as normal, with club meetings filled with stories, sweets, and singing.");
-        funnytext.start(0.04);
-      case 208:
-        funnytext.resetText("Things were going well, especially for a certain someone-");
-        funnytext.start(0.04);
-      case 252:
-        FlxTween.tween(funnytext, {alpha: 0}, 0.5, {ease: FlxEase.sineIn});
-      case 240:
-        FlxTween.tween(PlayState.instance.iconP1, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+    if (PlayState.instance?.isGameOverState ?? true) return;
 
-        var playerStrumline:FunkinSprite = PlayState.instance.playerStrumline;
-        if (playerStrumline != null)
-        {
-          for (arrow in playerStrumline.members)
-          {
-            arrow.visible = true;
-          }
-        }
-        PlayState.instance.playerStrumline.fadeInArrows();
-      case 248:
-        blackBars(true);
-        FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
-          ease: FlxEase.linear,
-        });
-      case 336:
-        // if (mirrormode)
-        //	bringInThingie();
-      case 520:
-        PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
-      case 784:
-        if (dokiBackdrop != null)
-        {
-          FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {
-            ease: FlxEase.sineIn,
-            onComplete: function(tween:FlxTween)
-            {
-              PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
-            }
-          });
-        }
-      case 1068:
-        PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
-        if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
-      case 1122:
-        blackBars(false);
-        FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 639}, 5, {ease: FlxEase.linear});
-      case 1134:
-        FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineOut});
-      case 1156:
-        for (i in 0...characterImages.length)
-        {
-          characterImages[i].alpha = 1;
-        }
-        PlayState.instance.disableKeys = true;
-        PlayState.instance.mayPauseGame = false;
-        select.alpha = 1;
-        FlxTween.tween(select, {y: 40}, 0.5, {ease: FlxEase.sineOut});
-        bg.alpha = 0;
-        FlxTween.tween(bg, {alpha: 0.3}, 0.4, {ease: FlxEase.quartInOut});
-        for (i in 0...options.length)
-        {
-          options[i].visible = true;
-          options[i].y = 164;
-          options[i].alpha = 1;
-          options[i].animation.play('pop');
-        }
-        huehTimer = new FlxTimer().start(8, function(swagTimer:FlxTimer)
-        {
-          selectDokiSection = false;
-          charSelected('protag');
-        });
-        new FlxTimer().start(0.5, function(tmr:FlxTimer)
-        {
-          selectDokiSection = true;
-        });
-      case 1252:
-        var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
-        if (opponentStrumline != null)
-        {
-          if (opponentStrumline.strumlineScale.x != 1)
-          {
-            opponentStrumline.forEach(function(obj:FlxObject):Void
-            {
-              if (obj == opponentStrumline.strumlineNotes) obj.visible = true;
-            });
-          }
-          else
-          {
-            opponentStrumline.forEach(function(obj:FlxObject):Void
-            {
-              obj.visible = true;
-            });
-          }
-        }
-        PlayState.instance.opponentStrumline.fadeInArrows();
-        blackBars(true);
-        FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3, {
-          ease: FlxEase.linear,
-        });
-      case 1776:
-        PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
-      case 1904:
-        if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {ease: FlxEase.sineIn});
-        PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
-      case 2160:
-        blackBars(false);
-        if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
-      case 2638:
-        FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 639}, 5, {ease: FlxEase.linear});
-        FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 2, {ease: FlxEase.sineOut});
+    if (lastStep > event.step)
+    {
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 14:
+          FlxTween.cancelTweensOf(PlayState.instance.cameraFollowPoint);
+          FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3300, x: 639}, 15, {ease: FlxEase.linear});
+        case 16:
+          FlxTween.tween(whiteflash, {alpha: 0}, 3, {ease: FlxEase.sineOut});
+        case 19:
+          funnytext.resetText("A few days passed since Boyfriend and Girlfriend’s last visit to the club.");
+          funnytext.start(0.04);
+        case 84:
+          funnytext.resetText("The Literature Club returned to its original 5 members.");
+          funnytext.start(0.04);
+        case 141:
+          funnytext.resetText("The days continued as normal, with club meetings filled with stories, sweets, and singing.");
+          funnytext.start(0.04);
+        case 208:
+          funnytext.resetText("Things were going well, especially for a certain someone-");
+          funnytext.start(0.04);
+        case 252:
+          FlxTween.tween(funnytext, {alpha: 0}, 0.5, {ease: FlxEase.sineIn});
+        case 240:
+          FlxTween.tween(PlayState.instance.iconP1, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+
+          var playerStrumline:FunkinSprite = PlayState.instance.playerStrumline;
+          if (playerStrumline != null)
+          {
+            for (arrow in playerStrumline.members)
+            {
+              arrow.visible = true;
+            }
+          }
+          PlayState.instance.playerStrumline.fadeInArrows();
+        case 248:
+          blackBars(true);
+          FlxTween.cancelTweensOf(PlayState.instance.cameraFollowPoint);
+          FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3);
+        case 336:
+          // if (mirrormode)
+          //	bringInThingie();
+        case 520:
+          PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
+        case 784:
+          if (dokiBackdrop != null)
+          {
+            FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {
+              ease: FlxEase.sineIn,
+              onComplete: function(tween:FlxTween)
+              {
+                PlayState.instance.tweenCameraZoom(1.1, calcSectionLength(1), true, FlxEase.expoOut);
+              }
+            });
+          }
+        case 1068:
+          PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+          if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
+        case 1122:
+          blackBars(false);
+          FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 639}, 5, {ease: FlxEase.linear});
+        case 1134:
+          FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineOut});
+        case 1156:
+          for (i in 0...characterImages.length)
+          {
+            characterImages[i].alpha = 1;
+          }
+          PlayState.instance.disableKeys = true;
+          PlayState.instance.mayPauseGame = false;
+          select.alpha = 1;
+          FlxTween.tween(select, {y: 40}, 0.5, {ease: FlxEase.sineOut});
+          bg.alpha = 0;
+          FlxTween.tween(bg, {alpha: 0.3}, 0.4, {ease: FlxEase.quartInOut});
+          for (i in 0...options.length)
+          {
+            options[i].visible = true;
+            options[i].y = 164;
+            options[i].alpha = 1;
+            options[i].animation.play('pop');
+          }
+          huehTimer = new FlxTimer().start(8, function(swagTimer:FlxTimer)
+          {
+            selectDokiSection = false;
+            charSelected('protag');
+          });
+          new FlxTimer().start(0.5, function(tmr:FlxTimer)
+          {
+            selectDokiSection = true;
+          });
+        case 1252:
+          var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
+          if (opponentStrumline != null)
+          {
+            if (opponentStrumline.strumlineScale.x != 1)
+            {
+              opponentStrumline.forEach(function(obj:FlxObject):Void
+              {
+                if (obj == opponentStrumline.strumlineNotes) obj.visible = true;
+              });
+            }
+            else
+            {
+              opponentStrumline.forEach(function(obj:FlxObject):Void
+              {
+                obj.visible = true;
+              });
+            }
+          }
+          PlayState.instance.opponentStrumline.fadeInArrows();
+          blackBars(true);
+          FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 326}, 3);
+        case 1776:
+          PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
+        case 1904:
+          if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 1}, calcSectionLength(0.5), {ease: FlxEase.sineIn});
+          PlayState.instance.tweenCameraZoom(0.9, calcSectionLength(1), true, FlxEase.expoOut);
+        case 2160:
+          blackBars(false);
+          if (dokiBackdrop != null) FlxTween.tween(dokiBackdrop, {alpha: 0}, 3, {ease: FlxEase.sineIn});
+        case 2638:
+          FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -3404, x: 639}, 5, {ease: FlxEase.linear});
+          FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 2, {ease: FlxEase.sineOut});
+      }
+    }
+    lastStep = event.step;
   }
 
   function getNewChart(chart:String = 'normal')
@@ -466,9 +480,12 @@ class YouAndMeSong extends Song
     changeOppCharacter(who);
     for (i in 0...options.length)
     {
-      FlxTween.tween(options[i], {alpha: 0}, 0.5, {ease: FlxEase.circIn, onComplete: function(twn:FlxTween)
-      {
-      }});
+      FlxTween.tween(options[i], {alpha: 0}, 0.5, {
+        ease: FlxEase.circIn,
+        onComplete: function(twn:FlxTween)
+        {
+        }
+      });
     }
     FlxTween.tween(select, {alpha: 0}, 1, {ease: FlxEase.linear});
     // tween selected card with alpha

@@ -9,152 +9,152 @@
       "t": 13150.6849315069,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 19726.0273972603,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 26301.3698630137,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 32876.7123287671,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 39452.0547945205,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 46027.397260274,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 52602.7397260274,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 59178.0821917808,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 65753.4246575343,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 72328.7671232877,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 78904.1095890412,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 85479.4520547946,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 92054.794520548,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 98630.1369863014,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 105205.479452055,
       "e": "FocusCamera",
       "v": {
-	"duration": 4,
-	"x": 0,
-	"y": 0,
-	"ease": "CLASSIC",
-	"char": 2
-}
+        "duration": 4,
+        "x": 0,
+        "y": 0,
+        "ease": "CLASSIC",
+        "char": 2
+      }
     },
     {
       "t": 118356.164383562,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 124931.506849315,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 131506.849315068,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 138082.191780822,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 144657.534246575,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 151232.876712329,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     }
   ],
   "notes": {

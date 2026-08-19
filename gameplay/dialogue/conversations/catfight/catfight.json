@@ -24,49 +24,63 @@
       "speakerAnimation": "empty",
       "box": "doki",
       "boxAnimation": "empty",
-      "text": ["On one seemingly normal day in the Literature Club… Natsuki demonstrates her fast singing skills to fellow club member Yuri."]
+      "text": [
+        "On one seemingly normal day in the Literature Club… Natsuki demonstrates her fast singing skills to fellow club member Yuri."
+      ]
     },
     {
       "speaker": "natsukiright",
       "speakerAnimation": "wah",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"Hah, this 'rapping' stuff that Boyfriend loves so much ain't hard at all! All that time singing in the mirror really did pay off.\""]
+      "text": [
+        "\"Hah, this 'rapping' stuff that Boyfriend loves so much ain't hard at all! All that time singing in the mirror really did pay off.\""
+      ]
     },
     {
       "speaker": "yurileft",
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "yuri",
-      "text": ["\"So fast, yet still so clear and rhythmic. I haven't seen anyone here be able to pull that off the way you do. I… I'd definitely get too overwhelmed and botch my words.\""]
+      "text": [
+        "\"So fast, yet still so clear and rhythmic. I haven't seen anyone here be able to pull that off the way you do. I… I'd definitely get too overwhelmed and botch my words.\""
+      ]
     },
     {
       "speaker": "natsukiright",
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"Hey, you're the one with the actually good singing voice, though. Faster doesn't always mean better sounding, y'know.\""]
+      "text": [
+        "\"Hey, you're the one with the actually good singing voice, though. Faster doesn't always mean better sounding, y'know.\""
+      ]
     },
     {
       "speaker": "yurileft",
       "speakerAnimation": "blush",
       "box": "doki",
       "boxAnimation": "yuri",
-      "text": ["\"-but the conviction required to pull off such intense lyrical feats! I'm not nearly at that level yet! I'm confined to the slower, more standard melodies.\""]
+      "text": [
+        "\"-but the conviction required to pull off such intense lyrical feats! I'm not nearly at that level yet! I'm confined to the slower, more standard melodies.\""
+      ]
     },
     {
       "speaker": "natsukiright",
       "speakerAnimation": "hmmph",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"And what's wrong with that? You make them sound perfect! I'll sound bad if I even try to sing in your deeper tones!\""]
+      "text": [
+        "\"And what's wrong with that? You make them sound perfect! I'll sound bad if I even try to sing in your deeper tones!\""
+      ]
     },
     {
       "speaker": "yurileft",
       "speakerAnimation": "ahh",
       "box": "doki",
       "boxAnimation": "yuri",
-      "text": ["\"Th-that's not true! You'd be able to get it down so easy! You at least have the confidence to try!\""]
+      "text": [
+        "\"Th-that's not true! You'd be able to get it down so easy! You at least have the confidence to try!\""
+      ]
     },
     {
       "speaker": "natsukiright",
@@ -87,7 +101,9 @@
       "speakerAnimation": "angy",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"You're literally doing the same thing!!! Rrragh-! Fine! I'll prove you wrong right now!\""]
+      "text": [
+        "\"You're literally doing the same thing!!! Rrragh-! Fine! I'll prove you wrong right now!\""
+      ]
     }
   ]
 }

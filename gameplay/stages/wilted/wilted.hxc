@@ -42,7 +42,7 @@ class WiltedStage extends Stage
   {
     super.buildStage();
     camBG = new FunkinCamera('playStateCamBG');
-    camBG.bgColor = 0xFFFFFF;
+    camBG.bgColor = 0xFFFFFFFF;
 
     camBG.copyFrom(PlayState.instance.camGame);
     camBG.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
@@ -139,5 +139,5 @@ class WiltedStage extends Stage
     {
       character.originalPosition.x = character.x -= 50;
     }
-  }  
+  }
 }

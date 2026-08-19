@@ -488,17 +488,17 @@ class LibitinaSong extends Song
     PauseSubState.musicSuffix = '-doki';
 
     /*if (!hasPlayedCutscene && save.freeplayDialogue) {
-        //doesn't work for some reason
-        //I'll probably fix it in a minor update or the Encore update
-        trace('Pausing countdown to play cutscene.');
+      //doesn't work for some reason
+      //I'll probably fix it in a minor update or the Encore update
+      trace('Pausing countdown to play cutscene.');
 
-        hasPlayedCutscene = true;
+      hasPlayedCutscene = true;
 
-        event.cancel(); // CANCEL THE COUNTDOWN!
+      event.cancel(); // CANCEL THE COUNTDOWN!
 
-        startVideo();
+      startVideo();
 
-        return;
+      return;
     }*/
 
     fish.setFloat('warp', 0.5);

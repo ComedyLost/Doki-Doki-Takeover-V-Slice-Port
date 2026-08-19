@@ -43,12 +43,14 @@ class DokiTitleState extends MusicBeatState
   var wackyImage:FunkinSprite;
   var swagShader:ColorSwap;
 
+  var lastBeat:Int = 0;
+
   override public function create():Void
   {
     super.create();
-    save = DokiPreferences.getDokiSave();
+    lastBeat = 0;
 
-    initialized = ModuleHandler.getModule("TitleScreenReplace").scriptGet("initialized", []);
+    save = DokiPreferences.getDokiSave();
 
     Conductor.instance.update(0);
 
@@ -223,7 +225,6 @@ class DokiTitleState extends MusicBeatState
     else
     {
       initialized = true;
-      ModuleHandler.getModule("TitleScreenReplace").scriptCall("setInitialized", [true]);
     }
 
     attractTimer = new FlxTimer().start(Constants.TITLE_ATTRACT_DELAY, (_:FlxTimer) -> moveToAttract());
@@ -358,53 +359,63 @@ class DokiTitleState extends MusicBeatState
         gfDance.animation.play('danceLeft');
     }
 
-    switch (Conductor.instance.currentBeat)
+    if (!skippedIntro)
     {
-      case 1:
-        createCoolText(['Team TBD']);
-      case 3:
-        // addMoreText('presents');
-        tbdSpr.visible = true;
-      case 4:
-        tbdSpr.visible = false;
-        deleteCoolText();
-      case 5:
-        createCoolText(['Not Powered', 'by']);
-      case 7:
-        addMoreText('Hueh Engine');
-        moniSpr.visible = true;
-      case 8:
-        deleteCoolText();
-        moniSpr.visible = false;
-      case 9:
-        createCoolText([curWacky[0]]);
-      case 11:
-        addMoreText(curWacky[1]);
-        if (curWacky[1] == 'a littkle bit bfgreatky')
+      if (Conductor.instance.currentBeat > lastBeat)
+      {
+        // TODO: Why does it perform ALL the previous steps each beat?
+        for (i in lastBeat...Conductor.instance.currentBeat)
         {
-          sentpajim?.visible = true;
-        }
-      case 12:
-        if (sentpajim?.visible != false) sentpajim?.visible = false;
-        deleteCoolText();
-      case 13:
-        // addMoreText('Doki');
-        dokiApp.animation.play('pop');
-        FlxTween.tween(dokiApp.scale, {x: 0.75}, 0.15, {
-          ease: FlxEase.sineIn,
-          startDelay: 0.2,
-          onComplete: function(twn:FlxTween)
+          switch (i + 1)
           {
-            FlxTween.tween(dokiApp.scale, {x: 1}, 0.2, {ease: FlxEase.bounceInOut});
+            case 1:
+              createCoolText(['Team TBD']);
+            case 3:
+              // addMoreText('presents');
+              tbdSpr.visible = true;
+            case 4:
+              tbdSpr.visible = false;
+              deleteCoolText();
+            case 5:
+              createCoolText(['Not Powered', 'by']);
+            case 7:
+              addMoreText('Hueh Engine');
+              moniSpr.visible = true;
+            case 8:
+              deleteCoolText();
+              moniSpr.visible = false;
+            case 9:
+              createCoolText([curWacky[0]]);
+            case 11:
+              addMoreText(curWacky[1]);
+              if (curWacky[1] == 'a littkle bit bfgreatky')
+              {
+                sentpajim?.visible = true;
+              }
+            case 12:
+              if (sentpajim?.visible != false) sentpajim?.visible = false;
+              deleteCoolText();
+            case 13:
+              // addMoreText('Doki');
+              dokiApp.animation.play('pop');
+              FlxTween.tween(dokiApp, {y: top, "scale.x": 0.75}, 0.15, {
+                ease: FlxEase.sineIn,
+                startDelay: 0.2,
+                onComplete: function(twn:FlxTween)
+                {
+                  FlxTween.tween(dokiApp.scale, {x: 1}, 0.2, {ease: FlxEase.bounceInOut});
+                }
+              });
+            case 14:
+              doki.alpha = 1;
+              doki.animation.play('doki');
+            case 15:
+            case 16:
+              skipIntro();
           }
-        });
-        FlxTween.tween(dokiApp, {y: top}, 0.15, {ease: FlxEase.sineIn, startDelay: 0.2});
-      case 14:
-        doki.alpha = 1;
-        doki.animation.play('doki');
-      case 15:
-      case 16:
-        skipIntro();
+        }
+      }
+      lastBeat = Conductor.instance.currentBeat;
     }
   }
 

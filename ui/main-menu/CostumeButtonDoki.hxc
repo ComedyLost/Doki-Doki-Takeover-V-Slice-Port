@@ -2,44 +2,49 @@ package ddto.ui.mainmenu;
 
 import funkin.modding.module.Module;
 import funkin.ui.mainmenu.MainMenuState;
-import funkin.modding.base.ScriptedMusicBeatState;
-import funkin.graphics.FunkinSprite;
-import funkin.ui.freeplay.FreeplayState;
-import funkin.ui.story.StoryMenuState;
-import funkin.ui.Prompt;
-import flixel.addons.transition.FlxTransitionableState;
 import funkin.ui.AtlasMenuItem;
 
 class CostumeButtonDoki extends Module
 {
-  var needToReset:Bool = false;
-  var rememberedSelectedIndex:Int;
-
-  public function onStateChangeEnd(event)
+  public function new()
   {
-    currentState = event.targetState;
-    if (FlxG.onMobile) return; // No costumes on mobile since I'm too lazy to add support
-    if (Std.isOfType(currentState, MainMenuState))
-    {
-      var menuItem = createMenuItem('costumes', 'ui/main-menu/items/PleaseKrillMe', 2, function()
-      {
-        currentState.startExitState(() -> new CostumeSelectState());
-      }, false);
-      currentState.menuItems.addItem('costumes', menuItem);
-      // Then we can make sure the menu items are centered.
-      var item = currentState.menuItems.getItem('costumes');
-      currentState.menuItems.members.remove(item);
-      currentState.menuItems.members.insert(item.ID, item);
-      repositionMenuItems(currentState.menuItems);
-
-      var setIndex = rememberedSelectedIndex ?? MainMenuState.rememberedSelectedIndex;
-      if (currentState?.menuItems?.members[setIndex] != null) currentState?.menuItems?.selectItem(setIndex);
-      currentState.resetCamStuff();
-      rememberedSelectedIndex = null;
-    }
+    super('CostumeButtonDoki', 1, {state: MainMenuState});
   }
 
-  function createMenuItem(name:String, atlas:String, id:Int, callback:Void->Void, fireInstantly:Bool):Void
+  var rememberedSelectedIndex:Null<Int>;
+
+  public function onStateChangeEnd(event:StateChangeScriptEvent):Void
+  {
+    var menuItem = createMenuItem('costumes', 'ui/main-menu/items/costumes-menu', 2, function()
+    {
+      FlxG.state.startExitState(() -> new CostumeSelectState());
+    }, false);
+    FlxG.state.menuItems.addItem('costumes', menuItem);
+
+    // Kidnap the menu item so we can put it in the right spot.
+    var item:AtlasMenuItem = FlxG.state.menuItems.getItem('costumes');
+    FlxG.state.menuItems.members.remove(item);
+    FlxG.state.menuItems.members.insert(item.ID, item);
+    repositionMenuItems(FlxG.state.menuItems);
+
+    var setIndex:Int = rememberedSelectedIndex ?? MainMenuState.rememberedSelectedIndex;
+    if (FlxG.state.menuItems.members[setIndex] != null)
+    {
+      FlxG.state.menuItems.selectItem(setIndex);
+    }
+    rememberedSelectedIndex = null;
+
+    FlxG.signals.preStateSwitch.addOnce(() ->
+    {
+      // Use our own variable to set the selected item to prevent a crash
+      rememberedSelectedIndex = FlxG.state.menuItems?.selectedIndex ?? 0;
+      MainMenuState.rememberedSelectedIndex = 0;
+    });
+
+    FlxG.state.resetCamStuff();
+  }
+
+  function createMenuItem(name:String, atlas:String, id:Int, callback:Void->Void, fireInstantly:Bool):AtlasMenuItem
   {
     var item = new AtlasMenuItem(0, 0, name, Paths.getSparrowAtlas(atlas), callback);
     item.fireInstantly = fireInstantly;
@@ -54,7 +59,7 @@ class CostumeButtonDoki extends Module
     return item;
   }
 
-  function repositionMenuItems(menuItems:AtlasMenuList)
+  function repositionMenuItems(menuItems:AtlasMenuList):Void
   {
     // Reset position of menu items.
     var spacing = 160;
@@ -65,17 +70,7 @@ class CostumeButtonDoki extends Module
       menuItem.x = FlxG.width / 2;
       menuItem.y = top + spacing * i;
       menuItem.ID = i;
-      if (menuItem.ID != currentState.menuItems.selectedIndex) menuItem.idle();
-      if (menuItem.ID > 4)
-      { // Reset rememberedSelectedIndex to prevent a crash
-        var oldConfirm = menuItem.callback;
-        menuItem.callback = () ->
-        {
-          rememberedSelectedIndex = MainMenuState?.rememberedSelectedIndex ?? null;
-          oldConfirm();
-          MainMenuState.rememberedSelectedIndex = 0;
-        }
-      }
+      if (menuItem.ID != FlxG.state.menuItems.selectedIndex) menuItem.idle();
     }
   }
 }

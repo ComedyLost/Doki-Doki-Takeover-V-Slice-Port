@@ -57,7 +57,9 @@
       "box": "rosesClassic",
       "boxAnimation": "idle",
 
-      "text": ["YOU'RE NOT SUPPOSED TO SEE THIS MESSAGE\nIF YOU SEE THIS MESSAGE IN GAME\nREPORT IT TO COMEDY LOST"]
+      "text": [
+        "YOU'RE NOT SUPPOSED TO SEE THIS MESSAGE\nIF YOU SEE THIS MESSAGE IN GAME\nREPORT IT TO COMEDY LOST"
+      ]
     },
     {
       "speaker": "senpaiddto",

@@ -6,20 +6,18 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    }
+    "altInstrumentals": {},
+    "vocals": {}
   },
   "playData": {
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "bf-pixelbar",
       "girlfriend": "gf-pixelbar",
       "opponent": "jill",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "album": "takeover",
     "stage": "va11halla",
@@ -37,12 +35,7 @@
       "bpm": 146,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

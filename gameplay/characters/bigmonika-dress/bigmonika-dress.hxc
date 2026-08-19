@@ -18,11 +18,13 @@ class BigMonikaDressCharacter extends AnimateAtlasCharacter
     if (PlayState.instance?.currentStage == null) return;
     switch (name)
     {
-      case 'lastNOTE_start': this.playAnimation('lastNOTE_end', true, true, false);
-      case 'lastNOTE_end', 'lastNOTE_retry': this.alpha = 0;
+      case 'lastNOTE_start':
+        this.playAnimation('lastNOTE_end', true, true, false);
+      case 'lastNOTE_end', 'lastNOTE_retry':
+        this.alpha = 0;
     }
   }
-  
+
   function onNoteHit(event:NoteScriptEvent)
   {
     // Override the miss note animation.

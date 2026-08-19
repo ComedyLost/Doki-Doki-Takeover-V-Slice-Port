@@ -7,12 +7,6 @@
     "color": "#BFB3DFD8"
   },
 
-  "music": {
-    "asset": "Lunchbox",
-    "fadeTime": 2.0,
-    "looped": true
-  },
-
   "outro": {
     "type": "fade",
     "fadeTime": 1.0
@@ -50,7 +44,7 @@
       "text": ["and what is that WORM doing here?!"]
     },
     {
-      "speaker": "bf",
+      "speaker": "bf-doki",
       "speakerAnimation": "bf_what",
       "box": "rosesClassic",
       "boxAnimation": "idle",
@@ -63,7 +57,9 @@
       "box": "rosesClassic",
       "boxAnimation": "idle",
 
-      "text": ["Didn't have enough fun making a fool of me last time you showed up?"]
+      "text": [
+        "Didn't have enough fun making a fool of me last time you showed up?"
+      ]
     },
     {
       "speaker": "senpai-angry",
@@ -71,7 +67,9 @@
       "box": "rosesClassic",
       "boxAnimation": "idle",
 
-      "text": ["Now you're bringing more of your hideously attractive friends here to mock me once again?"]
+      "text": [
+        "Now you're bringing more of your hideously attractive friends here to mock me once again?"
+      ]
     },
     {
       "speaker": "monika",

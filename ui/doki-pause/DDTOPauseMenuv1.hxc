@@ -373,16 +373,17 @@ class DDTOPauseMenu extends Module
     curSelected = FlxMath.wrap(curSelected + change, 0, options.length - 1);
     for (i in 0...options.length)
     {
-      if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") options[i].setFormat(Paths.font("ui/fonts/CyberpunkWaifus.ttf"), 32, 0xFFFFFFFF, "left");
-      else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") options[i].setFormat(Paths.font("ui/fonts/Perfect DOS VGA 437 Win.ttf"), 32, 0xFFFFFFFF,
+      if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") options[i].setFormat(Paths.font("ui/fonts/CyberpunkWaifus.ttf"), 32, 0xFFFFFFFF,
         "left");
+      else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") options[i].setFormat(Paths.font("ui/fonts/Perfect DOS VGA 437 Win.ttf"), 32,
+        0xFFFFFFFF, "left");
       else
         options[i].setBorderStyle(FlxTextBorderStyle.OUTLINE, itmColor, 2);
     }
-    if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") options[curSelected].setFormat(Paths.font("ui/fonts/CyberpunkWaifus.ttf"), 32, itmColor,
-      "left");
-    else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") options[curSelected].setFormat(Paths.font("ui/fonts/Perfect DOS VGA 437 Win.ttf"), 32,
+    if (PlayState.instance.currentSong.id.toLowerCase() == "drinks-on-me") options[curSelected].setFormat(Paths.font("ui/fonts/CyberpunkWaifus.ttf"), 32,
       itmColor, "left");
+    else if (PlayState.instance.currentSong.id.toLowerCase() == "libitina") options[curSelected].setFormat(Paths.font("ui/fonts/Perfect DOS VGA 437 Win.ttf"),
+      32, itmColor, "left");
     else
       options[curSelected].setBorderStyle(FlxTextBorderStyle.OUTLINE, selColor, 2);
   }
@@ -433,14 +434,20 @@ class DDTOPauseMenu extends Module
   function updateEntries()
   {
     var state:PauseSubState = FlxG.state.subState;
-    state.currentMenuEntries = state.currentMenuEntries.map(entry -> {
+    state.currentMenuEntries = state.currentMenuEntries.map(entry ->
+    {
       switch (entry.text)
       {
-        case 'Resume': 
+        case 'Resume':
           return {text: entry.text, callback: resume};
         case 'Enable Practice Mode', 'Practice Mode':
           var callback:PauseSubState->Void = entry.callback;
-          return {text: entry.text, callback: () -> {callback(state); updateEntries(); updateOptions();}, filter: entry.filter};
+          return {text: entry.text, callback: () ->
+          {
+            callback(state);
+            updateEntries();
+            updateOptions();
+          }, filter: entry.filter};
         case 'Change Difficulty':
           var difficultiesInVariation = PlayState.instance.currentSong.listDifficulties(PlayState.instance.currentChart.variation, true) ?? [];
           return {text: entry.text, callback: entry.callback, filter: (difficultiesInVariation.length > 1)}

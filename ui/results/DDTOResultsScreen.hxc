@@ -19,7 +19,7 @@ class DDTOResults extends Module
 {
   public function new()
   {
-    super("DDTOResultsScreen");
+    super("DDTOResultsScreen", null, {state: PlayState});
   }
 
   var whiteBackground:FunkinSprite;
@@ -27,49 +27,12 @@ class DDTOResults extends Module
   var creditsBG:FunkinBackdrop;
   var scanline:FunkinBackdrop;
   var gradient:FunkinSprite;
-  var swapMusic:Bool;
   var isDoki:Bool;
-  var camScrollNew:FunkinCamera;
   var rank:String;
 
-  function displayRankText()
+  function getRank(?params)
   {
-    var state = FlxG.state.subState;
-    var rankTextVert:FunkinBackdrop = new FunkinBackdrop(Paths.image("resultScreen/rankText/Doki/rankText" + getRank()), 0x10, 0, 30);
-    rankTextVert.x = FlxG.width - 44;
-    rankTextVert.y = 100;
-    rankTextVert.zIndex = 995;
-    state.add(rankTextVert);
-
-    FlxFlicker.flicker(rankTextVert, 2 / 24 * 3, 2 / 24, true);
-
-    // Scrolling.
-    new FlxTimer().start(30 / 24, _ ->
-    {
-      rankTextVert.velocity.y = -80;
-    });
-
-    for (i in 0...12)
-    {
-      var rankTextBack:FunkinBackdrop = new FunkinBackdrop(Paths.image("resultScreen/rankText/Doki/rankScroll" + getRank()), 0x01, 10, 0);
-      rankTextBack.x = FlxG.width / 2 - 320;
-      rankTextBack.y = 50 + (135 * i / 2) + 10;
-      // rankTextBack.angle = -3.8;
-      rankTextBack.zIndex = 100;
-      rankTextBack.alpha = 0.5;
-      rankTextBack.cameras = [camScrollNew];
-      state.add(rankTextBack);
-
-      // Scrolling.
-      rankTextBack.velocity.x = (i % 2 == 0) ? -7.0 : 7.0;
-    }
-    state.refresh();
-  }
-
-  function getRank()
-  {
-    var state = FlxG.state.subState;
-    var rank:String = Std.string(Scoring.calculateRank(state.params.scoreData));
+    var rank:String = Std.string(Scoring.calculateRank(params.scoreData));
     if (rank == "PERFECT_GOLD") return "PERFECT";
     else if (rank == "SHIT") return "LOSS";
     else
@@ -78,7 +41,7 @@ class DDTOResults extends Module
 
   public function getBFDelay():Float
   {
-    switch (getRank())
+    switch (rank)
     {
       case "PERFECT_GOLD", "PERFECT":
         // return 2.5;
@@ -96,29 +59,9 @@ class DDTOResults extends Module
     }
   }
 
-  public function getMusicDelay():Float
-  {
-    switch (getRank())
-    {
-      case "PERFECT_GOLD", "PERFECT":
-        // return 2.5;
-        return 95 / 24;
-      case "EXCELLENT":
-        return 0;
-      case "GREAT":
-        return 5 / 24;
-      case "GOOD":
-        return 3 / 24;
-      case "LOSS":
-        return 2 / 24;
-      default:
-        return 3.5;
-    }
-  }
-
   public function getFlashDelay():Float
   {
-    switch (getRank())
+    switch (rank)
     {
       case "PERFECT_GOLD", "PERFECT":
         // return 2.5;
@@ -143,19 +86,6 @@ class DDTOResults extends Module
     {
       if (!isDoki) return;
       var state = event.targetState;
-      camScrollNew = new FunkinCamera('resultsScroll');
-      camScrollNew.angle = -3.8;
-      camScrollNew.bgColor = 0x000000;
-
-      FlxG.cameras.insert(camScrollNew, FlxG.cameras.list.indexOf(state.cameraScroll));
-
-      FlxG.cameras.remove(state.cameraScroll, false);
-
-      new FlxTimer().start(getFlashDelay(), _ ->
-      {
-        displayRankText();
-      });
-
       var dokiCharacters = ['monika', 'yuri', 'natsuki', 'yuri', 'protag'];
 
       var characterDoki:Bool = false;
@@ -167,7 +97,7 @@ class DDTOResults extends Module
       }
       if (characterDoki)
       {
-        var dokis:FunkinSprite = FunkinSprite.createSparrow(310 + FullScreenScaleMode.gameCutoutSize.x / 2, -200, "menuCharacters/dokitogether");
+        var dokis:FunkinSprite = FunkinSprite.createSparrow(310 + FullScreenScaleMode.gameCutoutSize.x / 2, -200, "ui/doki-main-menu/characters/dokitogether");
         dokis.scale.set(0.6, 0.6);
         dokis.animation.addByPrefix('idle', 'Doki together club', 24, true, false, false);
         dokis.animation.play('idle', true, false, 0);
@@ -204,10 +134,14 @@ class DDTOResults extends Module
       }
       if (!isDoki) return;
       #if SpookyMix
-      state.params.characterId = 'spooky';
+      if (state.params.characterId == 'spooky-doki') state.params.characterId = 'spooky';
       #end
+      rank = getRank(state.params);
+      state.rankVertAsset = Paths.image("ui/results/rank-text/doki/text-" + rank.toLowerCase());
+      state.rankBackAsset = Paths.image("ui/results/rank-text/doki/scroll-" + rank.toLowerCase());
+
       state.rankBg.alpha = 0;
-      state.resultsAnim = FunkinSprite.createSparrow(-200, -10, "resultScreen/resultsDoki");
+      state.resultsAnim = FunkinSprite.createSparrow(-200, -10, "ui/results/interface/results-doki");
       // Background
       whiteBackground = new FunkinSprite();
       whiteBackground.makeGraphic(FlxG.width, FlxG.height, 0xFFFFFFFF);
@@ -216,26 +150,26 @@ class DDTOResults extends Module
       whiteBackground.cameras = [state.cameraBG];
       whiteBackground.alpha = 1;
 
-      dokiBackdrop = new FunkinBackdrop(Paths.image('scrollingBG'));
+      dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
       dokiBackdrop.scrollFactor.set(0.1, 0.1);
       dokiBackdrop.velocity.set(-10, 0);
       dokiBackdrop.zIndex = 12;
       dokiBackdrop.cameras = [state.cameraBG];
       dokiBackdrop.alpha = 0.3;
 
-      creditsBG = new FunkinBackdrop(Paths.image('credits/pocBackground'));
+      creditsBG = new FunkinBackdrop(Paths.image('gameplay/stages/credits/poc-background'));
       creditsBG.scrollFactor.set(0.1, 0.1);
       creditsBG.zIndex = 13;
       creditsBG.cameras = [state.cameraBG];
       creditsBG.velocity.set(-50, 0);
 
-      scanline = new FunkinBackdrop(Paths.image('credits/scanlines'));
+      scanline = new FunkinBackdrop(Paths.image('gameplay/stages/credits/scanlines'));
       scanline.scrollFactor.set(0.1, 0.1);
       scanline.zIndex = 14;
       scanline.cameras = [state.cameraBG];
       scanline.velocity.set(0, 20);
 
-      gradient = new FunkinSprite().loadGraphic(Paths.image('credits/gradent'));
+      gradient = new FunkinSprite().loadGraphic(Paths.image('gameplay/stages/credits/gradent'));
       gradient.scrollFactor.set(0.1, 0.1);
       gradient.screenCenter();
       gradient.zIndex = 15;

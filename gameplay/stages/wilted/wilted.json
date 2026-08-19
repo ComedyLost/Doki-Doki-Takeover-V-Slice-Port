@@ -17,11 +17,19 @@
       "scroll": [1, 1]
     }
   ],
-  "cameraZoom": 0.70,
+  "cameraZoom": 0.7,
   "version": "1.0.0",
   "characters": {
-    "bf": { "zIndex": 90, "position": [1450, 860], "cameraOffsets": [-250, 60] },
-    "dad": { "zIndex": 100, "position": [425, 925], "cameraOffsets": [300, 50] },
+    "bf": {
+      "zIndex": 90,
+      "position": [1450, 860],
+      "cameraOffsets": [-250, 60]
+    },
+    "dad": {
+      "zIndex": 100,
+      "position": [425, 925],
+      "cameraOffsets": [300, 50]
+    },
     "gf": { "zIndex": 0, "cameraOffsets": [0, 150], "position": [892, 625] }
   },
   "name": "Wilted"

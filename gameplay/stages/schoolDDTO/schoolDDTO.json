@@ -130,7 +130,9 @@
         {
           "offsets": [0, 0],
           "prefix": "BG fangirls dissuaded",
-          "frameIndices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+          "frameIndices": [
+            15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29
+          ],
           "looped": false,
           "flipX": false,
           "name": "danceRight",
@@ -192,12 +194,20 @@
       "assetPath": "gameplay/stages/schoolEvil/evil-school-trees",
       "scroll": [1, 1]
     }
- ],
+  ],
   "cameraZoom": 1.05,
   "version": "1.0.0",
   "characters": {
-    "bf": { "zIndex": 300, "cameraOffsets": [-200, -100], "position": [1139, 958] },
-    "dad": { "zIndex": 200, "cameraOffsets": [160, -50], "position": [525, 950] },
+    "bf": {
+      "zIndex": 300,
+      "cameraOffsets": [-200, -100],
+      "position": [1139, 958]
+    },
+    "dad": {
+      "zIndex": 200,
+      "cameraOffsets": [160, -50],
+      "position": [525, 950]
+    },
     "gf": { "zIndex": 100, "cameraOffsets": [0, 0], "position": [840, 866] }
   },
   "name": "School (DDTO Ver.)"

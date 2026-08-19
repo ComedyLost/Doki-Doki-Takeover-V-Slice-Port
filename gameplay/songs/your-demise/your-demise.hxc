@@ -12,7 +12,6 @@ import funkin.play.cutscene.dialogue.ConversationState;
 import flixel.tweens.FlxEase;
 import funkin.Conductor;
 import funkin.modding.module.ModuleHandler;
-
 // Countdown
 import flixel.util.FlxTimer;
 import funkin.play.Countdown;
@@ -129,7 +128,8 @@ class YourDemiseSong extends Song
     }
     else
     {
-      FlxG.signals.postUpdate.addOnce(() -> {
+      FlxG.signals.postUpdate.addOnce(() ->
+      {
         if (event.eventCanceled) return;
         YourDemiseCountdown.performCountdown();
       });
@@ -137,24 +137,23 @@ class YourDemiseSong extends Song
   }
 
   /*public override function onSongEnd(event:CountdownScriptEvent):Void {
-      super.onSongEnd(event);
-      trace('Started countdown for Roses...');
+    super.onSongEnd(event);
+    trace('Started countdown for Roses...');
 
-      if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
 
-      if (!hasPlayedOutroCutscene) {
-        trace('Pausing countdown to play cutscene.');
+    if (!hasPlayedOutroCutscene) {
+      trace('Pausing countdown to play cutscene.');
 
-        hasPlayedOutroCutscene = true;
+      hasPlayedOutroCutscene = true;
 
-        event.cancel(); // CANCEL THE COUNTDOWN!
+      event.cancel(); // CANCEL THE COUNTDOWN!
 
-        PlayState.instance.camCutscene.visible = true;
+      PlayState.instance.camCutscene.visible = true;
 
-        startEndDialogue();
-      }	
+      startEndDialogue();
+    }	
   }*/
-
   function stageSwap(swap:Bool)
   {
     glitchEffect();
@@ -251,7 +250,7 @@ class YourDemiseSong extends Song
           stageSwap(true);
         case 1864:
           FlxTween.tween(blackScreen, {alpha: 1}, 0.5);
-      }  
+      }
     }
     lastStep = event.step;
   }

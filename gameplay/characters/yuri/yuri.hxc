@@ -61,7 +61,7 @@ class YuriBaseCharacter extends MultiAnimateAtlasCharacter
   }
 
   public var missColor(get, never):FlxColor;
-  
+
   function get_missColor():FlxColor
   {
     if (PlayState.instance == null) return DEFAULT_COLORS[1];
@@ -76,7 +76,7 @@ class YuriBaseCharacter extends MultiAnimateAtlasCharacter
   }
 
   private function getCostumePath():String
-    {
+  {
     if (_data.costumelist == null) return DEFAULT_PATH;
 
     if (currentCostume == 'default') return DEFAULT_PATH;
@@ -141,15 +141,15 @@ class YuriBaseCharacter extends MultiAnimateAtlasCharacter
   }
 
   public function resetCameraFocusPoint():Void
-    {
-      var sprite:BaseCharacter = this.clone();
-      var isPlayer:Bool = (currentStage?.characters.get('bf') == super);
-      var cameraOffsets:Array<Float> = (isPlayer ? _data.playerCameraOffsets.clone() : _data.cameraOffsets.clone());
-      var charCenterX = this.originalPosition.x + sprite.width / 2;
-      var charCenterY = this.originalPosition.y + sprite.height / 2;
-      this.cameraFocusPoint.set(charCenterX + cameraOffsets[0], charCenterY + cameraOffsets[1]);
-    }
-  
+  {
+    var sprite:BaseCharacter = this.clone();
+    var isPlayer:Bool = (currentStage?.characters.get('bf') == super);
+    var cameraOffsets:Array<Float> = (isPlayer ? _data.playerCameraOffsets.clone() : _data.cameraOffsets.clone());
+    var charCenterX = this.originalPosition.x + sprite.width / 2;
+    var charCenterY = this.originalPosition.y + sprite.height / 2;
+    this.cameraFocusPoint.set(charCenterX + cameraOffsets[0], charCenterY + cameraOffsets[1]);
+  }
+
   public var gameOverAnims:Array<String> = ['firstDeath', 'deathLoop', 'deathConfirm'];
 
   override private function getScreenPosition(?result:FlxPoint, ?camera:FlxCamera):FlxPoint

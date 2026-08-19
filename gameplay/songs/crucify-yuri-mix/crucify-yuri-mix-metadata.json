@@ -7,22 +7,20 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisall",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "bf-doki",
       "girlfriend": "gf-realdoki",
       "opponent": "yuri",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "album": "takeover",
     "stage": "dokifestival",

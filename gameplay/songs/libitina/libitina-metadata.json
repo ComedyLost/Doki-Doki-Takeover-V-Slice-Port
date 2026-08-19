@@ -7,23 +7,21 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "libitina",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "album": "takeover",
     "characters": {
       "player": "ghost-intro",
       "girlfriend": "hidden",
       "opponent": "hidden",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "stage": "libitina",
     "noteStyle": "libitina",

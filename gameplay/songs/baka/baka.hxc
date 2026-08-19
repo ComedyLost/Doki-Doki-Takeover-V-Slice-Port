@@ -118,15 +118,15 @@ class BakaSong extends Song
 
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-		if ((PlayState.instance?.isGameOverState ?? true)) return;
+    if ((PlayState.instance?.isGameOverState ?? true)) return;
 
     if (lastStep > event.step)
     {
-			lastStep = event.step;
-			return;
-		}
+      lastStep = event.step;
+      return;
+    }
 
-		for (step in lastStep...event.step)
+    for (step in lastStep...event.step)
     {
       switch (step + 1)
       {
@@ -156,7 +156,7 @@ class BakaSong extends Song
           }
           else
             bakaOverlay.animation.play('party rock is');
-      }  
+      }
     }
     lastStep = event.step;
   }

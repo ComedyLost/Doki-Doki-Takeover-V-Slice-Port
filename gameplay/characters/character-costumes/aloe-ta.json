@@ -1,86 +1,86 @@
 {
-    "version": "1.0.0",
-    "name": "Aloe (Doki)",
-    "renderType": "multianimateatlas",
-    "assetPath": "shared:characters/boyfriend/aloe",
-    "flipX": true,
-    "singTime": 4,
-    "healthIcon": {"id": "bf-holofunk"},
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "BF idle dance",
-            "offsets": [0, 0]
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "BF NOTE LEFT",
-            "offsets": [34, 0]
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "BF NOTE DOWN",
-            "offsets": [24, -30]
-        },
-        {
-            "name": "singUP",
-            "prefix": "BF NOTE UP",
-            "offsets": [-2, 29]
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "BF NOTE RIGHT",
-            "offsets": [-37, 4]
-        },
-        {
-            "name": "singLEFTmiss",
-            "prefix": "BF NOTE LEFT MISS",
-            "offsets": [32, -2]
-        },
-        {
-            "name": "singDOWNmiss",
-            "prefix": "BF NOTE DOWN MISS",
-            "offsets": [24, -20]
-        },
-        {
-            "name": "singUPmiss",
-            "prefix": "BF NOTE UP MISS",
-            "offsets": [-3, 30]
-        },
-        {
-            "name": "singRIGHTmiss",
-            "prefix": "BF NOTE RIGHT MISS",
-            "offsets": [-37, 4]
-        },
-        {
-            "name": "hey",
-            "prefix": "BF HEY!!",
-            "offsets": [2, 3]
-        },
-        {
-            "name": "scared",
-            "prefix": "BF idle shaking",
-            "offsets": [-5, 0]
-        },
-        {
-            "name": "firstDeath",
-            "prefix": "BF dies",
-            "offsets": [22, 7]
-        },
-        {
-            "name": "deathLoop",
-            "prefix": "BF Dead Loop",
-            "offsets": [31, -8],
-            "looped": true
-        },
-        {
-            "name": "deathConfirm",
-            "prefix": "BF Dead confirm",
-            "offsets": [-3, -412]
-        }
-    ],
-    "startingAnimation": "",
-    "isPixel": false,
-    "scale": 1,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Aloe (Doki)",
+  "renderType": "multianimateatlas",
+  "assetPath": "shared:characters/boyfriend/aloe",
+  "flipX": true,
+  "singTime": 4,
+  "healthIcon": { "id": "bf-holofunk" },
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "BF idle dance",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "BF NOTE LEFT",
+      "offsets": [34, 0]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "BF NOTE DOWN",
+      "offsets": [24, -30]
+    },
+    {
+      "name": "singUP",
+      "prefix": "BF NOTE UP",
+      "offsets": [-2, 29]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "BF NOTE RIGHT",
+      "offsets": [-37, 4]
+    },
+    {
+      "name": "singLEFTmiss",
+      "prefix": "BF NOTE LEFT MISS",
+      "offsets": [32, -2]
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "BF NOTE DOWN MISS",
+      "offsets": [24, -20]
+    },
+    {
+      "name": "singUPmiss",
+      "prefix": "BF NOTE UP MISS",
+      "offsets": [-3, 30]
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "BF NOTE RIGHT MISS",
+      "offsets": [-37, 4]
+    },
+    {
+      "name": "hey",
+      "prefix": "BF HEY!!",
+      "offsets": [2, 3]
+    },
+    {
+      "name": "scared",
+      "prefix": "BF idle shaking",
+      "offsets": [-5, 0]
+    },
+    {
+      "name": "firstDeath",
+      "prefix": "BF dies",
+      "offsets": [22, 7]
+    },
+    {
+      "name": "deathLoop",
+      "prefix": "BF Dead Loop",
+      "offsets": [31, -8],
+      "looped": true
+    },
+    {
+      "name": "deathConfirm",
+      "prefix": "BF Dead confirm",
+      "offsets": [-3, -412]
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": false,
+  "scale": 1,
+  "Made_With": "the cigs Converter"
 }

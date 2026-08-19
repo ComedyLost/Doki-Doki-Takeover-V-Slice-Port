@@ -6,29 +6,23 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisonly",
     "album": "takeover",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "monika",
       "girlfriend": "nogf",
       "opponent": "sayori",
       "instrumental": "",
-      "altInstrumentals": [      ],
-      "opponentVocals": [
-        "sayori"
-      ],
-      "playerVocals": [
-        "monika"
-      ]
+      "altInstrumentals": [],
+      "opponentVocals": ["sayori"],
+      "playerVocals": ["monika"]
     },
     "stage": "musicroom",
     "noteStyle": "ddto",
@@ -45,12 +39,7 @@
       "bpm": 124,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

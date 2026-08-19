@@ -34,7 +34,8 @@ class NeetSong extends Song
 
     var stage = PlayState.instance.currentStage;
 
-    blackScreenBG = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+    blackScreenBG = new FunkinSprite(-FlxG.width * FlxG.camera.zoom,
+      -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
     blackScreenBG.alpha = 0.0001;
     blackScreenBG.zIndex = 54;
     blackScreenBG.scrollFactor.set();

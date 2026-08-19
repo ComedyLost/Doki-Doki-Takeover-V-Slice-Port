@@ -52,7 +52,9 @@
       "speakerAnimation": "angy",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"I don't need boys calling me cute too, that's extra embarrassing-\""]
+      "text": [
+        "\"I don't need boys calling me cute too, that's extra embarrassing-\""
+      ]
     },
     {
       "speaker": "sayoriright",
@@ -66,7 +68,9 @@
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"Well... I've been meaning to ask a good friend of mine to join the club as well, but I bet that dummy is just gonna join the anime club instead.\""]
+      "text": [
+        "\"Well... I've been meaning to ask a good friend of mine to join the club as well, but I bet that dummy is just gonna join the anime club instead.\""
+      ]
     },
     {
       "speaker": "natsukileft",
@@ -87,7 +91,9 @@
       "speakerAnimation": "hmmph",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"If there's anyone who knows how to subvert expectations, its me.\""]
+      "text": [
+        "\"If there's anyone who knows how to subvert expectations, its me.\""
+      ]
     },
     {
       "speaker": "natsukileft",

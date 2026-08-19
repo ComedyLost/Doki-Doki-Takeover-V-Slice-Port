@@ -163,8 +163,16 @@
   "cameraZoom": 1.1,
   "version": "1.0.0",
   "characters": {
-    "bf": { "zIndex": 70, "position": [850, 1000], "cameraOffsets": [-100, -150] },
-    "dad": { "zIndex": 50, "position": [300, 550], "cameraOffsets": [260, 175] },
+    "bf": {
+      "zIndex": 70,
+      "position": [850, 1000],
+      "cameraOffsets": [-100, -150]
+    },
+    "dad": {
+      "zIndex": 50,
+      "position": [300, 550],
+      "cameraOffsets": [260, 175]
+    },
     "gf": { "zIndex": 60, "position": [570, 900], "cameraOffsets": [0, -50] }
   },
   "name": "Va11halla Bar"

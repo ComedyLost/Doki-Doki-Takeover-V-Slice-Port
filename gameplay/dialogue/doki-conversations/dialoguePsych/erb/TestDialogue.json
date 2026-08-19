@@ -1,38 +1,37 @@
 {
-	"dialogue": 
-	[
-		{
-			"isCommand":false,
-			"name": "monika",
-			"expression":"ahh",
-			"string": "This is a quick test smile",
-			"side": "left"
-		},
-		{
-			"isCommand":true,
-			"name": "showbackgroundimage",
-			"string": "example"
-		},
-		{
-			"isCommand":false,
-			"name": "natsuki",
-			"expression":"spook",
-			"string": "I'm flippin cool am I right?!",
-			"side": "right"
-		},
-		{
-			"isCommand":false,
-			"name": "bf",
-			"expression":"yeah",
-			"string": "Left BF except not hard coded",
-			"side": "left"
-		},
-		{
-			"isCommand":false,
-			"name": "monika",
-			"expression":"ahh",
-			"string": "can you turn off the sink?",
-			"side": "left"
-		}
-	]
+  "dialogue": [
+    {
+      "isCommand": false,
+      "name": "monika",
+      "expression": "ahh",
+      "string": "This is a quick test smile",
+      "side": "left"
+    },
+    {
+      "isCommand": true,
+      "name": "showbackgroundimage",
+      "string": "example"
+    },
+    {
+      "isCommand": false,
+      "name": "natsuki",
+      "expression": "spook",
+      "string": "I'm flippin cool am I right?!",
+      "side": "right"
+    },
+    {
+      "isCommand": false,
+      "name": "bf",
+      "expression": "yeah",
+      "string": "Left BF except not hard coded",
+      "side": "left"
+    },
+    {
+      "isCommand": false,
+      "name": "monika",
+      "expression": "ahh",
+      "string": "can you turn off the sink?",
+      "side": "left"
+    }
+  ]
 }

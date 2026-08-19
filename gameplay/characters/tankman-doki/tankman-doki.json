@@ -1,76 +1,76 @@
 {
-    "version": "1.0.0",
-    "name": "Tankman (Doki)",
-    "renderType": "animateatlas",
-    "assetPath": "gameplay/characters/tankman-doki/tankman-doki",
-    "flipX": true,
-    "singTime": 4,
-    "offsets": [0, 40],
-    "cameraOffsets": [0, 100],
-    "atlasSettings": {
-        "swfMode": false
-    },    
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Idle"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "singUP-alt",
-            "prefix": "Ugh"
-        },
-        {
-            "name": "singUPmiss",
-            "prefix": "Up Miss"
-        },
-        {
-            "name": "singDOWNmiss",
-            "prefix": "Down Miss"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singRIGHTmiss",
-            "prefix": "Right Miss"
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "singLEFTmiss",
-            "prefix": "Left Miss"
-        },
-        {
-            "name": "firstWin",
-            "prefix": "You Lost"
-        },
-        {
-            "name": "firstDeath",
-            "prefix": "First Death"
-        },
-        {
-            "name": "deathLoop",
-            "prefix": "Death Loop",
-            "looped": true
-        },
-        {
-            "name": "deathConfirm",
-            "prefix": "Death Confirm"
-        }
-    ],
-    "startingAnimation": "",
-    "isPixel": false,
-    "scale": 1,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Tankman (Doki)",
+  "renderType": "animateatlas",
+  "assetPath": "gameplay/characters/tankman-doki/tankman-doki",
+  "flipX": true,
+  "singTime": 4,
+  "offsets": [0, 40],
+  "cameraOffsets": [0, 100],
+  "atlasSettings": {
+    "swfMode": false
+  },
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "singUP-alt",
+      "prefix": "Ugh"
+    },
+    {
+      "name": "singUPmiss",
+      "prefix": "Up Miss"
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "Down Miss"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "Right Miss"
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "singLEFTmiss",
+      "prefix": "Left Miss"
+    },
+    {
+      "name": "firstWin",
+      "prefix": "You Lost"
+    },
+    {
+      "name": "firstDeath",
+      "prefix": "First Death"
+    },
+    {
+      "name": "deathLoop",
+      "prefix": "Death Loop",
+      "looped": true
+    },
+    {
+      "name": "deathConfirm",
+      "prefix": "Death Confirm"
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": false,
+  "scale": 1,
+  "Made_With": "the cigs Converter"
 }

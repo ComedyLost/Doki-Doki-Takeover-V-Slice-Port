@@ -9,139 +9,139 @@
       "t": 9333.333,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 12666.6666666667,
       "e": "FocusCamera",
       "v": {
-	"char": 0,
-	"ease": "CLASSIC"
-}
+        "char": 0,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 16000,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 20000,
       "e": "FocusCamera",
       "v": {
-	"char": 0,
-	"ease": "CLASSIC"
-}
+        "char": 0,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 23111.1113,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 30666.6666666667,
       "e": "FocusCamera",
       "v": {
-	"char": 0,
-	"ease": "CLASSIC"
-}
+        "char": 0,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 37333.3333333333,
       "e": "FocusCamera",
       "v": {
-	"char": 1,
-	"ease": "CLASSIC"
-}
+        "char": 1,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 44444.4444444445,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 51555.5547,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 58666.6666666667,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 65777.78,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 83555.5547,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 94222.22,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 101777.777777778,
       "e": "FocusCamera",
       "v": {
-	"char": 0,
-	"ease": "CLASSIC"
-}
+        "char": 0,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 108444.444444445,
       "e": "FocusCamera",
       "v": {
-	"char": 1
-}
+        "char": 1
+      }
     },
     {
       "t": 115555.555555556,
       "e": "FocusCamera",
       "v": {
-	"char": 0
-}
+        "char": 0
+      }
     },
     {
       "t": 122666.666666667,
       "e": "FocusCamera",
       "v": {
-	"duration": 4,
-	"x": 0,
-	"y": 0,
-	"ease": "CLASSIC",
-	"char": 2
-}
+        "duration": 4,
+        "x": 0,
+        "y": 0,
+        "ease": "CLASSIC",
+        "char": 2
+      }
     },
     {
       "t": 122666.666666667,
       "e": "ZoomCamera",
       "v": {
-	"duration": 16,
-	"ease": "quartOut",
-	"mode": "stage",
-	"zoom": 0.9
-}
+        "duration": 16,
+        "ease": "quartOut",
+        "mode": "stage",
+        "zoom": 0.9
+      }
     }
   ],
   "notes": {

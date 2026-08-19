@@ -31,7 +31,7 @@ class LoveNFunkinSong extends Song
   var camGame2:FunkinCamera;
   var savedChar:String;
   var poemVideo:FunkinSprite;
-  
+
   var currentStage(get, never):Stage;
 
   function get_currentStage():Stage
@@ -59,10 +59,12 @@ class LoveNFunkinSong extends Song
 
     var poemSprite:String = '$STAGE_PATH/love-n-funkin/';
     if (PlayState.instance.currentVariation == 'pico') poemSprite += 'poem-pico';
-    else poemSprite += 'poem-gf';
+    else
+      poemSprite += 'poem-gf';
     poemVideo = FunkinSprite.createTextureAtlas(0, 0, poemSprite, {applyStageMatrix: true});
     if (PlayState.instance.currentVariation == 'pico') poemVideo.anim.addBySymbol('hando', 'lnf video Pico');
-    else poemVideo.anim.addBySymbol('hando', 'lnf video');
+    else
+      poemVideo.anim.addBySymbol('hando', 'lnf video');
     poemVideo.anim.play('hando');
     poemVideo.scrollFactor.set();
     poemVideo.setGraphicSize(Std.int(poemVideo.width / PlayState.instance.stageZoom));
@@ -185,7 +187,7 @@ class LoveNFunkinSong extends Song
     character.y = (stageCharData.position[1] - character.characterOrigin.y) + (data.offsets[1] ?? 0);
 
     character.originalPosition.set(character.x, character.y);
-    
+
     return character;
   }
 
@@ -233,7 +235,8 @@ class LoveNFunkinSong extends Song
         yuri.dance();
     }
     PlayState.instance.cameraZoomRate = 4;
-    FlxG.signals.postUpdate.addOnce(() -> {
+    FlxG.signals.postUpdate.addOnce(() ->
+    {
       PlayState.instance.iconP2.configure({id: 'love-n-funkin'});
     });
   }

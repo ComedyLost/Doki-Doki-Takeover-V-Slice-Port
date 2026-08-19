@@ -1,49 +1,49 @@
 {
-    "version": "1.0.0",
-    "name": "Epiphany Monika",
-    "renderType": "animateatlas",
-    "assetPath": "gameplay/characters/bigmonika/basic",
-    "flipX": false,
-    "singTime": 6,
-    "atlasSettings": {
-        "cacheOnLoad": true
+  "version": "1.0.0",
+  "name": "Epiphany Monika",
+  "renderType": "animateatlas",
+  "assetPath": "gameplay/characters/bigmonika/basic",
+  "flipX": false,
+  "singTime": 6,
+  "atlasSettings": {
+    "cacheOnLoad": true
+  },
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle"
     },
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Idle"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "lastNOTE_start",
-            "prefix": "Last Note"
-        },
-        {
-            "name": "lastNOTE_end",
-            "prefix": "Last Note End"
-        },
-        {
-            "name": "lastNOTE_retry",
-            "prefix": "Last Note Shrug"
-        }
-    ],
-    "startingAnimation": "",
-    "isPixel": false,
-    "scale": 1,
-    "Made_With": "the cigs Converter"
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "lastNOTE_start",
+      "prefix": "Last Note"
+    },
+    {
+      "name": "lastNOTE_end",
+      "prefix": "Last Note End"
+    },
+    {
+      "name": "lastNOTE_retry",
+      "prefix": "Last Note Shrug"
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": false,
+  "scale": 1,
+  "Made_With": "the cigs Converter"
 }

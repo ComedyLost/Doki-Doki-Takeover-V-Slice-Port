@@ -11,6 +11,7 @@ import funkin.play.cutscene.VideoCutscene;
 import openfl.utils.Assets;
 import funkin.play.cutscene.CutsceneType;
 import flixel.util.FlxTimer;
+import funkin.assets.Paths as NewPaths;
 
 class BaraNoYumeSong extends Song
 {
@@ -110,13 +111,12 @@ class BaraNoYumeSong extends Song
   function endingCutscene()
   {
     PlayState.instance.onConversationComplete();
-    if (FlxG.onMobile)
-    {
-      PlayState.instance.pauseButton.visible = false;
-      PlayState.instance.pauseCircle.visible = false;
-    }
+    #if mobile
+    PlayState.instance.pauseButton.visible = false;
+    PlayState.instance.pauseCircle.visible = false;
+    #end
     PlayState.instance.mayPauseGame = false;
-    FunkinSound.playOnce(Paths.sound('awhellnaw'), 1.0);
+    FunkinSound.playOnce(Paths.sound('gameplay/songs/${this.id}/awhellnaw'), 1.0);
     PlayState.instance.tweenCameraZoom(0.9, 0, false);
     PlayState.instance.camHUD.alpha = 0;
     PlayState.instance.currentStage.getNamedProp('evilBG').alpha = 1;
@@ -129,11 +129,10 @@ class BaraNoYumeSong extends Song
     PlayState.instance.currentStage.getDad().alpha = 0;
     new FlxTimer().start(1.46, function(e:FlxTimer)
     {
-      if (FlxG.onMobile)
-      {
-        PlayState.instance.pauseButton.visible = true;
-        PlayState.instance.pauseCircle.visible = true;
-      }
+      #if mobile
+      PlayState.instance.pauseButton.visible = true;
+      PlayState.instance.pauseCircle.visible = true;
+      #end
       PlayState.instance.mayPauseGame = true;
       startVideo();
     });
@@ -181,7 +180,7 @@ class BaraNoYumeSong extends Song
 
   function startVideo()
   {
-    VideoCutscene.play(Paths.videos('monika'), CutsceneType.ENDING);
+    VideoCutscene.play(NewPaths.video('gameplay/songs/${this.id}/cutscene'), CutsceneType.ENDING);
     // This will call onSongEnd() again so make sure the flag is set!
     var bgSprite = new FunkinSprite(-100, -100);
     bgSprite.makeSolidColor(2000, 2500, 0xFF000000);

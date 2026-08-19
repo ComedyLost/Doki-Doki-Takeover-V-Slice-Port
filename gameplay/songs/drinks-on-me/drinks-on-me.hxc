@@ -93,7 +93,8 @@ class DrinksOnMeSong extends Song
       || (FlxG.onMobile
         && ControlsHandler.usingExternalInputDevice)) PlayState.instance.playerStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET)
         + (cutoutSize / 2.0);
-    FlxG.signals.postUpdate.addOnce(() -> {
+    FlxG.signals.postUpdate.addOnce(() ->
+    {
       Countdown.skipCountdown();
     });
   }
@@ -104,7 +105,7 @@ class DrinksOnMeSong extends Song
     return durSeconds;
   }
 
-  public static function coolTextFile(?path:String):Array<String>
+  public function coolTextFile(?path:String):Array<String>
   {
     var fullText:String = Assets.getText(Paths.txt('gameplay/songs/${this.id}/nico-text'));
 

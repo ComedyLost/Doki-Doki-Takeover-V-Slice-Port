@@ -1,59 +1,59 @@
 {
-    "version": "1.0.0",
-    "name": "Senpai (Non-Pixel)",
-    "assetPath": "gameplay/characters/senpai-nonpixel/senpai-nonpixel",
-    "flipX": false,
-    "singTime": 4,
-    "renderType": "multianimateatlas",
-    "offsets": [0, -25],
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Idle"
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "swap",
-            "prefix": "Swap"
-        },
-        {
-            "name": "idle-alt",
-            "prefix": "Idle Alt"
-        },
-        {
-            "name": "singLEFT-alt",
-            "prefix": "Left Alt"
-        },
-        {
-            "name": "singRIGHT-alt",
-            "prefix": "Right Alt"
-        },
-        {
-            "name": "singUP-alt",
-            "prefix": "Up Alt"
-        },
-        {
-            "name": "singDOWN-alt",
-            "prefix": "Down Alt"
-        }
-    ],
-    "startingAnimation": "",
-    "isPixel": false,
-    "scale": 0.9,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Senpai (Non-Pixel)",
+  "assetPath": "gameplay/characters/senpai-nonpixel/senpai-nonpixel",
+  "flipX": false,
+  "singTime": 4,
+  "renderType": "multianimateatlas",
+  "offsets": [-20, -50],
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle"
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "swap",
+      "prefix": "Swap"
+    },
+    {
+      "name": "idle-alt",
+      "prefix": "Idle Alt"
+    },
+    {
+      "name": "singLEFT-alt",
+      "prefix": "Left Alt"
+    },
+    {
+      "name": "singRIGHT-alt",
+      "prefix": "Right Alt"
+    },
+    {
+      "name": "singUP-alt",
+      "prefix": "Up Alt"
+    },
+    {
+      "name": "singDOWN-alt",
+      "prefix": "Down Alt"
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": false,
+  "scale": 0.9,
+  "Made_With": "the cigs Converter"
 }

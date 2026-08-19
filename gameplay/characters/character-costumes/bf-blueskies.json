@@ -5,7 +5,7 @@
   "assetPath": "characters/boyfriend/BlueSkiesBoyFriend_Assets",
   "flipX": true,
   "singTime": 8.0,
-  "healthIcon": {"id": "bfdoki"},
+  "healthIcon": { "id": "bfdoki" },
   "animations": [
     {
       "name": "idle",

@@ -85,7 +85,11 @@
   "cameraZoom": 1,
   "version": "1.0.0",
   "characters": {
-    "bf": { "zIndex": 300, "position": [1139, 958], "cameraOffsets": [-200, -100] },
+    "bf": {
+      "zIndex": 300,
+      "position": [1139, 958],
+      "cameraOffsets": [-200, -100]
+    },
     "dad": { "zIndex": 200, "position": [334, 950], "cameraOffsets": [160, 0] },
     "gf": { "zIndex": 0, "cameraOffsets": [200, 0], "position": [880, 992] }
   },

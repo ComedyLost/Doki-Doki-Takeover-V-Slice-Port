@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Boyfriend (Doki Pixel)",
-  "assetPath": "dialogue/bf",
+  "assetPath": "gameplay/dialogue/speakers/bf-doki/bf",
   "flipX": true,
   "isPixel": true,
   "scale": 5.4,

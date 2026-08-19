@@ -1,77 +1,77 @@
 {
-    "version": "1.0.0",
-    "name": "Sayori",
-    "assetPath": "gameplay/characters/sayori/costumes/default",
-    "flipX": false,
-    "singTime": 6,
-    "renderType": "multianimateatlas",
-    "healthIcon": {"id": "sayori"},
-    "playerCameraOffsets": [0, 115],
-    "cameraOffsets": [0, 15],
-    "death": {"cameraOffsets": [-30, -200]},
-    "animations": [
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "danceLeft",
-            "prefix": "Dance Left"
-        },
-        {
-            "name": "danceRight",
-            "prefix": "Dance Right"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "nara",
-            "prefix": "Nara"
-        }
-    ],
-	"costumes": "sayori",
-	"costumelist": [
-		{
-			"internal_Name": "blueskies",
-			"assetPath": "gameplay/characters/sayori/costumes/blueskies"
-		},
-		{
-			"internal_Name": "casual",
-			"assetPath": "gameplay/characters/sayori/costumes/casual"
-		},
-		{
-			"internal_Name": "picnic",
-			"assetPath": "gameplay/characters/sayori/costumes/picnic"
-		},
-		{
-			"internal_Name": "grace",
-			"assetPath": "gameplay/characters/sayori/costumes/grace"
-		},
-		{
-			"internal_Name": "minus",
-			"assetPath": "gameplay/characters/sayori/costumes/minus"
-		},
-		{
-			"internal_Name": "sleepwear",
-			"assetPath": "gameplay/characters/sayori/costumes/sleepwear"
-		},
-		{
-			"internal_Name": "zipper",
-			"assetPath": "gameplay/characters/sayori/costumes/zipper"
-		}
-	],
-    "startingAnimation": "danceRight",
-    "isPixel": false,
-    "scale": 1,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Sayori",
+  "assetPath": "gameplay/characters/sayori/costumes/default",
+  "flipX": false,
+  "singTime": 6,
+  "renderType": "multianimateatlas",
+  "healthIcon": { "id": "sayori" },
+  "playerCameraOffsets": [0, 115],
+  "cameraOffsets": [0, 15],
+  "death": { "cameraOffsets": [-30, -200] },
+  "animations": [
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "danceLeft",
+      "prefix": "Dance Left"
+    },
+    {
+      "name": "danceRight",
+      "prefix": "Dance Right"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "nara",
+      "prefix": "Nara"
+    }
+  ],
+  "costumes": "sayori",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/sayori/costumes/blueskies"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/sayori/costumes/casual"
+    },
+    {
+      "internal_Name": "picnic",
+      "assetPath": "gameplay/characters/sayori/costumes/picnic"
+    },
+    {
+      "internal_Name": "grace",
+      "assetPath": "gameplay/characters/sayori/costumes/grace"
+    },
+    {
+      "internal_Name": "minus",
+      "assetPath": "gameplay/characters/sayori/costumes/minus"
+    },
+    {
+      "internal_Name": "sleepwear",
+      "assetPath": "gameplay/characters/sayori/costumes/sleepwear"
+    },
+    {
+      "internal_Name": "zipper",
+      "assetPath": "gameplay/characters/sayori/costumes/zipper"
+    }
+  ],
+  "startingAnimation": "danceRight",
+  "isPixel": false,
+  "scale": 1,
+  "Made_With": "the cigs Converter"
 }

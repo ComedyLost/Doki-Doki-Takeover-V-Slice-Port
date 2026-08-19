@@ -5,27 +5,21 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisall",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "bf-doki",
       "girlfriend": "gf-realdoki",
       "opponent": "sayori",
       "instrumental": "",
-      "opponentVocals": [
-        "sayori"
-      ],
-      "playerVocals": [
-        "bf-doki"
-      ]
+      "opponentVocals": ["sayori"],
+      "playerVocals": ["bf-doki"]
     },
     "album": "takeover",
     "stage": "dokifestival",
@@ -43,12 +37,7 @@
       "bpm": 185,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

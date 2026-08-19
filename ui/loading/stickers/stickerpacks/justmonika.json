@@ -2,7 +2,5 @@
   "version": "1.0.0",
   "name": "Just Monika",
   "artist": "SirDusterBuster",
-  "stickers": [
-    "ui/loading/stickers/graphics/doki-set-1/sticker-monika-1"
-  ]
+  "stickers": ["ui/loading/stickers/graphics/doki-set-1/sticker-monika-1"]
 }

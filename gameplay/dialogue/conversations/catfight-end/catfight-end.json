@@ -24,21 +24,27 @@
       "speakerAnimation": "sick",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"Hah... what was that about you not hitting fast notes, Yuri..?\""]
+      "text": [
+        "\"Hah... what was that about you not hitting fast notes, Yuri..?\""
+      ]
     },
     {
       "speaker": "yurileft",
       "speakerAnimation": "ehh",
       "box": "doki",
       "boxAnimation": "yuri",
-      "text": ["\"Huff... I see... I was correct about your conviction, though. No melody is too difficult for you.\""]
+      "text": [
+        "\"Huff... I see... I was correct about your conviction, though. No melody is too difficult for you.\""
+      ]
     },
     {
       "speaker": "sayorileft",
       "speakerAnimation": "ehh",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"Ehehe... You guys must be exhausted after that. Ooo! How about some tea and cookies?\""]
+      "text": [
+        "\"Ehehe... You guys must be exhausted after that. Ooo! How about some tea and cookies?\""
+      ]
     },
     {
       "speaker": "yurileft",

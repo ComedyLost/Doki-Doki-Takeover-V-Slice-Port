@@ -7,22 +7,20 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisonly",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "monika",
       "girlfriend": "nogf",
       "opponent": "sayori",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "stage": "musicroom",
     "noteStyle": "ddto",

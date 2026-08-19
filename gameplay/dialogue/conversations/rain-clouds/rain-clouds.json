@@ -38,7 +38,9 @@
       "speakerAnimation": "ehh",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"Hey- I wasn’t expecting anyone new. We haven’t even put out fliers for the club yet!\""]
+      "text": [
+        "\"Hey- I wasn’t expecting anyone new. We haven’t even put out fliers for the club yet!\""
+      ]
     },
     {
       "speaker": "sayorileft",
@@ -59,7 +61,9 @@
       "speakerAnimation": "ehh",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"Ehehe, if I knew we were expecting more members- I would've asked Natsuki to bake some welcome cupcakes!\""]
+      "text": [
+        "\"Ehehe, if I knew we were expecting more members- I would've asked Natsuki to bake some welcome cupcakes!\""
+      ]
     },
     {
       "speaker": "sayorileft",
@@ -73,21 +77,27 @@
       "speakerAnimation": "happ",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"I need to write this down for later: 'Plan Tea Party for Club Soon'\""]
+      "text": [
+        "\"I need to write this down for later: 'Plan Tea Party for Club Soon'\""
+      ]
     },
     {
       "speaker": "yuriright",
       "speakerAnimation": "smile",
       "box": "doki",
       "boxAnimation": "yuri",
-      "text": ["\"Sounds like you’re already very excited about our new guests. You haven’t even asked for their names yet-\""]
+      "text": [
+        "\"Sounds like you’re already very excited about our new guests. You haven’t even asked for their names yet-\""
+      ]
     },
     {
       "speaker": "sayorileft",
       "speakerAnimation": "ehh",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"Ah, right! Eheh, silly me. What’re your names, new literature club attendees?\""]
+      "text": [
+        "\"Ah, right! Eheh, silly me. What’re your names, new literature club attendees?\""
+      ]
     },
     {
       "speaker": "bfright",
@@ -108,7 +118,9 @@
       "speakerAnimation": "happ",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"You two are Boyfriend and Girlfriend? Aww, you look so cute together!!!\""]
+      "text": [
+        "\"You two are Boyfriend and Girlfriend? Aww, you look so cute together!!!\""
+      ]
     },
     {
       "speaker": "natsukileft",
@@ -136,7 +148,9 @@
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"Yes, we know that you guys are dating! We wanna know your NAMES!\""]
+      "text": [
+        "\"Yes, we know that you guys are dating! We wanna know your NAMES!\""
+      ]
     },
     {
       "speaker": "bfright",
@@ -178,7 +192,9 @@
       "speakerAnimation": "ehh",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"Eheheh... I’m sorry about that. If you don’t want to tell us your names, that’s ok!\""]
+      "text": [
+        "\"Eheheh... I’m sorry about that. If you don’t want to tell us your names, that’s ok!\""
+      ]
     },
     {
       "speaker": "sayorileft",
@@ -192,14 +208,18 @@
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"That lovely lavender lady over there is Yuri, and Natsuki is the one who’s real sassy today.\""]
+      "text": [
+        "\"That lovely lavender lady over there is Yuri, and Natsuki is the one who’s real sassy today.\""
+      ]
     },
     {
       "speaker": "yurileft",
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "yuri",
-      "text": ["\"With introductions aside... may we ask what these microphones are for?\""]
+      "text": [
+        "\"With introductions aside... may we ask what these microphones are for?\""
+      ]
     },
     {
       "speaker": "sayorileft",
@@ -255,7 +275,9 @@
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"You know, we’ve been working so hard on writing and poems lately. I think having a fun singing session with everyone is the perfect break we all need!\""]
+      "text": [
+        "\"You know, we’ve been working so hard on writing and poems lately. I think having a fun singing session with everyone is the perfect break we all need!\""
+      ]
     },
     {
       "speaker": "yurileft",
@@ -269,7 +291,9 @@
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "sayo",
-      "text": ["\"When you think about it, songs are just poems with music behind them, aren’t they?\""]
+      "text": [
+        "\"When you think about it, songs are just poems with music behind them, aren’t they?\""
+      ]
     },
     {
       "speaker": "sayorileft",

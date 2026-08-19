@@ -7,23 +7,21 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokisall",
     "album": "takeover",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "bf-doki",
       "girlfriend": "gf-realdoki",
       "opponent": "monika",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "stage": "dokiglitcher",
     "noteStyle": "ddto",

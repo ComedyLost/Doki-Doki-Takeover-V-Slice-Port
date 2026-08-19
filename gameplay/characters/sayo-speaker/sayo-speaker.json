@@ -1,68 +1,68 @@
 {
-    "version": "1.0.0",
-    "name": "Sayori (Speakers)",
-    "assetPath": "gameplay/characters/sayo-speaker/sayo-speaker",
-    "renderType": "animateatlas",
-    "flipX": false,
-    "singTime": 4,
-    "offsets": [-80, -50],
-    "cameraOffsets": [0, 0],
-    "animations": [
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "danceLeft",
-            "prefix": "Dance Left"
-        },
-        {
-            "name": "danceRight",
-            "prefix": "Dance Right"
-        },
-        {
-            "name": "scared",
-            "prefix": "Scared"
-        },
-        {
-            "name": "popout",
-            "prefix": "Pop Out"
-        },
-        {
-            "name": "gone",
-            "prefix": "Idle Gone"
-        },
-        {
-            "name": "danceLeft-alt",
-            "prefix": "Idle Gone"
-        },
-        {
-            "name": "danceRight-alt",
-            "prefix": "Idle Gone"
-        },
-        {
-            "name": "countdownGo",
-            "prefix": "Up"
-        },
-        {
-            "name": "necksnap",
-            "prefix": "Idle Gone"
-        }
-    ],
-    "startingAnimation": "",
-    "isPixel": false,
-    "scale": 1,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Sayori (Speakers)",
+  "assetPath": "gameplay/characters/sayo-speaker/sayo-speaker",
+  "renderType": "animateatlas",
+  "flipX": false,
+  "singTime": 4,
+  "offsets": [-80, -50],
+  "cameraOffsets": [0, 0],
+  "animations": [
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "danceLeft",
+      "prefix": "Dance Left"
+    },
+    {
+      "name": "danceRight",
+      "prefix": "Dance Right"
+    },
+    {
+      "name": "scared",
+      "prefix": "Scared"
+    },
+    {
+      "name": "popout",
+      "prefix": "Pop Out"
+    },
+    {
+      "name": "gone",
+      "prefix": "Idle Gone"
+    },
+    {
+      "name": "danceLeft-alt",
+      "prefix": "Idle Gone"
+    },
+    {
+      "name": "danceRight-alt",
+      "prefix": "Idle Gone"
+    },
+    {
+      "name": "countdownGo",
+      "prefix": "Up"
+    },
+    {
+      "name": "necksnap",
+      "prefix": "Idle Gone"
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": false,
+  "scale": 1,
+  "Made_With": "the cigs Converter"
 }

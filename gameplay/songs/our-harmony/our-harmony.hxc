@@ -118,7 +118,7 @@ class OurHarmonySong extends Song
     whiteflash.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(whiteflash);
   }
-  
+
   function onNoteHit(callback)
   {
     if (PlayState.instance == null) return;
@@ -206,7 +206,7 @@ class OurHarmonySong extends Song
     character.y = (stageCharData.position[1] - character.characterOrigin.y) + (data.offsets[1] ?? 0);
 
     character.originalPosition.set(character.x, character.y);
-    
+
     return character;
   }
 
@@ -230,7 +230,8 @@ class OurHarmonySong extends Song
   {
     super.onSongRetry(event);
     PlayState.instance.cameraZoomRate = 4;
-    FlxG.signals.postUpdate.addOnce(() -> {
+    FlxG.signals.postUpdate.addOnce(() ->
+    {
       PlayState.instance.iconP2.configure({id: 'our-harmony'});
     });
     var opponentStrums = PlayState.instance.opponentStrumline.strumlineNotes;

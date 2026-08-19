@@ -1,68 +1,68 @@
 {
-    "version": "1.0.0",
-    "name": "Yuri",
-    "renderType": "multianimateatlas",
-    "assetPath": "gameplay/characters/yuri/costumes/default",
-    "flipX": false,
-    "playerCameraOffsets": [0, 115],
-    "singTime": 6,
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Idle"
-        },
-        {
-            "name": "idle-alt",
-            "prefix": "Idle Alt"
-        },
-        {
-            "name": "breath",
-            "prefix": "Breath"
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        }
-    ],
-    "costumes": "yuri",
-	"costumelist": [
-		{
-			"internal_Name": "blueskies",
-			"assetPath": "gameplay/characters/yuri/costumes/blueskies"
-		},
-		{
-			"internal_Name": "casual",
-			"assetPath": "gameplay/characters/yuri/costumes/casual"
-		},
-		{
-			"internal_Name": "picnic",
-			"assetPath": "gameplay/characters/yuri/costumes/picnic"
-		},
-		{
-			"internal_Name": "taki",
-			"assetPath": "gameplay/characters/yuri/costumes/taki"
-		},
-		{
-			"internal_Name": "derby",
-			"assetPath": "gameplay/characters/yuri/costumes/derby"
-		},
-		{
-			"internal_Name": "tabi",
-			"assetPath": "gameplay/characters/yuri/costumes/tabi"
-		}
-	],
-    "scale": 1,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Yuri",
+  "renderType": "multianimateatlas",
+  "assetPath": "gameplay/characters/yuri/costumes/default",
+  "flipX": false,
+  "playerCameraOffsets": [0, 115],
+  "singTime": 6,
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle"
+    },
+    {
+      "name": "idle-alt",
+      "prefix": "Idle Alt"
+    },
+    {
+      "name": "breath",
+      "prefix": "Breath"
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    }
+  ],
+  "costumes": "yuri",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/yuri/costumes/blueskies"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/yuri/costumes/casual"
+    },
+    {
+      "internal_Name": "picnic",
+      "assetPath": "gameplay/characters/yuri/costumes/picnic"
+    },
+    {
+      "internal_Name": "taki",
+      "assetPath": "gameplay/characters/yuri/costumes/taki"
+    },
+    {
+      "internal_Name": "derby",
+      "assetPath": "gameplay/characters/yuri/costumes/derby"
+    },
+    {
+      "internal_Name": "tabi",
+      "assetPath": "gameplay/characters/yuri/costumes/tabi"
+    }
+  ],
+  "scale": 1,
+  "Made_With": "the cigs Converter"
 }

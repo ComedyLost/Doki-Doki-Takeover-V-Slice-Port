@@ -38,7 +38,9 @@
       "speakerAnimation": "neutral",
       "box": "doki",
       "boxAnimation": "natsu",
-      "text": ["\"You better not tell this to ANYONE, but I sometimes sing in front of the mirror into my hairbrush.\""]
+      "text": [
+        "\"You better not tell this to ANYONE, but I sometimes sing in front of the mirror into my hairbrush.\""
+      ]
     },
     {
       "speaker": "natsukileft",
@@ -66,7 +68,9 @@
       "speakerAnimation": "smile",
       "box": "doki",
       "boxAnimation": "yuri",
-      "text": ["\"Its just... picturing you doing that, its quite an adorable mental image.\""]
+      "text": [
+        "\"Its just... picturing you doing that, its quite an adorable mental image.\""
+      ]
     },
     {
       "speaker": "natsukileft",

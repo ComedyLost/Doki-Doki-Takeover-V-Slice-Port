@@ -28,7 +28,8 @@ class BigMonikaCharacter extends AnimateAtlasCharacter
         {
           this.playAnimation('lastNOTE_retry', true, true, false);
         }
-      case 'lastNOTE_end', 'lastNOTE_retry': this.alpha = 0;
+      case 'lastNOTE_end', 'lastNOTE_retry':
+        this.alpha = 0;
     }
   }
 

@@ -125,7 +125,7 @@ class JoyrideSong extends Song
           // PlayState.instance.currentCameraZoom = 1.6;
         case 1024:
           encoreTime = 0;
-      }  
+      }
     }
     lastStep = event.step;
   }

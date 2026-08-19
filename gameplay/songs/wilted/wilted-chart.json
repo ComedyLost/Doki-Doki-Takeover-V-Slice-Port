@@ -9,344 +9,344 @@
       "t": 0,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 19285.7142857143,
       "e": "FocusCamera",
       "v": {
-	"x": -50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": -50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 27857.1428571429,
       "e": "FocusCamera",
       "v": {
-	"x": 50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 36428.5714285714,
       "e": "FocusCamera",
       "v": {
-	"x": -50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": -50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 40714.2857142857,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 45000,
       "e": "FocusCamera",
       "v": {
-	"x": 50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 49285.7142857143,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 53571.4285714286,
       "e": "FocusCamera",
       "v": {
-	"x": -50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": -50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 57857.1428571429,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 62142.8571428571,
       "e": "FocusCamera",
       "v": {
-	"x": 50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 64285.7142857143,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 69107.1428571429,
       "e": "ChangeCharacterCL",
       "v": {
-	"newchar": "senpai-angry-ddto",
-	"character": "dad"
-}
+        "newchar": "senpai-angry-ddto",
+        "character": "dad"
+      }
     },
     {
       "t": 87857.1428571429,
       "e": "FocusCamera",
       "v": {
-	"duration": 4,
-	"x": -75,
-	"y": 0,
-	"ease": "CLASSIC",
-	"char": 2
-}
+        "duration": 4,
+        "x": -75,
+        "y": 0,
+        "ease": "CLASSIC",
+        "char": 2
+      }
     },
     {
       "t": 87857.1428571429,
       "e": "NoteSwapEvent",
       "v": {
-	"strumline": "playerStrumline",
-	"notestyle": "ddtopixel"
-}
+        "strumline": "playerStrumline",
+        "notestyle": "ddtopixel"
+      }
     },
     {
       "t": 87857.1428571429,
       "e": "NoteSwapEvent",
       "v": {
-	"strumline": "opponentStrumline",
-	"notestyle": "ddto"
-}
+        "strumline": "opponentStrumline",
+        "notestyle": "ddto"
+      }
     },
     {
       "t": 87857.1428571429,
       "e": "ChangeCharacterCL",
       "v": {
-	"newchar": "senpai-nonpixel",
-	"character": "dad"
-}
+        "newchar": "senpai-nonpixel",
+        "character": "dad"
+      }
     },
     {
       "t": 87857.1428571429,
       "e": "ChangeCharacterCL",
       "v": {
-	"newchar": "monika-pixelnew",
-	"character": "bf"
-}
+        "newchar": "monika-pixelnew",
+        "character": "bf"
+      }
     },
     {
       "t": 87857.1428571429,
       "e": "ZoomCamera",
       "v": {
-	"duration": 16,
-	"ease": "expoOut",
-	"zoom": 1.15,
-	"mode": "stage"
-}
+        "duration": 16,
+        "ease": "expoOut",
+        "zoom": 1.15,
+        "mode": "stage"
+      }
     },
     {
       "t": 94419.6428571429,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 94757.8125,
       "e": "ZoomCamera",
       "v": {
-	"ease": "expoOut",
-	"duration": 16,
-	"zoom": 1,
-	"mode": "stage"
-}
+        "ease": "expoOut",
+        "duration": 16,
+        "zoom": 1,
+        "mode": "stage"
+      }
     },
     {
       "t": 112500,
       "e": "PlayAnimation",
       "v": {
-	"target": "dad",
-	"anim": "swap",
-	"force": true
-}
+        "target": "dad",
+        "anim": "swap",
+        "force": true
+      }
     },
     {
       "t": 113571.428571429,
       "e": "FocusCamera",
       "v": {
-	"x": 50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 115714.285714286,
       "e": "FocusCamera",
       "v": {
-	"x": -50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": -50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 117857.142857143,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 124285.714285714,
       "e": "ChangeCharacterCL",
       "v": {
-	"newchar": "senpai-angry-ddto",
-	"character": "dad"
-}
+        "newchar": "senpai-angry-ddto",
+        "character": "dad"
+      }
     },
     {
       "t": 124285.714285714,
       "e": "ChangeCharacterCL",
       "v": {
-	"newchar": "monika",
-	"character": "bf"
-}
+        "newchar": "monika",
+        "character": "bf"
+      }
     },
     {
       "t": 124285.714285714,
       "e": "NoteSwapEvent",
       "v": {
-	"strumline": "opponentStrumline",
-	"notestyle": "ddtopixel"
-}
+        "strumline": "opponentStrumline",
+        "notestyle": "ddtopixel"
+      }
     },
     {
       "t": 124285.714285714,
       "e": "NoteSwapEvent",
       "v": {
-	"strumline": "playerStrumline",
-	"notestyle": "ddto"
-}
+        "strumline": "playerStrumline",
+        "notestyle": "ddto"
+      }
     },
     {
       "t": 124553.571428571,
       "e": "FocusCamera",
       "v": {
-	"x": 50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 126428.571428571,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 132857.142857143,
       "e": "FocusCamera",
       "v": {
-	"x": -50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": -50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 135000,
       "e": "FocusCamera",
       "v": {
-	"x": 0,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": 0,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     },
     {
       "t": 141428.571428571,
       "e": "FocusCamera",
       "v": {
-	"duration": 4,
-	"x": 50,
-	"y": 0,
-	"ease": "CLASSIC",
-	"char": 2
-}
+        "duration": 4,
+        "x": 50,
+        "y": 0,
+        "ease": "CLASSIC",
+        "char": 2
+      }
     },
     {
       "t": 143571.714285714,
       "e": "FocusCamera",
       "v": {
-	"x": -50,
-	"duration": 4,
-	"y": 0,
-	"char": 2,
-	"ease": "CLASSIC"
-}
+        "x": -50,
+        "duration": 4,
+        "y": 0,
+        "char": 2,
+        "ease": "CLASSIC"
+      }
     }
   ],
   "notes": {

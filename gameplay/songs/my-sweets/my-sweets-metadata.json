@@ -5,21 +5,19 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    }
+    "altInstrumentals": {},
+    "vocals": {}
   },
   "playData": {
     "stickerPack": "dokis",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "bf-doki",
       "girlfriend": "gf-realdoki",
       "opponent": "natsuki",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "album": "takeover",
     "stage": "dokiclubroom",
@@ -37,12 +35,7 @@
       "bpm": 160,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

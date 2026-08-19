@@ -117,15 +117,15 @@ class TitularMCMixSong extends Song
 
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-		if ((PlayState.instance?.isGameOverState ?? true)) return;
+    if ((PlayState.instance?.isGameOverState ?? true)) return;
 
     if (lastStep > event.step)
     {
-			lastStep = event.step;
-			return;
-		}
+      lastStep = event.step;
+      return;
+    }
 
-		for (step in lastStep...event.step)
+    for (step in lastStep...event.step)
     {
       switch (step + 1)
       {
@@ -134,7 +134,7 @@ class TitularMCMixSong extends Song
           oneMore();
         case 736:
           PlayState.instance.tweenCameraZoom(0.75, calcSectionLength(), true, FlxEase.expoOut);
-      }  
+      }
     }
     lastStep = event.step;
   }

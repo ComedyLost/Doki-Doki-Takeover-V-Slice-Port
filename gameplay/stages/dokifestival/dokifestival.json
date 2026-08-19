@@ -167,8 +167,16 @@
   "cameraZoom": 0.75,
   "version": "1.0.0",
   "characters": {
-    "bf": { "zIndex": 70, "position": [970, 850], "cameraOffsets": [-100, -200] },
-    "dad": { "zIndex": 60, "position": [300, 850], "cameraOffsets": [100, -100] },
+    "bf": {
+      "zIndex": 70,
+      "position": [970, 850],
+      "cameraOffsets": [-100, -200]
+    },
+    "dad": {
+      "zIndex": 60,
+      "position": [300, 850],
+      "cameraOffsets": [100, -100]
+    },
     "gf": { "zIndex": 50, "cameraOffsets": [0, 0], "position": [750, 775] }
   },
   "name": "The Clubroom (Festival)"

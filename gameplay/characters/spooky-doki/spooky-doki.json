@@ -1,77 +1,77 @@
 {
-    "version": "1.0.0",
-    "name": "Spooky Kids (DDTO)",
-    "assetPath": "gameplay/characters/spooky-doki/spooky-doki",
-    "renderType": "multianimateatlas",
-    "singTime": 4,
-    "death": {
-        "cameraOffsets": [-50, -60],
-        "cameraZoom": 0.9
+  "version": "1.0.0",
+  "name": "Spooky Kids (DDTO)",
+  "assetPath": "gameplay/characters/spooky-doki/spooky-doki",
+  "renderType": "multianimateatlas",
+  "singTime": 4,
+  "death": {
+    "cameraOffsets": [-50, -60],
+    "cameraZoom": 0.9
+  },
+  "offsets": [50, 50],
+  "cameraOffsets": [50, 100],
+  "animations": [
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
     },
-    "offsets": [50, 50],
-    "cameraOffsets": [50, 100],
-    "animations": [
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "singLEFTmiss",
-            "prefix": "Left Miss"
-        },
-        {
-            "name": "singRIGHTmiss",
-            "prefix": "Right Miss"
-        },
-        {
-            "name": "singDOWNmiss",
-            "prefix": "Down Miss"
-        },
-        {
-            "name": "singUPmiss",
-            "prefix": "Up Miss"
-        },
-        {
-            "name": "danceLeft",
-            "prefix": "Dance Left"
-        },
-        {
-            "name": "danceRight",
-            "prefix": "Dance Right"
-        },
-        {
-            "name": "danceLeft-alt",
-            "prefix": "Dance Left Alt"
-        },
-        {
-            "name": "danceRight-alt",
-            "prefix": "Dance Right Alt"
-        },
-        {
-            "name": "firstDeath",
-            "prefix": "First Death"
-        },
-        {
-            "name": "deathLoop",
-            "looped": true,
-            "prefix": "Death Loop"
-        },
-        {
-            "name": "deathConfirm",
-            "prefix": "Death Confirm"
-        }
-    ],
-    "flipX": true
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singLEFTmiss",
+      "prefix": "Left Miss"
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "Right Miss"
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "Down Miss"
+    },
+    {
+      "name": "singUPmiss",
+      "prefix": "Up Miss"
+    },
+    {
+      "name": "danceLeft",
+      "prefix": "Dance Left"
+    },
+    {
+      "name": "danceRight",
+      "prefix": "Dance Right"
+    },
+    {
+      "name": "danceLeft-alt",
+      "prefix": "Dance Left Alt"
+    },
+    {
+      "name": "danceRight-alt",
+      "prefix": "Dance Right Alt"
+    },
+    {
+      "name": "firstDeath",
+      "prefix": "First Death"
+    },
+    {
+      "name": "deathLoop",
+      "looped": true,
+      "prefix": "Death Loop"
+    },
+    {
+      "name": "deathConfirm",
+      "prefix": "Death Confirm"
+    }
+  ],
+  "flipX": true
 }

@@ -6,28 +6,22 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
     "stickerPack": "dokis",
     "songVariations": [],
-    "difficulties": [
-      "normal"
-    ],
+    "difficulties": ["normal"],
     "characters": {
       "player": "bf-doki",
       "girlfriend": "gf-realdoki",
       "opponent": "protag",
       "instrumental": "",
       "altInstrumentals": [],
-      "opponentVocals": [
-        "protag"
-      ],
-      "playerVocals": [
-        "bf-doki"
-      ]
+      "opponentVocals": ["protag"],
+      "playerVocals": ["bf-doki"]
     },
     "album": "takeover",
     "stage": "dokiclubroom",

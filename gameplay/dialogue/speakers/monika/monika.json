@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Monika",
-  "assetPath": "dialogue/monika",
+  "assetPath": "gameplay/dialogue/speakers/monika/monika",
   "flipX": false,
   "isPixel": true,
   "scale": 5.4,

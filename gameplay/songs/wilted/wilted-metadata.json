@@ -6,21 +6,19 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    }
+    "altInstrumentals": {},
+    "vocals": {}
   },
   "playData": {
     "stickerPack": "dokisonly",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "monika",
       "girlfriend": "gf",
       "opponent": "senpai-ddto",
       "instrumental": "",
-      "altInstrumentals": [      ]
+      "altInstrumentals": []
     },
     "album": "takeover",
     "stage": "wilted",
@@ -38,12 +36,7 @@
       "bpm": 112,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

@@ -1,120 +1,90 @@
 {
-    "version": "1.0.0",
-    "name": "Pixel BF (Va11halla)",
-    "renderType": "multisparrow",
-    "assetPath": "gameplay/characters/bf-pixelbar/newbfPixelbar",
-    "flipX": true,
-    "singTime": 4,
-    "healthIcon": {
-        "isPixel": false,
-        "id": "pixelbfdoki"
+  "version": "1.0.0",
+  "name": "Pixel BF (Va11halla)",
+  "renderType": "multisparrow",
+  "assetPath": "gameplay/characters/bf-pixelbar/newbfPixelbar",
+  "flipX": true,
+  "singTime": 4,
+  "healthIcon": {
+    "isPixel": false,
+    "id": "pixelbfdoki"
+  },
+  "death": {
+    "cameraOffsets": [-150, 50]
+  },
+  "animations": [
+    {
+      "name": "singLEFTmiss",
+      "prefix": "BF Left Miss",
+      "offsets": [0, 0]
     },
-    "death": {
-        "cameraOffsets": [-150, 50]
-    },    
-    "animations": [
-        {
-            "name": "singLEFTmiss",
-            "prefix": "BF Left Miss",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singUPmiss",
-            "prefix": "BF Up Miss",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "BFLeft",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "BFRight",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singDOWNmiss",
-            "prefix": "BF Down Miss",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singRIGHTmiss",
-            "prefix": "BF Right Miss",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "BFDown",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "idle",
-            "prefix": "BFIdle",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "singUP",
-            "prefix": "BFUp",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "hey",
-            "prefix": "BFHey",
-            "offsets": [
-                0,
-                0
-            ]
-        },
-        {
-            "name": "firstDeath",
-            "prefix": "BF Dies pixel",
-            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
-            "offsets": [0, -4]
-        },
-        {
-            "name": "deathLoop",
-            "prefix": "Retry Loop",
-            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
-            "looped": true,
-            "offsets": [-5, -6]
-        },
-        {
-            "name": "deathConfirm",
-            "prefix": "RETRY CONFIRM",
-            "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
-            "offsets": [-5, -6]
-        }
-    ],
-    "startingAnimation": "",
-    "isPixel": true,
-    "scale": 6,
-    "Made_With": "the cigs Converter"
+    {
+      "name": "singUPmiss",
+      "prefix": "BF Up Miss",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "BFLeft",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "BFRight",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singDOWNmiss",
+      "prefix": "BF Down Miss",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singRIGHTmiss",
+      "prefix": "BF Right Miss",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "BFDown",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "idle",
+      "prefix": "BFIdle",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "singUP",
+      "prefix": "BFUp",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "hey",
+      "prefix": "BFHey",
+      "offsets": [0, 0]
+    },
+    {
+      "name": "firstDeath",
+      "prefix": "BF Dies pixel",
+      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "offsets": [0, -4]
+    },
+    {
+      "name": "deathLoop",
+      "prefix": "Retry Loop",
+      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "looped": true,
+      "offsets": [-5, -6]
+    },
+    {
+      "name": "deathConfirm",
+      "prefix": "RETRY CONFIRM",
+      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "offsets": [-5, -6]
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": true,
+  "scale": 6,
+  "Made_With": "the cigs Converter"
 }

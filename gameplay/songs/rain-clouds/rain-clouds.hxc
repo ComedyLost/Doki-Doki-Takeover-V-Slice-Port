@@ -17,7 +17,7 @@ class RainCloudsSong extends Song
     hasPlayedVideoCutscene = false;
     hasPlayedIntroCutscene = false;
   }
-  
+
   public override function queryAssets(type:AssetType):Array<AssetPath>
   {
     var results = super.queryAssets(type);

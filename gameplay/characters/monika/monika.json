@@ -1,71 +1,71 @@
 {
-    "version": "1.0.0",
-    "name": "Monika",
-    "renderType": "multianimateatlas",
-    "assetPath": "gameplay/characters/monika/costumes/default",
-    "flipX": false,
-    "singTime": 6,
-    "playerCameraOffsets": [0, 115],
-    "cameraOffsets": [0, 15],
-    "death": {"cameraOffsets": [-12, -100]},
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Idle"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "singUP-end",
-            "prefix": "Up End"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        }
-    ],
-	"costumes": "monika",
-	"costumelist": [
-		{
-			"internal_Name": "blueskies",
-            "assetPath": "gameplay/characters/monika/costumes/blueskies"
-		},
-		{
-			"internal_Name": "valentine",
-			"assetPath": "gameplay/characters/monika/costumes/valentine"
-		},
-		{
-			"internal_Name": "hex",
-			"assetPath": "gameplay/characters/monika/costumes/hex"
-		},
-		{
-			"internal_Name": "senpai",
-			"assetPath": "gameplay/characters/monika/costumes/senpai"
-		},
-		{
-			"internal_Name": "vigilante",
-			"assetPath": "gameplay/characters/monika/costumes/vigilante"
-		},
-		{
-			"internal_Name": "casual",
-			"assetPath": "gameplay/characters/monika/costumes/casual"
-		},
-		{
-			"internal_Name": "casuallong",
-			"assetPath": "gameplay/characters/monika/costumes/casuallong"
-		}
-	],
-    "startingAnimation": "",
-    "isPixel": false,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Monika",
+  "renderType": "multianimateatlas",
+  "assetPath": "gameplay/characters/monika/costumes/default",
+  "flipX": false,
+  "singTime": 6,
+  "playerCameraOffsets": [0, 115],
+  "cameraOffsets": [0, 15],
+  "death": { "cameraOffsets": [-12, -100] },
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "singUP-end",
+      "prefix": "Up End"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    }
+  ],
+  "costumes": "monika",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/monika/costumes/blueskies"
+    },
+    {
+      "internal_Name": "valentine",
+      "assetPath": "gameplay/characters/monika/costumes/valentine"
+    },
+    {
+      "internal_Name": "hex",
+      "assetPath": "gameplay/characters/monika/costumes/hex"
+    },
+    {
+      "internal_Name": "senpai",
+      "assetPath": "gameplay/characters/monika/costumes/senpai"
+    },
+    {
+      "internal_Name": "vigilante",
+      "assetPath": "gameplay/characters/monika/costumes/vigilante"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/monika/costumes/casual"
+    },
+    {
+      "internal_Name": "casuallong",
+      "assetPath": "gameplay/characters/monika/costumes/casuallong"
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": false,
+  "Made_With": "the cigs Converter"
 }

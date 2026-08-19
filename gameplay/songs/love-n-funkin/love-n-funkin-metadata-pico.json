@@ -6,21 +6,19 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    },
-    "altVocals": {    }
+    "altInstrumentals": {},
+    "vocals": {},
+    "altVocals": {}
   },
   "playData": {
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "stickerPack": "dokisall",
       "player": "pico-doki",
       "girlfriend": "nogf",
       "opponent": "sayori",
-		  "instrumental": "pico",
+      "instrumental": "pico",
       "altInstrumentals": [""]
     },
     "stage": "musicroom",
@@ -41,12 +39,7 @@
       "bpm": 128,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

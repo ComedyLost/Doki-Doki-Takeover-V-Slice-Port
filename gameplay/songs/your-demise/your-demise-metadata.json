@@ -6,15 +6,13 @@
   "looped": false,
   "offsets": {
     "instrumental": 0,
-    "altInstrumentals": {    },
-    "vocals": {    }
+    "altInstrumentals": {},
+    "vocals": {}
   },
   "playData": {
     "stickerPack": "justmonika",
-    "songVariations": [    ],
-    "difficulties": [
-      "normal"
-    ],
+    "songVariations": [],
+    "difficulties": ["normal"],
     "characters": {
       "player": "pixelbfangry-new",
       "girlfriend": "monika-angry",
@@ -42,12 +40,7 @@
       "bpm": 180,
       "n": 4,
       "d": 4,
-      "bt": [
-        4,
-        4,
-        4,
-        4
-      ]
+      "bt": [4, 4, 4, 4]
     }
   ]
 }

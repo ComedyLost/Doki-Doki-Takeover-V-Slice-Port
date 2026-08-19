@@ -7,12 +7,6 @@
     "color": "#BFB3DFD8"
   },
 
-  "music": {
-    "asset": "Lunchbox",
-    "fadeTime": 2.0,
-    "looped": true
-  },
-
   "outro": {
     "type": "none"
   },
@@ -24,7 +18,9 @@
       "box": "rosesClassic",
       "boxAnimation": "enter",
 
-      "text": ["First you steal my things, and then you pull something like that?"]
+      "text": [
+        "First you steal my things, and then you pull something like that?"
+      ]
     },
     {
       "speaker": "senpai-angry",

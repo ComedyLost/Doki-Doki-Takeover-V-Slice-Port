@@ -66,7 +66,7 @@ class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
   }
 
   public var missColor(get, never):FlxColor;
-  
+
   function get_missColor():FlxColor
   {
     if (PlayState.instance == null) return DEFAULT_COLORS[1];

@@ -8,7 +8,7 @@
   },
 
   "music": {
-    "asset": "Lunchbox",
+    "asset": "gameplay/dialogue/conversations/senpai/lunchbox/lunchbox",
     "fadeTime": 2.0,
     "looped": true
   },
@@ -44,7 +44,7 @@
       "text": ["-but where am I now?"]
     },
     {
-      "speaker": "bf",
+      "speaker": "bf-doki",
       "speakerAnimation": "bf_neutral",
       "box": "rosesClassic",
       "boxAnimation": "enter",
@@ -60,7 +60,7 @@
       "text": ["-Oh! Hello?"]
     },
     {
-      "speaker": "bf",
+      "speaker": "bf-doki",
       "speakerAnimation": "bf_neutral",
       "box": "rosesClassic",
       "boxAnimation": "enter",
@@ -76,7 +76,7 @@
       "text": ["You wanna sing?"]
     },
     {
-      "speaker": "bf",
+      "speaker": "bf-doki",
       "speakerAnimation": "bf_neutral",
       "box": "rosesClassic",
       "boxAnimation": "enter",
@@ -113,7 +113,9 @@
       "box": "ddlcpixel",
       "boxAnimation": "speaking",
 
-      "text": ["Usually I'd play piano while I sing, but this isn't a bad change of pace."]
+      "text": [
+        "Usually I'd play piano while I sing, but this isn't a bad change of pace."
+      ]
     },
     {
       "speaker": "monika",

@@ -8,7 +8,7 @@
       "assetPath": "gameplay/stages/musicroom/room",
       "scroll": [1, 1]
     },
-        {
+    {
       "zIndex": 50,
       "position": [-250, -100],
       "scale": [1.5, 1.5],
@@ -29,8 +29,16 @@
   "cameraZoom": 1,
   "version": "1.0.0",
   "characters": {
-    "bf": { "zIndex": 40, "position": [1070, 850], "cameraOffsets": [-150, -200] },
-    "dad": { "zIndex": 30, "position": [300, 850], "cameraOffsets": [150, -100] },
+    "bf": {
+      "zIndex": 40,
+      "position": [1070, 850],
+      "cameraOffsets": [-150, -200]
+    },
+    "dad": {
+      "zIndex": 30,
+      "position": [300, 850],
+      "cameraOffsets": [150, -100]
+    },
     "gf": { "zIndex": 20, "cameraOffsets": [0, 0], "position": [750, 775] }
   },
   "name": "The Music Room"

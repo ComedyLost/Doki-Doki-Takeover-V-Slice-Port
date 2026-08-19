@@ -63,7 +63,9 @@
       "box": "rosesClassic",
       "boxAnimation": "idle",
 
-      "text": ["Didn't have enough fun making a fool of me last time you showed up?"]
+      "text": [
+        "Didn't have enough fun making a fool of me last time you showed up?"
+      ]
     },
     {
       "speaker": "senpai-angry",
@@ -71,7 +73,9 @@
       "box": "rosesClassic",
       "boxAnimation": "idle",
 
-      "text": ["Now you're bringing more of your hideously attractive friends here to mock me once again?"]
+      "text": [
+        "Now you're bringing more of your hideously attractive friends here to mock me once again?"
+      ]
     },
     {
       "speaker": "monika",

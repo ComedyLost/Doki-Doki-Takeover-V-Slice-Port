@@ -106,7 +106,7 @@ class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
           PlayState.instance.subStateClosed.addOnce((_) ->
           {
             deathSpriteMonika.kill();
-          });      
+          });
       }
     }
   }

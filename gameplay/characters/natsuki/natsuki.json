@@ -1,71 +1,71 @@
 {
-    "version": "1.0.0",
-    "name": "Natsuki",
-    "renderType": "multianimateatlas",
-    "assetPath": "gameplay/characters/natsuki/costumes/default",
-    "flipX": false,
-    "singTime": 6,
-    "offsets": [25, 0],
-    "cameraOffsets": [0, -50],
-    "animations": [
-        {
-            "name": "idle",
-            "prefix": "Idle"
-        },
-        {
-            "name": "singLEFT",
-            "prefix": "Left"
-        },
-        {
-            "name": "singRIGHT",
-            "prefix": "Right"
-        },
-        {
-            "name": "singDOWN",
-            "prefix": "Down"
-        },
-        {
-            "name": "singUP",
-            "prefix": "Up"
-        },
-        {
-            "name": "hmmph",
-            "prefix": "Hmph"
-        }
-    ],
-	"costumes": "natsuki",
-	"costumelist": [
-		{
-			"internal_Name": "blueskies",
-			"assetPath": "gameplay/characters/natsuki/costumes/blueskies"
-		},
-		{
-			"internal_Name": "buff",
-			"assetPath": "gameplay/characters/natsuki/costumes/buffsuki"
-		},
-		{
-			"internal_Name": "casual",
-			"assetPath": "gameplay/characters/natsuki/costumes/casual"
-		},
-		{
-			"internal_Name": "hank",
-			"assetPath": "gameplay/characters/natsuki/costumes/hank"
-		},
-		{
-			"internal_Name": "kapi",
-			"assetPath": "gameplay/characters/natsuki/costumes/kapi"
-		},
-		{
-			"internal_Name": "sunday",
-			"assetPath": "gameplay/characters/natsuki/costumes/sunday"
-		},
-		{
-			"internal_Name": "skater",
-			"assetPath": "gameplay/characters/natsuki/costumes/skater"
-		}
-	],
-    "startingAnimation": "",
-    "isPixel": false,
-    "scale": 1,
-    "Made_With": "the cigs Converter"
+  "version": "1.0.0",
+  "name": "Natsuki",
+  "renderType": "multianimateatlas",
+  "assetPath": "gameplay/characters/natsuki/costumes/default",
+  "flipX": false,
+  "singTime": 6,
+  "offsets": [25, 0],
+  "cameraOffsets": [0, -50],
+  "animations": [
+    {
+      "name": "idle",
+      "prefix": "Idle"
+    },
+    {
+      "name": "singLEFT",
+      "prefix": "Left"
+    },
+    {
+      "name": "singRIGHT",
+      "prefix": "Right"
+    },
+    {
+      "name": "singDOWN",
+      "prefix": "Down"
+    },
+    {
+      "name": "singUP",
+      "prefix": "Up"
+    },
+    {
+      "name": "hmmph",
+      "prefix": "Hmph"
+    }
+  ],
+  "costumes": "natsuki",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/natsuki/costumes/blueskies"
+    },
+    {
+      "internal_Name": "buff",
+      "assetPath": "gameplay/characters/natsuki/costumes/buffsuki"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/natsuki/costumes/casual"
+    },
+    {
+      "internal_Name": "hank",
+      "assetPath": "gameplay/characters/natsuki/costumes/hank"
+    },
+    {
+      "internal_Name": "kapi",
+      "assetPath": "gameplay/characters/natsuki/costumes/kapi"
+    },
+    {
+      "internal_Name": "sunday",
+      "assetPath": "gameplay/characters/natsuki/costumes/sunday"
+    },
+    {
+      "internal_Name": "skater",
+      "assetPath": "gameplay/characters/natsuki/costumes/skater"
+    }
+  ],
+  "startingAnimation": "",
+  "isPixel": false,
+  "scale": 1,
+  "Made_With": "the cigs Converter"
 }
