@@ -31,7 +31,7 @@ class ObsessionSong extends Song
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
+    vignette = new FunkinSprite().loadGraphic(Paths.image('gameplay/stages/dokiclubroom/vignette'));
     vignette.scrollFactor.set();
     vignette.alpha = 0;
 
@@ -42,7 +42,7 @@ class ObsessionSong extends Song
     PlayState.instance.add(vignette);
 
     staticshock = new FunkinSprite();
-    staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
+    staticshock.frames = Paths.getSparrowAtlas('gameplay/stages/dokiclubroom/static-shock');
     staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
     staticshock.animation.play('idle');
     staticshock.scrollFactor.set();
@@ -84,36 +84,51 @@ class ObsessionSong extends Song
     return durSeconds;
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+    super.onStepHit(event);
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
     {
-      case 480:
-        PlayState.instance.tweenCameraZoom(1.5, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, false, FlxEase.linear);
-        staticshock.visible = true;
-        staticshock.alpha = 0;
-        FlxTween.tween(staticshock, {alpha: 1}, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, {
-          ease: FlxEase.linear,
-          onComplete: function(tween:FlxTween)
-          {
-            staticshock.alpha = 0.1;
-          }
-        });
-      case 544:
-        PlayState.instance.add(whiteflash);
-        PlayState.instance.add(blackScreen);
-        FlxG.sound.play(Paths.sound('Lights_Shut_off'), 0.7);
-        PlayState.instance.currentChart.stickerPack = 'yuricrazy';
-      case 552:
-        blackScreenBG.alpha = 0.8;
-        PlayState.instance.currentStage.getBoyfriend().x = PlayState.instance.currentStage.getDad().x + 250;
-        vignette.alpha = 0.6;
-      case 568:
-        FlxTween.tween(whiteflash, {alpha: 0.15}, calcSectionLength(0.75), {ease: FlxEase.sineOut});
-        PlayState.instance.remove(blackScreen);
-      case 848:
-        blackScreentwo.visible = true;
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 480:
+          PlayState.instance.tweenCameraZoom(1.5, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, false, FlxEase.linear);
+          staticshock.visible = true;
+          staticshock.alpha = 0;
+          FlxTween.tween(staticshock, {alpha: 1}, ((Conductor.instance.stepLengthMs) / 14) / PlayState.instance.playbackRate, {
+            ease: FlxEase.linear,
+            onComplete: function(tween:FlxTween)
+            {
+              staticshock.alpha = 0.1;
+            }
+          });
+        case 544:
+          PlayState.instance.add(whiteflash);
+          PlayState.instance.add(blackScreen);
+          FunkinSound.playOnce(Paths.sound('gameplay/songs/obsession/lights-shut-off'), 0.7);
+          PlayState.instance.currentChart.stickerPack = 'yuricrazy';
+        case 552:
+          blackScreenBG.alpha = 0.8;
+          PlayState.instance.currentStage.getBoyfriend().x = PlayState.instance.currentStage.getDad().x + 250;
+          vignette.alpha = 0.6;
+        case 568:
+          FlxTween.tween(whiteflash, {alpha: 0.15}, calcSectionLength(0.75), {ease: FlxEase.sineOut});
+          PlayState.instance.remove(blackScreen);
+        case 848:
+          blackScreentwo.visible = true;  
+      }
+    }
+    lastStep = event.step;
   }
 
   public function onCountdownStart(event):Void

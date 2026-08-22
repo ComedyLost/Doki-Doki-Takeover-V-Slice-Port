@@ -22,7 +22,7 @@ class ConstrictedSong extends Song
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
+    vignette = new FunkinSprite().loadGraphic(Paths.image('gameplay/stages/dokiclubroom/vignette'));
     vignette.scrollFactor.set();
     vignette.cameras = [PlayState.instance.camHUD];
     vignette.setGraphicSize(Std.int(vignette.width / PlayState.instance.defaultHUDCameraZoom));
@@ -32,7 +32,7 @@ class ConstrictedSong extends Song
     vignette.zIndex = 2000;
     PlayState.instance.add(vignette);
 
-    zippergoo = new FunkinSprite(0, 0).loadGraphic(Paths.image('zippergoo'));
+    zippergoo = new FunkinSprite(0, 0).loadGraphic(Paths.image('gameplay/songs/constricted/zippergoo'));
     zippergoo.scrollFactor.set();
     zippergoo.cameras = [PlayState.instance.camHUD];
     zippergoo.setGraphicSize(Std.int(FlxG.width / PlayState.instance.defaultHUDCameraZoom));
@@ -50,18 +50,33 @@ class ConstrictedSong extends Song
     return durSeconds;
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+    super.onStepHit(event);
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
     {
-      case 624:
-        FlxTween.tween(zippergoo, {alpha: 1}, calcSectionLength(0.1), {ease: FlxEase.sineOut});
-        vignette.alpha = 0.2;
-        PlayState.instance.camGame.shake(0.01, calcSectionLength());
-      case 1024:
-        FlxTween.tween(zippergoo, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
-        FlxTween.tween(vignette, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 624:
+          FlxTween.tween(zippergoo, {alpha: 1}, calcSectionLength(0.1), {ease: FlxEase.sineOut});
+          vignette.alpha = 0.2;
+          PlayState.instance.camGame.shake(0.01, calcSectionLength());
+        case 1024:
+          FlxTween.tween(zippergoo, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
+          FlxTween.tween(vignette, {alpha: 0.01}, calcSectionLength(2), {ease: FlxEase.sineOut});
+      }
+    }
+    lastStep = event.step;
   }
 
   public function onSongRetry(event):Void

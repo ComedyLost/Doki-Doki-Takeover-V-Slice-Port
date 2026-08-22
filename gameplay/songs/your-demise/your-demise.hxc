@@ -234,7 +234,7 @@ class YourDemiseSong extends Song
 
     for (step in lastStep...event.step)
     {
-      switch (event.step)
+      switch (step + 1)
       {
         case 0:
           if (PlayStatePlaylist.isStoryMode) FlxTween.tween(blackScreen, {alpha: 0}, 0.5);

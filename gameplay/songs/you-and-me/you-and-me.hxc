@@ -381,7 +381,7 @@ class YouAndMeSong extends Song
     selectDokiSection = false;
     funnyChar = who;
     chosenDoki = num;
-    FlxG.sound.play(Paths.sound('confirmMenu'), 1);
+    FunkinSound.playOnce(Paths.sound('confirmMenu'), 1);
 
     for (i in 0...options.length)
     {

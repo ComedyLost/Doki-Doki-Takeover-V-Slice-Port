@@ -35,7 +35,7 @@ class MyConfessionSong extends Song
     super.onCreate(event);
     hasPlayedIntroCutscene = false;
     staticshock = new FunkinSprite();
-    staticshock.frames = Paths.getSparrowAtlas('clubroom/staticshock');
+    staticshock.frames = Paths.getSparrowAtlas('gameplay/stages/dokiclubroom/static-shock');
     staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
     staticshock.animation.play('idle');
     staticshock.scrollFactor.set();
@@ -48,7 +48,7 @@ class MyConfessionSong extends Song
     staticshock.screenCenter();
     PlayState.instance.add(staticshock);
 
-    vignette = new FunkinSprite().loadGraphic(Paths.image('vignette'));
+    vignette = new FunkinSprite().loadGraphic(Paths.image('gameplay/stages/dokiclubroom/vignette'));
     vignette.scrollFactor.set();
     vignette.alpha = 0;
     vignette.zIndex = 1600;
@@ -58,42 +58,47 @@ class MyConfessionSong extends Song
     PlayState.instance.add(vignette);
   }
 
-  function fetchAssetPaths():Array<String>
-  {
-    var results:Array<String> = super.fetchAssetPaths();
-
-    results.push(Paths.image('vignette'));
-    results.push(Paths.image('staticshock'));
-
-    return results;
-  }
-
   function startIntroDialogue()
   {
     PlayState.instance.startConversation('my-confession');
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+    super.onStepHit(event);
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
     {
-      case 749:
-        var dad:BaseCharacter = currentStage.getDad();
-        if (dad.characterId == 'sayori' && dad.currentCostume == 'grace') dad.playAnimation('nara', true, true);
-      case 752:
-        var dad:BaseCharacter = currentStage.getDad();
-        if (dad.characterId != 'sayori' || dad.currentCostume != 'grace') dad.playAnimation('nara', true, true);
-        staticshock.visible = true;
-        vignette.alpha = 0.2;
-        PlayState.instance.iconP2.updateHitbox();
-        if (!PlayState.instance.iconP2.hasAnimation('Depressed')) PlayState.instance.iconP2.animation.addByPrefix("Depressed", "depression arc", 24, false);
-        PlayState.instance.iconP2.playAnimation("Depressed", null, true);
-        PlayState.instance.iconP2.autoUpdate = false;
-      case 768:
-        vignette.alpha = 0;
-        staticshock.visible = false;
-        PlayState.instance.iconP2.autoUpdate = true;
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 749:
+          var dad:BaseCharacter = currentStage.getDad();
+          if (dad.characterId == 'sayori' && dad.currentCostume == 'grace') dad.playAnimation('nara', true, true);
+        case 752:
+          var dad:BaseCharacter = currentStage.getDad();
+          if (dad.characterId != 'sayori' || dad.currentCostume != 'grace') dad.playAnimation('nara', true, true);
+          staticshock.visible = true;
+          vignette.alpha = 0.2;
+          PlayState.instance.iconP2.updateHitbox();
+          if (!PlayState.instance.iconP2.hasAnimation('Depressed')) PlayState.instance.iconP2.animation.addByPrefix("Depressed", "depression arc", 24, false);
+          PlayState.instance.iconP2.playAnimation("Depressed", null, true);
+          PlayState.instance.iconP2.autoUpdate = false;
+        case 768:
+          vignette.alpha = 0;
+          staticshock.visible = false;
+          PlayState.instance.iconP2.autoUpdate = true;
+      }
+    }
+    lastStep = event.step;
   }
 
   public override function onUpdate(event:UpdateScriptEvent):Void

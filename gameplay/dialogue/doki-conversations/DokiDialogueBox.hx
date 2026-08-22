@@ -14,6 +14,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import openfl.filters.ShaderFilter;
 import haxe.Json;
+import funkin.audio.FunkinSound;
 
 using StringTools;
 
@@ -112,7 +113,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 
 		if (Paths.fileExists('music/' + dialogueData.startingMusic + '.ogg', MUSIC, 'preload'))
 		{
-			FlxG.sound.playMusic(Paths.music(dialogueData.startingMusic, 'preload'), 0.1);
+			FunkinSound.playOnceMusic(Paths.music(dialogueData.startingMusic, 'preload'), 0.1);
 			FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 	
@@ -200,7 +201,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 	
 			if (PlayerSettings.player1.controls.ACCEPT && dialogueEnded)
 			{
-				FlxG.sound.play(Paths.sound('clickText'), 0.8);
+				FunkinSound.playOnce(Paths.sound('clickText'), 0.8);
 				enddialogue();
 			}
 			else if (PlayerSettings.player1.controls.ACCEPT && dialogueStarted)
@@ -561,9 +562,9 @@ class DialogueBox extends FlxTypedSpriteGroup
 		switch (curCharacter)
 		{
 			case 'playsound':
-				FlxG.sound.play(Paths.sound(curDialogue.string));
+				FunkinSound.playOnce(Paths.sound(curDialogue.string));
 			case 'startmusic':
-				FlxG.sound.playMusic(Paths.music(curDialogue.string));
+				FunkinSound.playOnceMusic(Paths.music(curDialogue.string));
 			case 'endmusic':
 				if (FlxG.sound.music != null)
 					FlxG.sound.music.fadeOut(0.5, 0);
@@ -725,7 +726,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 			PlayState.camOverlay.filters = [new ShaderFilter(staticlol)];
 		}
 
-		FlxG.sound.play(Paths.sound('glitchin'));
+		FunkinSound.playOnce(Paths.sound('glitchin'));
 
 		new FlxTimer().start(0.5, function(tmr:FlxTimer)
 		{

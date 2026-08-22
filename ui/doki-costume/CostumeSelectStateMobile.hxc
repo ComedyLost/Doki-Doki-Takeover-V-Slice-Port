@@ -22,6 +22,7 @@ import flixel.sound.FlxSound;
 import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.save.Save;
 import flixel.util.FlxColor;
+import funkin.audio.FunkinSound;
 
 typedef CostumeData =
 {
@@ -276,14 +277,14 @@ class CostumeSelectStateMobile extends MusicBeatState
         selectedSomethin = true;
         Save.instance.flush();
         FlxG.sound.music.stop();
-        FlxG.sound.play(Paths.sound('cancelMenu'));
+        FunkinSound.playOnce(Paths.sound('cancelMenu'));
         var targetState:NextState = () -> new MainMenuState();
         if (options.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
         FlxG.switchState(targetState);
       }
       if (controls.BACK && selectingcostume)
       {
-        FlxG.sound.play(Paths.sound('cancelMenu'));
+        FunkinSound.playOnce(Paths.sound('cancelMenu'));
         costumeselect(false);
 
         // Initial bug is that, if you have a selected character, but
@@ -415,7 +416,7 @@ class CostumeSelectStateMobile extends MusicBeatState
       flavorText.visible = true;
       flavorBar.visible = true;
 
-      FlxG.sound.play(Paths.sound('confirmMenu'));
+      FunkinSound.playOnce(Paths.sound('confirmMenu'));
 
       var daSelection = costumeJSON.list[curSelected];
       trace(daSelection);
@@ -466,7 +467,7 @@ class CostumeSelectStateMobile extends MusicBeatState
   function changeItem(huh:Int = 0)
   {
     if (huh == null) huh = 0;
-    FlxG.sound.play(Paths.sound('scrollMenu'));
+    FunkinSound.playOnce(Paths.sound('scrollMenu'));
     curSelected += huh;
 
     if (curSelected >= character.length) curSelected = 0;
@@ -492,7 +493,7 @@ class CostumeSelectStateMobile extends MusicBeatState
     if (huh == null) huh = 0;
     if (goingforward == null) goingforward = true;
     var daChoice:String = character[curSelected];
-    FlxG.sound.play(Paths.sound('scrollMenu'));
+    FunkinSound.playOnce(Paths.sound('scrollMenu'));
     costumeSelected += huh;
 
     trace(hueh);
@@ -588,9 +589,9 @@ class CostumeSelectStateMobile extends MusicBeatState
       chara.color = 0xFFFFFF;
       loadcharacter(daChoice);
 
-      if (daChoice == "natsuki" && costumeSelected == 0 && SaveData.natsukicostume == "buff") FlxG.sound.play(Paths.sound('buff'));
+      if (daChoice == "natsuki" && costumeSelected == 0 && SaveData.natsukicostume == "buff") FunkinSound.playOnce(Paths.sound('buff'));
       else
-        FlxG.sound.play(Paths.sound('confirmMenu'));
+        FunkinSound.playOnce(Paths.sound('confirmMenu'));
     }
   }
 

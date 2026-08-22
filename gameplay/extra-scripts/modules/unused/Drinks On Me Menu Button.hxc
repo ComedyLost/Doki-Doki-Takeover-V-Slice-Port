@@ -57,7 +57,7 @@ class DOMButton extends Module
 
   function openSong()
   {
-    FlxG.sound.play(Paths.sound('va11hallaSelect'));
+    FunkinSound.playOnce(Paths.sound('va11hallaSelect'));
     FlxFlicker.flicker(shaker, 1, 0.06, false, false);
 
     var targetSong:Song = SongRegistry.instance.fetchEntry('drinks-on-me');

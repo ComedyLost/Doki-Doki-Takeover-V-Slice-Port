@@ -1,6 +1,5 @@
 import funkin.play.PlayState;
 import funkin.play.song.Song;
-import funkin.Highscore;
 import funkin.save.Save;
 import funkin.modding.module.ModuleHandler;
 
@@ -11,15 +10,29 @@ class ItsComplicatedSayoriMix extends Song
     super('its-complicated-sayori-mix');
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    if (PlayState.instance == null) return;
-    switch (event.step)
+    super.onStepHit(event);
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
     {
-      case 260:
-        ModuleHandler.getModule('Credits').scriptCall('tweenIn');
-      case 320:
-        ModuleHandler.getModule('Credits').scriptCall('tweenOut');
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 260:
+          ModuleHandler.getModule('Credits').scriptCall('tweenIn');
+        case 320:
+          ModuleHandler.getModule('Credits').scriptCall('tweenOut');
+      }
+    }
+    lastStep = event.step;
   }
 }

@@ -9,57 +9,44 @@
   "animations": [
     {
       "name": "danceLeft",
-      "prefix": "GF Dancing Beat",
-      "frameIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      "offsets": [0, -9]
+      "prefix": "Dance Left"
     },
     {
       "name": "danceRight",
-      "prefix": "GF Dancing Beat",
-      "frameIndices": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28],
-      "offsets": [0, -9]
+      "prefix": "Dance Right"
     },
     {
       "name": "countdownThree",
-      "prefix": "GF countdown",
-      "frameIndices": [0, 1, 2, 3, 4, 5, 6],
-      "offsets": [0, -9]
+      "prefix": "Countdown Three"
     },
     {
       "name": "countdownTwo",
-      "prefix": "GF countdown",
-      "frameIndices": [7, 8, 9, 10, 11, 12, 13, 14, 15],
-      "offsets": [0, -9]
+      "prefix": "Countdown Two"
     },
     {
       "name": "countdownOne",
-      "prefix": "GF countdown",
-      "frameIndices": [16, 17, 18, 19, 20, 21, 22, 23],
-      "offsets": [0, -9]
+      "prefix": "Countdown One"
     },
     {
       "name": "countdownGo",
-      "prefix": "GF countdown",
-      "frameIndices": [24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
-      "offsets": [0, -9]
+      "prefix": "Countdown Go"
     },
     {
       "name": "GF Necksnap",
-      "prefix": "GF NECKSNAP",
-      "looped": true,
-      "offsets": [0, -22]
+      "prefix": "Necksnap",
+      "looped": true
+    },
+    {
+      "name": "combo50",
+      "prefix": "Cheer"
     },
     {
       "name": "sad",
-      "prefix": "gf sad",
-      "frameIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      "offsets": [0, -17]
+      "prefix": "Sob"
     },
     {
       "name": "drop70",
-      "prefix": "gf sad",
-      "frameIndices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      "offsets": [0, -17]
+      "prefix": "Sob"
     }
   ],
   "costumes": "gf",

@@ -258,13 +258,13 @@ class DokiMainMenuState extends MusicBeatState
 
       if (controls.UI_UP_P)
       {
-        FlxG.sound.play(Paths.sound('ui/doki-main-menu/scroll-menu'));
+        FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/scroll-menu'));
         changeItem(-1);
       }
 
       if (controls.UI_DOWN_P)
       {
-        FlxG.sound.play(Paths.sound('ui/doki-main-menu/scroll-menu'));
+        FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/scroll-menu'));
         changeItem(1);
       }
 
@@ -351,7 +351,7 @@ class DokiMainMenuState extends MusicBeatState
   {
     acceptInput = false;
     selectedSomethin = true;
-    FlxG.sound.play(Paths.sound('ui/doki-main-menu/confirm-menu'));
+    FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/confirm-menu'));
 
     menuItems.forEach(function(txt:FlxText)
     {
@@ -380,7 +380,7 @@ class DokiMainMenuState extends MusicBeatState
   {
     if (!selectedSomethin && acceptInput)
     {
-      if (curSelected != spr.ID) FlxG.sound.play(Paths.sound('ui/doki-main-menu/scroll-menu'));
+      if (curSelected != spr.ID) FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/scroll-menu'));
 
       if (!selectedSomethin) curSelected = spr.ID;
     }
@@ -403,7 +403,7 @@ class DokiMainMenuState extends MusicBeatState
   {
     acceptInput = false;
     selectedSomethin = true;
-    FlxG.sound.play(Paths.sound('ui/doki-main-menu/va11halla-select'));
+    FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/va11halla-select'));
     FlxFlicker.flicker(shaker, 1, 0.06, false, false);
 
     var targetSong:Song = SongRegistry.instance.fetchEntry('drinks-on-me');
