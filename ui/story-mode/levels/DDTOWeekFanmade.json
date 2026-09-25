@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "New Club Activity",
+  "name": "New Club Activities",
   "titleAsset": "ui/story-mode/levels/weekS",
   "visible": false,
   "props": [],
@@ -8,5 +8,5 @@
     "name": "FANMADE"
   },
   "background": "#A1F9FF",
-  "songs": ["rain-clouds-2026", "dokidoggle"]
+  "songs": ["rain-clouds-2026"]
 }

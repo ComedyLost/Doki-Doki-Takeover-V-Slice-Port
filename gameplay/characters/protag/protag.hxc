@@ -19,6 +19,8 @@ using funkin.util.AnsiUtil;
 // player offset fix by cyn0x8
 class ProtagBaseCharacter extends MultiAnimateAtlasCharacter
 {
+  var SaveData:FlxSave;
+  
   public function new(characterId:String)
   {
     // This tells CharacterDataParser to load Protag instead of an invalid character!

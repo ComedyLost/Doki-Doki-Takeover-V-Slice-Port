@@ -6,22 +6,11 @@ import funkin.graphics.FunkinBackdrop;
 import flixel.tweens.FlxEase;
 import funkin.Conductor;
 import flixel.util.FlxTimer;
-import funkin.modding.module.ModuleHandler;
-import funkin.modding.base.ScriptedFlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
-import openfl.utils.Assets;
-import flixel.FlxCamera;
 import funkin.graphics.FunkinCamera;
-import flixel.util.FlxTimer;
-import funkin.data.notestyle.NoteStyleRegistry;
-import funkin.play.notes.NoteSplash;
-import funkin.play.notes.NoteHoldCover;
-import funkin.play.notes.NoteSprite;
-import funkin.play.notes.notestyle.NoteStyle;
-import funkin.play.notes.Strumline;
-import funkin.Highscore;
-import flixel.FlxCameraFollowStyle;
+import funkin.play.character.CharacterType;
+import flixel.math.FlxPoint;
 
 class CreditsStage extends Stage
 {
@@ -31,17 +20,18 @@ class CreditsStage extends Stage
   }
 
   var time:Float = 0;
+  var camBG:FunkinCamera;
+
+  var fish:FlxRuntimeShader = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/FishEyeShader")));
+  var fishshader:ShaderFilter = new ShaderFilter(fish);
+
+  var staticShader:FlxRuntimeShader = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/StaticShader")));
+  var shaderstat:ShaderFilter = new ShaderFilter(staticShader);
+
   var dokiBackdrop:FunkinBackdrop;
   var creditsBG:FunkinBackdrop;
-  var wiltedhey:FunkinSprite;
-  var wiltedhey_senpai:FunkinSprite;
-  var whiteflash:FunkinSprite;
-  var camBG:FunkinCamera;
-  var fish = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/FishEyeShader")));
-  var fishshader = new ShaderFilter(fish);
-
-  var staticShader = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/StaticShader")));
-  var shaderstat = new ShaderFilter(staticShader);
+  
+  var stageCamera:FlxPoint = FlxPoint.get();
 
   override function onUpdate(event:UpdateScriptEvent)
   {
@@ -49,7 +39,7 @@ class CreditsStage extends Stage
     time++;
     staticShader.setFloat('iTime', time);
 
-    camBG.zoom = PlayState.instance.camGame.zoom;
+    camBG.zoom = FlxG.camera.zoom;
     camBG.scroll = FlxG.camera.scroll;
   }
 
@@ -65,8 +55,7 @@ class CreditsStage extends Stage
     FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
     PlayState.instance.camGame.bgColor = 0x0;
 
-    getNamedProp('solid').cameras = [camBG];
-    dokiBackdrop = new FunkinBackdrop(Paths.image('scrollingBG'));
+    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
     dokiBackdrop.scrollFactor.set(0.1, 0.1);
     dokiBackdrop.velocity.set(-10, 0);
     dokiBackdrop.alpha = 0.3;
@@ -74,25 +63,63 @@ class CreditsStage extends Stage
     add(dokiBackdrop);
     dokiBackdrop.cameras = [camBG];
 
-    creditsBG = new FunkinBackdrop(Paths.image('credits/pocBackground'));
+    creditsBG = new FunkinBackdrop(Paths.image('gameplay/stages/credits/poc-background'));
     creditsBG.scrollFactor.set(0.1, 0.1);
     creditsBG.velocity.set(-50, 0);
     creditsBG.zIndex = 20;
     add(creditsBG);
     creditsBG.cameras = [camBG];
 
-    var scanline:FunkinBackdrop = new FunkinBackdrop(Paths.image('credits/scanlines'));
+    var scanline:FunkinBackdrop = new FunkinBackdrop(Paths.image('gameplay/stages/credits/scanlines'));
     scanline.scrollFactor.set(0.1, 0.1);
     scanline.velocity.set(0, 20);
     add(scanline);
     scanline.cameras = [camBG];
 
-    var gradient:FunkinSprite = new FunkinSprite().loadGraphic(Paths.image('credits/gradent'));
+    var gradient:FunkinSprite = new FunkinSprite().loadGraphic(Paths.image('gameplay/stages/credits/gradent'));
     gradient.scrollFactor.set(0.1, 0.1);
     gradient.screenCenter();
     gradient.setGraphicSize(Std.int(gradient.width * 1.6));
     add(gradient);
     gradient.cameras = [camBG];
+
+    stageCamera.set(640 + -60, 360 + 100);
+    FlxG.signals.postUpdate.addOnce(() -> {
+      PlayState.instance.tweenCameraToPosition(stageCamera.x, stageCamera.y);
+    });
+  }
+  
+  public override function onSongEvent(scriptEvent:SongEventScriptEvent)
+  {
+    if (scriptEvent.eventData.eventKind == "FocusCamera")
+    {
+      if (scriptEvent.eventCanceled) return;
+      var eventProps = scriptEvent.eventData.value;
+      switch (Std.parseInt(eventProps.char))
+      {
+        case 0, 1, 2:
+          scriptEvent.cancel();
+          scriptEvent.eventData.activated = true;
+          PlayState.instance.resetCamera(false, false, false);
+          PlayState.instance.cancelCameraFollowTween();
+          PlayState.instance.cameraFollowPoint.setPosition(stageCamera.x, stageCamera.y);
+      }
+    }
+  }
+
+  public function addCharacter(character:BaseCharacter, charType:CharacterType):Void
+  {
+    super.addCharacter(character, charType);
+    switch (character.characterId)
+    {
+      case 'monika-pixelnew': character.y += 50;
+    }
+  }
+
+  public function setOpponentBackground(?id:Null<String>)
+  {
+    var finalName:String = (id != null ? id?.split('-')[0] : null);
+    getNamedProp('P2 Box Bottom').loadGraphic(Paths.image('gameplay/stages/credits/window-bottom${(finalName != null) ? '-$finalName' : ''}'));
   }
 
   public function onCountdownStart(event):Void

@@ -35,7 +35,7 @@ class BakaSong extends Song
     hasPlayedIntroCutscene = false;
 
     bakaOverlay = new FunkinSprite(0, 0);
-    bakaOverlay.frames = Paths.getSparrowAtlas('clubroom/BakaBGDoodles');
+    bakaOverlay.frames = Paths.getSparrowAtlas('gameplay/songs/baka/graphics/baka-bg-doodles');
     bakaOverlay.animation.addByPrefix('normal', 'Normal Overlay', 24, true);
     bakaOverlay.animation.addByPrefix('party rock is', 'Rock Overlay', 24, true);
     bakaOverlay.animation.addByPrefix('FUCK', 'Tank Overlay', 24, true);

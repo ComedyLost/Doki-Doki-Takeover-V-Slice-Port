@@ -22,11 +22,10 @@ class MusicRoomStage extends Stage
       case "love-n-funkin":
         getNamedProp('Music Room BG').loadGraphic(Paths.image('$STAGE_PATH/room-lnf'));
     }
-    if (PlayState.instance.camGame.width > FlxG.initialWidth)
+    if (DokiPreferences.nowidescreen && PlayState.instance.camGame.width > FlxG.initialWidth)
     {
-      // Lock camGame width on longer devices to prevent out of bounds from showing
-      PlayState.instance.camGame.width = FlxG.initialWidth;
-      PlayState.instance.camGame.x = FlxG.width / 2 - PlayState.instance.camGame.width / 2;
+      PlayState.instance.camGame.setPosition((FlxG.width - FlxG.initialWidth) / 2, (FlxG.height - FlxG.initialHeight) / 2);
+      PlayState.instance.camGame.setSize(FlxG.initialWidth, FlxG.initialHeight);
     }
   }
 }

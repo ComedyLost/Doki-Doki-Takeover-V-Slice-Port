@@ -16,14 +16,12 @@ class EpiphanyRetryConversation extends Conversation
   function new()
   {
     super('epiphany-retry');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (save.selfaware)
+    if (DokiPreferences.selfaware)
     {
       if (!NewgroundsClient.isLoggedIn()) _data.dialogue[0].text[0] = "\"Ahaha, welcome back.\"";
       else

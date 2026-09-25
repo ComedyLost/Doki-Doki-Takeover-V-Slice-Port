@@ -11,12 +11,10 @@ class CoolGameplay extends Module
   function new()
   {
     super("coolgameplay");
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var hueh231:FunkinSprite;
-  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var ddtoStages:Array<String> = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'credits'];
 
   override function onDestroy(event)
   {
@@ -28,7 +26,7 @@ class CoolGameplay extends Module
   {
     super.onCountdownStart(event);
     if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
-    if (!save.cool || hueh231 != null) return;
+    if (!DokiPreferences.cool || hueh231 != null) return;
     hueh231 = new FunkinSprite();
     hueh231.frames = Paths.getSparrowAtlas('gameplay/cool-gameplay/cool-gameplay');
     hueh231.animation.addByPrefix('idle', 'Symbol', 24, true);

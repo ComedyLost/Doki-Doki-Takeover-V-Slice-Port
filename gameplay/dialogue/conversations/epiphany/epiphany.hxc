@@ -16,14 +16,12 @@ class EpiphanyConversation extends Conversation
   function new()
   {
     super('epiphany');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   override function onCreate(event)
   {
     super.onCreate(event);
-    if (save.selfaware)
+    if (DokiPreferences.selfaware)
     {
       if (!NewgroundsClient.isLoggedIn())
       {

@@ -22,10 +22,23 @@ import flixel.input.touch.FlxTouch;
 import funkin.ui.FullScreenScaleMode;
 import flixel.util.FlxColor;
 import StringTools;
+import funkin.util.plugins.SidePanelPlugin;
+import funkin.modding.ModStore;
 
 class DokiTitleState extends MusicBeatState
 {
-  public static var initialized:Bool = false;
+  public static var initialized(get, set):Bool = false;
+
+  static function get_initialized():Bool
+  {
+    return ModStore.get('DokiTitleStateInitialized') ?? false;
+  }
+  
+  static function set_initialized(value:Bool):Bool
+  {
+    ModStore.stores.set('DokiTitleStateInitialized', value);
+    return value;
+  }
 
   var blackScreen:FunkinSprite;
   var credGroup:FlxTypedSpriteGroup<Dynamic>;
@@ -48,9 +61,13 @@ class DokiTitleState extends MusicBeatState
   override public function create():Void
   {
     super.create();
-    lastBeat = 0;
+    FlxG.signals.postStateSwitch.addOnce(() -> {
+      SidePanelPlugin.instance.panelState.panel.lock = true;
+      SidePanelPlugin.instance.panelState.visible = false;
+      SidePanelPlugin.instance.panelState.active = false;
+    });
 
-    save = DokiPreferences.getDokiSave();
+    lastBeat = 0;
 
     Conductor.instance.update(0);
 
@@ -96,7 +113,7 @@ class DokiTitleState extends MusicBeatState
       // Continue playing this music between states, until a different music track gets played.
       persist: true
     });
-    FlxG.sound.music._label = Paths.music('ui/main-menu/freaky-menu/freaky-menu');
+    if (DokiPreferences.menus != 'all') FlxG.sound.music._label = Paths.music('ui/main-menu/freaky-menu/freaky-menu');
     // Fade from 0.0 to 1 over 4 seconds
     FlxG.sound.music.fadeIn(4.0, 0.0, 1.0);
 
@@ -284,7 +301,8 @@ class DokiTitleState extends MusicBeatState
     if (pressedEnter && transitioning && skippedIntro)
     {
       var targetState:NextState = () -> new MainMenuState(true);
-      if (save.menus) targetState = () -> new DokiMainMenuState();
+      if (DokiPreferences.menus == 'all') targetState = () -> new DokiMainMenuState();
+      trace(DokiPreferences.menus);
       FlxG.switchState(targetState);
     }
 
@@ -298,7 +316,8 @@ class DokiTitleState extends MusicBeatState
       transitioning = true;
 
       var targetState:NextState = () -> new MainMenuState(true);
-      if (save.menus) targetState = () -> new DokiMainMenuState();
+      if (DokiPreferences.menus == 'all') targetState = () -> new DokiMainMenuState();
+      trace(DokiPreferences.menus);
       new FlxTimer().start(2, function(tmr:FlxTimer)
       {
         FlxG.switchState(targetState);

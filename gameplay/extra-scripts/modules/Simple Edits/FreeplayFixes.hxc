@@ -20,11 +20,12 @@ using StringTools;
 
 class DokiFreeplayFixes extends Module
 {
+  var DIRECTORY_NAME;
+
   public function new()
   {
     super('DokiFreeplayFixes');
-
-    save = DokiPreferences.getDokiSave();
+    DIRECTORY_NAME = PolymodHandler.modFileSystem.getMetadataByModId('doki-doki-takeover-plus').modPath;
   }
 
   var DokiKillHandler:ModuleHandler = ModuleHandler.getModule("KillDoki");
@@ -43,7 +44,7 @@ class DokiFreeplayFixes extends Module
     {
       if (playerChar.contains(dokis))
       {
-        if (!FileUtil.fileExists('${DokiKillHandler.DIRECTORY_NAME}/gameplay/chrs/' + dokis + '.chr') ?? false)
+        if (!FileUtil.fileExists('${DIRECTORY_NAME}/gameplay/chrs/' + dokis + '.chr') ?? false)
         {
           FlxG.state.subState.openSubState(new DokiMissingSubState());
         }
@@ -59,7 +60,7 @@ class DokiFreeplayFixes extends Module
   function customDisplay(cap:SongMenuItem)
   {
     if (cap?.freeplayData == null) return;
-    if (!FlxG.onMobile && save?.chrcheck)
+    if (!FlxG.onMobile && DokiPreferences.chrcheck)
     {
       var capsule = cap; // oh...
       for (dokis in ['monika', 'yuri', 'sayori', 'natsuki'])

@@ -1,7 +1,6 @@
 import funkin.graphics.FunkinSprite;
 import funkin.ui.story.StoryMenuState;
 import funkin.modding.module.Module;
-import Std;
 import flixel.FlxCamera;
 import funkin.graphics.FunkinCamera;
 

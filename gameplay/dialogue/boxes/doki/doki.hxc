@@ -26,18 +26,6 @@ class DokiDialogueBox extends DialogueBox
 
   final DEFAULT_SOUND_PATH:String = 'gameplay/dialogue/boxes/doki/sounds';
 
-  function set_animOffsets(value:Array<Float>):Array<Float>
-  {
-    // This should do NOTHING as the textbox shouldn't move at all
-    return value;
-  }
-
-  function set_globalOffsets(value:Array<Float>):Array<Float>
-  {
-    // This should do NOTHING as the textbox shouldn't move at all
-    return value;
-  }
-
   override function onCreate(event)
   {
     super.onCreate(event);
@@ -54,13 +42,13 @@ class DokiDialogueBox extends DialogueBox
     protagSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/mcText'), 0.6);
     zipSFX = FunkinSound.load(Paths.sound('$DEFAULT_SOUND_PATH/zipperText'), 0.6);
 
-    this.screenCenter(0x01);
     textDisplay.fieldWidth = Std.int(boxSprite.width * 0.85);
   }
 
   override public function playAnimation(name:String, restart:Bool = false, reversed:Bool = false):Void
   {
     super.playAnimation(name, restart, reversed);
+    this.screenCenter(0x01);
     textDisplay.sounds = switch (name)
     {
       case 'bf': [bfSFX];

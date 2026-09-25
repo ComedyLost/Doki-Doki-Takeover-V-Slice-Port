@@ -56,30 +56,29 @@ class ObsessionSong extends Song
     staticshock.screenCenter();
     PlayState.instance.add(staticshock);
 
-    blackScreen = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreen = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreen.scrollFactor.set();
     blackScreen.cameras = [PlayState.instance.camHUD];
 
-    blackScreenBG = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreenBG = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreenBG.alpha = 0.0001;
     blackScreenBG.zIndex = 55;
     blackScreenBG.scrollFactor.set();
     PlayState.instance.currentStage.add(blackScreenBG);
     PlayState.instance.currentStage.refresh();
 
-    blackScreentwo = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreentwo = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreentwo.scrollFactor.set();
     PlayState.instance.add(blackScreentwo);
 
-    whiteflash = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    whiteflash = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     whiteflash.scrollFactor.set();
     whiteflash.cameras = [PlayState.instance.camHUD];
     whiteflash.zIndex = 1500;
   }
 
-  function calcSectionLength(duration:Int)
+  function calcSectionLength(duration:Int = 1)
   {
-    if (duration == null) duration = 1;
     var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
     return durSeconds;
   }
@@ -113,6 +112,8 @@ class ObsessionSong extends Song
             }
           });
         case 544:
+          FlxTween.cancelTweensOf(staticshock);
+          staticshock.alpha = 0.1;
           PlayState.instance.add(whiteflash);
           PlayState.instance.add(blackScreen);
           FunkinSound.playOnce(Paths.sound('gameplay/songs/obsession/lights-shut-off'), 0.7);

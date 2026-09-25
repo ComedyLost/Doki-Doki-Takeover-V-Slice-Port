@@ -10,7 +10,7 @@ class FullPause extends Module
 {
   // Stole the code from Psych source lmao
   // Pause all tweens and timers when pausing
-  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var ddtoStages:Array<String> = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'credits'];
 
   override function onPause(event)
   {

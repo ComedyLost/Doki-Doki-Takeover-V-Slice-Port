@@ -17,6 +17,7 @@ class JoyrideSong extends Song
   var curDokiLight:FlxColor;
   var pastDokiLight:FlxColor;
   var encoreTime:Int;
+  var sunshine:FunkinSprite;
 
   final STAGE_PATH:String = 'gameplay/stages/musicroom';
 

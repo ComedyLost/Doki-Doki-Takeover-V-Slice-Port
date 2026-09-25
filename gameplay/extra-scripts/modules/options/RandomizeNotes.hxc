@@ -11,8 +11,6 @@ class RandomizeNotes extends Module
   function new()
   {
     super("randomnotes");
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var playerPrevNote;
@@ -23,7 +21,7 @@ class RandomizeNotes extends Module
     super.onCountdownStart(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    if (!save.random) return;
+    if (!DokiPreferences.random) return;
     if (playerPrevNote != null) playerPrevNote = null;
     if (opponentPrevNote != null) opponentPrevNote = null;
 

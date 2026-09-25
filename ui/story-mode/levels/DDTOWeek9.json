@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "name": "ALL TOGETHER NOW",
+  "titleAsset": "ui/story-mode/levels/weekMC",
+  "visible": false,
+  "capsule": {
+    "name": "MEDLEY"
+  },
+  "props": [],
+  "background": "#AF5341",
+  "songs": ["takeover-medley"]
+}

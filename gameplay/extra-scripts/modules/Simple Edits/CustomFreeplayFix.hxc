@@ -19,14 +19,12 @@ class FreeplayTransitionFix extends Module
     super('FreeplayTransitionFix');
 
     active = false;
-
-    save = DokiPreferences.getDokiSave();
   }
 
   override function onUpdate(event:UpdateScriptEvent)
   {
     super.onUpdate(event);
-    if (save.menus)
+    if (DokiPreferences.menus)
     {
       if (Std.isOfType(FlxG.state.subState, FreeplayState))
       {

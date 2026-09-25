@@ -47,7 +47,7 @@ class YourDemiseSong extends Song
     redStatic.alpha = 0;
     PlayState.instance.add(redStatic);
 
-    blackScreen = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreen = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreen.scrollFactor.set();
     blackScreen.alpha = 1;
     PlayState.instance.add(blackScreen);
@@ -259,7 +259,7 @@ class YourDemiseSong extends Song
 // Custom class to handle the countdown cuz fuck making a new notestyle
 class YourDemiseCountdown
 {
-  var countdownStep:CountdownStep;
+  static var countdownStep:CountdownStep;
 
   public static function performCountdown():Bool
   {

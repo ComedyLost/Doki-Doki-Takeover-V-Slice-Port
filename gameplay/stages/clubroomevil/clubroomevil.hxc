@@ -37,8 +37,6 @@ class EvilClubroomStage extends Stage
   function new()
   {
     super('clubroomevil');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   public function onCountdownStart(event:CountdownScriptEvent):Void
@@ -55,7 +53,7 @@ class EvilClubroomStage extends Stage
     bloom.setFloat('funsteps', 0.005);
     bloom.setFloat('funthreshhold', 0.95);
     bloom.setFloat('funbrightness', 8);
-    if (save.bloom) camBG.filters = [shaderstat];
+    if (DokiPreferences.bloom) camBG.filters = [shaderstat];
   }
 
   override function buildStage()

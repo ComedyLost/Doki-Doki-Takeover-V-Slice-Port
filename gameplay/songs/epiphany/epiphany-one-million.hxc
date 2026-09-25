@@ -16,8 +16,6 @@ class EpiphanyOneMillionSong extends Song
   function new()
   {
     super('epiphany-one-million');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   override function onUpdate(event:UpdateScriptEvent)

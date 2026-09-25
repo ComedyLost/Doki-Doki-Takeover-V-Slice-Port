@@ -5,66 +5,55 @@
   "name": "Yuri (Crazy)",
   "flipX": false,
   "singTime": 6,
-  "offsets": [0, 20],
-  "assetPath": "shared:characters/yuri/default-crazy",
+  "offsets": [-15, 0],
+  "assetPath": "gameplay/characters/yuri-crazy/costumes/default",
   "animations": [
     {
-      "offsets": [0, 0],
-      "prefix": "Yuri Crazy Idle",
+      "prefix": "Idle",
       "name": "idle"
     },
     {
-      "offsets": [109, 7],
-      "prefix": "Yuri Crazy Left",
+      "prefix": "Left",
       "name": "singLEFT"
     },
     {
-      "offsets": [-60, -2],
-      "prefix": "Yuri Crazy Right",
+      "prefix": "Right",
       "name": "singRIGHT"
     },
     {
-      "offsets": [12, -20],
-      "prefix": "Yuri Crazy Down",
+      "prefix": "Down",
       "name": "singDOWN"
     },
     {
-      "offsets": [34, 30],
-      "prefix": "Yuri Crazy Up",
+      "prefix": "Up",
       "name": "singUP"
     }
   ],
   "costumes": "yuri",
   "costumelist": [
     {
-      "subfolder": true,
       "internal_Name": "casual",
-      "charFile": "yuri-crazy-casual"
+      "assetPath": "gameplay/characters/yuri-crazy/costumes/casual"
     },
     {
-      "subfolder": true,
       "internal_Name": "blueskies",
-      "charFile": "yuri-crazy-blueskies"
+      "assetPath": "gameplay/characters/yuri-crazy/costumes/blueskies"
     },
     {
-      "subfolder": true,
       "internal_Name": "taki",
-      "charFile": "yuri-crazy-taki"
+      "assetPath": "gameplay/characters/yuri-crazy/costumes/taki"
     },
     {
-      "subfolder": true,
       "internal_Name": "derby",
-      "charFile": "yuri-crazy-derby"
+      "assetPath": "gameplay/characters/yuri-crazy/costumes/derby"
     },
     {
-      "subfolder": true,
       "internal_Name": "tabi",
-      "charFile": "yuri-crazy-tabi"
+      "assetPath": "gameplay/characters/yuri-crazy/costumes/tabi"
     },
     {
-      "subfolder": true,
       "internal_Name": "picnic",
-      "charFile": "yuri-crazy-picnic"
+      "assetPath": "gameplay/characters/yuri-crazy/costumes/picnic"
     }
   ]
 }

@@ -13,8 +13,6 @@ class CountdownGF extends Module
   function new()
   {
     super('CountdownGF');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   public override function onCountdownStep(event:CountdownScriptEvent):Void
@@ -24,7 +22,7 @@ class CountdownGF extends Module
     if (PlayState.instance.currentStage.getGirlfriend() == null) return;
 
     if (PlayState.instance.currentChart.characters.girlfriend == 'sayo-speaker') return;
-    if (!save.gfCountdown) return;
+    if (!DokiPreferences.gfCountdown) return;
     if (event.eventCanceled) return;
 
     switch (event.step)

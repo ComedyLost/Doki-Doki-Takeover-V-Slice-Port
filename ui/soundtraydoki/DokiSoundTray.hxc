@@ -21,7 +21,7 @@ class DokiSoundTray extends Module
   }
 
   // Only Doki Stages
-  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var ddtoStages:Array<String> = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'credits'];
   var resetSoundTray:Bool;
 
   final GRAPHIC_SCALE:Float = 0.30;
@@ -33,7 +33,7 @@ class DokiSoundTray extends Module
     if (event.targetState is PlayState)
     {
       resetSoundTray = true;
-      createTray('ui/soundtraydoki');
+      if (ddtoStages.contains(PlayState.instance.currentStageId)) createTray('ui/soundtraydoki');
     }
   }
 
@@ -42,7 +42,7 @@ class DokiSoundTray extends Module
     if (event.targetState is PlayState)
     {
       resetSoundTray = true;
-      createTray('ui/soundtraydoki');
+      if (ddtoStages.contains(PlayState.instance.currentStageId)) createTray('ui/soundtraydoki');
     }
   }
 
@@ -64,13 +64,6 @@ class DokiSoundTray extends Module
     }
   }
 
-  override function onCountdownStart(event:ScriptEvent)
-  {
-    super.onCountdownStart(event);
-    if (!ddtoStages.contains(PlayState.instance.currentStageId)) return;
-    createTray('ui/soundtraydoki');
-  }
-
   function createTray(path:String)
   {
     FlxG.sound.soundTray.removeChildren();
@@ -82,7 +75,7 @@ class DokiSoundTray extends Module
     FlxG.sound.soundTray.addChild(bg);
 
     FlxG.sound.soundTray.y = -FlxG.sound.soundTray.height;
-    visible = false;
+    FlxG.sound.soundTray.visible = false;
 
     // makes an alpha'd version of all the bars (bar_10.png)
     var backingBar:Bitmap = new Bitmap(Assets.getBitmapData(Paths.image('$path/bars-10')));

@@ -1,0 +1,179 @@
+{
+  "characters": [
+    {
+      "name": "fumo",
+      "spritePos": [640, 160],
+      "atlas": "ui/doki-main-menu/characters/fumo",
+      "prefix": "cirno_fumo",
+      "looped": false
+    },
+    {
+      "name": "yuriken",
+      "spritePos": [560, 100],
+      "atlas": "ui/doki-main-menu/characters/KenYuri",
+      "prefix": "Yuri and Ken",
+      "looped": true
+    },
+    {
+      "name": "sayominus",
+      "spritePos": [600, 240],
+      "atlas": "ui/doki-main-menu/characters/minussayori",
+      "prefix": "Minus Idle",
+      "scale": [0.8, 0.8],
+      "looped": true
+    },
+    {
+      "name": "senpai",
+      "spritePos": [540, 110],
+      "atlas": "ui/doki-main-menu/characters/Senpai",
+      "prefix": "senpai_microphone",
+      "scale": [0.9, 0.9],
+      "looped": true
+    },
+    {
+      "name": "sunnat",
+      "spritePos": [340, 260],
+      "atlas": "ui/doki-main-menu/characters/sunnat_menu",
+      "prefix": "sunday right",
+      "scale": [0.8, 0.8],
+      "looped": true
+    },
+    {
+      "name": "yuritabi",
+      "spritePos": [490, 90],
+      "atlas": "ui/doki-main-menu/characters/tabiandyuri",
+      "prefix": "Tabi Yuri together hueh",
+      "scale": [0.77, 0.77],
+      "frames": 21,
+      "looped": true
+    },
+    {
+      "name": "pixelmonika",
+      "spritePos": [600, 120],
+      "atlas": "ui/doki-main-menu/characters/pixelmonika",
+      "prefix": "Monika_Neutral_gif",
+      "scale": [0.7, 0.7],
+      "looped": false
+    },
+    {
+      "name": "minusmonikapixel",
+      "spritePos": [600, 80],
+      "atlas": "ui/doki-main-menu/characters/minusmonikapixel",
+      "prefix": "MinusMonika_gif",
+      "scale": [0.7, 0.7],
+      "looped": false
+    },
+    {
+      "name": "yuri",
+      "spritePos": [660, 130],
+      "atlas": "ui/doki-main-menu/characters/yuri",
+      "prefix": "Yuri BG",
+      "scale": [0.7, 0.7]
+    },
+    {
+      "name": "sayori",
+      "spritePos": [660, 180],
+      "atlas": "ui/doki-main-menu/characters/sayori",
+      "prefix": "Sayori BG",
+      "scale": [0.7, 0.7]
+    },
+    {
+      "name": "natsuki",
+      "spritePos": [640, 220],
+      "atlas": "ui/doki-main-menu/characters/natsuki",
+      "prefix": "Natsu BG",
+      "scale": [0.7, 0.7]
+    },
+    {
+      "name": "monika",
+      "spritePos": [570, 110],
+      "atlas": "ui/doki-main-menu/characters/monika",
+      "prefix": "Moni BG",
+      "scale": [0.7, 0.7]
+    },
+    {
+      "name": "protag",
+      "spritePos": [660, 110],
+      "atlas": "ui/doki-main-menu/characters/protag",
+      "prefix": "Protag-kun BG",
+      "scale": [0.7, 0.7]
+    },
+    {
+      "name": "akimonika",
+      "spritePos": [570, 90],
+      "atlas": "ui/doki-main-menu/characters/akihamoniduo",
+      "prefix": "Moni Akiha Menu",
+      "scale": [0.77, 0.77],
+      "frames": 21
+    },
+    {
+      "name": "cyrixstatic",
+      "spritePos": [500, 130],
+      "atlas": "ui/doki-main-menu/characters/cyrixstaticmenu",
+      "prefix": "Cyrix-Static Menu",
+      "frames": 21,
+      "looped": true
+    },
+    {
+      "name": "together",
+      "spritePos": [470, 40],
+      "atlas": "ui/doki-main-menu/characters/dokitogether",
+      "prefix": "Doki together club",
+      "scale": [0.7, 0.7],
+      "frames": 21
+    },
+    {
+      "name": "together1",
+      "spritePos": [490, 50],
+      "atlas": "ui/doki-main-menu/characters/dokitogetheralt",
+      "prefix": "Doki together club",
+      "scale": [0.77, 0.77],
+      "frames": 21
+    },
+    {
+      "name": "zipori",
+      "spritePos": [540, 90],
+      "atlas": "ui/doki-main-menu/characters/sayozip",
+      "prefix": "Sayo Zipper Menu",
+      "scale": [0.8, 0.8],
+      "looped": true
+    },
+    {
+      "name": "nathaachama",
+      "spritePos": [500, 200],
+      "atlas": "ui/doki-main-menu/characters/nathaachama",
+      "prefix": "Nat Haachama",
+      "scale": [0.85, 0.85],
+      "looped": true
+    },
+    {
+      "name": "nathank",
+      "spritePos": [430, 168],
+      "atlas": "ui/doki-main-menu/characters/NatHank",
+      "prefix": "NatHankMenu",
+      "scale": [0.85, 0.85]
+    },
+    {
+      "name": "indiehorror",
+      "spritePos": [410, 190],
+      "atlas": "ui/doki-main-menu/characters/indiehorror",
+      "prefix": "IndieHorror",
+      "scale": [0.8, 0.8]
+    },
+    {
+      "name": "deeppoems",
+      "spritePos": [410, 70],
+      "atlas": "ui/doki-main-menu/characters/deeppoems",
+      "prefix": "Deep Poems",
+      "scale": [0.9, 0.9]
+    },
+    {
+      "name": "sayomongus",
+      "spritePos": [600, 142],
+      "atlas": "ui/doki-main-menu/characters/sayomongus",
+      "prefix": "Sayo Impostor Menu",
+      "scale": [0.8, 0.8],
+      "looped": true
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+import flixel.util.FlxSave;
+
+class DokiPreferences
+{
+  public static var save(get, never):FlxSave;
+
+  static var _save:Null<FlxSave> = null;
+
+  static function get_save():FlxSave
+  {
+    if (_save == null)
+    {
+      _save = new FlxSave();
+      _save.bind("TakeoverOptions", "FunkinCrew");
+      _save.mergeData(getDefaultSave(), false);
+    }
+    return _save;
+  }
+
+  public static final TITLESCREEN_OPTIONS:Map<String> = ['None' => 'none', 'Title Only' => 'title', 'All Menus' => 'all']; 
+
+  public static var menus(get, set):FlxSave;
+
+  static function get_menus():FlxSave
+  {
+    return save.data.menus;
+  }
+
+  static function set_menus(value:Bool):FlxSave
+  {
+    save.data.menus = value;
+    flush();
+    return value;
+  }
+
+  public static var menus(get, set):FlxSave;
+
+  static function get_menus():FlxSave
+  {
+    return save.data.menus;
+  }
+
+  static function set_menus(value:Bool):FlxSave
+  {
+    save.data.menus = value;
+    flush();
+    return value;
+  }
+
+  public static var chrcheck(get, set):FlxSave;
+
+  static function get_chrcheck():FlxSave
+  {
+    return save.data.chrcheck;
+  }
+
+  static function set_chrcheck(value:Bool):FlxSave
+  {
+    save.data.chrcheck = value;
+    flush();
+    return value;
+  }
+
+  public static var selfaware(get, set):FlxSave;
+
+  static function get_selfaware():FlxSave
+  {
+    return save.data.selfaware;
+  }
+
+  static function set_selfaware(value:Bool):FlxSave
+  {
+    save.data.selfaware = value;
+    flush();
+    return value;
+  }
+
+  public static var gfCountdown(get, set):FlxSave;
+
+  static function get_gfCountdown():FlxSave
+  {
+    return save.data.gfCountdown;
+  }
+
+  static function set_gfCountdown(value:Bool):FlxSave
+  {
+    save.data.gfCountdown = value;
+    flush();
+    return value;
+  }
+
+  public static var bloom(get, set):FlxSave;
+
+  static function get_bloom():FlxSave
+  {
+    return save.data.bloom;
+  }
+
+  static function set_bloom(value:Bool):FlxSave
+  {
+    save.data.bloom = value;
+    flush();
+    return value;
+  }
+
+  public static var freeplayDialogue(get, set):FlxSave;
+
+  static function get_freeplayDialogue():FlxSave
+  {
+    return save.data.freeplayDialogue;
+  }
+
+  static function set_freeplayDialogue(value:Bool):FlxSave
+  {
+    save.data.freeplayDialogue = value;
+    flush();
+    return value;
+  }
+
+  public static var cool(get, set):FlxSave;
+
+  static function get_cool():FlxSave
+  {
+    return save.data.cool;
+  }
+
+  static function set_cool(value:Bool):FlxSave
+  {
+    save.data.cool = value;
+    flush();
+    return value;
+  }
+
+  public static var markov(get, set):FlxSave;
+
+  static function get_markov():FlxSave
+  {
+    return save.data.markov;
+  }
+
+  static function set_markov(value:Bool):FlxSave
+  {
+    save.data.markov = value;
+    flush();
+    return value;
+  }
+
+  public static var random(get, set):FlxSave;
+
+  static function get_random():FlxSave
+  {
+    return save.data.random;
+  }
+
+  static function set_random(value:Bool):FlxSave
+  {
+    save.data.random = value;
+    flush();
+    return value;
+  }
+
+  public static var pixel(get, set):FlxSave;
+
+  static function get_pixel():FlxSave
+  {
+    return save.data.pixel;
+  }
+
+  static function set_pixel(value:Bool):FlxSave
+  {
+    save.data.pixel = value;
+    flush();
+    return value;
+  }
+
+  public static var psychholds(get, set):FlxSave;
+
+  static function get_psychholds():FlxSave
+  {
+    return save.data.psychholds;
+  }
+
+  static function set_psychholds(value:Bool):FlxSave
+  {
+    save.data.psychholds = value;
+    flush();
+    return value;
+  }
+
+  public static var nowidescreen(get, set):FlxSave;
+
+  static function get_nowidescreen():FlxSave
+  {
+    return save.data.nowidescreen;
+  }
+
+  static function set_nowidescreen(value:Bool):FlxSave
+  {
+    save.data.nowidescreen = value;
+    flush();
+    return value;
+  }
+
+  public static function flush():Void
+  {
+    save.flush();
+  }
+
+  public static function getDefaultSave():Dynamic
+  {
+    return {
+      menus: 'title',
+      chrcheck: true,
+      selfaware: true,
+      gfCountdown: true,
+      bloom: true,
+      freeplayDialogue: true,
+      cool: false,
+      markov: true,
+      random: false,
+      pixel: false,
+      psychholds: false,
+      nowidescreen: false
+    }
+  }
+}

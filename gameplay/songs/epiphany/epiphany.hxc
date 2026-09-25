@@ -21,8 +21,6 @@ class EpiphanySong extends Song
   function new()
   {
     super('epiphany');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String>
@@ -60,7 +58,7 @@ class EpiphanySong extends Song
     super.onCountdownStart(event);
     if (PlayState.instance.isChartingMode && !hasPlayedCutscene) hasPlayedCutscene = true;
 
-    if (!hasPlayedCutscene && save.freeplayDialogue)
+    if (!hasPlayedCutscene && DokiPreferences.freeplayDialogue)
     {
       trace('Pausing countdown to play cutscene.');
 

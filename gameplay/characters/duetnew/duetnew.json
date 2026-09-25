@@ -4,7 +4,7 @@
   "assetPath": "gameplay/characters/duetnew/Duet",
   "flipX": false,
   "singTime": 4,
-  "healthIcon": { "id": "duet" },
+  "healthIcon": {"isPixel": false},
   "animations": [
     {
       "name": "singUP",

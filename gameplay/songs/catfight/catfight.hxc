@@ -27,8 +27,6 @@ class CatfightSong extends Song
   function new()
   {
     super('catfight');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var psychMod:Module;
@@ -39,6 +37,18 @@ class CatfightSong extends Song
   var hasPlayedOutroCutscene:Bool;
   var defaultCamPos;
 
+  var currentStage(get, never):Stage;
+
+  function get_currentStage():Stage
+  {
+    return PlayState.instance?.currentStage;
+  }
+  
+  function onCreate(event:ScriptEvent)
+  {
+    super.onCreate(event);
+  }
+
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
@@ -46,14 +56,14 @@ class CatfightSong extends Song
 
     if (playerCharacter == 'yuri')
     {
-      psychMod.active = false;
-      PlayState.instance.currentStage.getDad().characterType = 3;
-      PlayState.instance.currentStage.getBoyfriend().characterType = 3;
+      // psychMod.active = false;
+      currentStage.getDad().characterType = 3;
+      currentStage.getBoyfriend().characterType = 3;
     }
 
     if (PlayState.instance.isChartingMode) hasPlayedIntroCutscene = hasPlayedOutroCutscene = true;
 
-    if (!hasPlayedIntroCutscene && save.freeplayDialogue)
+    if (!hasPlayedIntroCutscene && DokiPreferences.freeplayDialogue)
     {
       trace('Pausing countdown to play cutscene.');
 
@@ -70,14 +80,13 @@ class CatfightSong extends Song
     PlayState.instance.playerStrumline.resetScrollSpeed();
     PlayState.instance.opponentStrumline.resetScrollSpeed();
 
-    if (PlayState.instance.currentStage.getBoyfriend()
-      .cameraFocusPoint.y == defaultCamPos) PlayState.instance.currentStage.getBoyfriend().cameraFocusPoint.y += 125;
+    if (currentStage.getBoyfriend().cameraFocusPoint.y == defaultCamPos) currentStage.getBoyfriend().cameraFocusPoint.y += 125;
   }
 
   public function onDestroy(event):Void
   {
     super.onDestroy(event);
-    psychMod.active = true;
+    // psychMod.active = true;
   }
 
   function startIntroDialogue()
@@ -119,19 +128,10 @@ class CatfightSong extends Song
     });
   }
 
-  function onCreate(event:ScriptEvent)
-  {
-    super.onCreate(event);
-    psychMod = ModuleHandler.getModule("PsychEngineHolds");
-    defaultCamPos = PlayState.instance.currentStage.getBoyfriend().cameraFocusPoint.y;
-    hasPlayedIntroCutscene = false;
-    hasPlayedOutroCutscene = false;
-  }
-
   override public function onSongEnd(event)
   {
     super.onSongEnd(event);
-    if (!hasPlayedOutroCutscene && save.freeplayDialogue)
+    if (!hasPlayedOutroCutscene && DokiPreferences.freeplayDialogue)
     {
       trace('Pausing countdown to play cutscene.');
 
@@ -164,8 +164,8 @@ class CatfightSong extends Song
     if (playerCharacter != 'yuri') return;
     FlxG.signals.postUpdate.addOnce(() ->
     {
-      PlayState.instance.currentStage.getDad().characterType = 3;
-      PlayState.instance.currentStage.getBoyfriend().characterType = 3;
+      currentStage.getDad().characterType = 3;
+      currentStage.getBoyfriend().characterType = 3;
       final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
       if (!FlxG.onMobile
         || (FlxG.onMobile
@@ -201,8 +201,8 @@ class CatfightSong extends Song
       PlayState.instance.vocals.opponentVoices.members[0] = playerVocals;
       PlayState.instance.healthBar.flipX = true;
       PlayState.instance.healthBarBG.flipX = true;
-      PlayState.instance.currentStage.getDad().characterType = 3;
-      PlayState.instance.currentStage.getBoyfriend().characterType = 3;
+      currentStage.getDad().characterType = 3;
+      currentStage.getBoyfriend().characterType = 3;
       final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
       if (!FlxG.onMobile
         || (FlxG.onMobile
@@ -244,8 +244,8 @@ class CatfightSong extends Song
   {
     super.onNoteGhostMiss(event);
     if (playerCharacter != 'yuri') return;
-    PlayState.instance.currentStage.getDad().playSingAnimation(event.dir, true);
-    PlayState.instance.currentStage.getDad().holdTimer = 0;
+    currentStage.getDad().playSingAnimation(event.dir, true);
+    currentStage.getDad().holdTimer = 0;
   }
 
   override public function onNoteMiss(event)
@@ -255,11 +255,11 @@ class CatfightSong extends Song
     switch (event.note.noteData.getStrumlineIndex())
     {
       case 0:
-        PlayState.instance.currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection(), true);
-        PlayState.instance.currentStage.getBoyfriend().holdTimer = 0;
+        currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection(), true);
+        currentStage.getBoyfriend().holdTimer = 0;
       case 1:
-        PlayState.instance.currentStage.getDad().playSingAnimation(event.note.noteData.getDirection(), true);
-        PlayState.instance.currentStage.getDad().holdTimer = 0;
+        currentStage.getDad().playSingAnimation(event.note.noteData.getDirection(), true);
+        currentStage.getDad().holdTimer = 0;
     }
   }
 
@@ -271,11 +271,11 @@ class CatfightSong extends Song
     switch (event.note.noteData.getStrumlineIndex())
     {
       case 0:
-        PlayState.instance.currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection());
-        PlayState.instance.currentStage.getBoyfriend().holdTimer = 0;
+        currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection());
+        currentStage.getBoyfriend().holdTimer = 0;
       case 1:
-        PlayState.instance.currentStage.getDad().playSingAnimation(event.note.noteData.getDirection());
-        PlayState.instance.currentStage.getDad().holdTimer = 0;
+        currentStage.getDad().playSingAnimation(event.note.noteData.getDirection());
+        currentStage.getDad().holdTimer = 0;
     }
   }
 
@@ -302,7 +302,7 @@ class CatfightSong extends Song
       if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
       {
         // Make sure the "opponent" keeps singing while the note is held.
-        PlayState.instance.currentStage?.getDad()?.holdTimer = 0;
+        currentStage?.getDad()?.holdTimer = 0;
       }
     }
     for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
@@ -313,7 +313,7 @@ class CatfightSong extends Song
       if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
       {
         // Make sure the "player" keeps singing while the note is held.
-        PlayState.instance.currentStage?.getBoyfriend()?.holdTimer = 0;
+        currentStage?.getBoyfriend()?.holdTimer = 0;
       }
     }
   }
@@ -369,8 +369,7 @@ class CatfightSong extends Song
 
             PlayState.instance.tweenCameraZoom(1, calcSectionLength(1), true, FlxEase.expoOut);
           case 1150:
-            PlayState.instance.cameraFollowPoint.setPosition(PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.x,
-              PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint.y - 125);
+            PlayState.instance.cameraFollowPoint.setPosition(currentStage.getGirlfriend().cameraFocusPoint.x, currentStage.getGirlfriend().cameraFocusPoint.y - 125);
             PlayState.instance.tweenCameraZoom(1.6, calcSectionLength(1), true, FlxEase.expoOut);
           case 1169:
             PlayState.instance.tweenCameraZoom(1.05, calcSectionLength(1), true, FlxEase.expoOut);

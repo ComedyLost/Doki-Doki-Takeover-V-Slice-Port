@@ -1,0 +1,128 @@
+import funkin.modding.module.Module;
+import funkin.play.PlayState;
+import funkin.PlayerSettings;
+import funkin.Highscore;
+import funkin.audio.FunkinSound;
+import funkin.ui.options.OptionsState;
+import funkin.save.Save;
+import funkin.ui.options.PreferencesMenu;
+import flixel.util.FlxSave;
+
+class DokiOptionStuff extends Module
+{
+  function new()
+  {
+    super("DokiOptionStuff", 1);
+  }
+
+  function onStateChangeEnd(callback)
+  {
+    super.onStateChangeEnd(callback);
+    if (!(callback.targetState is OptionsState)) return;
+    var preferencePage:PreferencesMenu = callback.targetState.optionsCodex.addPage('doki', new PreferencesMenu());
+    preferencePage.onExit.add(function()
+    {
+      FlxG.state.optionsCodex.switchPage('options');
+    });
+
+    preferencePage.preferenceDesc = [];
+    preferencePage.items.clear();
+    preferencePage.preferenceItems.clear();
+    var optionspage:Page = callback.targetState.optionsCodex.pages.get('options');
+    var exit = optionspage.items.getItem("EXIT") ?? null;
+    var option = optionspage.createItem("DDTO Options", function() FlxG.state.optionsCodex.switchPage('doki'));
+    if (exit != null)
+    {
+      optionspage.items.members.remove(option);
+      optionspage.items.members.insert(optionspage.items.members.indexOf(exit), option);
+    }
+    for (i in 0...optionspage.items.members.length)
+    {
+      var item = optionspage.items.members[i];
+      item.y = 100 + i * 100;
+    }
+
+    if (preferencePage != null)
+    {
+      createPrefItemOrderedEnum(preferencePage, "DDTO Menus", "Switch from no custom menus, title screen only, or full replacements.", DokiPreferences.TITLESCREEN_OPTIONS, (key, value) ->
+      {
+        DokiPreferences.menus = value;
+      }, DokiPreferences.menus, ['None', 'Title Only', 'All Menus']);
+      createPrefItem(preferencePage, "Enter DDTO Menus", "Enter the full DDTO experience", () -> {FlxG.switchState(() -> new DokiTitleState());});
+      #if !mobile
+      preferencePage.createPrefItemCheckbox("CHR File Check",
+        "Checks if the Dokis have their .chr files in the 'chrs' folder. (DISABLE IF YOU RUN INTO ANY ISSUES).", (value) ->
+        {
+          DokiPreferences.chrcheck = value;
+        }, DokiPreferences.chrcheck);
+      #end
+      preferencePage.createPrefItemCheckbox("Pixel Perfect Rendering", "Enables pixel perfect rendering for pixel sprites\nlike in pre 0.6.0 FNF versions.",
+        (value) ->
+        {
+          DokiPreferences.pixel = value;
+        }, DokiPreferences.pixel);
+      preferencePage.createPrefItemCheckbox("Self Awareness", "Allows Monika to access to your Newgrounds name.", (value) ->
+      {
+        DokiPreferences.selfaware = value;
+      }, DokiPreferences.selfaware);
+      preferencePage.createPrefItemCheckbox("Girlfriend Countdown", "Have Girlfriend count down before the song starts.", (value) ->
+      {
+        DokiPreferences.gfCountdown = value;
+      }, DokiPreferences.gfCountdown);
+      preferencePage.createPrefItemCheckbox("Bloom Shader",
+        "Enables the Bloom Shader in the Evil and Festival clubrooms.\n(DISABLE IF YOU EXPERIENCE LAG IN THOSE STAGES).", (value) ->
+        {
+          DokiPreferences.bloom = value;
+        }, DokiPreferences.bloom);
+      preferencePage.createPrefItemCheckbox("Markov Notes", "Self Explanatory. Enables Markov Notes.", (value) ->
+      {
+        DokiPreferences.markov = value;
+      }, DokiPreferences.markov);
+      preferencePage.createPrefItemCheckbox("Freeplay Cutscenes",
+        "Allows songs in Freeplay to play cutscenes\n(Ex. Epiphany, Epiphany with Lyrics, Catfight).", (value) ->
+        {
+          DokiPreferences.freeplayDialogue = value;
+        }, DokiPreferences.freeplayDialogue);
+      preferencePage.createPrefItemCheckbox("Cool Gameplay",
+        "Enables 9 Key Modchart Enabled Ultra Difficult Gameplay mode.\n(Ray Tracing Enabled, DLSS, Frame Generation).", (value) ->
+        {
+          DokiPreferences.cool = value;
+        }, DokiPreferences.cool);
+      preferencePage.createPrefItemCheckbox("Randomize Notes", "Enables randomized note placements\n(Automatically disables Markov Notes).", (value) ->
+      {
+        DokiPreferences.random = value;
+      }, DokiPreferences.random);
+      preferencePage.createPrefItemCheckbox("Game Border", "Adds a custom border for stages that don't appear correctly above 16:9 aspect ratios.", (value) ->
+      {
+        DokiPreferences.nowidescreen = value;
+      }, DokiPreferences.nowidescreen);
+      preferencePage.itemDesc.text = preferencePage.preferenceDesc[preferencePage.items.selectedIndex];
+    }
+  }
+  
+  function createPrefItemOrderedEnum(page:Page, prefName:String, prefDesc:String, values:Map<String, T>, onChange:String->T->Void, defaultKey:String, order:Array<String>):Void
+  {
+    var name:String = getKeyFromValue(values, defaultKey);
+    page.createPrefItemEnum(prefName, prefDesc, values, onChange, name);
+    page.items.getItem(prefName).keys = order;
+    page.items.getItem(prefName).index = order.indexOf(name);
+  }
+
+  function createPrefItem(page:Page, prefName:String, prefDesc:String, onChange:Void->Void, available:Bool = true):Void
+  {
+    page.items.createItem(0, (120 * page.items.length) + 30, prefName, "bold", function()
+    {
+      onChange();
+    }, false, available);
+
+    page.preferenceDesc.push(prefDesc);
+  }
+
+  function getKeyFromValue(map:Map<String, T>, selected:Dynamic):Dynamic
+  {
+    for (key => value in map)
+    {
+      if (value == selected) return key;
+    }
+  }
+}

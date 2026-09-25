@@ -18,14 +18,14 @@ import funkin.modding.module.Module;
 import funkin.graphics.FunkinCamera;
 import flixel.group.FlxTypedSpriteGroup;
 import funkin.modding.module.Module;
+import funkin.graphics.video.FunkinVideoSprite;
+import funkin.assets.Paths as NewPaths;
 
 class OurHarmonySong extends Song
 {
   function new()
   {
     super('our-harmony');
-
-    options = DokiPreferences.getDokiSave();
   }
 
   var playStrumDefaultPos:Array<Float> = [];
@@ -36,7 +36,7 @@ class OurHarmonySong extends Song
   var cg2:FunkinSprite;
   var cg2Group:FlxTypedSpriteGroup<FunkinSprite>;
   var whiteflash:FunkinSprite;
-  var camGame2:FunkinCamera;
+  var ending:FunkinVideoSprite;
 
   var currentStage(get, never):Stage;
 
@@ -70,10 +70,8 @@ class OurHarmonySong extends Song
 
     currentStage.refresh();
 
-    camGame2 = new FunkinCamera('playStateCamGame2', FlxG.width / 2 - FlxG.initialWidth / 2, null, FlxG.initialWidth);
-    FlxG.cameras.insert(camGame2, FlxG.cameras.list.indexOf(PlayState.instance.camHUD), false);
-    camGame2.bgColor = 0x000000;
-
+    // Whole section below replaced by a video thanks to RagdollClash
+    /*
     cg1 = new FunkinSprite(0, 0).loadGraphic(Paths.image('gameplay/songs/${this.id}/CG/cg1'));
     cg1.alpha = 0.001;
     cg1.cameras = [camGame2];
@@ -112,16 +110,33 @@ class OurHarmonySong extends Song
     cg2Moni = new FunkinSprite(0, 0).loadGraphic(Paths.image('gameplay/songs/${this.id}/CG/bigone/cg2Moni'));
     cg2Moni.ID = 0;
     cg2Group.add(cg2Moni);
+    */
 
-    whiteflash = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
+    whiteflash = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFFFFFFFF);
     whiteflash.alpha = 0.0001;
     whiteflash.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(whiteflash);
+
+    ending = new FunkinVideoSprite();
+		ending.bitmap.onFormatSetup.add(()->{
+			ending.updateHitbox();
+			ending.screenCenter();
+			ending.setGraphicSize(1280, 720);
+			ending.cameras = [PlayState.instance.camCutscene];
+			ending.scrollFactor.set();
+		});
+		ending.load(Assets.getPath(NewPaths.video('gameplay/songs/our-harmony/our-harmony-ending')));
+		PlayState.instance.add(ending);
+
+    FlxG.signals.postUpdate.addOnce(() ->
+    {
+      PlayState.instance.iconP2.configure({id: 'our-harmony'});
+    });
   }
 
   function onNoteHit(callback)
   {
-    if (PlayState.instance == null) return;
+    if (PlayState.instance?.currentStage == null) return;
 
     switch (callback.note.noteData.kind)
     {
@@ -183,14 +198,6 @@ class OurHarmonySong extends Song
     }
   }
 
-  override function onSongEnd(event)
-  {
-    super.onSongEnd(event);
-    if (currentStage == null || PlayState.instance.isMinimalMode) return;
-
-    camGame2.fade(0xFF000000, 0.6);
-  }
-
   function addExtraCharacter(name:String, basedOn:String, data:Dynamic)
   {
     var stageCharData:StageDataCharacter = switch (basedOn)
@@ -216,7 +223,7 @@ class OurHarmonySong extends Song
     return durSeconds;
   }
 
-  public static function coolTextFile(path:String):Array<String>
+  public function coolTextFile(path:String):Array<String>
   {
     var fullText:String = Assets.getText(Paths.txt(path));
 
@@ -226,9 +233,21 @@ class OurHarmonySong extends Song
     return firstArray;
   }
 
+	override function onPause(event) {
+		super.onPause(event);
+		if (ending != null) ending.pause();
+	}
+
+	override function onResume(event) {
+		super.onResume(event);
+		if (ending != null) ending.resume();
+	}
+
   function onSongRetry(event:ScriptEvent)
   {
     super.onSongRetry(event);
+    ending.pause();
+    ending.visible = false;
     PlayState.instance.cameraZoomRate = 4;
     FlxG.signals.postUpdate.addOnce(() ->
     {
@@ -245,23 +264,10 @@ class OurHarmonySong extends Song
       opponentStrums.members[i].alpha = 1;
       playerStrums.members[i].alpha = 1;
     }
-    FlxTween.cancelTweensOf(cg1);
-    FlxTween.cancelTweensOf(cg2);
     FlxTween.cancelTweensOf(whiteflash);
-    cg1.scale.set(0.7, 0.7); // Smallest 0.67
-    cg1.alpha = 0;
-    cg1.screenCenter();
-    cg2.alpha = 0;
-    cg2.screenCenter();
     var hueh231 = ModuleHandler.getModule("coolgameplay").scriptGet("hueh231", []);
     if (hueh231 != null) hueh231.visible = true;
     whiteflash.alpha = 0;
-    for (item in cg2Group.members)
-    {
-      FlxTween.cancelTweensOf(item);
-      item.x = 0;
-    }
-    cg2Group.alpha = 0;
     for (hud in [PlayState.instance.healthBarBG, PlayState.instance.healthBar, PlayState.instance.iconP1, PlayState.instance.iconP2, PlayState.instance.scoreText])
     {
       FlxTween.cancelTweensOf(hud);
@@ -269,67 +275,55 @@ class OurHarmonySong extends Song
     }
   }
 
+  var lastStep:Int = 0;
+
   function onStepHit(event:SongTimeScriptEvent):Void
   {
     super.onStepHit(event);
     if (currentStage == null || PlayState.instance.isMinimalMode) return;
-    if (options.psychholds) stutterNotes();
+    if (PlayState.instance?.isGameOverState ?? true) return;
 
     if (event.step >= 2448 && PlayState.instance.vocals.playerVolume != 1) PlayState.instance.vocals.playerVolume = 1;
-    switch (event.step)
+
+    if (lastStep > event.step)
     {
-      case 2420:
-        FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.healthBar, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.iconP1, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.scoreText, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-
-        FlxTween.tween(PlayState.instance.playerStrumline.background, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.opponentStrumline.background, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-
-        FlxTween.tween(whiteflash, {alpha: 1}, 2, {ease: FlxEase.sineIn});
-      case 2432:
-        var opponentStrums = PlayState.instance.opponentStrumline.strumlineNotes;
-        var playerStrums = PlayState.instance.playerStrumline.strumlineNotes;
-        for (i in 0...4)
-        {
-          FlxTween.tween(opponentStrums.members[i], {y: opponentStrums.members[i].y - 10, alpha: 0}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.1 * i)});
-          FlxTween.tween(playerStrums.members[i], {y: playerStrums.members[i].y - 10, alpha: 0}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.1 * i)});
-        }
-      case 2448:
-        var hueh231 = ModuleHandler.getModule("coolgameplay").scriptGet("hueh231", []);
-        if (hueh231 != null) hueh231.visible = false;
-
-        cg1.alpha = 1;
-        PlayState.instance.vocals.playerVolume = 1;
-        PlayState.instance.cameraZoomRate = 0;
-        FlxTween.tween(cg1.scale, {x: 0.67, y: 0.67}, 5, {ease: FlxEase.sineIn});
-        FlxG.camera.zoom = currentStage.camZoom;
-      case 2456:
-        FlxTween.tween(whiteflash, {alpha: 0}, 2, {ease: FlxEase.sineIn});
-      case 2568:
-        FlxTween.tween(whiteflash, {alpha: 1}, 0.57, {ease: FlxEase.sineIn});
-      case 2578:
-        cg1.alpha = 0;
-        cg2.alpha = 1;
-        FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineIn});
-        FlxTween.tween(cg2, {x: -954}, 9, {ease: FlxEase.sineIn});
-      case 2590:
-        // end here
-      case 2674:
-        FlxTween.tween(whiteflash, {alpha: 1}, 1, {ease: FlxEase.sineIn});
-      case 2694:
-        cg2.alpha = 0;
-        cg2Group.alpha = 1;
-
-        for (item in cg2Group.members)
-          FlxTween.tween(item, {x: -250}, 17 + (1 * item.ID), {ease: FlxEase.sineIn});
-
-        FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineIn});
-      // Fade out
-      case 2702:
-        // End here
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 2420:
+          FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.healthBar, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.iconP1, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.iconP2, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.scoreText, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+
+          FlxTween.tween(PlayState.instance.playerStrumline.background, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.opponentStrumline.background, {alpha: 0}, 2, {ease: FlxEase.sineIn});
+
+          FlxTween.tween(whiteflash, {alpha: 1}, 2, {ease: FlxEase.sineIn});
+        case 2432:
+          var opponentStrums = PlayState.instance.opponentStrumline.strumlineNotes;
+          var playerStrums = PlayState.instance.playerStrumline.strumlineNotes;
+          for (i in 0...4)
+          {
+            FlxTween.tween(opponentStrums.members[i], {y: opponentStrums.members[i].y - 10, alpha: 0}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.1 * i)});
+            FlxTween.tween(playerStrums.members[i], {y: playerStrums.members[i].y - 10, alpha: 0}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.1 * i)});
+          }
+        case 2448:
+          var hueh231 = ModuleHandler.getModule("coolgameplay").scriptGet("hueh231", []);
+          if (hueh231 != null) hueh231.visible = false;
+
+          PlayState.instance.vocals.playerVolume = 1;
+          ending.visible = true;
+          ending.play();
+          ending.bitmap.time = 0;
+      }
+    }
+    lastStep = event.step;
   }
 }

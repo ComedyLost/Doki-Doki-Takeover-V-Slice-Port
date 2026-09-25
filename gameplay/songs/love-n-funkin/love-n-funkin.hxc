@@ -19,8 +19,6 @@ class LoveNFunkinSong extends Song
   function new()
   {
     super('love-n-funkin');
-
-    options = DokiPreferences.getDokiSave();
   }
 
   var yuri:BaseCharacter;
@@ -245,7 +243,6 @@ class LoveNFunkinSong extends Song
   {
     super.onStepHit(event);
     if (currentStage == null || PlayState.instance.isMinimalMode) return;
-    if (options.psychholds) stutterNotes();
 
     switch (event.step)
     {

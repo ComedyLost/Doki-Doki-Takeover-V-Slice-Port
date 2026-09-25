@@ -51,7 +51,7 @@ class DDTOPauseMenu extends Module
   var selColor:FlxColor;
   var options:Array;
   var curSelected:Int;
-  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var ddtoStages:Array<String> = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'credits'];
   var isDoki:Bool;
 
   function createDokiMenu()

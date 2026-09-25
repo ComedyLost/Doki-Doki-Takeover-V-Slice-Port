@@ -11,8 +11,6 @@ class TitleScreenReplace extends Module
   public function new()
   {
     super('TitleScreenReplace');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var titleState:Bool = false;

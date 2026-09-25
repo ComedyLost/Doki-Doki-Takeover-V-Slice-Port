@@ -36,10 +36,9 @@ class BFDokiNewCharacter extends MultiAnimateAtlasCharacter
       isLyrics = false;
       return;
     }
-    isEpiphany = (PlayState.instance.currentSong?.id?.toLowerCase() == 'epiphany');
+    isEpiphany = (PlayState.instance.currentSong?.id == 'epiphany');
     isLyrics = (isEpiphany && PlayState.instance.currentVariation == 'lyrics');
-    if (isEpiphany) GameOverSubState.blueBallSuffix = '-bigmonika';
-    if (!isLyrics && FlxG.random.bool(0.05)) GameOverSubState.blueBallSuffix = '-rare';
+    if (isEpiphany) GameOverSubState.blueBallSuffix = (!isLyrics && FlxG.random.bool(0.05)) ? '-rare' : '-bigmonika';
   }
 
   function createDeathSprites()

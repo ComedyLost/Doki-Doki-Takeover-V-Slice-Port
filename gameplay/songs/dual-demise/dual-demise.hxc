@@ -21,20 +21,20 @@ class DualDemiseSong extends Song
   function new()
   {
     super('dual-demise');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var spirit;
 
+  /*
   function onStepHit(event:SongTimeScriptEvent):Void
   {
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
-    if (!save.psychholds) return;
+    if (!DokiPreferences.psychholds) return;
 
     stutterNotes();
   }
-
+  */
+  
   override function onSongLoaded(event)
   {
     super.onSongLoaded(event);

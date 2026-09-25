@@ -10,21 +10,24 @@ import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.utils.Assets;
 import funkin.save.Save;
-import Std;
 
 class FestivalClubroomGlitcherStage extends Stage
 {
   function new()
   {
     super('dokiglitcher');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   public var bloom = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/BloomShader")));
   public var shaderstat = new ShaderFilter(bloom);
 
   var noFestivalMod:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
+
+  var sayori:StageProp;
+  var natsuki:StageProp;
+  var monika:StageProp;
+  var protag:StageProp;
+  var yuri:StageProp;
 
   public function setDokiPosition(character:String)
   {
@@ -121,7 +124,7 @@ class FestivalClubroomGlitcherStage extends Stage
     bloom.setFloat('funsteps', 0.005);
     bloom.setFloat('funthreshhold', 0.8);
     bloom.setFloat('funbrightness', 7);
-    if (save.bloom) PlayState.instance.camGame.filters = [shaderstat];
+    if (DokiPreferences.bloom) PlayState.instance.camGame.filters = [shaderstat];
     getBoyfriend().color = 0x828282;
     getGirlfriend().color = 0x828282;
     getOpponent().color = 0x828282;

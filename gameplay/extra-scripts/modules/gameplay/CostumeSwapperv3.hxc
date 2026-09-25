@@ -67,7 +67,6 @@ class CostumeSwapper extends Module
   {
     super('CostumeSwapper');
     active = false;
-    any = DokiPreferences.getDokiSave();
     var binder = new FlxSave();
     binder.bind("CostumesV2", "FunkinCrew");
     SaveData = binder.data;
@@ -101,7 +100,7 @@ class CostumeSwapper extends Module
     var girlfriendJSON = CharacterDataParser.parseCharacterData(PlayState.instance.currentChart.characters.girlfriend);
     var dadJSON = CharacterDataParser.parseCharacterData(PlayState.instance.currentChart.characters.opponent);
 
-    if (any.costumesanywhere)
+    if (DokiPreferences.costumesanywhere)
     {
       if (PlayState.instance.currentChart.characters.player == 'bf') playerJSON = CharacterDataParser.parseCharacterData('bf-doki');
       if (PlayState.instance.currentChart.characters.girlfriend == 'gf') girlfriendJSON = CharacterDataParser.parseCharacterData('gf-realdoki');

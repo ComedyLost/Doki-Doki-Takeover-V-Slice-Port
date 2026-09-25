@@ -16,7 +16,7 @@ class DiscordRPCDDTO extends Module
   }
 
   // Makes sure DDTO Discord RPC doesn't try to load on other mods
-  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla'];
+  var ddtoStages:Array<String> = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'credits'];
   var resetRPC:Bool;
 
   public override function onSongEvent(scriptEvent:SongEventScriptEvent)

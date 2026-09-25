@@ -28,8 +28,6 @@ class GlitcherMonikaMixSong extends Song
   function new()
   {
     super('glitcher-monika-mix');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   override function onUpdate(event:UpdateScriptEvent)
@@ -214,7 +212,7 @@ class GlitcherMonikaMixSong extends Song
     bloom.setFloat('funthreshhold', 0.8);
     bloom.setFloat('funbrightness', 7);
     pixel.setFloat('strength', 0.0);
-    var filters = switch (save.bloom)
+    var filters = switch (DokiPreferences.bloom)
     {
       case true: [PlayState.instance.currentStage.shaderstat, pixelshader];
       case false: [pixelshader];

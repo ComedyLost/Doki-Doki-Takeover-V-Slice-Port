@@ -5,7 +5,7 @@
   "renderType": "multianimateatlas",
   "singTime": 4,
   "death": {
-    "cameraOffsets": [-50, -60],
+    "cameraOffsets": [50, 0],
     "cameraZoom": 0.9
   },
   "offsets": [50, 50],

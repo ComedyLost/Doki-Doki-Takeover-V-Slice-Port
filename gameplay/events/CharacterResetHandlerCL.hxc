@@ -10,12 +10,6 @@ import haxe.ds.StringMap;
 import funkin.modding.events.ScriptEvent;
 import funkin.modding.events.ScriptEventDispatcher;
 // Fecth Character recreation
-import funkin.play.character.ScriptedAnimateAtlasCharacter;
-import funkin.play.character.ScriptedBaseCharacter;
-import funkin.play.character.ScriptedMultiSparrowCharacter;
-import funkin.play.character.ScriptedMultiAnimateAtlasCharacter;
-import funkin.play.character.ScriptedPackerCharacter;
-import funkin.play.character.ScriptedSparrowCharacter;
 import funkin.play.character.AnimateAtlasCharacter;
 import funkin.play.character.BaseCharacter;
 import funkin.play.character.SparrowCharacter;
@@ -109,14 +103,14 @@ class CharacterResetHandlerCL extends Module
     }
   }
 
-  function fetchCharacter(charId:String, debug:Bool = false):Null<BaseCharacter>
+  public function fetchCharacter(charId:String, debug:Bool = false):Null<BaseCharacter>
   {
     if (charId == null || charId == '' || !CharacterDataParser.characterCache.exists(charId))
     {
       // Gracefully handle songs that don't use this character,
       // or throw an error if the character is missing.
 
-      if (charId != null && charId != '') trace('Failed to build character, not found in cache: ${charId}');
+      if (charId != null && charId != '') trace('Failed to instantiate character, not found in cache: ${charId}');
       return null;
     }
 
@@ -127,42 +121,60 @@ class CharacterResetHandlerCL extends Module
 
     if (charScriptClass != null)
     {
-      if (charData != null) switch (charData.renderType)
+      if (charData != null)
       {
-        case CharacterRenderType.AnimateAtlas:
-          char = ScriptedAnimateAtlasCharacter.scriptInit(charScriptClass, charId);
-        case CharacterRenderType.MultiSparrow:
-          char = ScriptedMultiSparrowCharacter.scriptInit(charScriptClass, charId);
-        case CharacterRenderType.Sparrow:
-          char = ScriptedSparrowCharacter.scriptInit(charScriptClass, charId);
-        case CharacterRenderType.Packer:
-          char = ScriptedPackerCharacter.scriptInit(charScriptClass, charId);
-        case CharacterRenderType.MultiAnimateAtlas:
-          char = ScriptedMultiAnimateAtlasCharacter.scriptInit(charScriptClass, charId);
-        default:
-          // We're going to assume that the script class does the rendering.
-          char = ScriptedBaseCharacter.scriptInit(charScriptClass, charId, CharacterRenderType.Custom);
+        switch (charData.renderType)
+        {
+          case CharacterRenderType.AnimateAtlas:
+            char = AnimateAtlasCharacter.scriptInit(charScriptClass, charId);
+          case CharacterRenderType.MultiSparrow:
+            char = MultiSparrowCharacter.scriptInit(charScriptClass, charId);
+          case CharacterRenderType.Sparrow:
+            char = SparrowCharacter.scriptInit(charScriptClass, charId);
+          case CharacterRenderType.Packer:
+            char = PackerCharacter.scriptInit(charScriptClass, charId);
+          case CharacterRenderType.MultiAnimateAtlas:
+            char = MultiAnimateAtlasCharacter.scriptInit(charScriptClass, charId);
+          default:
+            // We're going to assume that the script class does the rendering.
+            char = BaseCharacter.scriptInit(charScriptClass, charId, CharacterRenderType.Custom);
+        }
       }
     }
     else
     {
-      if (charData != null) switch (charData.renderType)
+      if (charData != null)
       {
-        case CharacterRenderType.AnimateAtlas:
-          char = new AnimateAtlasCharacter(charId);
-        case CharacterRenderType.MultiSparrow:
-          char = new MultiSparrowCharacter(charId);
-        case CharacterRenderType.Sparrow:
-          char = new SparrowCharacter(charId);
-        case CharacterRenderType.Packer:
-          char = new PackerCharacter(charId);
-        case CharacterRenderType.MultiAnimateAtlas:
-          char = new MultiAnimateAtlasCharacter(charId);
-        default:
-          trace(' WARNING '.warning() + ' Creating character with undefined renderType ${charData.renderType}');
-          char = new BaseCharacter(charId, CharacterRenderType.Custom);
+        switch (charData.renderType)
+        {
+          case CharacterRenderType.AnimateAtlas:
+            char = new AnimateAtlasCharacter(charId);
+          case CharacterRenderType.MultiSparrow:
+            char = new MultiSparrowCharacter(charId);
+          case CharacterRenderType.Sparrow:
+            char = new SparrowCharacter(charId);
+          case CharacterRenderType.Packer:
+            char = new PackerCharacter(charId);
+          case CharacterRenderType.MultiAnimateAtlas:
+            char = new MultiAnimateAtlasCharacter(charId);
+          default:
+            trace(' WARNING '.warning() + ' Instantiating character with undefined renderType ${charData.renderType}');
+            char = new BaseCharacter(charId, CharacterRenderType.Custom);
+        }
       }
     }
+
+    if (char == null)
+    {
+      trace('Failed to instantiate character: ${charId}');
+      return null;
+    }
+
+    trace('Successfully instantiated character (${debug ? 'debug' : 'stable'}): ${charId}');
+
+    char.debug = debug;
+
+    // Call onCreate only in the fetchCharacter() function, not at application initialization.
 
     switch (charData.renderType)
     {
@@ -188,16 +200,6 @@ class CharacterResetHandlerCL extends Module
           ScriptEventDispatcher.callEvent(char, event);
         }
     }
-
-    if (char == null)
-    {
-      trace('Failed to instantiate character: ${charId}');
-      return null;
-    }
-
-    trace('Successfully instantiated character (${debug ? 'debug' : 'stable'}): ${charId}');
-
-    char.debug = debug;
 
     return char;
   }

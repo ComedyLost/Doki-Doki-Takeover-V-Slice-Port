@@ -146,8 +146,6 @@ class CostumeSelectStateMobile extends MusicBeatState
 
     Save.instance.flush();
 
-    options = DokiPreferences.getDokiSave();
-
     Conductor.instance.forceBPM(124);
 
     if (FlxG.sound?.music != null) FlxG.sound.music.stop();
@@ -279,7 +277,7 @@ class CostumeSelectStateMobile extends MusicBeatState
         FlxG.sound.music.stop();
         FunkinSound.playOnce(Paths.sound('cancelMenu'));
         var targetState:NextState = () -> new MainMenuState();
-        if (options.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
+        if (DokiPreferences.menus) targetState = ScriptedMusicBeatState.init("DokiMainMenuState");
         FlxG.switchState(targetState);
       }
       if (controls.BACK && selectingcostume)

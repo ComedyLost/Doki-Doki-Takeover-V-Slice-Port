@@ -27,7 +27,7 @@ class Credits extends Module
   var metaIconTween:FlxTween;
   var metaArtistTween:FlxTween;
   var tweenOutTimer:FlxTimer;
-  var ddtoStages = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla', 'credits'];
+  var ddtoStages:Array<String> = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'va11halla', 'credits'];
 
   override function onPause(event)
   {
@@ -206,7 +206,7 @@ class Credits extends Module
 
     switch (PlayState.instance.currentSong.id.toLowerCase())
     {
-      case 'wilted', 'your-demise', 'drinks-on-me', 'libitina', 'its-complicated-sayori-mix', 'glitcher-monika-mix':
+      case 'wilted', 'your-demise', 'drinks-on-me', 'libitina', 'its-complicated-sayori-mix', 'glitcher-monika-mix', 'takeover-medley':
         return;
       default:
         manualCreditsSummon();

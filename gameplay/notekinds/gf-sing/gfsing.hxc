@@ -5,7 +5,7 @@ class DokiGFSingNoteKind extends ScriptedNoteKind
 {
   public function new()
   {
-    super("gf", "GF Sing");
+    super("gf", "GF Sing", null, null, true);
   }
 
   function onNoteHit(callback)

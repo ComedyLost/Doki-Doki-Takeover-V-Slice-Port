@@ -46,14 +46,19 @@ class PixelMonikaNewCharacter extends SparrowCharacter
     // Override the hit note animation.
     switch (event.note.kind)
     {
-      case "markov":
+      case "markov", "gf":
         return;
       default:
+        if (PlayState.instance?.currentSong == null)
+        {
+          super.onNoteHit(event);
+          return;
+        }
+        var curSong:Song = PlayState.instance.currentSong.id;
         if (!event.note.noteData.getMustHitNote() && characterType == CharacterType.DAD)
         {
           // Override the hit note animation.
-          if (PlayState.instance.currentSong.id.toLowerCase() == "your-demise"
-            || PlayState.instance.currentSong.id.toLowerCase() == "your-demise")
+          if (curSong == "witled" || curSong == "your-demise")
           {
             holdTimer = 0;
             this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');
@@ -64,8 +69,7 @@ class PixelMonikaNewCharacter extends SparrowCharacter
         else if (event.note.noteData.getMustHitNote() && characterType == CharacterType.BF)
         {
           // Override the hit note animation.
-          if (PlayState.instance.currentSong.id.toLowerCase() == "wilted"
-            || PlayState.instance.currentSong.id.toLowerCase() == "your-demise")
+          if (curSong == "wilted" || curSong == "your-demise")
           {
             holdTimer = 0;
             this.playSingAnimation(event.note.noteData.getDirection(), false, 'alt');

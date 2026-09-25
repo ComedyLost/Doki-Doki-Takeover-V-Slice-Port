@@ -13,14 +13,15 @@ class PsychEngineHolds extends Module
   {
     super('PsychEngineHolds');
 
-    save = DokiPreferences.getDokiSave();
+    // Scrapped cuz it sucked ass
+    active = false;
   }
 
   // Only stutter on a step (same way Psych Engine / Pre 0.3 did it)
   function onStepHit(event:SongTimeScriptEvent):Void
   {
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
-    if (!save.psychholds) return;
+    if (!DokiPreferences.psychholds) return;
 
     processNotes();
   }

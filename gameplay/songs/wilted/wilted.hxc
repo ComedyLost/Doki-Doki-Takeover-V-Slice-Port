@@ -103,7 +103,7 @@ class WiltedSong extends Song
     super.onResume(event);
     if (camFadeValue != null)
     {
-      FlxG.camera._fxShakeDuration = camFadeValue;
+      FlxG.camera._fxFadeDuration = camFadeValue;
       camFadeValue = null;
     }
   }

@@ -144,9 +144,14 @@ class MonikaBaseCharacter extends MultiAnimateAtlasCharacter
 
   public function resetCameraFocusPoint():Void
   {
+    if (PlayState.instance?.currentStage == null)
+    {
+      super.resetCameraFocusPoint();
+      return;
+    }
     var sprite:BaseCharacter = this.clone();
     var isPlayer:Bool = (currentStage?.characters.get('bf') == super);
-    var cameraOffsets:Array<Float> = (isPlayer ? _data.playerCameraOffsets.clone() : _data.cameraOffsets.clone());
+    var cameraOffsets:Array<Float> = (isPlayer && _data.playerCameraOffsets != null) ? _data.playerCameraOffsets.clone() : _data.cameraOffsets.clone();
     var charCenterX = this.originalPosition.x + sprite.width / 2;
     var charCenterY = this.originalPosition.y + sprite.height / 2;
     this.cameraFocusPoint.set(charCenterX + cameraOffsets[0], charCenterY + cameraOffsets[1]);

@@ -25,6 +25,9 @@ import funkin.play.PlayStatePlaylist;
 import funkin.ui.debug.DebugMenuSubState;
 import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.audio.FunkinSound;
+import funkin.ui.options.OptionsState;
+import funkin.ui.credits.CreditsState;
+import Reflect;
 
 typedef MenuCharacterData =
 {
@@ -84,7 +87,7 @@ class DokiMainMenuState extends MusicBeatState
 
     addVally = true;
 
-    FunkinSound.playMusic('freakyMenu-DDTO', {
+    FunkinSound.playMusic('ui/doki-title/freaky-menu/freaky-menu', {
       startingVolume: 0.0,
       overrideExisting: true,
       restartTrack: false,
@@ -96,7 +99,7 @@ class DokiMainMenuState extends MusicBeatState
     backdrop.velocity.set(-40, -40);
     add(backdrop);
 
-    var menuString:String = Assets.getText(Paths.json('ui/doki-main-menu/menuCharacters'));
+    var menuString:String = Assets.getText(Paths.json('ui/doki-main-menu/menu-characters'));
     var jsonFound:Bool = true;
 
     menuCharJSON = Json.parse(menuString);
@@ -314,9 +317,9 @@ class DokiMainMenuState extends MusicBeatState
       case 'Costumes':
         FlxTransitionableState.skipNextTransIn = true;
         FlxTransitionableState.skipNextTransOut = true;
-        FlxG.switchState(ScriptedMusicBeatState.init('CostumeSelectState'));
+        FlxG.switchState(() -> new CostumeSelectState());
       case 'Credits':
-        var targetState:NextState = () -> new funkin.ui.credits.CreditsState();
+        var targetState:NextState = () -> new CreditsState();
         FlxG.switchState(targetState);
         trace("Credits Menu Selected");
       case 'Gallery':
@@ -325,7 +328,8 @@ class DokiMainMenuState extends MusicBeatState
         FlxG.switchState(targetState);
         trace("La Galeria Selected");
       case 'Options':
-        var targetState:NextState = () -> new funkin.ui.options.OptionsState();
+        OptionsState.backState = 'DokiMainMenuState';
+        var targetState:NextState = () -> new OptionsState();
         FlxG.switchState(targetState);
       case 'Exit Game':
         Application.current.window.close();

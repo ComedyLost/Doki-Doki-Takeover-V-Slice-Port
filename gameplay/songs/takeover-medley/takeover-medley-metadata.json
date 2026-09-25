@@ -1,0 +1,39 @@
+{
+ "version": "2.2.8",
+ "songName": "Takeover Medley",
+ "artist": "HighPoweredKeyz, Stardust Tunes, N/A, Miss Beepy, GGalactigal, DatDavi",
+ "offsets": { },
+ "playData": {
+  "difficulties": [
+   "normal"
+  ],
+  "characters": {
+   "player": "bf-holding-gf",
+   "girlfriend": "senpai",
+   "opponent": "monika-pixelnew",
+   "opponentVocals": [
+    "monika-pixelnew"
+   ],
+   "playerVocals": [
+    "bf-holding-gf"
+   ]
+  },
+  "stage": "credits",
+  "noteStyle": "ddto",
+  "ratings": {
+    "normal": 7
+  },
+  "album": "takeover",
+  "stickerPack": "dokisall",
+  "previewEnd": 0
+ },
+ "generatedBy": "Friday Night Funkin' - v0.8.5",
+ "timeChanges": [
+  {
+   "t": 0,
+   "b": 0,
+   "bpm": 92,
+   "bt": [4, 4, 4, 4]
+  }
+ ]
+}

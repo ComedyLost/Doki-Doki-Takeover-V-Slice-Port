@@ -1,6 +1,6 @@
 package ddto.gameplay.dialogue;
 
-import flixel.FlxSprite;
+import funkin.graphics.FunkinSprite;
 import flixel.addons.text.FlxTypeText;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -43,7 +43,7 @@ typedef DialogueLine =
 
 class DialogueBox extends FlxTypedSpriteGroup
 {
-	var box:FlxSprite;
+	var box:FunkinSprite;
 
 	var curCharacter:String = '';
 	var prevCharacter:Array<String> = ['monika', 'left'];
@@ -65,15 +65,15 @@ class DialogueBox extends FlxTypedSpriteGroup
 
 	public var finishThing:Void->Void;
 
-	var backgroundImage:FlxSprite;
+	var backgroundImage:FunkinSprite;
 
-	var portraitLeft:FlxSprite;
-	var portraitRight:FlxSprite;
+	var portraitLeft:FunkinSprite;
+	var portraitRight:FunkinSprite;
 
-	var blackscreen:FlxSprite;
+	var blackscreen:FunkinSprite;
 
-	var handSelect:FlxSprite;
-	var bgFade:FlxSprite;
+	var handSelect:FunkinSprite;
+	var bgFade:FunkinSprite;
 	
 	var currentDialogue:Int = 0;
 
@@ -91,7 +91,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 
 		isPixel = dialogueData.initStyle.toLowerCase() == 'pixel';
 
-		backgroundImage = new FlxSprite();
+		backgroundImage = new FunkinSprite();
 		backgroundImage.alpha = 0.001;
 		insert(0, backgroundImage);
 
@@ -106,7 +106,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 		else
 			backgroundImage.antialiasing = false;
 
-		bgFade = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFD8);
+		bgFade = new FunkinSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFD8);
 		bgFade.scrollFactor.set();
 		bgFade.alpha = 0.0001;
 		add(bgFade);
@@ -143,7 +143,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 			canFullSkip = dialogueData.canSkip;
 		}
 
-		blackscreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		blackscreen = new FunkinSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		blackscreen.alpha = 0;
 		add(blackscreen);
 
@@ -395,7 +395,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 		{
 			FlxTween.cancelTweensOf(portraitRight);
 			FlxTween.cancelTweensOf(portraitLeft);
-			var portrait:FlxSprite;
+			var portrait:FunkinSprite;
 			portrait = (curDialogue.side == 'right' ? portraitRight : portraitLeft);
 			var xthingieorig = (curDialogue.side == 'right' ? 647 : 110);
 			var xthingienew = (curDialogue.side == 'right' ? 677 : 80);
@@ -494,7 +494,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 			if (curCharacter.startsWith("all"))
 				startswith = 'all';
 			
-			var portrait:FlxSprite;//Basically make this apply to any of em
+			var portrait:FunkinSprite;//Basically make this apply to any of em
 			portrait = (curDialogue.side == 'right' ? portraitRight : portraitLeft);
 			var dialogueSound:String;
 
@@ -787,7 +787,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 		{
 			default: //Normal will be default, important
 
-				box = new FlxSprite(-20, 45);
+				box = new FunkinSprite(-20, 45);
 				box.frames = Paths.getSparrowAtlas('dialogue/Text_Boxes', 'doki', true);
 				for (name in prefixMap.keys())
 					box.animation.addByPrefix(name, prefixMap[name], 24, false);
@@ -798,14 +798,14 @@ class DialogueBox extends FlxTypedSpriteGroup
 
 				//Step 2
 				var posY = 50;
-				portraitLeft = new FlxSprite(150, posY);
+				portraitLeft = new FunkinSprite(150, posY);
 				portraitLeft.setGraphicSize(Std.int(portraitLeft.width * .9));
 				portraitLeft.updateHitbox();
 				portraitLeft.scrollFactor.set();
 				portraitLeft.antialiasing = SaveData.globalAntialiasing;
 				add(portraitLeft);
 				portraitLeft.alpha = 0.001;
-				portraitRight = new FlxSprite(600, posY);
+				portraitRight = new FunkinSprite(600, posY);
 				portraitRight.setGraphicSize(Std.int(portraitRight.width * .9));
 				portraitRight.updateHitbox();
 				portraitRight.scrollFactor.set();
@@ -831,7 +831,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 
 			case 1:	//Pixel
 				//Step 1 add box
-				box = new FlxSprite(-20, 45);
+				box = new FunkinSprite(-20, 45);
 				switch (dialogueData.dialogue[currentDialogue].name)
 				{
 					case 'monika':
@@ -857,7 +857,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 				}
 
 				//Step 2 portaits
-				portraitLeft = new FlxSprite(110, -4);
+				portraitLeft = new FunkinSprite(110, -4);
 				portraitLeft.frames = Paths.getSparrowAtlas('weeb/dialogue/monika', 'week6');
 				portraitLeft.animation.addByPrefix('hueh', 'monika_neutral', 24, false);
 				portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
@@ -866,7 +866,7 @@ class DialogueBox extends FlxTypedSpriteGroup
 				add(portraitLeft);
 				portraitLeft.alpha = 0.001;
 				
-				portraitRight = new FlxSprite(647, -4);
+				portraitRight = new FunkinSprite(647, -4);
 				portraitRight.frames = Paths.getSparrowAtlas('weeb/dialogue/bf', 'week6');
 				portraitRight.animation.addByPrefix('hueh', 'bf_neutral', 24, false);
 				portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.daPixelZoom * 0.9));

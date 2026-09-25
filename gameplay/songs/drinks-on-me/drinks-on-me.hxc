@@ -22,8 +22,6 @@ class DrinksOnMeSong extends Song
   function new()
   {
     super('drinks-on-me');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var encoreTime:Int = 0;
@@ -65,7 +63,7 @@ class DrinksOnMeSong extends Song
     cg2.cameras = [PlayState.instance.camHUD];
     cg2.zIndex = 3000;
     PlayState.instance.add(cg2);
-    blackScreen = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
+    blackScreen = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     blackScreen.scrollFactor.set();
     blackScreen.alpha = 1;
     blackScreen.zIndex = 2500;
@@ -107,7 +105,7 @@ class DrinksOnMeSong extends Song
 
   public function coolTextFile(?path:String):Array<String>
   {
-    var fullText:String = Assets.getText(Paths.txt('gameplay/songs/${this.id}/nico-text'));
+    var fullText:String = Assets.getText(Paths.txt(path));
 
     // Split into lines and remove empty lines
     var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
@@ -118,7 +116,7 @@ class DrinksOnMeSong extends Song
   function niconicoLights()
   {
     trace("It's happenin!");
-    var nicoText:Array<String> = coolTextFile();
+    var nicoText:Array<String> = coolTextFile('gameplay/songs/${this.id}/nico-text');
 
     if (Date.now().getDay() != 5) nicoText.push("it's not even friday...");
     // else https://youtu.be/SaNmV7Sx5_M
@@ -158,7 +156,7 @@ class DrinksOnMeSong extends Song
     switch (event.step)
     {
       case 2:
-        if (save.pixel)
+        if (DokiPreferences.pixel)
         {
           var tweenFunction = function(x)
           {
@@ -174,7 +172,7 @@ class DrinksOnMeSong extends Song
           FlxTween.tween(cg1, {alpha: 1}, 2.5, {ease: FlxEase.sineIn});
         }
       case 50:
-        if (save.pixel)
+        if (DokiPreferences.pixel)
         {
           var tweenFunction = function(x)
           {
@@ -190,7 +188,7 @@ class DrinksOnMeSong extends Song
           FlxTween.tween(cg1, {alpha: 0}, 1.2, {ease: FlxEase.sineIn});
         }
       case 62:
-        if (save.pixel)
+        if (DokiPreferences.pixel)
         {
           var tweenFunction = function(x)
           {
@@ -210,7 +208,7 @@ class DrinksOnMeSong extends Song
       case 111:
         PlayState.instance.cameraZoomRate = 4;
         ModuleHandler.getModule('Credits').manualCreditsSummon();
-        if (save.pixel)
+        if (DokiPreferences.pixel)
         {
           var tweenFunction = function(x)
           {

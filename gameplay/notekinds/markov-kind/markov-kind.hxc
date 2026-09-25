@@ -11,7 +11,6 @@ class MarkovNoteKind extends ScriptedNoteKind
   public function new()
   {
     super("markov", "Markov Note");
-    save = DokiPreferences.getDokiSave();
     this.params = [{
       name: "shouldHit",
       description: "Opponent Hit",
@@ -40,12 +39,12 @@ class MarkovNoteKind extends ScriptedNoteKind
   function onNoteIncoming(callback)
   {
     callback.note.lowPriority = true;
-    if (!save.markov)
+    if (!DokiPreferences.markov)
     {
       if (callback.note.noteData.getStrumlineIndex() == 0) callback.note.kill();
       return;
     }
-    else if (save.random)
+    else if (DokiPreferences.random)
     {
       callback.note.kill(); // No Markov notes to prevent getting fucked over
       return;
@@ -65,7 +64,8 @@ class MarkovNoteKind extends ScriptedNoteKind
       { // Pixel holds don't have a custom hold sprite
         var noteKindPath:String = '$NOTE_ASSET_PATH/markov-${strumline.noteStyle.id}-hold-notes';
         if (Assets.exists(Paths.image(noteKindPath))) callback.note.holdNoteSprite.loadGraphic(Paths.image(noteKindPath));
-        callback.note.holdNoteSprite.loadGraphic(Paths.image(noteKindPath));
+        else
+          callback.note.holdNoteSprite.loadGraphic(Paths.image('$NOTE_ASSET_PATH/markov-hold-notes'));
 
         callback.note.holdNoteSprite.updateColorTransform();
         callback.note.holdNoteSprite.updateClipping();

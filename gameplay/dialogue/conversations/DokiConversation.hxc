@@ -4,8 +4,6 @@ import funkin.play.cutscene.dialogue.Conversation;
 import funkin.play.PlayState;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
-import funkin.util.PlatformUtil;
-import flixel.util.FlxSave;
 
 using StringTools;
 
@@ -80,7 +78,7 @@ class DokiConversation extends Conversation
     leftSpeaker.setGraphicSize(Std.int(leftSpeaker.width * .9));
     leftSpeaker.zIndex = 290;
     leftSpeaker.updateHitbox();
-    leftSpeaker.visible = false;
+    leftSpeaker.alpha = 0.0001;
     leftSpeaker.scrollFactor.set();
     add(leftSpeaker);
     rightSpeaker = FunkinSprite.create(600, 50);
@@ -88,7 +86,7 @@ class DokiConversation extends Conversation
     rightSpeaker.zIndex = 290;
     rightSpeaker.flipX = true;
     rightSpeaker.updateHitbox();
-    rightSpeaker.visible = false;
+    rightSpeaker.alpha = 0.0001;
     rightSpeaker.scrollFactor.set();
     add(rightSpeaker);
     refresh();

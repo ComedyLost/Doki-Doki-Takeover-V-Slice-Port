@@ -41,7 +41,7 @@ class NeetSong extends Song
     blackScreenBG.scrollFactor.set();
     PlayState.instance.currentStage.add(blackScreenBG);
 
-    spotlight = new FunkinSprite(-700, -520).loadGraphic(Paths.image('clubroom/NEETspotlight'));
+    spotlight = new FunkinSprite(-700, -520).loadGraphic(Paths.image('gameplay/songs/neet/spotlight-neet'));
     spotlight.setGraphicSize(Std.int(spotlight.width * 1.6));
     spotlight.alpha = 0.001;
     spotlight.blend = 12;
@@ -70,30 +70,44 @@ class NeetSong extends Song
 
     hasPlayedIntroCutscene = true;
   }
+  var lastStep:Int = 0;
 
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+    super.onStepHit(event);
+    if (PlayState.instance?.isGameOverState ?? true) return;
+
+    if (lastStep > event.step)
     {
-      case 384:
-        PlayState.instance.currentStage.getGirlfriend().alpha = 0.001;
-        deskfront.alpha = 0.001;
-        blackScreenBG.alpha = 0.98;
-        spotlight.alpha = 1;
-        FunkinSound.playOnce(Paths.sound('spotlight'));
-      case 512:
-        PlayState.instance.currentStage.getGirlfriend().alpha = 1;
-        deskfront.alpha = 1;
-
-        for (dokis in [sayori, yuri, monika, natsuki])
-        {
-          dokis.alpha = 1;
-        }
-
-        spotlight.alpha = 0;
-        blackScreenBG.alpha = 0;
-        FunkinSound.playOnce(Paths.sound('spotlight'), 0.5);
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 384:
+          PlayState.instance.currentStage.getGirlfriend().alpha = 0.001;
+          deskfront.alpha = 0.001;
+          blackScreenBG.alpha = 0.98;
+          spotlight.alpha = 1;
+          FunkinSound.playOnce(Paths.sound('gameplay/songs/neet/spotlight'));
+        case 512:
+          PlayState.instance.currentStage.getGirlfriend().alpha = 1;
+          deskfront.alpha = 1;
+
+          for (dokis in [sayori, yuri, monika, natsuki])
+          {
+            dokis.alpha = 1;
+          }
+
+          spotlight.alpha = 0;
+          blackScreenBG.alpha = 0;
+          FunkinSound.playOnce(Paths.sound('gameplay/songs/neet/spotlight'), 0.5);
+      }
+    }
+    lastStep = event.step;
   }
 
   public function onCountdownStart(event):Void

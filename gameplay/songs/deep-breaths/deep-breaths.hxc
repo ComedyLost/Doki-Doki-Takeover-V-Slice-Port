@@ -28,7 +28,7 @@ class DeepBreathsSong extends Song
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    sparkleBG = new FunkinBackdrop(Paths.image('clubroom/YuriSparkleBG'));
+    sparkleBG = new FunkinBackdrop(Paths.image('gameplay/stages/dokiclubroom/yuri-sparkle-bg'));
     sparkleBG.scrollFactor.set(0.1, 0);
     sparkleBG.velocity.set(-16, 0);
     sparkleBG.alpha = 0;
@@ -38,7 +38,7 @@ class DeepBreathsSong extends Song
     sparkleBG.screenCenter();
     PlayState.instance.currentStage.add(sparkleBG);
 
-    sparkleFG = new FunkinBackdrop(Paths.image('clubroom/YuriSparkleFG'));
+    sparkleFG = new FunkinBackdrop(Paths.image('gameplay/stages/dokiclubroom/yuri-sparkle-fg'));
     sparkleFG.scrollFactor.set(0.1, 0);
     sparkleFG.velocity.set(-48, 0);
     sparkleFG.setGraphicSize(Std.int((sparkleFG.width * 1.2) / FlxCamera.defaultZoom));
@@ -48,7 +48,7 @@ class DeepBreathsSong extends Song
     sparkleFG.screenCenter();
     PlayState.instance.add(sparkleFG);
 
-    pinkOverlay = new FunkinSprite(-FlxG.width * FlxG.camera.zoom, -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, 0xFFF281F2);
+    pinkOverlay = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFFF281F2);
     pinkOverlay.alpha = 0;
     pinkOverlay.zIndex = 200;
     pinkOverlay.blend = 12;

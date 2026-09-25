@@ -13,6 +13,8 @@ import StringTools;
 // So it is currently scrapped
 class PsychEngineHoldsv2 extends Module
 {
+  var save:FlxSave;
+  
   function new()
   {
     super('PsychEngineHoldsv2');

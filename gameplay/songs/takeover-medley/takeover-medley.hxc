@@ -7,6 +7,15 @@ import funkin.play.song.Song;
 import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.modding.module.ModuleHandler;
+import flixel.util.FlxColor;
+import flixel.group.FlxTypedSpriteGroup;
+import funkin.play.character.CharacterDataParser;
+import funkin.play.character.CharacterType;
+import flixel.util.FlxTimer;
+import funkin.mobile.input.ControlsHandler;
+import funkin.ui.freeplay.FreeplayState;
+
+using StringTools;
 
 class TakeoverMedleySong extends Song
 {
@@ -14,6 +23,8 @@ class TakeoverMedleySong extends Song
   {
     super('takeover-medley');
   }
+
+  var backupShake:Null<Float>;
 
   var currentStage(get, never):Stage;
 
@@ -28,11 +39,244 @@ class TakeoverMedleySong extends Song
   {
     return ModuleHandler.getModule('Credits');
   }
+  
+  var charHandler(get, never):ModuleHandler;
+
+  function get_charHandler():ModuleHandler
+  {
+    return ModuleHandler.getModule('CharacterResetHandlerCL');
+  }
+
+  var forcedPause(get, set):ModuleHandler;
+
+  function get_forcedPause():ModuleHandler
+  {
+    return ModuleHandler.getModule('DDTOPauseMenu').pauseImg;
+  }
+  
+  function set_forcedPause(value:String):String
+  {
+    ModuleHandler.getModule('DDTOPauseMenu').pauseImg = value;
+
+    return value;
+  }
+
+  var dad(get, never):BaseCharacter;
+
+  function get_dad():BaseCharacter
+  {
+    return currentStage?.getDad();
+  }
+  
+  var boyfriend(get, never):BaseCharacter;
+
+  function get_boyfriend():BaseCharacter
+  {
+    return currentStage?.getBoyfriend();
+  }
+  
+  var gf(get, never):BaseCharacter;
+
+  function get_gf():BaseCharacter
+  {
+    return currentStage?.getGirlfriend();
+  }
+
+  var galleryData:Array<String>;
+
+  // Sprites
+  var whiteflash:FunkinSprite;
+  var blackScreen:FunkinSprite;
+  var cg1:FunkinSprite;
+  var cg2:FunkinSprite;
+	var stickerSprites:FlxTypedSpriteGroup;
+	var stickerData:Array<String> = [];
+  var staticcredits:FunkinSprite;
+  var cursorDDTO:FunkinSprite;
+
+  // Boxes
+  var p1Box:FunkinSprite;
+  var p1Boxtop:FunkinSprite;
+  var p2Box:FunkinSprite;
+  var p2Boxtop:FunkinSprite;
+  var senpaiBox:FunkinSprite;
+  var senpaiBoxtop:FunkinSprite;
+
+  // Extra Character
+  var extrachar1:BaseCharacter;
+
+  var cachedCharacters:Map<String, BaseCharacter> = [];
+
+
+  override function getDifficulty(diffId:String, variation:String, variations:Array<String>):Null<SongDifficulty>
+  {
+    // If we're in Freeplay, override the freeplay icon by replacing the opponent.
+    var inFreeplay:Bool = Std.isOfType(FlxG.state.subState, FreeplayState);
+
+    var data:Null<SongDifficulty> = super.getDifficulty(diffId, variation, variations);
+    if (data?.characters?.opponent != null)
+    {
+      data.characters.opponent = inFreeplay ? 'bf' : 'monika-pixelnew';
+    }
+
+    return data;
+  }
 
   override function onCreate(event)
   {
     super.onCreate(event);
+    p1Box = currentStage.getNamedProp('P1 Box Bottom');
+    p1Boxtop = currentStage.getNamedProp('P1 Box Top');
+    p2Box = currentStage.getNamedProp('P2 Box Bottom');
+    p2Boxtop = currentStage.getNamedProp('P2 Box Top');
+    senpaiBox = currentStage.getNamedProp('Senpai Box Bottom');
+    senpaiBoxtop = currentStage.getNamedProp('Senpai Box Top');
+    galleryData = coolTextFile('ui/doki-gallery/sticker-data');
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+
+    cg1 = FunkinSprite.create(0, 0, 'gameplay/stages/credits/takeover-logo');
+    cg1.scrollFactor.set();
+    cg1.screenCenter();
+    cg1.cameras = [PlayState.instance.camGame];
+    PlayState.instance.add(cg1);
+
+    cg2 = FunkinSprite.create(0, 0, 'gameplay/stages/credits/thanksforplaying');
+    cg2.scrollFactor.set();
+    cg2.screenCenter();
+    cg2.alpha = 0.0001;
+    cg2.cameras = [PlayState.instance.camGame];
+    cg2.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
+    cg2.updateHitbox();
+    cg2.screenCenter();
+    PlayState.instance.add(cg2);
+
+    blackScreen = new FunkinSprite().makeSolidColor(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+    blackScreen.scrollFactor.set();
+    blackScreen.screenCenter();
+    blackScreen.cameras = [PlayState.instance.camGame];
+    PlayState.instance.add(blackScreen);
+
+    whiteflash = new FunkinSprite().makeSolidColor(FlxG.width * 3, FlxG.height * 3, FlxColor.WHITE);
+    whiteflash.scrollFactor.set();
+    whiteflash.screenCenter();
+    whiteflash.alpha = 0.0001;
+    whiteflash.cameras = [PlayState.instance.camGame];
+    PlayState.instance.add(whiteflash);
+
+    cursorDDTO = FunkinSprite.create(0, 0, 'gameplay/stages/credits/arrow');
+    cursorDDTO.scale.set(0.4, 0.4);
+    cursorDDTO.updateHitbox();
+    cursorDDTO.scale.set(1, 1);
+    cursorDDTO.cameras = [PlayState.instance.camGame];
+    cursorDDTO.setPosition(1300, 1080);
+    PlayState.instance.add(cursorDDTO);
+
+    stickerSprites = new FlxTypedSpriteGroup();
+		stickerSprites.cameras = [PlayState.instance.camHUD];
+		stickerSprites.alpha = 0.001;
+		PlayState.instance.add(stickerSprites);
+		var funX:Int;
+		var funY:Int;
+
+    stickerData = [];
+
+		for (i in 0...galleryData.length)
+		{
+			if (galleryData[i].startsWith('//'))
+				continue;
+			var data:Array<String> = galleryData[i].split('::');
+			stickerData.push(data[0]);
+		}
+
+		for (i in 0...4)
+		{
+			switch (i)
+			{
+				default:
+					funX = 0;
+					funY = 0;
+				case 1:
+					funX = 1025;
+					funY = 0;
+				case 2:
+					funX = 0;
+					funY = 465;
+				case 3:
+					funX = 1025;
+					funY = 465;
+			}
+			var sticker:FunkinSprite = FunkinSprite.create(funX, funY, 'ui/doki-gallery/stickies/' + stickerData[0]);
+      sticker.scrollFactor.set();
+			sticker.scale.set(0.85, 0.85);
+			sticker.updateHitbox();
+			stickerSprites.add(sticker);
+		}
+
+    staticcredits = FunkinSprite.createSparrow(0, 0, 'gameplay/stages/credits/home-static');
+    staticcredits.animation.addByPrefix('idle', 'HomeStatic', 24, true);
+    staticcredits.animation.play('idle');
+    staticcredits.scrollFactor.set();
+    staticcredits.alpha = 0.001;
+    staticcredits.blend = 9;
+    staticcredits.cameras = [PlayState.instance.camGame];
+    staticcredits.setGraphicSize(FlxG.width);
+    staticcredits.updateHitbox();
+    staticcredits.screenCenter();
+    PlayState.instance.add(staticcredits);
+
+    PlayState.instance.iconP1.visible = false;
+    PlayState.instance.iconP2.visible = false;
+    PlayState.instance.healthBar.visible = false;
+    PlayState.instance.healthBarBG.visible = false;
+
+    extrachar1 = CharacterDataParser.fetchCharacter('yuri-crazy');
+    var baseDad:BaseCharacter = currentStage.getDad();
+    currentStage.addCharacter(extrachar1, CharacterType.DAD);
+    extrachar1.useRenderTexture = true;
+    currentStage.characters.set('dad', baseDad);
+    currentStage.characters.set('extra-char', extrachar1);
+    extrachar1.alpha = 0.0001;
+  }
+
+  var hasHidden = false;
+  
+  function hideOpponentStrumline()
+  {
+    var opponentStrumline:FlxSprite = PlayState.instance.opponentStrumline;
+    if (opponentStrumline != null)
+    {
+      for (arrow in opponentStrumline.members)
+      {
+        arrow.visible = false;
+      }
+    }
+  }
+
+  function centerPlayerStrumline()
+  {
+    // This is a song gimmick we are never making middlescroll an option.
+
+    #if FEATURE_TOUCH_CONTROLS
+    if (Preferences.controlsScheme == "Arrows" && !ControlsHandler.usingExternalInputDevice) return;
+    #end
+
+    var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
+    if (playerStrumline != null)
+    {
+      playerStrumline.x = FlxG.width / 2 - playerStrumline.width / 2;
+    }
+  }
+
+  function onSongLoaded(event:ScriptEvent)
+  {
+    super.onSongLoaded(event);
+    cachedCharacters.clear();
+    for (char in ['monika-pixelnew', 'sayori', 'natsuki', 'yuri', 'yuri', 'protag', 'monika'])
+    {
+      var character = charHandler.fetchCharacter(char);
+      if (!cachedCharacters.exists(char)) cachedCharacters.set(char, []);
+      cachedCharacters.get(char).push(character);
+    }
   }
 
   function calcSectionLength(?duration:Int = 1)
@@ -40,10 +284,27 @@ class TakeoverMedleySong extends Song
     var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
     return durSeconds;
   }
-
+  
   function onSongRetry(event:ScriptEvent)
   {
     super.onSongRetry(event);
+    FlxTween.cancelTweensOf(whiteflash);
+    FlxTween.cancelTweensOf(PlayState.instance.camHUD);
+    FlxTween.cancelTweensOf(blackScreen);
+    FlxTween.tween(whiteflash, {alpha: 0.0001}, 0.5);
+    FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 0.5);
+    FlxTween.tween(blackScreen, {alpha: 1}, 0.5, {onComplete: () -> {
+      cursorDDTO.setPosition(1300, 1080);
+      setCharacter('dad', 'monika-pixelnew', true);
+      setCharacter('gf', 'senpai', true);
+      PlayState.instance.tweenCameraToPosition(PlayState.instance.cameraFollowPoint.x, -930);
+      cg1.loadGraphic(Paths.image('gameplay/stages/credits/takeover-logo'));
+      cg1.alpha = 1;
+      cg1.screenCenter();
+      cg2.alpha = 0.0001;
+      senpaiBox.visible = true;
+      senpaiBoxtop.visible = true;
+    }});
   }
 
   override function onPause(event)
@@ -80,14 +341,17 @@ class TakeoverMedleySong extends Song
 
     for (step in lastStep...event.step)
     {
-      switch (step)
+      switch (step + 1)
       {
         case 1:
+          dad.visible = false;
+          PlayState.instance.tweenCameraToPosition(PlayState.instance.cameraFollowPoint.x, -930);
+          FlxTween.cancelTweensOf(whiteflash);
           FlxTween.tween(whiteflash, {alpha: 1}, 2.6, {
             ease: FlxEase.sineOut,
             onComplete: function(tween:FlxTween)
             {
-              blackScreen.visible = false;
+              blackScreen.alpha = 0.0001;
               FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineOut});
             }
           });
@@ -98,13 +362,13 @@ class TakeoverMedleySong extends Song
             ease: FlxEase.sineOut,
             onComplete: function(tween:FlxTween)
             {
-              cg1.loadGraphic(Paths.image('credits/CreditsShit2', 'doki', true));
+              cg1.loadGraphic(Paths.image('gameplay/stages/credits/credits-2'));
               cg1.screenCenter();
             }
           });
         case 54:
           metadataDisplay.tweenOut();
-          FlxTween.tween(camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
+          FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
           FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: 460}, 2, {ease: FlxEase.sineOut});
         case 76:
           forcedPause = 'monika';
@@ -113,10 +377,10 @@ class TakeoverMedleySong extends Song
         case 208, 464, 592, 720, 848, 976, 1104, 1300, 1744, 1880, 2008, 2072, 2136, 2200:
           summmonStickies(true, 8);
         case 239:
-          defaultCamZoom = 0.5;
-          moveCamera('centered');
+          PlayState.instance.tweenCameraZoom(0.5, calcSectionLength(0.5), true, FlxEase.expoOut);
+          // moveCamera('centered');
           forcedPause = 'senpai';
-          camFollow.y += 50;
+          PlayState.instance.cameraFollowPoint.y += 50;
           // Worst thing known to man right now
 
           FlxTween.tween(p2Box, {x: p2Box.x - 200}, calcSectionLength(), {ease: FlxEase.sineOut});
@@ -134,7 +398,7 @@ class TakeoverMedleySong extends Song
           FlxTween.tween(gf, {y: gf.y - 900}, calcSectionLength(), {ease: FlxEase.sineOut});
         case 336:
           summmonStickies(true, 8);
-          addcharacter("senpai-angry", 2);
+          setCharacter("gf", "senpai-angry", true, false);
           gf.y -= 900;
         case 440:
           FlxTween.tween(senpaiBox, {y: senpaiBox.y - 1200}, calcSectionLength(), {ease: FlxEase.sineOut});
@@ -142,8 +406,9 @@ class TakeoverMedleySong extends Song
           FlxTween.tween(cursorDDTO, {y: cursorDDTO.y - 1200 + 10}, calcSectionLength(), {ease: FlxEase.sineOut});
           FlxTween.tween(gf, {y: gf.y - 1200}, calcSectionLength(), {ease: FlxEase.sineOut});
         case 447:
-          moveCamera('centered');
-          defaultCamZoom = 0.7;
+          // moveCamera('centered');
+          PlayState.instance.tweenCameraZoom(0.7, calcSectionLength(0.5), true, FlxEase.expoOut);
+          // defaultCamZoom = 0.7;
 
           FlxTween.tween(p2Box, {x: p2Box.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
           FlxTween.tween(p2Boxtop, {x: p2Boxtop.x + 200}, calcSectionLength(), {ease: FlxEase.sineOut});
@@ -167,6 +432,7 @@ class TakeoverMedleySong extends Song
           summmonStickies(true, 8);
         case 1392:
           if (staticcredits != null) FlxTween.tween(staticcredits, {alpha: 1}, calcSectionLength(5), {ease: FlxEase.sineOut});
+          dad.useRenderTexture = true;
           FlxTween.tween(dad, {alpha: 0}, 5, {ease: FlxEase.sineOut});
           FlxTween.tween(extrachar1, {alpha: 1}, 5, {ease: FlxEase.sineOut});
         case 1488:
@@ -186,10 +452,10 @@ class TakeoverMedleySong extends Song
           creditsCharSwap("monika");
           cursorDDTO.visible = false;
         case 2240:
-          FlxTween.tween(camHUD, {alpha: 0}, 5, {ease: FlxEase.sineOut});
-          FlxTween.tween(camFollow, {y: -930}, 5, {ease: FlxEase.sineOut});
+          FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 5, {ease: FlxEase.sineOut});
+          FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -930}, 5, {ease: FlxEase.sineOut});
         case 2264:
-          camZooming = false;
+          // camZooming = false;
         case 2280:
           FlxTween.tween(cg1, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
         case 2322:
@@ -197,7 +463,7 @@ class TakeoverMedleySong extends Song
             ease: FlxEase.sineOut,
             onComplete: function(tween:FlxTween)
             {
-              cg1.loadGraphic(Paths.image('credits/DokiTakeoverLogo', 'doki'));
+              cg1.loadGraphic(Paths.image('gameplay/stages/credits/takeover-logo'));
               cg1.screenCenter();
             }
           });
@@ -210,10 +476,123 @@ class TakeoverMedleySong extends Song
     lastStep = event.step;
   }
 
+	function prepareCharSwap()
+  {
+    FlxTween.cancelTweensOf(cursorDDTO);
+    cursorDDTO.loadGraphic(Paths.image('gameplay/stages/credits/arrow-hold'));
+    cursorDDTO.setPosition(1300, 1080);
+    FlxTween.tween(cursorDDTO, {x: 205, y: 415}, calcSectionLength(0.6), {ease: FlxEase.sineOut});
+  }
+
+	function creditsCharSwap(chara:String, ?unhide:Bool)
+	{
+		var funnycostume:String = 'casual';
+		if (unhide)
+			dad.visible = true;
+
+    // The stage handles the box changing
+		switch (chara)
+		{
+			case 'sayori', 'natsuki', 'yuri', 'protag':
+				p2Box.loadGraphic(Paths.image('gameplay/stages/credits/window-bottom-' + chara));
+			case 'monika', 'monika-pixelnew':
+				p2Box.loadGraphic(Paths.image('gameplay/stages/credits/window-bottom-monika'));
+			default:
+				p2Box.loadGraphic(Paths.image('gameplay/stages/credits/window-bottom'));
+		}
+
+		if (chara == 'monika-pixelnew')
+			funnycostume = 'hueh';
+
+		if (!unhide) setCharacter('dad', chara, true, true);
+		var boxFlash:FunkinSprite = new FunkinSprite(p2Box.x, p2Box.y).makeSolidColor(745, 864, FlxColor.WHITE);
+		boxFlash.alpha = 1;
+		boxFlash.cameras = [PlayState.instance.camGame];
+		PlayState.instance.currentStage.insert(PlayState.instance.currentStage.members.indexOf(p2Boxtop), boxFlash);
+		FlxTween.tween(boxFlash, {alpha: 0.001}, calcSectionLength(0.1), {ease: FlxEase.sineOut});
+		cursorDDTO.loadGraphic(Paths.image('gameplay/stages/credits/arrow'));
+		new FlxTimer().start(0.5, function(tmr:FlxTimer)
+		{
+			FlxTween.tween(cursorDDTO, {x: cursorDDTO.x - 120, y: cursorDDTO.y - 700}, calcSectionLength(0.5), {ease: FlxEase.sineInOut});
+		});
+	}
+  
+  function setCharacter(character:String = 'bf', newChar:String, ?currentZIndex:Bool = false, ?fromCache:Bool = false)
+  {
+    var characterData = switch (character)
+    {
+      case 'bf': [PlayState.instance?.currentStage?.getBoyfriend(), CharacterType.BF];
+      case 'gf': [PlayState.instance?.currentStage?.getGirlfriend(), CharacterType.GF];
+      case 'dad': [PlayState.instance?.currentStage?.getDad(), CharacterType.DAD];
+    }
+    var curZIndex:Int = 100;
+    if (characterData[0] != null)
+    {
+      if (currentZIndex) curZIndex = characterData[0].zIndex;
+      characterData[0].destroy();
+    }
+    var newCharacter = (fromCache ? cachedCharacters.get(newChar).shift() : CharacterDataParser.fetchCharacter(newChar));
+    if (newCharacter != null)
+    {
+      PlayState.instance.currentStage.addCharacter(newCharacter, characterData[1]);
+      newCharacter.zIndex = curZIndex;
+      PlayState.instance.currentStage.refresh();
+    }
+  }
+
+	function summmonStickies(?fadeOut:Bool, ?startDelayDur:Float = 0.5)
+	{
+    FlxTween.cancelTweensOf(stickerSprites);
+    stickerSprites.alpha = 1;
+    for (item in stickerSprites.members)
+    {
+      if (stickerData.length <= 0)
+        trace('We somehow ran out of stickers!');
+
+      var rand:Int = FlxG.random.int(0, stickerData.length);
+      var stike:String = stickerData[rand];
+
+      if (stickerData[rand] == null && rand >= stickerData.length)
+      {
+        rand -= 1;
+        stike = stickerData[rand];
+      }
+
+      if (stike != null)
+        trace('This Sticker exists ' + stike);
+      else //FIX FOUND
+        trace('This Sticker doesnt exists ' + stickerData.length + ' which number' + rand);
+
+      item.loadGraphic(Paths.image('ui/doki-gallery/stickies/' + stike));
+      stickerData.remove(stike);
+      item.scale.set(1, 1);
+      FlxTween.cancelTweensOf(item);
+      FlxTween.tween(item, {"scale.x": 0.85, "scale.y": 0.85}, 0.1, {});
+    }
+    if (fadeOut)
+      FlxTween.tween(stickerSprites, {alpha: 0.001}, 1, {startDelay: startDelayDur});
+	}
+  
+  public function coolTextFile(path:String):Array<String>
+  {
+    var fullText:String = Assets.getText(Paths.txt(path));
+
+    // Split into lines and remove empty lines
+    var firstArray:Array<String> = fullText.split('\n').filter(function(s:String) return s != '');
+
+    return firstArray;
+  }
+
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+    FlxG.signals.postUpdate.addOnce(() ->
+    {
+      if (Countdown.countdownTimer.active && !PlayState.instance?.isGamePaused) Countdown.skipCountdown();
+    });
+    PlayState.instance.camHUD.alpha = 0;
+    return;
+    // if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
     if (!hasPlayedIntroCutscene)
     {
       trace('Pausing countdown to play cutscene.');
@@ -223,6 +602,48 @@ class TakeoverMedleySong extends Song
       event.cancel(); // CANCEL THE COUNTDOWN!
 
       transitionToDialogue();
+    }
+  }
+  
+  override function onUpdate(event:UpdateScriptEvent)
+  {
+    super.onUpdate(event);
+    if (currentStage == null || PlayState.instance.isMinimalMode) return;
+    if (!this.hasHidden)
+    {
+      this.hasHidden = true;
+      hideOpponentStrumline();
+      centerPlayerStrumline();
+    }
+    if (PlayState.instance.controls.RESET)
+    {
+      PlayState.instance.isPlayerDying = true;
+      PlayState.instance.health = 1;
+      FlxG.signals.postUpdate.addOnce(() -> {PlayState.instance.isPlayerDying = false;});
+    }
+    if (PlayState.instance.health != 1)
+    {
+      PlayState.instance.health = 1;
+    }
+    processNotes(event.elapsed);
+  }
+  
+  function processNotes(elapsed:Float):Void
+  {
+    // Process hold notes on the opponent's side.
+    for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
+    {
+      if (holdNote == null || !holdNote.alive) continue;
+
+      // While the hold note is being hit, and there is length on the hold note...
+      if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
+      {
+        switch (holdNote.noteData.kind)
+        {
+          case "gf":
+            if (currentStage.getGirlfriend().isSinging()) currentStage.getGirlfriend().holdTimer = 0;
+        }
+      }
     }
   }
 }

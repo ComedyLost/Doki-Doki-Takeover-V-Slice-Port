@@ -21,6 +21,8 @@ class SchoolDDTOStage extends Stage
   var wiggleGround:FlxRuntimeShader = null;
   var wiggleTrees:FlxRuntimeShader = null;
 
+  final NO_FREAKS:Array<String> = ['high-school-conflict', 'your-reality-takeover-mix'];
+
   function buildStage()
   {
     super.buildStage();
@@ -35,8 +37,7 @@ class SchoolDDTOStage extends Stage
     getNamedProp('streetEvil').shader = wiggleGround;
     getNamedProp('treesEvil').shader = wiggleTrees;
 
-    if (PlayState.instance.currentSong.id.toLowerCase() == "high-school-conflict"
-      || PlayState.instance.currentSong.id.toLowerCase() == "your-reality-takeover-mix") getNamedProp('freaks').alpha = 0;
+    if (NO_FREAKS.contains(PlayState.instance.currentSong.id)) getNamedProp('freaks').alpha = 0;
   }
 
   override function onUpdate(event:UpdateScriptEvent)

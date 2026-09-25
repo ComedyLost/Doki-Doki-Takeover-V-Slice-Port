@@ -5,10 +5,7 @@
   "assetPath": "gameplay/characters/bf-pixelbar/newbfPixelbar",
   "flipX": true,
   "singTime": 4,
-  "healthIcon": {
-    "isPixel": false,
-    "id": "pixelbfdoki"
-  },
+  "healthIcon": { "id": "pixelbf-new", "isPixel": false },
   "death": {
     "cameraOffsets": [-150, 50]
   },

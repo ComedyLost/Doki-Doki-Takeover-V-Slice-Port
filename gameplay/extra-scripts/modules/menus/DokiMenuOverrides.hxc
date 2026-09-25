@@ -12,7 +12,6 @@ import funkin.audio.FunkinSound;
 import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.modding.base.MusicBeatState;
 import funkin.modding.module.Module;
-import Std;
 import funkin.util.ReflectUtil;
 import funkin.ui.freeplay.SongMenuItem;
 import funkin.modding.base.ScriptedMusicBeatSubState;
@@ -28,8 +27,6 @@ class DokiMenuOverrides extends Module
   public function new()
   {
     super('DokiMenuOverrides');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var redirectStates:Map<FlxState, MusicBeatState> = [MainMenuState => new DokiMainMenuState()];
@@ -55,7 +52,7 @@ class DokiMenuOverrides extends Module
   override function onUpdate(event:UpdateScriptEvent)
   {
     super.onUpdate(event);
-    if (save?.menus)
+    if (DokiPreferences.menus)
     {
       if (Std.isOfType(FlxG.state, StoryMenuState))
       {
@@ -140,11 +137,11 @@ class DokiMenuOverrides extends Module
   function onStateChangeEnd(event:StateChangeScriptEvent)
   {
     super.onStateChangeEnd(event);
-    if ((Std.isOfType(FlxG.state, MainMenuState)) && save?.menus)
+    if ((Std.isOfType(FlxG.state, MainMenuState)) && DokiPreferences.menus)
     {
       FlxG.switchState(ScriptedMusicBeatState.init("DokiMainMenuState"));
     }
-    else if ((Std.isOfType(FlxG.state, OptionsState)) && save?.menus)
+    else if ((Std.isOfType(FlxG.state, OptionsState)) && DokiPreferences.menus)
     {
       var exitToDokiMenu = function()
       {

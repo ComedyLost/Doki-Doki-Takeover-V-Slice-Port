@@ -37,8 +37,6 @@ class LibitinaSong extends Song
   function new()
   {
     super('libitina');
-
-    save = DokiPreferences.getDokiSave();
   }
 
   var shaderstatic = new FlxRuntimeShader(Assets.getText(Paths.frag("ui/shaders/StaticShader")));
@@ -459,15 +457,11 @@ class LibitinaSong extends Song
 
   function addcharacter(newCharacter:String, type:Int)
   {
-    var charData = CharacterDataParser.parseCharacterData(newCharacter.toLowerCase());
-    CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length + 1] = charData;
-
     var zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex;
     PlayState.instance.currentStage.getBoyfriend().destroy();
     var boyfriend = CharacterDataParser.fetchCharacter(newCharacter.toLowerCase());
     if (boyfriend != null)
     {
-      boyfriend.set_characterType(CharacterType.BF);
       PlayState.instance.currentStage.addCharacter(boyfriend, CharacterType.BF);
       PlayState.instance.currentStage.getBoyfriend().zIndex = zIndex;
     }
@@ -487,7 +481,7 @@ class LibitinaSong extends Song
     GameOverSubState.musicSuffix = '-libi';
     PauseSubState.musicSuffix = '-doki';
 
-    /*if (!hasPlayedCutscene && save.freeplayDialogue) {
+    /*if (!hasPlayedCutscene && DokiPreferences.freeplayDialogue) {
       //doesn't work for some reason
       //I'll probably fix it in a minor update or the Encore update
       trace('Pausing countdown to play cutscene.');
@@ -547,325 +541,339 @@ class LibitinaSong extends Song
       camGame2.filters = [];
     }
   }
+  
+  var lastStep:Int = 0;
 
   // FUCKKKKK I FUCKED UP THE SPRITE ORDER D:
   function onStepHit(event:SongTimeScriptEvent):Void
   {
-    switch (event.step)
+    if ((PlayState.instance?.isGameOverState ?? true)) return;
+
+    if (lastStep > event.step)
     {
-      case 16:
-        FlxTween.tween(blackScreen, {alpha: 0.001}, calcSectionLength(2), {ease: FlxEase.sineOut});
-      case 68:
-        FlxTween.tween(deskBG2, {alpha: 1}, calcSectionLength(0.25), {
-          ease: FlxEase.sineIn,
-          onComplete: function(tween:FlxTween)
-          {
-            deskBG1.alpha = 0.001;
-            rainBG.alpha = 0.001;
-          }
-        });
-      case 72:
-        FlxTween.tween(PlayState.instance, {currentCameraZoom: 1.5}, calcSectionLength(2.25), {ease: FlxEase.quadIn});
-        FlxTween.tween(camGame2, {zoom: 1.5}, calcSectionLength(2.25), {ease: FlxEase.quadIn});
-      case 94:
-        cursorDDTO.alpha = 1;
-        FlxTween.tween(cursorDDTO, {x: 660, y: 400}, calcSectionLength(0.9), {ease: FlxEase.quadOut});
-      case 110:
-        cursorDDTO.scale.set(0.9, 0.9);
-      case 111:
-        cursorDDTO.scale.set(1, 1);
-      case 112:
-        extractPopup.alpha = 1;
-        extractPopup.scale.set();
-        FlxTween.tween(extractPopup.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
-      case 114:
-        FlxTween.tween(cursorDDTO, {alpha: 0.001}, 0.3, {ease: FlxEase.sineIn});
-      case 120:
-        FlxTween.tween(deskBG2, {alpha: 0.001}, calcSectionLength(0.3125), {ease: FlxEase.sineIn});
-      case 126:
-        libShader();
-      case 127:
-        testVM.bitmap.time = 0;
-      case 128:
-        libShader(false);
-        camGame2.zoom = PlayState.instance.currentCameraZoom = 1;
-        PlayState.instance.cameraZoomRate = 4;
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-        deskBG2.alpha = 0.001;
-        extractPopup.alpha = 0.001;
-        deskBG2Overlay.alpha = 0.15;
-        PlayState.instance.camHUD.alpha = 1;
-        testVM.alpha = 1;
-      case 160, 224, 288, 480, 576, 688, 800, 896, 1024:
-        libPopup(526, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
-        libPopup(808, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
-        libPopup(184, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
-      case 352:
-        libiWindow.alpha = 1;
-        libiWindow.scale.set();
-        libiWindow.cameras = [camGame2];
-        FlxTween.tween(libiWindow.scale, {x: 1.1, y: 1.1}, 0.2, {ease: FlxEase.quadOut});
-      case 364:
-        libHando.alpha = 1;
-        libHando.cameras = [camGame2];
-        libHando.animation.play('idle', true);
-      case 368:
-        FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-        FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
-
-        PlayState.instance.playerStrumline.visible = true;
-        PlayState.instance.playerStrumline.fadeInArrows();
-      case 384:
-        libHando.alpha = 0.001;
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-        libiWindow.scale.set(1, 1);
-        PlayState.instance.currentStage.getBoyfriend().setPosition(190, -30);
-        PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
-        PlayState.instance.currentStage.getBoyfriend().alpha = 1;
-        for (i in 0...grpPopups.length)
-        {
-          var props = grpPopups.pop(i);
-          props.destroy();
-        }
-      case 520, 1169, 1181, 1186, 1197, 1568, 1968, 2800, 2864, 2928:
-        libShader();
-      case 544, 1172, 1184, 1189, 1576, 2816, 2880, 2944, 3666:
-        libShader(false);
-      case 624:
-        testVM.alpha = 0.001;
-        libiWindow.alpha = 0.001;
-        PlayState.instance.currentStage.getBoyfriend().alpha = 0.001;
-        deskBG2Overlay.alpha = 0.001;
-        for (i in 0...grpPopups.length)
-        {
-          var props = grpPopups[i];
-          props.visible = false;
-        }
-        libAwaken.alpha = 1;
-        libAwaken.animation.play('idle', true);
-      case 640:
-        PlayState.instance.playerStrumline.scrollSpeed += 0.2;
-
-        testVM.alpha = 1;
-
-        PlayState.instance.currentStage.getBoyfriend().alpha = 1;
-        deskBG2Overlay.alpha = 0.15;
-        for (i in 0...grpPopups.length)
-        {
-          var props = grpPopups[i];
-          props.visible = true;
-        }
-        libAwaken.alpha = 0.001;
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-        addcharacter('ghost-sketch', 0);
-        PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
-        PlayState.instance.currentStage.getBoyfriend().screenCenter();
-
-        for (i in 0...grpPopups.length)
-        {
-          var props = grpPopups.pop(i);
-          props.destroy();
-        }
-
-        PlayState.instance.add(libVignette);
-        libVignette.cameras = [camGame2];
-      case 1152:
-        FlxTween.tween(testVM, {alpha: 0.001}, calcSectionLength(), {ease: FlxEase.sineOut});
-      case 1200:
-        libShader(false);
-        FlxTween.tween(deskBG2Overlay, {alpha: 0.001}, calcSectionLength(), {ease: FlxEase.linear});
-        camGame2.fade(0xFFFFFFFF, calcSectionLength(), false);
-      case 1216:
-        PlayState.instance.camGame.filters = [warpshader, fishshader];
-
-        addcharacter('ghost', 0);
-        PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
-        PlayState.instance.currentStage.getBoyfriend().screenCenter();
-
-        ghostBG.alpha = 1;
-        noteCam = true;
-
-        for (i in 0...grpPopups.length)
-        {
-          var props = grpPopups.pop(i);
-          props.destroy();
-        }
-        PlayState.instance.remove(libVignette);
-        PlayState.instance.add(libVignette);
-        libVignette.cameras = [camGame2];
-      case 1217:
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-      case 1712:
-        ghostBG.alpha = 0.001;
-        libVignette.alpha = 0.001;
-        staticshock.alpha = 1;
-        staticshock.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 1;
-        PlayState.instance.currentStage.add(staticshock);
-        staticshock.cameras = [camGame2];
-      case 1728:
-        PlayState.instance.camGame.filters = [fishshader];
-
-        eyeBG.alpha = 1;
-
-        PlayState.instance.currentStage.add(eyeShadow);
-        PlayState.instance.currentStage.add(eyeMidwayBG);
-
-        eyeMidwayBG.cameras = [camGame2];
-        eyeShadow.cameras = [camGame2];
-
-        eyeShadow.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 10;
-        eyeMidwayBG.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 10;
-
-        libVignette.alpha = 1;
-        staticshock.alpha = 0.001;
-      case 1984:
-        libShader(false);
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-        PlayState.instance.currentStage.getBoyfriend().shader = inverty; // this doesn't have shader check on purpose
-        libFinaleOverlay.alpha = 0.001;
-        eyeBG.alpha = 0.001;
-        eyeShadow.alpha = 0.001;
-        eyeMidwayBG.alpha = 0.001;
-        infoBG.alpha = 1;
-      case 2240:
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-        PlayState.instance.currentStage.getBoyfriend().shader = null; // this doesn't have shader check on purpose
-        infoBG.alpha = 0.001;
-        infoBG2.alpha = 1;
-      case 2480:
-        camGame2.fade(0xFF000000, 0, false);
-      case 2495:
-        crackBG.bitmap.time = 0;
-      case 2496:
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-        infoBG2.alpha = 0.001;
-        crackBG.alpha = 1;
-        crackBG.cameras = [camGame2];
-
-        libVignette.loadGraphic(Paths.image('$STAGE_PATH/vignetteend'));
-      case 2752, 2817, 2881, 2945, 2960, 2972, 2974, 2976, 2978, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2889, 2890, 2891, 2892, 2893:
-        // this code looks so fucking ugly
-        // I agree >:D
-        libPopup(FlxG.random.int(386, 666), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
-        libPopup(FlxG.random.int(668, 948), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
-        libPopup(FlxG.random.int(44, 324), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
-      case 2994:
-        PlayState.instance.currentStage.remove(libiWindow);
-        PlayState.instance.add(libiWindow);
-        libiWindow.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 69;
-        libiWindow.loadGraphic(Paths.image('$STAGE_PATH/granted'));
-        libiWindow.cameras = [PlayState.instance.camHUD];
-        libiWindow.screenCenter();
-        libiWindow.alpha = 1;
-        libiWindow.scale.set();
-        FlxTween.tween(libiWindow.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
-      case 3008:
-        camGame2.fade(0xFFFFFFFF, 0, false);
-        PlayState.instance.currentStage.getBoyfriend().alpha = 0.001;
-        libiWindow.alpha = 0.001;
-
-        crackBG.alpha = 0.001;
-
-        PlayState.instance.currentCameraZoom = PlayState.instance.stageZoom;
-        camGame2.zoom = PlayState.instance.stageZoom;
-        PlayState.instance.camHUD.zoom = PlayState.instance.defaultHUDCameraZoom;
-
-        libVignette.loadGraphic(Paths.image('$STAGE_PATH/vignette'));
-        libFinaleBG.alpha = 1;
-        libGhost.alpha = 1;
-
-        for (i in 0...grpPopups.length)
-        {
-          var props = grpPopups.pop(i);
-          props.destroy();
-        }
-      case 3020:
-        camGame2.fade(0xFFFFFFFF, calcSectionLength(2), true);
-        libFinaleBG.cameras = [camGame2];
-        libGhost.cameras = [camGame2];
-        for (i in 0...grpPopups.length)
-        {
-          var props = grpPopups.pop(i);
-          props.destroy();
-        }
-      case 3040:
-        PlayState.instance.playerStrumline.scrollSpeed /= 2;
-      case 3060:
-        FlxTween.tween(libFinaleBG, {y: libFinaleBG.y - 560}, calcSectionLength(6), {ease: FlxEase.sineInOut});
-        FlxTween.tween(libGhost, {y: libGhost.y - 580}, calcSectionLength(5), {ease: FlxEase.sineInOut, startDelay: calcSectionLength(1.1)});
-      case 3584:
-        camGame2.fade(0xFFFFFFFF, 0.2, true);
-        libParty.alpha = 1;
-        libRockIs.alpha = 1;
-        libParty.cameras = [camGame2];
-        libRockIs.cameras = [camGame2];
-      case 3624:
-        FlxTween.tween(libFinale, {alpha: 1}, calcSectionLength(0.35), {
-          ease: FlxEase.sineIn,
-          onComplete: function(tween:FlxTween)
-          {
-            libFinaleBG.alpha = 0.001;
-            libGhost.alpha = 0.001;
-            libParty.alpha = 0.001;
-            libRockIs.alpha = 0.001;
-          }
-        });
-      case 3646, 3682, 3688, 3710:
-        libShader(true, false);
-      case 3648:
-        // I would've used the switch case but then it wouldn't run the loadGraphic stuff
-        libShader(false);
-        libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale3'));
-        libFinale.cameras = [camGame2];
-      case 3664:
-        libShader(true, false);
-        libFinaleOverlay.alpha = 1;
-        libFinaleOverlay.cameras = [camGame2];
-      case 3684:
-        libShader(false);
-        libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale4'));
-        libFinale.cameras = [camGame2];
-      case 3692:
-        libShader(false);
-
-        libFinaleOverlay.setGraphicSize(Std.int(FlxG.width * 0.86 / PlayState.instance.stageZoom));
-        libFinaleOverlay.screenCenter();
-
-        deskBG2.loadGraphic(Paths.image('$STAGE_PATH/outroscreen'));
-        PlayState.instance.camHUD.alpha = 0.001;
-        libFinale.alpha = 0.001;
-        deskBG2.alpha = 1;
-        deskBG2.cameras = [camGame2];
-      case 3711:
-        rainBG.bitmap.time = 0;
-      case 3712:
-        camGame2.zoom = 1.4;
-        FlxTween.tween(camGame2, {zoom: 1}, calcSectionLength(2.5), {ease: FlxEase.sineInOut});
-
-        libShader(false);
-        ModuleHandler.getModule('Credits').scriptCall('tweenIn');
-        rainBG.alpha = 1;
-        rainBG.cameras = [camGame2];
-
-        deskBG1.loadGraphic(Paths.image('$STAGE_PATH/outrodesk'));
-        deskBG1.alpha = 1;
-        deskBG1.cameras = [camGame2];
-        deskBG1.zIndex = 110;
-
-        PlayState.instance.currentStage.refresh();
-
-        deskBG2.alpha = 0.001;
-        deskBG2.cameras = [camGame2];
-        libFinaleOverlay.alpha = 0.001;
-      case 3760:
-        camGame2.fade(0xFFFFFFFF, 0.3, true);
-        ModuleHandler.getModule('Credits').scriptCall('tweenOut');
-        PlayState.instance.camHUD.alpha = 0.001;
-        deskBG1.alpha = 0.001;
-
-        rainBG.alpha = 0.001;
+      lastStep = event.step;
+      return;
     }
+
+    for (step in lastStep...event.step)
+    {
+      switch (step + 1)
+      {
+        case 16:
+          FlxTween.tween(blackScreen, {alpha: 0.001}, calcSectionLength(2), {ease: FlxEase.sineOut});
+        case 68:
+          FlxTween.tween(deskBG2, {alpha: 1}, calcSectionLength(0.25), {
+            ease: FlxEase.sineIn,
+            onComplete: function(tween:FlxTween)
+            {
+              deskBG1.alpha = 0.001;
+              rainBG.alpha = 0.001;
+            }
+          });
+        case 72:
+          FlxTween.tween(PlayState.instance, {currentCameraZoom: 1.5}, calcSectionLength(2.25), {ease: FlxEase.quadIn});
+          FlxTween.tween(camGame2, {zoom: 1.5}, calcSectionLength(2.25), {ease: FlxEase.quadIn});
+        case 94:
+          cursorDDTO.alpha = 1;
+          FlxTween.tween(cursorDDTO, {x: 660, y: 400}, calcSectionLength(0.9), {ease: FlxEase.quadOut});
+        case 110:
+          cursorDDTO.scale.set(0.9, 0.9);
+        case 111:
+          cursorDDTO.scale.set(1, 1);
+        case 112:
+          extractPopup.alpha = 1;
+          extractPopup.scale.set();
+          FlxTween.tween(extractPopup.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
+        case 114:
+          FlxTween.tween(cursorDDTO, {alpha: 0.001}, 0.3, {ease: FlxEase.sineIn});
+        case 120:
+          FlxTween.tween(deskBG2, {alpha: 0.001}, calcSectionLength(0.3125), {ease: FlxEase.sineIn});
+        case 126:
+          libShader();
+        case 127:
+          testVM.bitmap.time = 0;
+        case 128:
+          libShader(false);
+          camGame2.zoom = PlayState.instance.currentCameraZoom = 1;
+          PlayState.instance.cameraZoomRate = 4;
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+          deskBG2.alpha = 0.001;
+          extractPopup.alpha = 0.001;
+          deskBG2Overlay.alpha = 0.15;
+          PlayState.instance.camHUD.alpha = 1;
+          testVM.alpha = 1;
+        case 160, 224, 288, 480, 576, 688, 800, 896, 1024:
+          libPopup(526, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
+          libPopup(808, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
+          libPopup(184, FlxG.random.int(88, 442), FlxG.random.float(0.9, 1.1), FlxG.random.float(0, 2));
+        case 352:
+          libiWindow.alpha = 1;
+          libiWindow.scale.set();
+          libiWindow.cameras = [camGame2];
+          FlxTween.tween(libiWindow.scale, {x: 1.1, y: 1.1}, 0.2, {ease: FlxEase.quadOut});
+        case 364:
+          libHando.alpha = 1;
+          libHando.cameras = [camGame2];
+          libHando.animation.play('idle', true);
+        case 368:
+          FlxTween.tween(PlayState.instance.healthBar, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+          FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
+
+          PlayState.instance.playerStrumline.visible = true;
+          PlayState.instance.playerStrumline.fadeInArrows();
+        case 384:
+          libHando.alpha = 0.001;
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+          libiWindow.scale.set(1, 1);
+          PlayState.instance.currentStage.getBoyfriend().setPosition(190, -30);
+          PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
+          PlayState.instance.currentStage.getBoyfriend().alpha = 1;
+          for (i in 0...grpPopups.length)
+          {
+            var props = grpPopups.pop(i);
+            props.destroy();
+          }
+        case 520, 1169, 1181, 1186, 1197, 1568, 1968, 2800, 2864, 2928:
+          libShader();
+        case 544, 1172, 1184, 1189, 1576, 2816, 2880, 2944, 3666:
+          libShader(false);
+        case 624:
+          testVM.alpha = 0.001;
+          libiWindow.alpha = 0.001;
+          PlayState.instance.currentStage.getBoyfriend().alpha = 0.001;
+          deskBG2Overlay.alpha = 0.001;
+          for (i in 0...grpPopups.length)
+          {
+            var props = grpPopups[i];
+            props.visible = false;
+          }
+          libAwaken.alpha = 1;
+          libAwaken.animation.play('idle', true);
+        case 640:
+          PlayState.instance.playerStrumline.scrollSpeed += 0.2;
+
+          testVM.alpha = 1;
+
+          PlayState.instance.currentStage.getBoyfriend().alpha = 1;
+          deskBG2Overlay.alpha = 0.15;
+          for (i in 0...grpPopups.length)
+          {
+            var props = grpPopups[i];
+            props.visible = true;
+          }
+          libAwaken.alpha = 0.001;
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+          addcharacter('ghost-sketch', 0);
+          PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
+          PlayState.instance.currentStage.getBoyfriend().screenCenter();
+
+          for (i in 0...grpPopups.length)
+          {
+            var props = grpPopups.pop(i);
+            props.destroy();
+          }
+
+          PlayState.instance.add(libVignette);
+          libVignette.cameras = [camGame2];
+        case 1152:
+          FlxTween.tween(testVM, {alpha: 0.001}, calcSectionLength(), {ease: FlxEase.sineOut});
+        case 1200:
+          libShader(false);
+          FlxTween.tween(deskBG2Overlay, {alpha: 0.001}, calcSectionLength(), {ease: FlxEase.linear});
+          camGame2.fade(0xFFFFFFFF, calcSectionLength(), false);
+        case 1216:
+          PlayState.instance.camGame.filters = [warpshader, fishshader];
+
+          addcharacter('ghost', 0);
+          PlayState.instance.currentStage.getBoyfriend().cameras = [camGame2];
+          PlayState.instance.currentStage.getBoyfriend().screenCenter();
+
+          ghostBG.alpha = 1;
+          noteCam = true;
+
+          for (i in 0...grpPopups.length)
+          {
+            var props = grpPopups.pop(i);
+            props.destroy();
+          }
+          PlayState.instance.remove(libVignette);
+          PlayState.instance.add(libVignette);
+          libVignette.cameras = [camGame2];
+        case 1217:
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+        case 1712:
+          ghostBG.alpha = 0.001;
+          libVignette.alpha = 0.001;
+          staticshock.alpha = 1;
+          staticshock.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 1;
+          PlayState.instance.currentStage.add(staticshock);
+          staticshock.cameras = [camGame2];
+        case 1728:
+          PlayState.instance.camGame.filters = [fishshader];
+
+          eyeBG.alpha = 1;
+
+          PlayState.instance.currentStage.add(eyeShadow);
+          PlayState.instance.currentStage.add(eyeMidwayBG);
+
+          eyeMidwayBG.cameras = [camGame2];
+          eyeShadow.cameras = [camGame2];
+
+          eyeShadow.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 10;
+          eyeMidwayBG.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 10;
+
+          libVignette.alpha = 1;
+          staticshock.alpha = 0.001;
+        case 1984:
+          libShader(false);
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+          PlayState.instance.currentStage.getBoyfriend().shader = inverty; // this doesn't have shader check on purpose
+          libFinaleOverlay.alpha = 0.001;
+          eyeBG.alpha = 0.001;
+          eyeShadow.alpha = 0.001;
+          eyeMidwayBG.alpha = 0.001;
+          infoBG.alpha = 1;
+        case 2240:
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+          PlayState.instance.currentStage.getBoyfriend().shader = null; // this doesn't have shader check on purpose
+          infoBG.alpha = 0.001;
+          infoBG2.alpha = 1;
+        case 2480:
+          camGame2.fade(0xFF000000, 0, false);
+        case 2495:
+          crackBG.bitmap.time = 0;
+        case 2496:
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+          infoBG2.alpha = 0.001;
+          crackBG.alpha = 1;
+          crackBG.cameras = [camGame2];
+
+          libVignette.loadGraphic(Paths.image('$STAGE_PATH/vignetteend'));
+        case 2752, 2817, 2881, 2945, 2960, 2972, 2974, 2976, 2978, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2889, 2890, 2891, 2892, 2893:
+          // this code looks so fucking ugly
+          // I agree >:D
+          libPopup(FlxG.random.int(386, 666), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
+          libPopup(FlxG.random.int(668, 948), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
+          libPopup(FlxG.random.int(44, 324), FlxG.random.int(68, 482), FlxG.random.float(0.95, 1.25), '', 'red', FlxG.random.floatNormal());
+        case 2994:
+          PlayState.instance.currentStage.remove(libiWindow);
+          PlayState.instance.add(libiWindow);
+          libiWindow.zIndex = PlayState.instance.currentStage.getBoyfriend().zIndex + 69;
+          libiWindow.loadGraphic(Paths.image('$STAGE_PATH/granted'));
+          libiWindow.cameras = [PlayState.instance.camHUD];
+          libiWindow.screenCenter();
+          libiWindow.alpha = 1;
+          libiWindow.scale.set();
+          FlxTween.tween(libiWindow.scale, {x: 1, y: 1}, 0.2, {ease: FlxEase.quadOut});
+        case 3008:
+          camGame2.fade(0xFFFFFFFF, 0, false);
+          PlayState.instance.currentStage.getBoyfriend().alpha = 0.001;
+          libiWindow.alpha = 0.001;
+
+          crackBG.alpha = 0.001;
+
+          PlayState.instance.currentCameraZoom = PlayState.instance.stageZoom;
+          camGame2.zoom = PlayState.instance.stageZoom;
+          PlayState.instance.camHUD.zoom = PlayState.instance.defaultHUDCameraZoom;
+
+          libVignette.loadGraphic(Paths.image('$STAGE_PATH/vignette'));
+          libFinaleBG.alpha = 1;
+          libGhost.alpha = 1;
+
+          for (i in 0...grpPopups.length)
+          {
+            var props = grpPopups.pop(i);
+            props.destroy();
+          }
+        case 3020:
+          camGame2.fade(0xFFFFFFFF, calcSectionLength(2), true);
+          libFinaleBG.cameras = [camGame2];
+          libGhost.cameras = [camGame2];
+          for (i in 0...grpPopups.length)
+          {
+            var props = grpPopups.pop(i);
+            props.destroy();
+          }
+        case 3040:
+          PlayState.instance.playerStrumline.scrollSpeed /= 2;
+        case 3060:
+          FlxTween.tween(libFinaleBG, {y: libFinaleBG.y - 560}, calcSectionLength(6), {ease: FlxEase.sineInOut});
+          FlxTween.tween(libGhost, {y: libGhost.y - 580}, calcSectionLength(5), {ease: FlxEase.sineInOut, startDelay: calcSectionLength(1.1)});
+        case 3584:
+          camGame2.fade(0xFFFFFFFF, 0.2, true);
+          libParty.alpha = 1;
+          libRockIs.alpha = 1;
+          libParty.cameras = [camGame2];
+          libRockIs.cameras = [camGame2];
+        case 3624:
+          FlxTween.tween(libFinale, {alpha: 1}, calcSectionLength(0.35), {
+            ease: FlxEase.sineIn,
+            onComplete: function(tween:FlxTween)
+            {
+              libFinaleBG.alpha = 0.001;
+              libGhost.alpha = 0.001;
+              libParty.alpha = 0.001;
+              libRockIs.alpha = 0.001;
+            }
+          });
+        case 3646, 3682, 3688, 3710:
+          libShader(true, false);
+        case 3648:
+          // I would've used the switch case but then it wouldn't run the loadGraphic stuff
+          libShader(false);
+          libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale3'));
+          libFinale.cameras = [camGame2];
+        case 3664:
+          libShader(true, false);
+          libFinaleOverlay.alpha = 1;
+          libFinaleOverlay.cameras = [camGame2];
+        case 3684:
+          libShader(false);
+          libFinale.loadGraphic(Paths.image('$STAGE_PATH/finale/Finale4'));
+          libFinale.cameras = [camGame2];
+        case 3692:
+          libShader(false);
+
+          libFinaleOverlay.setGraphicSize(Std.int(FlxG.width * 0.86 / PlayState.instance.stageZoom));
+          libFinaleOverlay.screenCenter();
+
+          deskBG2.loadGraphic(Paths.image('$STAGE_PATH/outroscreen'));
+          PlayState.instance.camHUD.alpha = 0.001;
+          libFinale.alpha = 0.001;
+          deskBG2.alpha = 1;
+          deskBG2.cameras = [camGame2];
+        case 3711:
+          rainBG.bitmap.time = 0;
+        case 3712:
+          camGame2.zoom = 1.4;
+          FlxTween.tween(camGame2, {zoom: 1}, calcSectionLength(2.5), {ease: FlxEase.sineInOut});
+
+          libShader(false);
+          ModuleHandler.getModule('Credits').scriptCall('tweenIn');
+          rainBG.alpha = 1;
+          rainBG.cameras = [camGame2];
+
+          deskBG1.loadGraphic(Paths.image('$STAGE_PATH/outrodesk'));
+          deskBG1.alpha = 1;
+          deskBG1.cameras = [camGame2];
+          deskBG1.zIndex = 110;
+
+          PlayState.instance.currentStage.refresh();
+
+          deskBG2.alpha = 0.001;
+          deskBG2.cameras = [camGame2];
+          libFinaleOverlay.alpha = 0.001;
+        case 3760:
+          camGame2.fade(0xFFFFFFFF, 0.3, true);
+          ModuleHandler.getModule('Credits').scriptCall('tweenOut');
+          PlayState.instance.camHUD.alpha = 0.001;
+          deskBG1.alpha = 0.001;
+
+          rainBG.alpha = 0.001;
+      }
+    }
+    lastStep = event.step;
   }
 
   var curDokiLight:Int = 0;
