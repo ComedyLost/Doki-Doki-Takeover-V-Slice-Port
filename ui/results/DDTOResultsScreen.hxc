@@ -97,7 +97,7 @@ class DDTOResults extends Module
       }
       if (characterDoki)
       {
-        var dokis:FunkinSprite = FunkinSprite.createSparrow(310 + FullScreenScaleMode.gameCutoutSize.x / 2, -200, "ui/doki-main-menu/characters/dokitogether");
+        var dokis:FunkinSprite = FunkinSprite.createSparrow(310 + FullScreenScaleMode.gameCutoutSize.x / 2, -200, "ui/doki/main-menu/characters/dokitogether");
         dokis.scale.set(0.6, 0.6);
         dokis.animation.addByPrefix('idle', 'Doki together club', 24, true, false, false);
         dokis.animation.play('idle', true, false, 0);
@@ -128,10 +128,10 @@ class DDTOResults extends Module
       var state = event.targetState;
       isDoki = switch (state.params.characterId)
       {
-        case "bf-doki", "pixelbf-new", "pixelbfangry-new", "bf-pixelbar", "monika", "sayori", "yuri", "natsuki", "protag", "playablegf", "pico-doki",
-          "spooky-doki": true;
+        case "bf-doki", "pixelbf-new", "pixelbfangry-new", "bf-pixelbar", "monika", "sayori", "yuri", "natsuki", "protag", "playablegf", "pico-doki", "spooky-doki": true;
         default: false;
       }
+      if (['rain-clouds', 'my-confession', 'takeover-medley'].contains(state.params.songId)) isDoki = true;
       if (!isDoki) return;
       #if SpookyMix
       if (state.params.characterId == 'spooky-doki') state.params.characterId = 'spooky';
@@ -150,7 +150,7 @@ class DDTOResults extends Module
       whiteBackground.cameras = [state.cameraBG];
       whiteBackground.alpha = 1;
 
-      dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
+      dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki/general/scrolling-bg'));
       dokiBackdrop.scrollFactor.set(0.1, 0.1);
       dokiBackdrop.velocity.set(-10, 0);
       dokiBackdrop.zIndex = 12;

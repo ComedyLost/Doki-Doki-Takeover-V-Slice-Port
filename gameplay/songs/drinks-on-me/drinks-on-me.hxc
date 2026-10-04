@@ -36,12 +36,12 @@ class DrinksOnMeSong extends Song
     if (callback.note.noteData.getStrumlineIndex() > 0)
     {
       callback.note.alpha = PlayState.instance.opponentStrumline?.alpha ?? 1;
-      if (callback.note.get_isHoldNote()) callback.note.holdNoteSprite.alpha = PlayState.instance.opponentStrumline?.alpha ?? 1;
+      if (callback.note.isHoldNote) callback.note.holdNoteSprite.alpha = PlayState.instance.opponentStrumline?.alpha ?? 1;
     }
     else
     {
       callback.note.alpha = PlayState.instance.playerStrumline?.alpha ?? 1;
-      if (callback.note.get_isHoldNote()) callback.note.holdNoteSprite.alpha = PlayState.instance.playerStrumline?.alpha ?? 1;
+      if (callback.note.isHoldNote) callback.note.holdNoteSprite.alpha = PlayState.instance.playerStrumline?.alpha ?? 1;
     }
   }
 

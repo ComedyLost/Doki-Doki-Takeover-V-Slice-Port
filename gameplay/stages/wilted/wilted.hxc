@@ -50,7 +50,7 @@ class WiltedStage extends Stage
     FlxG.cameras.insert(camBG, FlxG.cameras.list.indexOf(PlayState.instance.camGame), false);
     PlayState.instance.camGame.bgColor = 0x0;
 
-    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
+    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki/general/scrolling-bg'));
     dokiBackdrop.scrollFactor.set(0.1, 0.1);
     dokiBackdrop.velocity.set(-10, 0);
     dokiBackdrop.alpha = 0.3;

@@ -48,6 +48,8 @@ class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
   function get_currentCostume():String
   {
     var costumeName:String = Reflect.field(SaveData, '${_data.costumes}costume') ?? '';
+    if (PlayState.instance?.currentSong != null && PlayState.instance.currentSong.scriptHas('COSTUME_OVERRIDE'))
+      return PlayState.instance.currentSong.COSTUME_OVERRIDE;
     if (costumeName == '') return 'default';
     return costumeName;
   }

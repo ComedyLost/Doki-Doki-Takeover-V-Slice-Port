@@ -145,22 +145,11 @@ class SwappingNotestyles extends Module
     // Clear all notesplashes and hold covers so the game can make new ones (Do this first so I can redo these with the notes)
     strumline.noteSplashes.clear();
     strumline.noteHoldCovers.clear();
-    for (i in 0...Strumline.KEY_COUNT)
-    {
-      var strumNote = strumline.strumlineNotes.members[i];
-      var child:StrumlineNote = new StrumlineNote(noteStyle, strumline.isPlayer, Strumline.DIRECTIONS[i]);
-      child.x = strumline.getXPos(Strumline.DIRECTIONS[i]);
-      child.x += Strumline.INITIAL_OFFSET;
-      child.y = 0;
-      noteStyle.applyStrumlineOffsets(child);
-      strumNote.kill();
-      strumline.strumlineNotes.replace(strumNote, child);
-    }
     for (note in strumline.notes)
     {
       var noteKindStyle:NoteStyle = NoteKindManager.getNoteStyle(note.kind, strumline.noteStyle.id) ?? noteStyle;
       note.setupNoteGraphic(noteKindStyle);
-      note.playNoteAnimation(note.noteData.getDirection());
+      note.playNoteAnimation(note.direction);
       if (note.isHoldNote)
       {
         note.holdNoteSprite.noteStyleOffsets = noteStyle.getHoldNoteOffsets();
@@ -169,7 +158,7 @@ class SwappingNotestyles extends Module
 
         // Recenter hold notes
         note.holdNoteSprite.x = strumline.x;
-        note.holdNoteSprite.x += strumline.getXPos(Strumline.DIRECTIONS[note.noteData.getDirection() % Strumline.KEY_COUNT]);
+        note.holdNoteSprite.x += strumline.getXPos(Strumline.DIRECTIONS[note.direction % Strumline.KEY_COUNT]);
         note.holdNoteSprite.x += Strumline.STRUMLINE_SIZE / 2;
         note.holdNoteSprite.x -= note.holdNoteSprite.width / 2;
 

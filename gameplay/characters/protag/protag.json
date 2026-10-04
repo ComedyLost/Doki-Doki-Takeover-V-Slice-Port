@@ -5,7 +5,6 @@
   "assetPath": "gameplay/characters/protag/costumes/default",
   "flipX": false,
   "singTime": 6,
-  "offsets": [60, 20],
   "cameraOffsets": [-10, 20],
   "death": {
     "cameraOffsets": [-40, -20],

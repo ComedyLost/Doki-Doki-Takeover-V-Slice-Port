@@ -14,6 +14,7 @@ import funkin.play.character.CharacterType;
 import flixel.util.FlxTimer;
 import funkin.mobile.input.ControlsHandler;
 import funkin.ui.freeplay.FreeplayState;
+import funkin.play.PauseSubState;
 
 using StringTools;
 
@@ -107,6 +108,7 @@ class TakeoverMedleySong extends Song
 
   var cachedCharacters:Map<String, BaseCharacter> = [];
 
+  public final COSTUME_OVERRIDE:String = 'casual';
 
   override function getDifficulty(diffId:String, variation:String, variations:Array<String>):Null<SongDifficulty>
   {
@@ -131,7 +133,7 @@ class TakeoverMedleySong extends Song
     p2Boxtop = currentStage.getNamedProp('P2 Box Top');
     senpaiBox = currentStage.getNamedProp('Senpai Box Bottom');
     senpaiBoxtop = currentStage.getNamedProp('Senpai Box Top');
-    galleryData = coolTextFile('ui/doki-gallery/sticker-data');
+    galleryData = coolTextFile('ui/doki/gallery/sticker-data');
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
     cg1 = FunkinSprite.create(0, 0, 'gameplay/stages/credits/takeover-logo');
@@ -205,7 +207,7 @@ class TakeoverMedleySong extends Song
 					funX = 1025;
 					funY = 465;
 			}
-			var sticker:FunkinSprite = FunkinSprite.create(funX, funY, 'ui/doki-gallery/stickies/' + stickerData[0]);
+			var sticker:FunkinSprite = FunkinSprite.create(funX, funY, 'ui/doki/gallery/stickies/' + stickerData[0]);
       sticker.scrollFactor.set();
 			sticker.scale.set(0.85, 0.85);
 			sticker.updateHitbox();
@@ -219,7 +221,7 @@ class TakeoverMedleySong extends Song
     staticcredits.alpha = 0.001;
     staticcredits.blend = 9;
     staticcredits.cameras = [PlayState.instance.camGame];
-    staticcredits.setGraphicSize(FlxG.width);
+    staticcredits.setGraphicSize(Std.int(FlxG.width / PlayState.instance.stageZoom));
     staticcredits.updateHitbox();
     staticcredits.screenCenter();
     PlayState.instance.add(staticcredits);
@@ -265,6 +267,8 @@ class TakeoverMedleySong extends Song
     {
       playerStrumline.x = FlxG.width / 2 - playerStrumline.width / 2;
     }
+
+    PlayState.instance.comboPopUps.offsets = [0, 300];
   }
 
   function onSongLoaded(event:ScriptEvent)
@@ -310,6 +314,7 @@ class TakeoverMedleySong extends Song
   override function onPause(event)
   {
     super.onPause(event);
+    PauseSubState.musicSuffix = '-doki';
     if (FlxG.camera._fxShakeDuration > 0)
     {
       backupShake = FlxG.camera._fxShakeDuration;
@@ -455,6 +460,7 @@ class TakeoverMedleySong extends Song
           FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 5, {ease: FlxEase.sineOut});
           FlxTween.tween(PlayState.instance.cameraFollowPoint, {y: -930}, 5, {ease: FlxEase.sineOut});
         case 2264:
+          PlayState.instance.cameraZoomRate = 0;
           // camZooming = false;
         case 2280:
           FlxTween.tween(cg1, {alpha: 1}, 0.5, {ease: FlxEase.sineOut});
@@ -563,7 +569,7 @@ class TakeoverMedleySong extends Song
       else //FIX FOUND
         trace('This Sticker doesnt exists ' + stickerData.length + ' which number' + rand);
 
-      item.loadGraphic(Paths.image('ui/doki-gallery/stickies/' + stike));
+      item.loadGraphic(Paths.image('ui/doki/gallery/stickies/' + stike));
       stickerData.remove(stike);
       item.scale.set(1, 1);
       FlxTween.cancelTweensOf(item);

@@ -58,8 +58,9 @@ DDLC+ Links: **[DDLC+ Official Website](http://ddlc.plus) ⋅ [Steam page](https
   - Normal and Spooky Mix
 - Joyride
 - Our Harmony
+- Neet
 - You and Me
-- Dokidoggle (Fanmade)
+- Takeover Medley
 - Poems n Thorns
 - Dual Demise
 - Titular (MC Mix)
@@ -69,15 +70,13 @@ DDLC+ Links: **[DDLC+ Official Website](http://ddlc.plus) ⋅ [Steam page](https
 - Libitina
 - Love n' Funkin'
   - Normal and Pico Mix
+- Constricted
 - Catfight
 - Wilted
-- That one fuckass thing
 
 # Songs Left to Port
 
-- Constricted (Playable but janky)
-- NEET
-- Takeover Medley (Last song I will port)
+- NONE
 
 # Credits
 

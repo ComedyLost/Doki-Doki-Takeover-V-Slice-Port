@@ -84,7 +84,7 @@ class EvilClubroomStage extends Stage
     popup.zIndex = 400;
     popup.alpha = 0;
     add(popup);
-    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
+    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki/general/scrolling-bg'));
     dokiBackdrop.updateHitbox();
     dokiBackdrop.zIndex = 100;
     dokiBackdrop.velocity.set(-40, -40);

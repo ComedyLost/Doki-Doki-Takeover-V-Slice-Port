@@ -17,7 +17,7 @@ class CostumeButtonDoki extends Module
   {
     var menuItem = createMenuItem('costumes', 'ui/main-menu/items/costumes-menu', 2, function()
     {
-      FlxG.state.startExitState(() -> new CostumeSelectState());
+      FlxG.state.startExitState(() -> new CostumeSelectState(true));
     }, false);
     FlxG.state.menuItems.addItem('costumes', menuItem);
 

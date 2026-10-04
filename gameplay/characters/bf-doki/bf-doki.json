@@ -130,11 +130,6 @@
       "subfolder": true,
       "internal_Name": "mrcow",
       "charFile": "mrcow"
-    },
-    {
-      "subfolder": true,
-      "internal_Name": "mcbf",
-      "charFile": "bf-mcbf"
     }
   ]
 }

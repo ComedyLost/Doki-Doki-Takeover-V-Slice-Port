@@ -80,7 +80,7 @@ class CatfightPopup extends MusicBeatSubState
     {
       if (controls.BACK_P)
       {
-        FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/cancel-menu'));
+        FunkinSound.playOnce(Paths.sound('ui/doki/main-menu/cancel-menu'));
 
         FlxG.state.subState.persistentUpdate = true;
         close();
@@ -120,7 +120,7 @@ class CatfightPopup extends MusicBeatSubState
 
   function changeItem(amt:Int = 0, ?playSound = true):Void
   {
-    if (playSound) FunkinSound.playOnce(Paths.sound('ui/doki-main-menu/scroll-menu'));
+    if (playSound) FunkinSound.playOnce(Paths.sound('ui/doki/main-menu/scroll-menu'));
 
     curSelected += amt;
 

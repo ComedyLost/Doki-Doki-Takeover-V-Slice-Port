@@ -46,7 +46,7 @@ class PixelMonikaNewCharacter extends SparrowCharacter
     // Override the hit note animation.
     switch (event.note.kind)
     {
-      case "markov", "gf":
+      case "markov":
         return;
       default:
         if (PlayState.instance?.currentSong == null)
@@ -78,6 +78,15 @@ class PixelMonikaNewCharacter extends SparrowCharacter
           }
         }
         super.onNoteHit(event);
+    }
+  }
+
+  function onNoteHoldHit(event:ScriptEvent)
+  {
+    switch(event.holdNote.noteData.kind)
+    {
+      case 'markov', 'gf': return;
+      default: super.onNoteHoldHit(event);
     }
   }
 

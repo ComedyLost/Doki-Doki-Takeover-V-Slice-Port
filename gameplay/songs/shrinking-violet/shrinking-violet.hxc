@@ -30,6 +30,7 @@ class ShrinkingVioletSong extends Song
   var sparkleFG:FunkinBackdrop;
   var pinkOverlay:FunkinSprite;
   // Alt
+  var sunshine:FunkinSprite;
   var curDokiLight;
   var pastDokiLight;
   var encoreTime:Int;

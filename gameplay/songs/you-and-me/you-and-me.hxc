@@ -61,7 +61,7 @@ class YouAndMeSong extends Song
 
     characterImages = [];
 
-    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki-general/scrolling-bg'));
+    dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki/general/scrolling-bg'));
     dokiBackdrop.updateHitbox();
     dokiBackdrop.zIndex = 55;
     dokiBackdrop.velocity.set(-40, -40);

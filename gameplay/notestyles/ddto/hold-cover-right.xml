@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextureAtlas imagePath="holdCoverRed.png" width="554" height="545">
+	<SubTexture name="holdCoverEndRed0001" x="247" y="146" width="78" height="36" frameX="-122" frameY="-133" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverEndRed0002" x="247" y="0" width="167" height="146" frameX="-74" frameY="-59" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverEndRed0003" x="0" y="360" width="216" height="185" frameX="-47" frameY="-55" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverEndRed0004" x="0" y="360" width="216" height="185" frameX="-47" frameY="-55" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverEndRed0005" x="242" y="193" width="231" height="192" frameX="-44" frameY="-62" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverEndRed0006" x="0" y="0" width="247" height="193" frameX="-43" frameY="-78" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverEndRed0007" x="0" y="193" width="242" height="167" frameX="-53" frameY="-113" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverEndRed0008" x="0" y="193" width="242" height="167" frameX="-53" frameY="-113" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverRed0001" x="414" y="0" width="140" height="109" frameX="-94" frameY="-94" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverRed0002" x="216" y="385" width="120" height="95" frameX="-100" frameY="-104" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverRed0003" x="414" y="109" width="93" height="80" frameX="-115" frameY="-107" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverRed0004" x="247" y="146" width="78" height="36" frameX="-122" frameY="-133" frameWidth="300" frameHeight="400"/>
+	<SubTexture name="holdCoverStartRed0001" x="336" y="385" width="93" height="92" frameX="-111" frameY="-107" frameWidth="300" frameHeight="400"/>
+</TextureAtlas>

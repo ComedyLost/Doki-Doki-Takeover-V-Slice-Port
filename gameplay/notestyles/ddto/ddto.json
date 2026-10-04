@@ -1,68 +1,64 @@
 {
   "version": "1.1.0",
-  "name": "Doki (Normal)",
-  "author": "Team TBD",
-  "fallback": "funkin",
+  "name": "Doki Doki Takeover Plus!",
+  "author": "DusterBuster, HighPoweredKeyz",
+  "fallback": null,
   "assets": {
     "note": {
-      "assetPath": "gameplay/notestyles/ddto/DokiNotes",
+      "assetPath": "gameplay/notestyles/ddto/notes",
       "scale": 0.7,
       "data": {
-        "left": { "prefix": "purple0" },
-        "down": { "prefix": "blue0" },
-        "up": { "prefix": "green0" },
-        "right": { "prefix": "red0" }
+        "left": { "prefix": "noteLeft" },
+        "down": { "prefix": "noteDown" },
+        "up": { "prefix": "noteUp" },
+        "right": { "prefix": "noteRight" }
       }
     },
     "noteStrumline": {
-      "assetPath": "gameplay/notestyles/ddto/DokiStrumline",
+      "assetPath": "gameplay/notestyles/ddto/note-strumline",
       "scale": 0.7,
-      "offsets": [25, 25],
+      "offsets": [0, 0],
       "data": {
-        "leftStatic": { "prefix": "arrowLEFT0" },
-        "leftPress": { "prefix": "left press0" },
-        "leftConfirm": { "prefix": "left confirm0" },
-        "leftConfirmHold": { "prefix": "left confirm0" },
-        "downStatic": { "prefix": "arrowDOWN0" },
-        "downPress": { "prefix": "down press0" },
-        "downConfirm": { "prefix": "down confirm0" },
-        "downConfirmHold": { "prefix": "down confirm0" },
-        "upStatic": { "prefix": "arrowUP0" },
-        "upPress": { "prefix": "up press0" },
-        "upConfirm": { "prefix": "up confirm0" },
-        "upConfirmHold": { "prefix": "up confirm0" },
-        "rightStatic": { "prefix": "arrowRIGHT0" },
-        "rightPress": { "prefix": "right press0" },
-        "rightConfirm": { "prefix": "right confirm0" },
-        "rightConfirmHold": { "prefix": "right confirm0" }
+        "leftStatic": { "prefix": "staticLeft0" },
+        "leftPress": { "prefix": "pressLeft0" },
+        "leftConfirm": { "prefix": "confirmLeft0" },
+        "leftConfirmHold": { "prefix": "confirmLeft0" },
+        "downStatic": { "prefix": "staticDown0" },
+        "downPress": { "prefix": "pressDown0" },
+        "downConfirm": { "prefix": "confirmDown0" },
+        "downConfirmHold": { "prefix": "confirmDown0" },
+        "upStatic": { "prefix": "staticUp0" },
+        "upPress": { "prefix": "pressUp0" },
+        "upConfirm": { "prefix": "confirmUp0" },
+        "upConfirmHold": { "prefix": "confirmUp0" },
+        "rightStatic": { "prefix": "staticRight0" },
+        "rightPress": { "prefix": "pressRight0" },
+        "rightConfirm": { "prefix": "confirmRight0" },
+        "rightConfirmHold": { "prefix": "confirmRight0" }
       }
     },
     "holdNote": {
-      "assetPath": "gameplay/notestyles/ddto/DokiHoldNotes",
+      "assetPath": "gameplay/notestyles/ddto/note-holds",
       "scale": 0.7,
-      "offsets": [1, 0],
       "data": {}
     },
     "noteSplash": {
-      "offsets": [-2, -40],
-      "assetPath": "gameplay/notestyles/ddto/DokiSplash",
+      "assetPath": "gameplay/notestyles/ddto/note-splashes",
+      "alpha": 0.8,
+      "offsets": [7.5, -25],
       "data": {
         "enabled": true,
         "leftSplashes": [
-          { "prefix": "note splash purple 2 instance 1" },
-          { "prefix": "note splash purple 2 instance 1" }
+          { "prefix": "note splash purple" }
         ],
         "rightSplashes": [
-          { "prefix": "note splash red 2 instance 1" },
-          { "prefix": "note splash red 2 instance 1" }
+          { "prefix": "note splash red" }
         ],
         "upSplashes": [
-          { "prefix": "note splash green 2 instance 1" },
-          { "prefix": "note splash green 2 instance 1" }
+          { "prefix": "note splash green" }
         ],
         "downSplashes": [
-          { "prefix": "note splash blue 2 instance 1" },
-          { "prefix": "note splash blue 2 instance 1" }
+          { "prefix": "note splash blue" }
         ]
       }
     },
@@ -72,25 +68,25 @@
       "data": {
         "enabled": true,
         "left": {
-          "assetPath": "gameplay/notestyles/funkin/hold-cover-left",
+          "assetPath": "gameplay/notestyles/ddto/hold-cover-left",
           "start": { "prefix": "holdCoverStartPurple" },
           "hold": { "prefix": "holdCoverPurple" },
           "end": { "prefix": "holdCoverEndPurple" }
         },
         "right": {
-          "assetPath": "gameplay/notestyles/funkin/hold-cover-right",
+          "assetPath": "gameplay/notestyles/ddto/hold-cover-right",
           "start": { "prefix": "holdCoverStartRed" },
           "hold": { "prefix": "holdCoverRed" },
           "end": { "prefix": "holdCoverEndRed" }
         },
         "up": {
-          "assetPath": "gameplay/notestyles/funkin/hold-cover-up",
+          "assetPath": "gameplay/notestyles/ddto/hold-cover-up",
           "start": { "prefix": "holdCoverStartGreen" },
           "hold": { "prefix": "holdCoverGreen" },
           "end": { "prefix": "holdCoverEndGreen" }
         },
         "down": {
-          "assetPath": "gameplay/notestyles/funkin/hold-cover-down",
+          "assetPath": "gameplay/notestyles/ddto/hold-cover-down",
           "start": { "prefix": "holdCoverStartBlue" },
           "hold": { "prefix": "holdCoverBlue" },
           "end": { "prefix": "holdCoverEndBlue" }
@@ -108,7 +104,7 @@
         "audioPath": "gameplay/notestyles/funkin/countdown/sound/intro-two"
       },
       "assetPath": "gameplay/notestyles/ddto/countdown/graphics/ready",
-      "scale": 0.7,
+      "scale": 1.0,
       "isPixel": false
     },
     "countdownOne": {
@@ -116,7 +112,7 @@
         "audioPath": "gameplay/notestyles/funkin/countdown/sound/intro-one"
       },
       "assetPath": "gameplay/notestyles/ddto/countdown/graphics/set",
-      "scale": 0.7,
+      "scale": 1.0,
       "isPixel": false
     },
     "countdownGo": {
@@ -124,7 +120,7 @@
         "audioPath": "gameplay/notestyles/funkin/countdown/sound/intro-go"
       },
       "assetPath": "gameplay/notestyles/ddto/countdown/graphics/go",
-      "scale": 0.7,
+      "scale": 1.0,
       "isPixel": false
     },
     "judgementSick": {
