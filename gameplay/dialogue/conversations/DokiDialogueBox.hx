@@ -1,9 +1,9 @@
-package ddto.gameplay.dialogue;
+package ddto.cutscene;
 
+import funkin.play.PlayState;
 import funkin.graphics.FunkinSprite;
 import flixel.addons.text.FlxTypeText;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxTypedSpriteGroup;
 import flixel.input.FlxKeyManager;
 import flixel.math.FlxMatrix;
@@ -15,8 +15,13 @@ import flixel.util.FlxTimer;
 import openfl.filters.ShaderFilter;
 import haxe.Json;
 import funkin.audio.FunkinSound;
+import flixel.text.FlxTextBorderStyle;
+import funkin.assets.Assets as NewAssets;
+import funkin.assets.Paths as NewPaths;
 
+using String;
 using StringTools;
+using funkin.util.tools.StringTools;
 
 typedef DialogueFile =
 {
@@ -77,15 +82,19 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 	
 	var currentDialogue:Int = 0;
 
-	public function new(initdialogueData:String)
+	var parentConversation:Conversation;
+
+	public function new(id:String, ?_parentConversation:Conversation)
 	{
 		super();
 
-		isEpiphany = PlayState.instance.currentSong.toLowerCase() == 'epiphany';
+		if (_parentConversation != null) parentConversation = _parentConversation;
 
-		var jsonDiaString:String = Assets.getText(Paths.json('dialogue/erb/TestDialogue'));
-		if (initdialogueData != null)
-			jsonDiaString = initdialogueData;
+		isEpiphany = PlayState.instance.currentSong.id == 'epiphany';
+
+		var isEnding:Bool = id.endsWith('-end');
+		var diaType:String = (isEnding ? 'EndDialogue' : 'IntroDialogue');
+		var jsonDiaString:String = Assets.getText(Paths.json('gameplay/dialogue/doki-conversations/${id.stripSuffix('-end')}/$diaType'));
 		
 		dialogueData = Json.parse(jsonDiaString);
 
@@ -98,26 +107,27 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 		if (dialogueData.dialogue[currentDialogue].name == 'showbackgroundimage')
 		{
 			backgroundImage.alpha = 1;
-			backgroundImage.loadGraphic(Paths.image('dialogue/bgs/' + dialogueData.dialogue[currentDialogue].string, 'doki'));
+			backgroundImage.loadGraphic(Paths.image('dialogue/bgs/' + dialogueData.dialogue[currentDialogue].string));
 		}
 
-		if (!isPixel)
-			backgroundImage.antialiasing = SaveData.globalAntialiasing;
-		else
-			backgroundImage.antialiasing = false;
+		if (isPixel) backgroundImage.antialiasing = false;
 
-		bgFade = new FunkinSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFD8);
+		bgFade = new FunkinSprite(-200, -200).makeSolidColor(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFD8);
 		bgFade.scrollFactor.set();
 		bgFade.alpha = 0.0001;
 		add(bgFade);
 
-		if (Paths.fileExists('music/' + dialogueData.startingMusic + '.ogg', MUSIC, 'preload'))
+		if (parentConversation != null && dialogueData.startingMusic != '')
 		{
-			FunkinSound.playOnceMusic(Paths.music(dialogueData.startingMusic, 'preload'), 0.1);
-			FlxG.sound.music.fadeIn(1, 0, 0.8);
+			final MUSIC_PATH:String = 'gameplay/dialogue/doki-conversations/music/${dialogueData.startingMusic}/${dialogueData.startingMusic}';
+			if (Assets.exists(Paths.music(MUSIC_PATH)))
+			{
+				parentConversation.music = FunkinSound.load(Paths.music(MUSIC_PATH), 0.0, true, true, true);
+				parentConversation.music.fadeIn(1, 0, 0.8);
+			}	
 		}
 	
-		if (dialogueData.disableBGFade == null || !dialogueData.disableBGFade)
+		if (!(dialogueData.disableBGFade ?? false))
 			FlxTween.tween(bgFade, {alpha: 0.7}, 4.98, {ease: FlxEase.linear});
 
 		if (isPixel)
@@ -125,17 +135,19 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 		else
 			initDialogueStyle(0);
 
+		// Skipping will now be handled by Funkin's pause menu
+		/*
 		skipText = new FlxText(5, 695, 640, LangUtil.getString('cmnDialogueSkip'), 40);
 		skipText.scrollFactor.set(0, 0);
 		skipText.setFormat(LangUtil.getFont(), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		skipText.y += LangUtil.getFontOffset();
 		skipText.borderSize = 2;
 		skipText.borderQuality = 1;
-		skipText.antialiasing = SaveData.globalAntialiasing;
 		add(skipText);
+		*/
 
-		if (PlayState.SONG.noteStyle == 'pixel' || isPixel)
-			skipText.font = LangUtil.getFont('vcr');
+		if (PlayState.instance.noteStyle.id == 'pixel' || isPixel)
+			skipText.font = Paths.font("ui/fonts/vcr.ttf");
 
 		if (dialogueData.canSkip != null)
 		{
@@ -143,7 +155,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 			canFullSkip = dialogueData.canSkip;
 		}
 
-		blackscreen = new FunkinSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		blackscreen = new FunkinSprite().makeSolidColor(FlxG.width, FlxG.height, FlxColor.BLACK);
 		blackscreen.alpha = 0;
 		add(blackscreen);
 
@@ -169,7 +181,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 
 	override function update(elapsed:Float)
 	{
-		if (staticlol != null && SaveData.shaders)
+		if (staticlol != null)
 		{
 			iTime += elapsed;
 			staticlol.iTime.value = [iTime];
@@ -192,19 +204,22 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 
 		if (canSkip && !playingCutscene)
 		{
-			if (PlayerSettings.player1.controls.BACK && !stopspamming && canFullSkip && !playingCutscene && dialogueStarted)
+			if (PlayState.instance.controls.BACK_P && !stopspamming && canFullSkip && !playingCutscene && dialogueStarted)
 			{
+				// Do nothing (This will be handled by the original cutscene class)
+				/*
 				isEnding = true;
 				stopspamming = true;
 				endinstantly();
+				*/
 			}
 	
-			if (PlayerSettings.player1.controls.ACCEPT && dialogueEnded)
+			if (PlayState.instance.controls.ACCEPT_P && dialogueEnded)
 			{
-				FunkinSound.playOnce(Paths.sound('clickText'), 0.8);
+				FunkinSound.playOnce(Paths.sound('gameplay/dialogue/boxes/roses/click-advance'), 0.8);
 				enddialogue();
 			}
-			else if (PlayerSettings.player1.controls.ACCEPT && dialogueStarted)
+			else if (PlayState.instance.controls.ACCEPT_P && dialogueStarted)
 			{
 				swagDialogue.skip();
 			}
@@ -215,13 +230,13 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 
 	function endinstantly()
 	{
-		PlayState.instance.cleanupCutscene();
+		// PlayState.instance.cleanupCutscene();
 		canSkip = false;
 		isEnding = true;
 		swagDialogue.skip();
 
-		if (FlxG.sound.music != null)
-			FlxG.sound.music.fadeOut(0.5, 0);
+		/*if (FlxG.sound.music != null)
+			FlxG.sound.music.fadeOut(0.5, 0);*/
 
 		fadeEverything();
 
@@ -262,7 +277,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 
 	function enddialogue()
 	{
-		PlayState.instance.cleanupCutscene();
+		// PlayState.instance.cleanupCutscene();
 		canSkip = true;
 		if (dialogueData.dialogue[currentDialogue] == null)
 		{
@@ -271,9 +286,11 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				canSkip = false;
 				isEnding = true;
 
-				if (FlxG.sound.music != null)
-					FlxG.sound.music.fadeOut(0.5, 0);
+				/*if (FlxG.sound.music != null)
+					FlxG.sound.music.fadeOut(0.5, 0);*/
 
+				parentConversation.endConversation();
+				/*
 				fadeEverything();
 
 				new FlxTimer().start(1.2, function(tmr:FlxTimer)
@@ -281,6 +298,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 					finishThing();
 					kill();
 				});
+				*/
 			}
 		}
 		else
@@ -371,7 +389,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 			}
 			else
 			{
-				dialogueText = StringTools.replace(dialogueText, '{USERNAME}', CoolUtil.getUsername());
+				dialogueText = dialogueText.replace('{USERNAME}', CoolUtil.getUsername());
 			}
 		}
 
@@ -401,7 +419,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 			var xthingienew = (curDialogue.side == 'right' ? 677 : 80);
 
 
-			if (Paths.fileExists('images/weeb/dialogue/' + curCharacter.toLowerCase() + '.png', IMAGE, 'week6'))
+			if (Paths.fileExists('images/weeb/dialogue/' + curCharacter.toLowerCase() + '.png', IMAGE))
 			{
 				if (curCharacter != prevCharacter[0] && curDialogue.side == prevCharacter[1])
 				{
@@ -414,7 +432,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				else if (curDialogue.side == 'right')
 					portrait.flipX = true;
 
-				portrait.frames = Paths.getSparrowAtlas("weeb/dialogue/" + curCharacter.toLowerCase(), 'week6');
+				portrait.frames = Paths.getSparrowAtlas("weeb/dialogue/" + curCharacter.toLowerCase());
 				portrait.animation.addByPrefix('hueh', curCharacter.toLowerCase() + '_' + curDialogue.expression, 24, false);
 				if (portrait.animation.getByName('hueh') == null || curDialogue.expression == '')
 					portrait.animation.addByPrefix('hueh', curCharacter.toLowerCase() + '_neutral', 24, false);
@@ -436,7 +454,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 			if (curCharacter.startsWith("monika"))
 				startswith = 'monika';
 
-			swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0.8)];
+			swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/roses/click'), 0.8)];
 			swagDialogue.color = 0xFF3F2021;
 			swagDialogue.borderColor = 0xFFD89494;
 
@@ -445,25 +463,25 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				case 'spirit':
 					swagDialogue.color = 0xFFFFFFFF;
 					swagDialogue.borderColor = 0xFF424242;
-					if (box.frames != Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil', 'week6'))
+					if (box.frames != Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil'))
 					{
-						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil', 'week6');
+						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil');
 						box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn instance 1', 24, false);
 						box.animation.addByIndices('normal', 'Spirit Textbox spawn instance 1', [10], "", 24);
 						box.animation.play('normalOpen');
 					}
 				case 'monika':
-					if (box.frames != Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-monika', 'week6'))
+					if (box.frames != Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-monika'))
 					{
-						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-monika', 'week6');
+						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-monika');
 						box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 						box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
 						box.animation.play('normalOpen');
 					}
 				default:
-					if (box.frames != Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel', 'week6'))
+					if (box.frames != Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel'))
 					{
-						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel', 'week6');
+						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel');
 						box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 						box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
 						box.animation.play('normalOpen');
@@ -503,20 +521,22 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 			if (portrait.alpha < 0.9 && curDialogue.expression != 'gone')
 			{
 				portrait.alpha = 1;
-				if (Paths.fileExists('images/dialogue/portraits/' + curCharacter.toLowerCase() + '_' + curDialogue.expression +'.xml', TEXT, 'doki'))
+				var portraitPath:AssetPath = NewPaths.image('gameplay/dialogue/speakers/doki-portraits/${curCharacter}_${curDialogue.expression}');
+				var portraitXmlPath:AssetsPath = portraitPath.withAssetType('XML');
+				if (portraitXmlPath.exists())
 				{
-					portrait.frames = Paths.getSparrowAtlas('dialogue/portraits/' + curCharacter.toLowerCase() + '_' + curDialogue.expression, 'doki');
-					portrait.animation.addByPrefix('play', curCharacter.toLowerCase() + '_' + curDialogue.expression, 24, true);
+					portrait.frames = NewAssets.getSparrowAtlas(portraitPath);
+					portrait.animation.addByPrefix('play', curCharacter + '_' + curDialogue.expression, 24, true);
 					portrait.animation.play('play');
 				}
 				else
 				{
-					if (Paths.fileExists('images/dialogue/portraits/' + curCharacter.toLowerCase() + '_' + curDialogue.expression +'.png', IMAGE, 'doki'))
-						portrait.loadGraphic(Paths.image('dialogue/portraits/' + curCharacter.toLowerCase() + '_' + curDialogue.expression, 'doki'));
+					if (portraitPath.exists())
+						portrait.loadGraphic(portraitPath.toFlxGraphicAsset());
 					else
 					{
-						trace("Lost the expression " + curDialogue.expression + " Goin neutral");
-						portrait.loadGraphic(Paths.image('dialogue/portraits/' + curCharacter.toLowerCase() + '_neutral', 'doki'));
+						trace('Lost the expression ${curDialogue.expression} Goin neutral');
+						portrait.loadGraphic(Paths.image('gameplay/dialogue/speakers/doki-portraits/${curCharacter}_neutral'));
 					}
 				}
 			}
@@ -527,13 +547,13 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 					if (curDialogue.side == 'left') portrait.flipX = true;
 					else portrait.flipX = false;
 
-					dialogueSound = startswith + 'Text';
+					dialogueSound = '$startswith-text';
 					box.animation.play(startswith);
 				case 'monika' | 'yuri' | 'sayori' | 'natsuki' | 'zipper': 
 					if (curDialogue.side == 'right') portrait.flipX = true;
 					else portrait.flipX = false;
 
-					dialogueSound = startswith + 'Text';
+					dialogueSound = '$startswith-text';
 					if (curDialogue.expression == 'crazy')
 					{
 						box.animation.play('yuri_crazy');
@@ -545,13 +565,13 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 					if (curDialogue.side == 'right') portrait.flipX = true; 
 					else portrait.flipX = false;
 					
-					dialogueSound = 'pixelText';
+					dialogueSound = 'pixel-text';
 					box.animation.play('blankbox');
 				default:
-					dialogueSound = 'pixelText';
+					dialogueSound = 'pixel-text';
 					box.animation.play('blankbox');
 			}
-			swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/' + dialogueSound), 0.8)];
+			swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/doki/sounds/' + dialogueSound), 0.8)];
 
 		}
 
@@ -578,7 +598,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 					portraitRight.alpha = 0.001;
 					portraitLeft.alpha = 0.001;
 					swagDialogue.visible = false;
-					swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0)];
+					swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/roses/click'), 0)];
 				}
 				funnyGlitch();
 			case 'autoskip':
@@ -612,7 +632,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 					portraitRight.alpha = 0.001;
 					portraitLeft.alpha = 0.001;
 					swagDialogue.visible = false;
-					swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0)];
+					swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/roses/click'), 0)];
 					if (canFullSkip)
 						skipText.visible = false;
 				}
@@ -635,7 +655,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 					portraitRight.alpha = 0.001;
 					portraitLeft.alpha = 0.001;
 					swagDialogue.visible = false;
-					swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0)];
+					swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/roses/click'), 0)];
 					if (canFullSkip)
 						skipText.visible = false;
 				}
@@ -681,7 +701,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				portraitRight.alpha = 0.001;
 				portraitLeft.alpha = 0.001;
 				swagDialogue.visible = false;
-				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0)];
+				swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/roses/click'), 0)];
 
 				PlayState.instance.playbackCutscene(curDialogue.string.toLowerCase(), commandDuration);
 
@@ -720,21 +740,15 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 
 	function funnyGlitch():Void
 	{
-		if (SaveData.shaders)
-		{
-			staticlol = new StaticShader();
-			PlayState.camOverlay.filters = [new ShaderFilter(staticlol)];
-		}
+		staticlol = new StaticShader();
+		PlayState.camOverlay.filters = [new ShaderFilter(staticlol)];
 
 		FunkinSound.playOnce(Paths.sound('glitchin'));
 
 		new FlxTimer().start(0.5, function(tmr:FlxTimer)
 		{
-			if (SaveData.shaders)
-			{
-				PlayState.camOverlay.filters = [];
-				staticlol = null;
-			}
+			PlayState.camOverlay.filters = [];
+			staticlol = null;
 
 			enddialogue();
 		});
@@ -749,19 +763,16 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 		switch (style)
 		{
 			default: //Normal cause ya know
-				skipText.font = LangUtil.getFont();
+				skipText.font = Paths.font("ui/fonts/Aller_Rg.ttf");
 				isPixel = false;
 				initDialogueStyle(0);
 			case 'pixel':
-				skipText.font = LangUtil.getFont('vcr');
+				skipText.font = Paths.font("ui/fonts/vcr.ttf");
 				isPixel = true;
 				initDialogueStyle(1);
 		}
 
-		if (!isPixel)
-			backgroundImage.antialiasing = SaveData.globalAntialiasing;
-		else
-			backgroundImage.antialiasing = false;
+		if (isPixel) backgroundImage.antialiasing = false;
 
 		enddialogue();
 	}
@@ -788,13 +799,12 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 			default: //Normal will be default, important
 
 				box = new FunkinSprite(-20, 45);
-				box.frames = Paths.getSparrowAtlas('dialogue/Text_Boxes', 'doki', true);
+				box.frames = Paths.getSparrowAtlas('gameplay/dialogue/boxes/doki/text-boxes');
 				for (name in prefixMap.keys())
 					box.animation.addByPrefix(name, prefixMap[name], 24, false);
 				
 				// Special case left here
 				box.animation.addByIndices('normal', 'Doki Dialogue Blank', [9], "", 24);
-				box.antialiasing = SaveData.globalAntialiasing;
 
 				//Step 2
 				var posY = 50;
@@ -802,14 +812,12 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				portraitLeft.setGraphicSize(Std.int(portraitLeft.width * .9));
 				portraitLeft.updateHitbox();
 				portraitLeft.scrollFactor.set();
-				portraitLeft.antialiasing = SaveData.globalAntialiasing;
 				add(portraitLeft);
 				portraitLeft.alpha = 0.001;
 				portraitRight = new FunkinSprite(600, posY);
 				portraitRight.setGraphicSize(Std.int(portraitRight.width * .9));
 				portraitRight.updateHitbox();
 				portraitRight.scrollFactor.set();
-				portraitRight.antialiasing = SaveData.globalAntialiasing;
 				add(portraitRight);
 				portraitRight.alpha = 0.001;
 				box.animation.play('normalOpen');
@@ -818,15 +826,13 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				box.setGraphicSize(Std.int(box.width * 1.2));
 				box.updateHitbox();
 				add(box);
-				box.screenCenter(X);
+				box.screenCenter(0x01);
 
 				swagDialogue = new FlxTypeText(220, 520, Std.int(box.width * 0.85), "", 28);
-				swagDialogue.font = LangUtil.getFont('aller');
-				swagDialogue.y += LangUtil.getFontOffset('aller');
+				swagDialogue.font = Paths.font("ui/fonts/Aller_Rg.ttf");
 				swagDialogue.color = 0xFFFFFFFF;
-				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0.8)];
-				swagDialogue.setBorderStyle(OUTLINE, FlxColor.BLACK, 1, 1);
-				swagDialogue.antialiasing = SaveData.globalAntialiasing;
+				swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/roses/click'), 0.8)];
+				swagDialogue.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 				add(swagDialogue);
 
 			case 1:	//Pixel
@@ -835,21 +841,21 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				switch (dialogueData.dialogue[currentDialogue].name)
 				{
 					case 'monika':
-						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-monika', 'week6');
+						box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-monika');
 						box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 						box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
 						box.animation.play('normalOpen');
 					default:
 						if (dialogueData.dialogue[currentDialogue].expression.toLowerCase() == 'spirit')
 						{
-							box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil', 'week6');
+							box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-evil');
 							box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn instance 1', 24, false);
 							box.animation.addByIndices('normal', 'Spirit Textbox spawn instance 1', [10], "", 24);
 							box.animation.play('normalOpen');
 						}
 						else
 						{
-							box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel', 'week6');
+							box.frames = Paths.getSparrowAtlas('weeb/pixelUI/dialogueBox-pixel');
 							box.animation.addByPrefix('normalOpen', 'Text Box Appear', 24, false);
 							box.animation.addByIndices('normal', 'Text Box Appear', [4], "", 24);
 							box.animation.play('normalOpen');
@@ -858,7 +864,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 
 				//Step 2 portaits
 				portraitLeft = new FunkinSprite(110, -4);
-				portraitLeft.frames = Paths.getSparrowAtlas('weeb/dialogue/monika', 'week6');
+				portraitLeft.frames = Paths.getSparrowAtlas('weeb/dialogue/monika');
 				portraitLeft.animation.addByPrefix('hueh', 'monika_neutral', 24, false);
 				portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
 				portraitLeft.updateHitbox();
@@ -867,7 +873,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				portraitLeft.alpha = 0.001;
 				
 				portraitRight = new FunkinSprite(647, -4);
-				portraitRight.frames = Paths.getSparrowAtlas('weeb/dialogue/bf', 'week6');
+				portraitRight.frames = Paths.getSparrowAtlas('weeb/dialogue/bf');
 				portraitRight.animation.addByPrefix('hueh', 'bf_neutral', 24, false);
 				portraitRight.setGraphicSize(Std.int(portraitRight.width * PlayState.daPixelZoom * 0.9));
 				portraitRight.updateHitbox();
@@ -881,7 +887,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				box.setGraphicSize(Std.int(box.width * PlayState.daPixelZoom * 0.9));
 				box.updateHitbox();
 				add(box);
-				box.screenCenter(X);
+				box.screenCenter(0x01);
 
 				swagDialogue = new FlxTypeText(240, 500, Std.int(box.width * 0.6), "", 42);
 				swagDialogue.font = LangUtil.getFont('pixel');
@@ -890,7 +896,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 				swagDialogue.borderColor = 0xFFD89494;
 				swagDialogue.borderSize = 2;
 				swagDialogue.shadowOffset.set(2, 2);
-				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('dialogue/pixelText'), 0.8)];
+				swagDialogue.sounds = [FunkinSound.load(Paths.sound('gameplay/dialogue/boxes/roses/click'), 0.8)];
 				add(swagDialogue);
 
 		}

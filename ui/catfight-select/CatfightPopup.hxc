@@ -6,6 +6,8 @@ import funkin.modding.module.ModuleHandler;
 import funkin.modding.module.Module;
 import funkin.util.TouchUtil;
 import funkin.audio.FunkinSound;
+import funkin.ui.UIState;
+import funkin.modding.ModStore;
 
 class CatfightPopup extends MusicBeatSubState
 {
@@ -83,6 +85,7 @@ class CatfightPopup extends MusicBeatSubState
         FunkinSound.playOnce(Paths.sound('ui/doki/main-menu/cancel-menu'));
 
         FlxG.state.subState.persistentUpdate = true;
+        FlxG.state.subState.uiStateMachine.transition(UIState.Idle);
         close();
       }
 
@@ -100,7 +103,7 @@ class CatfightPopup extends MusicBeatSubState
           }
           else
           {
-            ModuleHandler.getModule("CatFightFreeplayFix").detectYuri(curSelected);
+            chooseCharacter(curSelected);
             close();
           }
         }
@@ -112,10 +115,18 @@ class CatfightPopup extends MusicBeatSubState
 
       if (controls.ACCEPT_P)
       {
-        ModuleHandler.getModule("CatFightFreeplayFix").detectYuri(curSelected);
+        chooseCharacter(curSelected);
         close();
       }
     }
+  }
+
+  function chooseCharacter(char:Int)
+  {
+    var choseYuri:Bool = (char == 0 ? true : false);
+    if (choseYuri) FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected].pixelIcon.setCharacter('natsuki');
+    ModStore.stores.set('catfightIsYuri', choseYuri);
+    FlxG.state.subState.capsuleOnConfirmDefault(FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected]);
   }
 
   function changeItem(amt:Int = 0, ?playSound = true):Void

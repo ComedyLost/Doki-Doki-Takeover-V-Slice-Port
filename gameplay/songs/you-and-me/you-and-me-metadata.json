@@ -15,7 +15,6 @@
     "difficulties": ["normal"],
     "characters": {
       "player": "protag",
-      "girlfriend": "hidden",
       "opponent": "hidden",
       "instrumental": "",
       "altInstrumentals": []

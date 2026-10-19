@@ -4,12 +4,12 @@ import funkin.play.cutscene.dialogue.Conversation;
 import funkin.play.PlayState;
 import funkin.audio.FunkinSound;
 import funkin.graphics.FunkinSprite;
-import ddto.gameplay.dialogue.DokiDialogueBox;
+import ddto.cutscene.DokiDialogueBox;
 
 using StringTools;
 
 /**
- * A completely overidden class that overlays the original DDTO conversation system
+ * A completely overridden class that overlays the original DDTO conversation system
  * over V-Slice Funkin's conversation system.
  * 
  * This allows the game to use DDTO's cutscene jsons for events
@@ -21,15 +21,32 @@ class DokiConversation extends Conversation
   function new(id:String, ?params:Dynamic)
   {
     super((id == 'unknown' ? 'rain-clouds' : id), null);
-
-    dokiDialogueBox = new DokiDialogueBox
   }
 
-  var dokiDialogueBox:DokiDialogueBox;
+  public var dokiDialogueBox:DokiDialogueBox;
 
   override function get_currentDialogueLineString():String
   {
     // TODO: Replace "" with some placeholder text?
-    return currentDialogueEntryData?.text[currentDialogueLine] ?? '';
+    if (dokiDialogueBox == null) return currentDialogueEntryData?.text[currentDialogueLine] ?? '';
+
+    return dokiDialogueBox;
+  }
+  
+  public function onCreate(event:ScriptEvent):Void
+  {
+    super.onCreate(event);
+    dokiDialogueBox = new DokiDialogueBox(id, super);
+    add(dokiDialogueBox);
+  }
+  
+  function showCurrentDialogueBox():Void
+  {
+    // Do nothing, DokiDialogueBox will handle this
+  }
+  
+  function setupMusic():Void
+  {
+    // Do nothing, DokiDialogueBox will handle this
   }
 }

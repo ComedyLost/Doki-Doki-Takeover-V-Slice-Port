@@ -83,7 +83,7 @@ class GlitcherMonikaMixSong extends Song
 
   function gopixel()
   {
-    stage = PlayState.instance.currentStage;
+    var stage:Stage = PlayState.instance.currentStage;
     stage.getNamedProp('solid').visible = true;
     stage.getNamedProp('sky').visible = true;
     stage.getNamedProp('school').visible = true;
@@ -108,7 +108,7 @@ class GlitcherMonikaMixSong extends Song
 
   function becomefumo()
   {
-    stage = PlayState.instance.currentStage;
+    var stage:Stage = PlayState.instance.currentStage;
     stage.getNamedProp('solid').visible = false;
     stage.getNamedProp('sky').visible = false;
     stage.getNamedProp('school').visible = false;

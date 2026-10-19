@@ -13,7 +13,7 @@ class DokiSoundTray extends Module
 {
   public function new()
   {
-    super('DokiSoundTray');
+    super('DokiSoundTray', null, {state: PlayState});
 
     #if mobile
     active = false;
@@ -22,7 +22,7 @@ class DokiSoundTray extends Module
 
   // Only Doki Stages
   var ddtoStages:Array<String> = ['schoolDDTO', 'schoolEvilDDTO', 'va11halla', 'dokiclubroom', 'dokifestival', 'dokiglitcher', 'musicroom', 'clubroomevil', 'youandme', 'wilted', 'libitina', 'credits'];
-  var resetSoundTray:Bool;
+  var resetSoundTray:Bool = false;
 
   final GRAPHIC_SCALE:Float = 0.30;
   final BAR_COUNT:Int = 10;
@@ -30,19 +30,19 @@ class DokiSoundTray extends Module
 
   override function onSubStateOpenEnd(event)
   {
-    if (event.targetState is PlayState)
+    if (event.targetState is PlayState && ddtoStages.contains(PlayState.instance.currentStageId))
     {
       resetSoundTray = true;
-      if (ddtoStages.contains(PlayState.instance.currentStageId)) createTray('ui/soundtraydoki');
+      createTray('ui/soundtraydoki');
     }
   }
 
   override function onStateChangeEnd(event)
   {
-    if (event.targetState is PlayState)
+    if (event.targetState is PlayState && ddtoStages.contains(PlayState.instance.currentStageId))
     {
       resetSoundTray = true;
-      if (ddtoStages.contains(PlayState.instance.currentStageId)) createTray('ui/soundtraydoki');
+      createTray('ui/soundtraydoki');
     }
   }
 

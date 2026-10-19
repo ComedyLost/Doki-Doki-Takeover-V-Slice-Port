@@ -120,11 +120,11 @@ class YourDemiseSong extends Song
 
       hasPlayedIntroCutscene = true;
 
-      hideHud();
-
       event.cancel(); // CANCEL THE COUNTDOWN!
 
       startDialogue();
+      
+      hideHud();
     }
     else
     {

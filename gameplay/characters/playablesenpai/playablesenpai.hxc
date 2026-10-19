@@ -14,8 +14,8 @@ class PlayableSenpaiCharacter extends SparrowCharacter
   {
     super.onCreate(event);
 
-    GameOverSubState.musicSuffix = '-senpai';
-    GameOverSubState.blueBallSuffix = '-senpai';
+    GameOverSubState.musicSuffix = '-senpai-ddto';
+    GameOverSubState.blueBallSuffix = '-senpai-ddto';
 
     PauseSubState.musicSuffix = '-dokipixel';
   }

@@ -22,6 +22,12 @@ class FestivalClubroomStage extends Stage
   var shaderstat = new ShaderFilter(bloom);
   var noFestivalMod:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
 
+  var sayori:StageProp;
+  var natsuki:StageProp;
+  var monika:StageProp;
+  var protag:StageProp;
+  var yuri:StageProp;
+
   function setDokiPosition(character:String)
   {
     natsuki.alpha = 1;

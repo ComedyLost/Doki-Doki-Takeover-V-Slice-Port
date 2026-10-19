@@ -4,6 +4,7 @@ class DokiPreferences
 {
   public static var save(get, never):FlxSave;
 
+  @:persistent
   static var _save:Null<FlxSave> = null;
 
   static function get_save():FlxSave
@@ -173,6 +174,7 @@ class DokiPreferences
     return value;
   }
 
+  // @:deprecated("Functionality removed")
   public static var psychholds(get, set):FlxSave;
 
   static function get_psychholds():FlxSave
@@ -204,6 +206,7 @@ class DokiPreferences
   public static function flush():Void
   {
     save.flush();
+    // Save.instance.modOptions.set("Doki Doki Takeover Save", save.data);
   }
 
   public static function getDefaultSave():Dynamic

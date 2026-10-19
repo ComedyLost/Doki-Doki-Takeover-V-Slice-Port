@@ -1,4 +1,5 @@
 import funkin.play.PlayState;
+import funkin.play.PlayStatePlaylist;
 import flixel.tweens.FlxTween;
 import funkin.graphics.FunkinSprite;
 import flixel.util.FlxTimer;
@@ -14,18 +15,16 @@ import funkin.Conductor;
 import flixel.effects.FlxFlicker;
 import funkin.util.FlxTweenUtil;
 import funkin.Highscore;
-import flixel.FlxObject;
 import funkin.util.TouchUtil;
 import flixel.util.FlxColor;
-import funkin.audio.FunkinSound;
 import funkin.audio.VoicesGroup;
-import openfl.utils.Assets;
 import funkin.play.character.CharacterDataParser;
 import funkin.play.character.CharacterType;
-import funkin.play.components.HealthIcon;
 import funkin.PlayerSettings;
 import funkin.save.Save;
 import funkin.modding.module.ModuleHandler;
+import funkin.assets.Paths as NewPaths;
+import funkin.assets.Assets as NewAssets;
 
 class YouAndMeSong extends Song
 {
@@ -35,18 +34,7 @@ class YouAndMeSong extends Song
   var blackbarTop:FunkinSprite;
   var blackbarBottom:FunkinSprite;
   var dokiBackdrop:FunkinBackdrop;
-  var options:Array<FunkinSprite>;
-  var selectDokiSection:Bool = false;
-  var selectedDoki:Bool = false;
-  var chosenDoki:Int = 0;
-  var select:FunkinSprite;
-  var bg:FunkinSprite;
-  var huehTimer:FlxTimer;
-  var funnyChar:String = 'protag';
   var whiteflash:FunkinSprite;
-  var newVocals:FunkinSound;
-  var characterImages:Array<Dynamic>;
-  var ending:Bool = false;
 
   function new()
   {
@@ -57,9 +45,6 @@ class YouAndMeSong extends Song
   {
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
-    ending = false;
-
-    characterImages = [];
 
     dokiBackdrop = new FunkinBackdrop(Paths.image('ui/doki/general/scrolling-bg'));
     dokiBackdrop.updateHitbox();
@@ -92,55 +77,12 @@ class YouAndMeSong extends Song
     blackbarBottom.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(blackbarBottom);
 
-    bg = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
-    bg.alpha = 0;
-    bg.scrollFactor.set();
-    bg.cameras = [PlayState.instance.camCutscene];
-    PlayState.instance.add(bg);
-    characterImages.push(bg);
-
     whiteflash = new FunkinSprite(-FlxG.width, -FlxG.height).makeSolidColor(FlxG.width * 3, FlxG.height * 3, 0xFF000000);
     whiteflash.scrollFactor.set();
     whiteflash.alpha = 1;
     whiteflash.cameras = [PlayState.instance.camHUD];
     PlayState.instance.add(whiteflash);
-
-    select = FunkinSprite.create(0, 0, 'gameplay/songs/${this.id}/graphics/select-text');
-    select.scale.set(0.8, 0.8);
-    select.updateHitbox();
-    select.x = FlxG.width / 2 - select.width / 2;
-    select.y = -select.height;
-    select.cameras = [PlayState.instance.camCutscene];
-    PlayState.instance.add(select);
-    characterImages.push(select);
-
-    var charList:Array<String> = ['Yuri', 'Sayori', 'Monika', 'Natsuki'];
-    options = [];
-    for (i in 0...charList.length)
-    {
-      var funnyx:Int = 69;
-
-      var funnySprite:FunkinSprite = new FunkinSprite(funnyx + (i * 294), 164);
-      funnySprite.frames = Paths.getSparrowAtlas('gameplay/songs/${this.id}/graphics/' + charList[i] + 'Card');
-      switch (charList[i])
-      {
-        case 'Natsuki':
-          funnySprite.animation.addByPrefix('pop', 'NatCardAnim', 30, false);
-        case 'Monika':
-          funnySprite.animation.addByPrefix('pop', 'MonikaCardAnim', 30, false);
-        case 'Sayori':
-          funnySprite.animation.addByPrefix('pop', 'SayoCardAnim', 30, false);
-        case 'Yuri':
-          funnySprite.animation.addByPrefix('pop', 'YuriCardAnim', 30, false);
-      }
-      funnySprite.alpha = 0.001;
-      funnySprite.animation.play('pop');
-      options.push(funnySprite);
-      PlayState.instance.add(funnySprite);
-      funnySprite.cameras = [PlayState.instance.camCutscene];
-      characterImages.push(funnySprite);
-      PlayState.instance.currentStage.refresh();
-    }
+    PlayState.instance.currentStage.refresh();
   }
 
   public function onSongEnd(event):Void
@@ -149,16 +91,12 @@ class YouAndMeSong extends Song
     if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
     if (PlayState.instance.isMinimalMode || PlayState.instance.isChartingMode) return;
 
-    if (ending) return;
-    event.cancel();
-    ending = true;
-    FlxG.camera.fade(FlxColor.BLACK, 0.6);
-
-    FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 0.6, {
-      onComplete: function(_)
-      {
-        if (PlayState.instance != null) PlayState.instance.endSong(true);
-      }
+    var currentPos:FlxPoint = PlayState.instance.cameraFollowPoint.getPosition();
+    FlxG.signals.postUpdate.addOnce(() -> {
+      FlxG.camera.follow(PlayState.instance.cameraFollowPoint, null, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
+      PlayState.instance.cameraFollowPoint.setPosition(currentPos.x, currentPos.y);
+      FlxG.camera.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
+      FlxG.camera.targetOffset.x = FlxG.camera.targetOffset.y = 0;
     });
   }
 
@@ -245,7 +183,7 @@ class YouAndMeSong extends Song
           FlxTween.tween(PlayState.instance.healthBarBG, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
           FlxTween.tween(PlayState.instance.scoreText, {alpha: 1}, 0.5, {ease: FlxEase.sineIn});
 
-          var playerStrumline:FunkinSprite = PlayState.instance.playerStrumline;
+          var playerStrumline:Strumline = PlayState.instance.playerStrumline;
           if (playerStrumline != null)
           {
             for (arrow in playerStrumline.members)
@@ -283,50 +221,18 @@ class YouAndMeSong extends Song
         case 1134:
           FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 1, {ease: FlxEase.sineOut});
         case 1156:
-          for (i in 0...characterImages.length)
-          {
-            characterImages[i].alpha = 1;
-          }
           PlayState.instance.disableKeys = true;
           PlayState.instance.mayPauseGame = false;
-          select.alpha = 1;
-          FlxTween.tween(select, {y: 40}, 0.5, {ease: FlxEase.sineOut});
-          bg.alpha = 0;
-          FlxTween.tween(bg, {alpha: 0.3}, 0.4, {ease: FlxEase.quartInOut});
-          for (i in 0...options.length)
-          {
-            options[i].visible = true;
-            options[i].y = 164;
-            options[i].alpha = 1;
-            options[i].animation.play('pop');
-          }
-          huehTimer = new FlxTimer().start(8, function(swagTimer:FlxTimer)
-          {
-            selectDokiSection = false;
-            charSelected('protag');
-          });
-          new FlxTimer().start(0.5, function(tmr:FlxTimer)
-          {
-            selectDokiSection = true;
-          });
+          PlayState.instance.openSubState(new DokiCards(!PlayStatePlaylist.isStoryMode));
         case 1252:
           var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
           if (opponentStrumline != null)
           {
-            if (opponentStrumline.strumlineScale.x != 1)
+            opponentStrumline.forEach(function(obj:FlxObject):Void
             {
-              opponentStrumline.forEach(function(obj:FlxObject):Void
-              {
-                if (obj == opponentStrumline.strumlineNotes) obj.visible = true;
-              });
-            }
-            else
-            {
-              opponentStrumline.forEach(function(obj:FlxObject):Void
-              {
-                obj.visible = true;
-              });
-            }
+              if (opponentStrumline.strumlineScale.x != 1 && obj != opponentStrumline.strumlineNotes) obj.visible = true;
+              else obj.visible = true;
+            });
           }
           PlayState.instance.opponentStrumline.fadeInArrows();
           blackBars(true);
@@ -347,11 +253,32 @@ class YouAndMeSong extends Song
     lastStep = event.step;
   }
 
-  function getNewChart(chart:String = 'normal')
+  public function cardSelected(who:String)
+  {
+    PlayState.instance.disableKeys = false;
+    PlayState.instance.mayPauseGame = true;
+    switch (who)
+    {
+      case 'monika', 'yuri', 'sayori', 'natsuki': // Do nothin
+      default: PlayState.instance.health = -1; // Kill the player if they didn't choose
+    }
+    setCharacter('dad', who);
+    setChart(who);
+    FlxTween.tween(PlayState.instance.iconP2, {alpha: 1}, 1);
+    PlayState.instance.vocals.playerVoices.clear();
+    var legacyPath = NewPaths.voices(this.id, '_$who');
+    if (NewAssets.exists(legacyPath.toString()))
+    {
+      PlayState.instance.vocals.addPlayerVoice(FunkinSound.load(legacyPath.toFlxSoundAsset(), 1.0));
+    }
+    PlayState.instance.resyncVocals();
+  }
+
+  function setChart(chart:String = 'normal')
   {
     var playerNoteData:Array<SongNoteData> = [];
     var opponentNoteData:Array<SongNoteData> = [];
-    var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty(chart ?? 'normal');
+    var animChart:SongDifficulty = PlayState.instance.currentSong.getDifficulty(chart);
     if (animChart == null)
     {
       trace('Swapping song chart failed; chosen Doki chart not found for this song.');
@@ -371,170 +298,36 @@ class YouAndMeSong extends Song
     PlayState.instance.playerStrumline.applyNoteData(playerNoteData);
     PlayState.instance.opponentStrumline.applyNoteData(opponentNoteData);
   }
-
-  function selectChar(who:String = 'protag', num:Int)
+  
+  function setCharacter(character:String = 'bf', newChar:String)
   {
-    huehTimer.cancel();
-    PlayState.instance.mayPauseGame = true;
-    PlayState.instance.disableKeys = false;
-    // tween the cards away except the selected card
-    selectDokiSection = false;
-    funnyChar = who;
-    chosenDoki = num;
-    FunkinSound.playOnce(Paths.sound('confirmMenu'), 1);
-
-    for (i in 0...options.length)
+    var characterData = switch (character)
     {
-      if (i != chosenDoki) FlxTween.tween(options[i], {y: 1280}, 1, {ease: FlxEase.circIn});
-      if (i == chosenDoki) FlxFlicker.flicker(options[i], 1, 0.1, false, false);
+      case 'bf': [PlayState.instance?.currentStage?.getBoyfriend(), CharacterType.BF];
+      case 'gf': [PlayState.instance?.currentStage?.getGirlfriend(), CharacterType.GF];
+      case 'dad': [PlayState.instance?.currentStage?.getDad(), CharacterType.DAD];
     }
-
-    huehTimer = new FlxTimer().start(1, function(swagTimer:FlxTimer)
+    var curZIndex:Int = 100;
+    if (characterData[0] != null)
     {
-      charSelected(funnyChar);
-    });
-  }
-
-  function changeOppCharacter(doki:String)
-  {
-    var costume = ModuleHandler.getModule("CostumeSwapper");
-    var character = costume.scriptCall('getCostumeName', [doki]);
-    var oppZIndex = PlayState.instance.currentStage.getDad().zIndex;
-    if (oppZIndex == null) oppZIndex = 0;
-    var opponentCharData = CharacterDataParser.parseCharacterData(character);
-    CharacterDataParser.characterCache.h[CharacterDataParser.characterCache.h.length + 1] = opponentCharData;
-
-    PlayState.instance.currentStage.getDad().destroy();
-
-    var dad = CharacterDataParser.fetchCharacter(character);
-    if (dad != null)
-    {
-      dad.set_characterType(CharacterType.DAD);
-      dad.initHealthIcon(true);
-      PlayState.instance.currentStage.addCharacter(dad, CharacterType.DAD);
-      PlayState.instance.currentStage.getDad().zIndex = oppZIndex;
+      curZIndex = characterData[0].zIndex;
+      characterData[0].destroy();
     }
-    PlayState.instance.currentStage.refresh();
-    if (PlayState.instance.vocals != null) PlayState.instance.vocals.stop();
-    PlayState.instance.vocals = buildVocals();
-    new FlxTimer().start(1, function(tmr:FlxTimer)
+    var newCharacter:BaseCharacter = CharacterDataParser.fetchCharacter(newChar);
+    if (newCharacter != null)
     {
-      PlayState.instance.resyncVocals();
-    });
-  }
-
-  public function buildVocals():VoicesGroup
-  {
-    var instId = PlayState.instance.currentInstrumental;
-    var result:VoicesGroup = new VoicesGroup();
-
-    var playerVoiceList:Array<String> = buildPlayerVoiceList();
-
-    // Add player vocals.
-    for (playerVoice in playerVoiceList)
-    {
-      if (!Assets.exists(playerVoice)) continue;
-      result.addPlayerVoice(FunkinSound.load(playerVoice, 1.0, false, false, false, false, null, null, true));
-    }
-
-    // Sometimes the sounds don't set their important value to true, so we have to do this manually.
-    result.forEach(function(snd:FunkinSound)
-    {
-      snd.important = true;
-    });
-
-    result.playerVoicesOffset = PlayState.instance.currentChart.offsets.getVocalOffset(PlayState.instance.currentChart.characters.player, instId);
-
-    return result;
-  }
-
-  public function buildPlayerVoiceList():Array<String>
-  {
-    // Automatically resolve voices by removing suffixes.
-    // For example, if `Voices-bf-car-erect.ogg` does not exist, check for `Voices-bf-erect.ogg`.
-    // Then, check for  `Voices-bf-car.ogg`, then `Voices-bf.ogg`.
-
-    var playerVoice:String = Paths.voices(PlayState.instance.currentSong.id.toLowerCase(), '_' + funnyChar);
-
-    return playerVoice != null ? [playerVoice] : [];
-  }
-
-  function charSelected(who:String)
-  {
-    if (who == 'protag')
-    {
-      PlayState.instance.mayPauseGame = false;
-      PlayState.instance.disableKeys = false;
-      for (i in 0...characterImages.length)
-      {
-        FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
-      }
-      FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
-      new FlxTimer().start(2, function(tmr:FlxTimer)
-      {
-        PlayState.instance.health = -1;
-      });
-      return;
-    }
-    getNewChart(who);
-    changeOppCharacter(who);
-    for (i in 0...options.length)
-    {
-      FlxTween.tween(options[i], {alpha: 0}, 0.5, {
-        ease: FlxEase.circIn,
-        onComplete: function(twn:FlxTween)
-        {
-        }
-      });
-    }
-    FlxTween.tween(select, {alpha: 0}, 1, {ease: FlxEase.linear});
-    // tween selected card with alpha
-    new FlxTimer().start(0.5, function(tmr:FlxTimer)
-    {
-      for (i in 0...characterImages.length)
-      {
-        FlxTween.tween(characterImages[i], {alpha: 0}, 2, {ease: FlxEase.sineOut});
-      }
-      FlxTween.tween(PlayState.instance.camHUD, {alpha: 1}, 2, {ease: FlxEase.sineOut});
-    });
-    new FlxTimer().start(1, function(tmr:FlxTimer)
-    {
-      FlxTween.tween(PlayState.instance.iconP2, {alpha: 1}, 2, {ease: FlxEase.sineIn});
-    });
-  }
-
-  override function onUpdate(event:UpdateScriptEvent)
-  {
-    super.onUpdate(event);
-    if (!selectDokiSection) return;
-    if (PlayerSettings.player1.controls.NOTE_LEFT_P || (TouchUtil.pressAction(options[0])))
-    {
-      selectChar('yuri', 0);
-    }
-    else if (PlayerSettings.player1.controls.NOTE_DOWN_P || (TouchUtil.pressAction(options[1])))
-    {
-      selectChar('sayori', 1);
-    }
-    else if (PlayerSettings.player1.controls.NOTE_UP_P || (TouchUtil.pressAction(options[2])))
-    {
-      selectChar('monika', 2);
-    }
-    else if (PlayerSettings.player1.controls.NOTE_RIGHT_P || (TouchUtil.pressAction(options[3])))
-    {
-      selectChar('natsuki', 3);
+      PlayState.instance.currentStage.addCharacter(newCharacter, characterData[1]);
+      newCharacter.zIndex = curZIndex;
+      PlayState.instance.currentStage.refresh();
     }
   }
 
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    PlayState.instance.currentStage.getGirlfriend().originalPosition.x = 589;
-    PlayState.instance.currentStage.getGirlfriend().originalPosition.y = -3004;
     FlxTweenUtil.pauseTweensOf(PlayState.instance.cameraFollowPoint);
-    select.y = -select.height;
     whiteflash.alpha = 1;
     dokiBackdrop.alpha = 0;
-    bg.alpha = 0;
     var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
     if (opponentStrumline != null)
     {
@@ -552,7 +345,6 @@ class YouAndMeSong extends Song
       }
     }
     PlayState.instance.camHUD.alpha = 1;
-    selectDokiSection = false;
     funnytext.alpha = 1;
     funnytext.resetText("");
     funnytext.start(0.04);
@@ -566,8 +358,7 @@ class YouAndMeSong extends Song
 
     PlayState.instance.cameraFollowPoint.setPosition(639, -3004);
     PlayState.instance.tweenCameraToPosition(639, -3004, 0);
-    new FlxTimer().start(0.000001, function(tmr) // Starts the song without countdown
-    {
+    FlxG.signals.postUpdate.addOnce(() -> {
       Countdown.skipCountdown();
     });
   }

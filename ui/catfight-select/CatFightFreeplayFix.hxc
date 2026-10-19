@@ -1,0 +1,33 @@
+import funkin.modding.module.Module;
+import funkin.ui.freeplay.FreeplayState;
+import funkin.util.ReflectUtil;
+import funkin.ui.freeplay.SongMenuItem;
+import funkin.audio.FunkinSound;
+import funkin.modding.ModStore;
+import funkin.ui.UIState;
+
+class CatFightFreeplayFix extends Module
+{
+  public function new()
+  {
+    super('CatFightFreeplayFix', null, {state: FreeplayState});
+  }
+
+  var isYuri:Bool;
+
+  override function onUpdate(event:UpdateScriptEvent)
+  {
+    super.onUpdate(event);
+    var capsule = FlxG.state.subState.grpCapsules.members[FlxG.state.subState.curSelected];
+    if (capsule != null && FlxG.state.subState.curSelected != 0 && capsule?.freeplayData?.data.id == 'catfight')
+    {
+      // Override base game function to allow player to choose a doki
+      capsule.onConfirm = function()
+      {
+        FlxG.state.subState.persistentUpdate = false;
+        FlxG.state.subState.uiStateMachine.transition(UIState.Interacting);
+        FlxG.state.subState.openSubState(new CatfightPopup());
+      };
+    }
+  }
+}
