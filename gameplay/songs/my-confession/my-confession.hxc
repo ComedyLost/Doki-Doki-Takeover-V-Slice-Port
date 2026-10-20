@@ -11,12 +11,14 @@ import funkin.play.song.Song;
 import funkin.play.Countdown;
 import funkin.play.PlayStatePlaylist;
 import flixel.math.FlxMath;
+import ddto.cutscene.DokiConversationSystem;
 
 class MyConfessionSong extends Song
 {
   var vignette:FunkinSprite;
   var staticshock:FunkinSprite;
   var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
 
   var currentStage(get, never):Stage;
 
@@ -33,7 +35,7 @@ class MyConfessionSong extends Song
   override function onCreate(event)
   {
     super.onCreate(event);
-    hasPlayedIntroCutscene = false;
+    hasPlayedIntroCutscene = hasPlayedOutroCutscene = false;
     staticshock = new FunkinSprite();
     staticshock.frames = Paths.getSparrowAtlas('gameplay/stages/dokiclubroom/static-shock');
     staticshock.animation.addByPrefix('idle', 'hueh', 24, true);
@@ -60,7 +62,7 @@ class MyConfessionSong extends Song
 
   function startIntroDialogue()
   {
-    PlayState.instance.startConversation('my-confession');
+    DokiConversationSystem.startConversation('my-confession');
   }
 
   var lastStep:Int = 0;
@@ -100,6 +102,15 @@ class MyConfessionSong extends Song
     }
     lastStep = event.step;
   }
+  
+  function startEndDialogue()
+  {
+    DokiConversationSystem.startConversation('my-confession', 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = () -> {
+      DokiConversationSystem.onConversationComplete();
+      PlayState.instance.endSong();
+    }
+  }
 
   public override function onUpdate(event:UpdateScriptEvent):Void
   {
@@ -133,6 +144,39 @@ class MyConfessionSong extends Song
       event.cancel(); // CANCEL THE COUNTDOWN!
 
       startIntroDialogue();
+    }
+  }
+  
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
+    trace('Started countdown for Roses...');
+
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      PlayState.instance.camCutscene.fade(null, 2, false, () -> {
+        PlayState.instance.camCutscene.fade(null, 2, true);
+        PlayState.instance.camHUD.visible = false;
+        var imageBG:FunkinSprite = new FunkinSprite(0, 0);
+        imageBG.loadGraphic(Paths.image('gameplay/dialogue/doki-conversations/bgs/ending1'));
+        imageBG.antialiasing = false;
+        imageBG.scrollFactor.set();
+        imageBG.cameras = [PlayState.instance.camCutscene];
+        imageBG.updateHitbox();
+        imageBG.screenCenter();
+        PlayState.instance.add(imageBG);
+        startEndDialogue();
+      });
     }
   }
 

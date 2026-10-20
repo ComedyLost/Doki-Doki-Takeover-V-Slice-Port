@@ -9,6 +9,7 @@ import funkin.play.notes.notestyle.NoteStyle;
 import funkin.play.notes.notekind.NoteKindManager;
 import funkin.play.notes.Strumline;
 import funkin.play.notes.StrumlineNote;
+import flixel.tweens.FlxTween;
 
 class NoteSwapEvent extends ScriptedSongEvent
 {
@@ -135,6 +136,13 @@ class SwappingNotestyles extends Module
     var noteStyle:NoteStyle = NoteStyleRegistry.instance.fetchEntry(noteStyleId) ?? NoteStyleRegistry.instance.fetchDefault();
     // Initialize the judgements and combo meter.
     PlayState.instance.comboPopUps.noteStyle = noteStyle;
+    // Prevent old popups from being re-added into the pool
+    for (member in [PlayState.instance.comboPopUps.judgementPool, PlayState.instance.comboPopUps.comboNumPool])
+    {
+			FlxTween.globalManager.forEachTweensOf(member, ['alpha'], (tween) -> {if (tween?.active ?? false) tween.onComplete = null;});
+    }
+    PlayState.instance.comboPopUps.judgementPool.clear();
+    PlayState.instance.comboPopUps.comboNumPool.clear();
   }
 
   function setupNotes(strumline:Strumline, style:String)

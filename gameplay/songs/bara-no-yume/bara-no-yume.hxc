@@ -12,6 +12,7 @@ import openfl.utils.Assets;
 import funkin.play.cutscene.CutsceneType;
 import flixel.util.FlxTimer;
 import funkin.assets.Paths as NewPaths;
+import ddto.cutscene.DokiConversationSystem;
 
 class BaraNoYumeSong extends Song
 {
@@ -68,13 +69,13 @@ class BaraNoYumeSong extends Song
 
   function startDialogue()
   {
-    PlayState.instance.startConversation('bara-no-yume');
+    DokiConversationSystem.startConversation('bara-no-yume');
   }
 
   function startEndDialogue()
   {
-    PlayState.instance.startConversation('bara-no-yume-end');
-    PlayState.instance.currentConversation.completeCallback = endingCutscene;
+    DokiConversationSystem.startConversation('bara-no-yume', 'End');
+    // DokiConversationSystem.dialogueBox.completeCallback = endingCutscene;
   }
 
   /**
@@ -108,9 +109,9 @@ class BaraNoYumeSong extends Song
     hasPlayedOutroCutscene = false;
   }
 
-  function endingCutscene()
+  public function playbackCutscene(?cutsceneType:String)
   {
-    PlayState.instance.onConversationComplete();
+    DokiConversationSystem.onConversationComplete();
     #if mobile
     PlayState.instance.pauseButton.visible = false;
     PlayState.instance.pauseCircle.visible = false;

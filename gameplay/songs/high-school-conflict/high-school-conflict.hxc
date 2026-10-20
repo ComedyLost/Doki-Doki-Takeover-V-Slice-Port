@@ -5,7 +5,7 @@ import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayState;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.song.Song;
-import funkin.play.cutscene.dialogue.ConversationState;
+import ddto.cutscene.DokiConversationSystem;
 
 class HighSchoolConflictSong extends Song
 {
@@ -88,15 +88,15 @@ class HighSchoolConflictSong extends Song
 
   function startDialogue()
   {
-    PlayState.instance.startConversation('high-school-conflict');
+    DokiConversationSystem.startConversation('high-school-conflict');
   }
 
   function startEndDialogue()
   {
-    PlayState.instance.startConversation('high-school-conflict-end');
-    PlayState.instance.currentConversation.completeCallback = function()
+    DokiConversationSystem.startConversation('high-school-conflict', 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = function()
     {
-      PlayState.instance.onConversationComplete();
+      DokiConversationSystem.onConversationComplete();
       PlayState.instance.endSong();
     };
   }

@@ -4,6 +4,7 @@ import funkin.play.cutscene.VideoCutscene;
 import openfl.utils.Assets;
 import funkin.play.PlayStatePlaylist;
 import funkin.assets.Paths as NewPaths;
+import ddto.cutscene.DokiConversationSystem;
 
 class RainCloudsSong extends Song
 {
@@ -67,7 +68,7 @@ class RainCloudsSong extends Song
 
   function startDialogue()
   {
-    PlayState.instance.startConversation('rain-clouds');
+    DokiConversationSystem.startConversation('rain-clouds');
   }
 
   function startVideo()

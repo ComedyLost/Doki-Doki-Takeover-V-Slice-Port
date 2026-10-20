@@ -15,7 +15,6 @@
     "difficulties": ["normal"],
     "characters": {
       "player": "pixelbfangry-new",
-      "girlfriend": "monika-angry",
       "opponent": "monika-pixelnew",
       "instrumental": "",
       "altInstrumentals": ["vip"]

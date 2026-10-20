@@ -7,6 +7,7 @@ import funkin.play.song.Song;
 import funkin.play.Countdown;
 import funkin.Conductor;
 import funkin.play.PlayStatePlaylist;
+import ddto.cutscene.DokiConversationSystem;
 
 class BakaSong extends Song
 {
@@ -17,6 +18,7 @@ class BakaSong extends Song
 
   var bakaOverlay:FunkinSprite;
   var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
   var backupShake;
 
   /*public override function listAltInstrumentalIds(difficultyId:String, variationId:String):Array<String> {
@@ -32,7 +34,7 @@ class BakaSong extends Song
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    hasPlayedIntroCutscene = false;
+    hasPlayedIntroCutscene = hasPlayedOutroCutscene = false;
 
     bakaOverlay = new FunkinSprite(0, 0);
     bakaOverlay.frames = Paths.getSparrowAtlas('gameplay/songs/baka/graphics/baka-bg-doodles');
@@ -67,31 +69,7 @@ class BakaSong extends Song
 
   function startDialogue()
   {
-    PlayState.instance.startConversation('baka');
-  }
-
-  function transitionToDialogue()
-  {
-    trace('Transitioning to dialogue.');
-
-    PlayState.instance.camCutscene.visible = true;
-
-    var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
-    black.cameras = [PlayState.instance.camCutscene];
-    black.zIndex = 1000000;
-    PlayState.instance.add(black);
-
-    black.alpha = 1.0;
-
-    FlxTween.tween(black, {alpha: 0}, 1, {
-      ease: FlxEase.linear,
-      startDelay: 0.25,
-      onComplete: function(input)
-      {
-        // black.visible = false;
-        startDialogue();
-      }
-    });
+    DokiConversationSystem.startConversation('${this.id}');
   }
 
   override function onPause(event)
@@ -161,6 +139,46 @@ class BakaSong extends Song
     lastStep = event.step;
   }
 
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      PlayState.instance.camCutscene.fade(null, 2, false, () -> {
+        PlayState.instance.camCutscene.fade(null, 2, true);
+        PlayState.instance.camHUD.visible = false;
+        var imageBG:FunkinSprite = new FunkinSprite(0, 0);
+        imageBG.loadGraphic(Paths.image('gameplay/dialogue/doki-conversations/bgs/ending2'));
+        imageBG.antialiasing = false;
+        imageBG.scrollFactor.set();
+        imageBG.cameras = [PlayState.instance.camCutscene];
+        imageBG.updateHitbox();
+        imageBG.screenCenter();
+        PlayState.instance.add(imageBG);
+        startEndDialogue();
+      });
+    }
+  }
+  
+  function startEndDialogue()
+  {
+    DokiConversationSystem.startConversation('${this.id}', 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = () -> {
+      DokiConversationSystem.onConversationComplete();
+      PlayState.instance.endSong();
+    }
+  }
+
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
@@ -173,7 +191,7 @@ class BakaSong extends Song
 
       event.cancel(); // CANCEL THE COUNTDOWN!
 
-      transitionToDialogue();
+      startDialogue();
     }
   }
 }

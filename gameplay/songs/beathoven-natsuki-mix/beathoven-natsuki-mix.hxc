@@ -1,5 +1,7 @@
 import funkin.play.PlayState;
+import funkin.play.PlayStatePlaylist;
 import funkin.play.song.Song;
+import ddto.cutscene.DokiConversationSystem;
 import funkin.Highscore;
 import funkin.save.Save;
 
@@ -10,10 +12,55 @@ class BeathovenNatsukiMix extends Song
     super('beathoven-natsuki-mix');
   }
 
+  var hasPlayedCutscene:Bool;
+
   public override function isSongNew(currentDifficulty:String):Bool
   {
     if (!Save.instance.hasBeatenSong(this.id)) return true;
     else
       return false;
+  }
+  
+  public override function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
+
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedCutscene = true;
+
+    if (!hasPlayedCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+  }
+
+  function startDialogue()
+  {
+    DokiConversationSystem.startConversation(this.id);
+  }
+
+  /**
+   * Don't replay the cutscene between restarts.
+   */
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+
+    hasPlayedCutscene = true;
+  }
+
+  /**
+   * Replay the cutscene after leaving the song.
+   */
+  function onCreate(event:ScriptEvent):Void
+  {
+    super.onCreate(event);
+
+    hasPlayedCutscene = false;
   }
 }

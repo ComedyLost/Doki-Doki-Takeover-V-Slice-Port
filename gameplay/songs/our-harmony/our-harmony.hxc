@@ -20,6 +20,7 @@ import flixel.group.FlxTypedSpriteGroup;
 import funkin.modding.module.Module;
 import funkin.graphics.video.FunkinVideoSprite;
 import funkin.assets.Paths as NewPaths;
+import ddto.cutscene.DokiConversationSystem;
 
 class OurHarmonySong extends Song
 {
@@ -37,6 +38,8 @@ class OurHarmonySong extends Song
   var cg2Group:FlxTypedSpriteGroup<FunkinSprite>;
   var whiteflash:FunkinSprite;
   var ending:FunkinVideoSprite;
+  var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
 
   var currentStage(get, never):Stage;
 
@@ -56,6 +59,8 @@ class OurHarmonySong extends Song
   {
     super.onCreate(event);
     if (currentStage == null || PlayState.instance.isMinimalMode) return;
+    
+    hasPlayedIntroCutscene = hasPlayedOutroCutscene = false;
 
     var opponentStrums = PlayState.instance.opponentStrumline.strumlineNotes;
     var playerStrums = PlayState.instance.playerStrumline.strumlineNotes;
@@ -126,6 +131,10 @@ class OurHarmonySong extends Song
 			ending.scrollFactor.set();
 		});
 		ending.load(Assets.getPath(NewPaths.video('gameplay/songs/our-harmony/our-harmony-ending')));
+    ending.play();
+    ending.bitmap.time = 0;
+    ending.visible = false;
+    ending.pause();
 		PlayState.instance.add(ending);
 
     FlxG.signals.postUpdate.addOnce(() ->
@@ -246,6 +255,8 @@ class OurHarmonySong extends Song
   function onSongRetry(event:ScriptEvent)
   {
     super.onSongRetry(event);
+    hasPlayedIntroCutscene = true;
+    ending.bitmap.time = 0;
     ending.pause();
     ending.visible = false;
     PlayState.instance.cameraZoomRate = 4;
@@ -325,5 +336,63 @@ class OurHarmonySong extends Song
       }
     }
     lastStep = event.step;
+  }
+  
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      startEndDialogue();
+    }
+  }
+  
+  function startEndDialogue()
+  {
+    DokiConversationSystem.startConversation('${this.id}', 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = () -> {
+      DokiConversationSystem.onConversationComplete();
+      PlayState.instance.endSong();
+    }
+  }
+
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+  }
+  
+  public function playbackCutscene(?cutsceneType:String)
+  {
+    PlayState.instance.currentStage.getDad().visible = true;
+  }
+
+  function startDialogue()
+  {
+    var gfPoint = PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint;
+    var targetX = gfPoint.x - 50;
+    var targetY = gfPoint.y - 150;
+    PlayState.instance.tweenCameraToPosition(targetX, targetY, 0);
+    DokiConversationSystem.startConversation('${this.id}');
   }
 }

@@ -15,6 +15,8 @@ import flixel.util.FlxTimer;
 import funkin.graphics.FunkinSprite;
 import funkin.data.stage.StageRegistry;
 import funkin.play.stage.Stage;
+import ddto.cutscene.DokiConversationSystem;
+import funkin.play.PlayStatePlaylist;
 
 class GlitcherMonikaMixSong extends Song
 {
@@ -24,6 +26,7 @@ class GlitcherMonikaMixSong extends Song
   var shaderstat = new ShaderFilter(bloom);
   var pixelTween:FlxTween;
   var noFestivalMode:Array<String> = ['pixelbf-new', 'gf-doki', 'monika-pixelnew'];
+  var hasPlayedCutscene:Bool;
 
   function new()
   {
@@ -206,6 +209,19 @@ class GlitcherMonikaMixSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedCutscene = true;
+
+    if (!hasPlayedCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+
     if (pixelTween != null && pixelTween.active) pixelTween.cancel();
     bloom.setFloat('funrange', 0.1);
     bloom.setFloat('funsteps', 0.005);
@@ -220,6 +236,32 @@ class GlitcherMonikaMixSong extends Song
     PlayState.instance.camGame.filters = filters;
     becomefumo();
   }
+
+  function startDialogue()
+  {
+    DokiConversationSystem.startConversation(this.id);
+  }
+
+  /**
+   * Don't replay the cutscene between restarts.
+   */
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+
+    hasPlayedCutscene = true;
+  }
+
+  /**
+   * Replay the cutscene after leaving the song.
+   */
+  function onCreate(event:ScriptEvent):Void
+  {
+    super.onCreate(event);
+
+    hasPlayedCutscene = false;
+  }
+
   /*function onCreate(event:ScriptEvent):Void
     {
       super.onCreate(event);

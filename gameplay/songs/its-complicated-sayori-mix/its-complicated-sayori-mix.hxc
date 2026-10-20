@@ -1,5 +1,7 @@
 import funkin.play.PlayState;
+import funkin.play.PlayStatePlaylist;
 import funkin.play.song.Song;
+import ddto.cutscene.DokiConversationSystem;
 import funkin.save.Save;
 import funkin.modding.module.ModuleHandler;
 
@@ -8,6 +10,51 @@ class ItsComplicatedSayoriMix extends Song
   function new()
   {
     super('its-complicated-sayori-mix');
+  }
+  
+  var hasPlayedCutscene:Bool;
+
+  public override function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
+
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedCutscene = true;
+
+    if (!hasPlayedCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+  }
+
+  function startDialogue()
+  {
+    DokiConversationSystem.startConversation(this.id);
+  }
+
+  /**
+   * Don't replay the cutscene between restarts.
+   */
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+
+    hasPlayedCutscene = true;
+  }
+
+  /**
+   * Replay the cutscene after leaving the song.
+   */
+  function onCreate(event:ScriptEvent):Void
+  {
+    super.onCreate(event);
+
+    hasPlayedCutscene = false;
   }
 
   var lastStep:Int = 0;

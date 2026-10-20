@@ -11,6 +11,8 @@ import funkin.util.FlxTweenUtil;
 import funkin.graphics.FunkinBackdrop;
 import flixel.FlxCamera;
 import funkin.save.Save;
+import funkin.play.PlayStatePlaylist;
+import ddto.cutscene.DokiConversationSystem;
 
 class DeepBreathsSong extends Song
 {
@@ -22,11 +24,14 @@ class DeepBreathsSong extends Song
   var sparkleBG:FunkinBackdrop;
   var sparkleFG:FunkinBackdrop;
   var pinkOverlay:FunkinSprite;
+  var hasPlayedCutscene:Bool;
 
   override function onCreate(event)
   {
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+    
+    hasPlayedCutscene = false;
 
     sparkleBG = new FunkinBackdrop(Paths.image('gameplay/stages/dokiclubroom/yuri-sparkle-bg'));
     sparkleBG.scrollFactor.set(0.1, 0);
@@ -92,8 +97,33 @@ class DeepBreathsSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedCutscene = true;
+
+    if (!hasPlayedCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+
     sparkleBG.alpha = 0;
     sparkleFG.alpha = 0;
     pinkOverlay.alpha = 0;
+  }
+
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+
+    hasPlayedCutscene = true;
+  }
+  
+  function startDialogue()
+  {
+    DokiConversationSystem.startConversation('${this.id}');
   }
 }

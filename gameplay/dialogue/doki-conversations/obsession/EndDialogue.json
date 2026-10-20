@@ -193,7 +193,7 @@
       "isCommand": false,
       "name": "sayori",
       "expression": "gone",
-      "string": "\"Eheheh, what even is a .xml, anyways?\"",
+      "string": "\"Eheheh, what even is a .json, anyways?\"",
       "key": "obseEnd17",
       "side": "left"
     },

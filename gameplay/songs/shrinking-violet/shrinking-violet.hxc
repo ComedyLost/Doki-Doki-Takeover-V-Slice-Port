@@ -11,6 +11,8 @@ import funkin.util.FlxTweenUtil;
 import funkin.graphics.FunkinBackdrop;
 import flixel.FlxCamera;
 import funkin.save.Save;
+import funkin.play.PlayStatePlaylist;
+import ddto.cutscene.DokiConversationSystem;
 
 class ShrinkingVioletSong extends Song
 {
@@ -35,10 +37,15 @@ class ShrinkingVioletSong extends Song
   var pastDokiLight;
   var encoreTime:Int;
 
+  var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
+
   override function onCreate(event)
   {
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+    
+    hasPlayedIntroCutscene = hasPlayedOutroCutscene = false;
 
     sparkleBG = new FunkinBackdrop(Paths.image('gameplay/stages/dokiclubroom/yuri-sparkle-bg'));
     sparkleBG.scrollFactor.set(0.1, 0);
@@ -150,6 +157,7 @@ class ShrinkingVioletSong extends Song
   public function onSongRetry(event):Void
   {
     super.onSongRetry(event);
+    hasPlayedIntroCutscene = true;
     for (yuri in [sparkleBG, sparkleFG, pinkOverlay])
     {
       FlxTween.cancelTweensOf(yuri);
@@ -163,5 +171,64 @@ class ShrinkingVioletSong extends Song
     sparkleBG.visible = false;
     sparkleFG.visible = false;
     pinkOverlay.visible = false;
+  }
+  
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      startEndDialogue();
+    }
+  }
+  
+  function startEndDialogue()
+  {
+    DokiConversationSystem.startConversation('${this.id}', 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = () -> {
+      DokiConversationSystem.onConversationComplete();
+      PlayState.instance.endSong();
+    }
+  }
+
+  public function onCountdownStart(event):Void
+  {
+    super.onCountdownStart(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+  }
+  
+  public function playbackCutscene(?cutsceneType:String)
+  {
+    PlayState.instance.currentStage.getDad().visible = true;
+  }
+
+  function startDialogue()
+  {
+    PlayState.instance.currentStage.getDad().visible = false;
+    var gfPoint = PlayState.instance.currentStage.getGirlfriend().cameraFocusPoint;
+    var targetX = gfPoint.x;
+    var targetY = gfPoint.y - 150;
+    PlayState.instance.tweenCameraToPosition(targetX, targetY, 0);
+    DokiConversationSystem.startConversation('${this.id}');
   }
 }

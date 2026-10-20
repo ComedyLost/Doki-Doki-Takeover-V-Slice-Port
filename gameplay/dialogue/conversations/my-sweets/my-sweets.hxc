@@ -1,9 +1,0 @@
-import ddto.cutscene.DokiConversation;
-
-class MySweetsConversation extends DokiConversation
-{
-  function new()
-  {
-    super('my-sweets');
-  }
-}

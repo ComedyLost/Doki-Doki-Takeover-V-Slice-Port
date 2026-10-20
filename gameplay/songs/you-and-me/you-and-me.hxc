@@ -91,10 +91,8 @@ class YouAndMeSong extends Song
     if (PlayState.instance == null || PlayState.instance.currentStage == null) return;
     if (PlayState.instance.isMinimalMode || PlayState.instance.isChartingMode) return;
 
-    var currentPos:FlxPoint = PlayState.instance.cameraFollowPoint.getPosition();
     FlxG.signals.postUpdate.addOnce(() -> {
       FlxG.camera.follow(PlayState.instance.cameraFollowPoint, null, Constants.DEFAULT_CAMERA_FOLLOW_RATE);
-      PlayState.instance.cameraFollowPoint.setPosition(currentPos.x, currentPos.y);
       FlxG.camera.focusOn(PlayState.instance.cameraFollowPoint.getPosition());
       FlxG.camera.targetOffset.x = FlxG.camera.targetOffset.y = 0;
     });

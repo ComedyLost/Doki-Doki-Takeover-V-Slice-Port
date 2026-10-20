@@ -1,0 +1,47 @@
+package ddto.cutscene;
+
+import funkin.play.PlayState;
+import funkin.audio.FunkinSound;
+import funkin.graphics.FunkinSprite;
+import ddto.cutscene.DokiDialogueBox;
+
+using StringTools;
+
+/**
+ * Yea FUCK the original conversation system override
+ * that shit was a pain in the ASS.
+ * Now we're doing our own system
+ * One-to-one with DDTO's system 
+**/
+class DokiConversationSystem
+{
+  public static var dialogueBox:DokiDialogueBox;
+
+  public static function startConversation(id:String, ?type:String):Void
+  {
+    PlayState.instance.isInCutscene = true;
+    dialogueBox = new DokiDialogueBox(id, type);
+    dialogueBox.cameras = [PlayState.instance.camCutscene];
+    dialogueBox.completeCallback = onConversationComplete;
+    dialogueBox.zIndex = 1000;
+    PlayState.instance.add(dialogueBox);
+    PlayState.instance.refresh();
+  }
+
+  static function onConversationComplete():Void
+  {
+    PlayState.instance.isInCutscene = false;
+
+    if (dialogueBox != null)
+    {
+      dialogueBox.kill();
+      PlayState.instance.remove(dialogueBox);
+      dialogueBox = null;
+    }
+
+    if (PlayState.instance.startingSong && !PlayState.instance.isInCountdown)
+    {
+      PlayState.instance.startCountdown();
+    }
+  }
+}

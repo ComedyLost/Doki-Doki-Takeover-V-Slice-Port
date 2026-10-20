@@ -5,7 +5,7 @@ import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayState;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.song.Song;
-import funkin.play.cutscene.dialogue.ConversationState;
+import ddto.cutscene.DokiConversationSystem;
 
 class MySweetsSong extends Song
 {
@@ -60,7 +60,7 @@ class MySweetsSong extends Song
 
   function startDialogue()
   {
-    PlayState.instance.startConversation('my-sweets');
+    DokiConversationSystem.startConversation('my-sweets');
   }
 
   /**

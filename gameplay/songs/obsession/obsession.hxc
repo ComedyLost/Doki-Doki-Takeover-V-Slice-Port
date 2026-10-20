@@ -5,12 +5,12 @@ import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
-import funkin.play.Countdown;
 import funkin.Conductor;
-import funkin.util.FlxTweenUtil;
-import funkin.graphics.FunkinBackdrop;
-import flixel.FlxCamera;
 import funkin.save.Save;
+import funkin.play.PlayStatePlaylist;
+import ddto.cutscene.DokiConversationSystem;
+import funkin.play.cutscene.VideoCutscene;
+import funkin.assets.Paths as NewPaths;
 
 class ObsessionSong extends Song
 {
@@ -25,11 +25,22 @@ class ObsessionSong extends Song
   var blackScreen:FunkinSprite;
   var blackScreenBG:FunkinSprite;
   var blackScreentwo:FunkinSprite;
+  var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
+  
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+
+    hasPlayedIntroCutscene = true;
+  }
 
   override function onCreate(event)
   {
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+    
+    hasPlayedIntroCutscene = hasPlayedOutroCutscene = false;
 
     vignette = new FunkinSprite().loadGraphic(Paths.image('gameplay/stages/dokiclubroom/vignette'));
     vignette.scrollFactor.set();
@@ -75,6 +86,38 @@ class ObsessionSong extends Song
     whiteflash.scrollFactor.set();
     whiteflash.cameras = [PlayState.instance.camHUD];
     whiteflash.zIndex = 1500;
+  }
+  
+  public function playbackCutscene(?cutsceneType:String)
+  {
+    var currentStage:Stage = PlayState.instance.currentStage;
+    switch (cutsceneType)
+    {
+      case 'dokiexit':
+        PlayState.instance.camCutscene.fade(null, 2, false, () -> {
+          PlayState.instance.camCutscene.fade(null, 2, true);
+          for (bg in [currentStage.sayori, currentStage.natsuki, currentStage.yuri, currentStage.monika, currentStage.protag])
+          {
+            bg.alpha = 0.0001;
+          }
+        });
+      case 'monikatransform':
+        VideoCutscene.play(NewPaths.video('gameplay/songs/obsession/monikacodin'));
+        var overrideVideo:Void->Void = () -> {
+          FlxTween.cancelTweensOf(FlxG.camera, ["zoom"]);
+          FlxTween.cancelTweensOf(VideoCutscene.blackScreen, ["alpha"]);
+      
+          FlxTween.tween(VideoCutscene.blackScreen, {alpha: 0}, 0.5,
+            {
+              ease: FlxEase.quadInOut,
+              onComplete: function(twn:FlxTween) {
+                PlayState.instance.remove(VideoCutscene.blackScreen);
+              }
+            });
+        }
+        VideoCutscene.vid.bitmap.onEncounteredError.add(overrideVideo);
+        VideoCutscene.vid.bitmap.onEndReached.add(overrideVideo);
+    }
   }
 
   function calcSectionLength(duration:Int = 1)
@@ -135,6 +178,18 @@ class ObsessionSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+
     PlayState.instance.currentChart.stickerPack = 'yuri';
     PlayState.instance.currentStage.getDad().idleSuffix = '-alt';
     blackScreenBG.alpha = 0;
@@ -146,4 +201,40 @@ class ObsessionSong extends Song
     blackScreen.visible = false;
     blackScreentwo.visible = false;
   }
+  
+  function startDialogue()
+  {
+    DokiConversationSystem.startConversation('${this.id}');
+  }
+
+  function startEndDialogue()
+  {
+    DokiConversationSystem.startConversation('${this.id}', 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = () -> {
+      DokiConversationSystem.onConversationComplete();
+      PlayState.instance.endSong();
+    }
+  }
+
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      FlxTween.cancelTweensOf(PlayState.instance.camHUD);
+      FlxTween.tween(PlayState.instance.camHUD, {alpha: 0}, 1);
+      startEndDialogue();
+    }
+  }
+
 }

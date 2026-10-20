@@ -19,6 +19,7 @@ import funkin.play.CountdownStep;
 import funkin.util.EaseUtil;
 import funkin.modding.events.ScriptEvent;
 import funkin.modding.events.CountdownScriptEvent;
+import ddto.cutscene.DokiConversationSystem;
 
 class YourDemiseSong extends Song
 {
@@ -27,6 +28,7 @@ class YourDemiseSong extends Song
   var hasPlayedOutroCutscene:Bool;
   var blackScreen:FunkinSprite;
   var redStatic:FunkinSprite;
+  var endsceneone:FunkinSprite;
 
   function new()
   {
@@ -36,6 +38,22 @@ class YourDemiseSong extends Song
   function onCreate(event:ScriptEvent):Void
   {
     super.onCreate(event);
+
+    PlayState.instance.iconP2.destroy();
+    PlayState.instance.iconP2 = new SmootherHealthIcon('dad', 1);
+    PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2);
+    PlayState.instance.iconP2.zIndex = 850;
+    PlayState.instance.add(PlayState.instance.iconP2);
+    PlayState.instance.iconP2.cameras = [PlayState.instance.camHUD];
+    PlayState.instance.currentStage.getDad()?.initHealthIcon(true);
+
+    PlayState.instance.iconP1.destroy();
+    PlayState.instance.iconP1 = new SmootherHealthIcon('bf', 0);
+    PlayState.instance.iconP1.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP1.height / 2);
+    PlayState.instance.iconP1.zIndex = 850;
+    PlayState.instance.add(PlayState.instance.iconP1);
+    PlayState.instance.iconP1.cameras = [PlayState.instance.camHUD];
+    PlayState.instance.currentStage.getBoyfriend()?.initHealthIcon(false);
 
     redStatic = new FunkinSprite();
     redStatic.frames = Paths.getSparrowAtlas('gameplay/doki-general/home-static');
@@ -109,7 +127,6 @@ class YourDemiseSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
-    PlayState.instance.currentStage.getGirlfriend().visible = false;
     if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
 
     if (!PlayStatePlaylist.isStoryMode) blackScreen.alpha = 0;
@@ -136,7 +153,7 @@ class YourDemiseSong extends Song
     }
   }
 
-  /*public override function onSongEnd(event:CountdownScriptEvent):Void {
+  public override function onSongEnd(event:CountdownScriptEvent):Void {
     super.onSongEnd(event);
     trace('Started countdown for Roses...');
 
@@ -153,7 +170,31 @@ class YourDemiseSong extends Song
 
       startEndDialogue();
     }	
-  }*/
+  }
+  
+  public function playbackCutscene(?cutsceneType:String)
+  {
+    endsceneone = new FunkinSprite();
+    endsceneone.frames = Paths.getSparrowAtlas('gameplay/dialogue/doki-conversations/cutscene/End1');
+    endsceneone.animation.addByPrefix('idle', 'Endscene', 24, false);
+    endsceneone.scrollFactor.set();
+    endsceneone.setGraphicSize(FlxG.width);
+    endsceneone.updateHitbox();
+    endsceneone.zIndex = 200;
+    endsceneone.antialiasing = false;
+    endsceneone.cameras = [PlayState.instance.camCutscene];
+    endsceneone.screenCenter();
+    endsceneone.x += 3;
+    endsceneone.animation.play('idle');
+    PlayState.instance.add(endsceneone);
+    PlayState.instance.refresh();
+
+    new FlxTimer().start(2.2, function(swagTimer:FlxTimer)
+    {
+      FunkinSound.playOnce(Paths.sound('gameplay/dialogue/doki-conversations/sounds/dah'));
+    });
+  }
+
   function stageSwap(swap:Bool)
   {
     glitchEffect();
@@ -196,19 +237,19 @@ class YourDemiseSong extends Song
 
   function startDialogue()
   {
-    PlayState.instance.startConversation('your-demise');
-    PlayState.instance.currentConversation.completeCallback = songStart;
+    DokiConversationSystem.startConversation('your-demise');
+    DokiConversationSystem.dialogueBox.completeCallback = songStart;
   }
 
   function startEndDialogue()
   {
-    PlayState.instance.startConversation('your-demise-end');
-    PlayState.instance.currentConversation.completeCallback = endSong;
+    DokiConversationSystem.startConversation('your-demise', 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = endSong;
   }
 
   function songStart()
   {
-    PlayState.instance.onConversationComplete();
+    DokiConversationSystem.onConversationComplete();
     returnHud();
     PlayState.instance.playerStrumline.fadeInArrows();
     PlayState.instance.opponentStrumline.fadeInArrows();
@@ -216,6 +257,7 @@ class YourDemiseSong extends Song
 
   function endSong()
   {
+    DokiConversationSystem.onConversationComplete();
     PlayState.instance.endSong();
   }
 

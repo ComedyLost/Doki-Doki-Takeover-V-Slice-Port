@@ -6,11 +6,11 @@ import flixel.util.FlxTimer;
 import funkin.audio.FunkinSound;
 import flixel.text.FlxText;
 import flixel.text.FlxTextBorderStyle;
-import funkin.play.cutscene.dialogue.DialogueBox;
 import funkin.play.PlayStatePlaylist;
 import flixel.tweens.FlxEase;
 import funkin.save.Save;
 import funkin.Conductor;
+import ddto.cutscene.DokiConversationSystem;
 
 using funkin.util.tools.MapTools;
 
@@ -68,52 +68,51 @@ class EpiphanySong extends Song
 
       PlayState.instance.camHUD.visible = false;
 
-      transitionToDialogue();
+      startDialogue();
     }
-  }
-
-  function transitionToDialogue()
-  {
-    trace('Transitioning to dialogue.');
-
-    PlayState.instance.camCutscene.visible = true;
-
-    var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
-    black.cameras = [PlayState.instance.camCutscene];
-    black.zIndex = 1000000;
-    PlayState.instance.add(black);
-
-    black.alpha = 1.0;
-
-    var tweenFunction = function(x)
-    {
-      var xSnapped = Math.floor(x * 8) / 8;
-      black.alpha = 1.0 - xSnapped;
-    };
-
-    FlxTween.num(0.0, 1.0, 2.0, {
-      ease: FlxEase.linear,
-      startDelay: 0.25,
-      onComplete: function(input)
-      {
-        // black.visible = false;
-        startDialogue();
-      }
-    }, tweenFunction);
   }
 
   function startDialogue()
   {
-    if (PlayState.instance.currentVariation == 'lyrics') PlayState.instance.startConversation('epiphany-lyrics');
-    else if (!Save.instance.hasBeatenSong('epiphany', ['normal'])) PlayState.instance.startConversation('epiphany');
-    else
-      PlayState.instance.startConversation('epiphany-retry');
-    PlayState.instance.currentConversation.completeCallback = fadeArrows;
+    var curVariation:String = PlayState.instance.currentVariation;
+    var defaultVariation:String = hasBeatenSong('epiphany', ['normal']) ? 'Encore' : 'Intro';
+    var diaVariation:String = (curVariation == 'lyrics' ? 'Lyric' : defaultVariation);
+    trace(diaVariation);
+    DokiConversationSystem.startConversation('epiphany', diaVariation);
+    DokiConversationSystem.dialogueBox.completeCallback = fadeArrows;
+  }
+
+  public function hasBeatenSong(songId:String, ?difficultyList:Array<String>, ?variation:String):Bool
+  {
+    if (difficultyList == null)
+    {
+      difficultyList = ['easy', 'normal', 'hard'];
+    }
+    if (variation == null) variation = '';
+    for (difficulty in difficultyList)
+    {
+      if (variation != '') difficulty = '${difficulty}-${variation}';
+      var score:Null<SaveScoreData> = Save.instance.getSongScore(songId, difficulty);
+      if (score != null)
+      {
+        if (score.score > 0)
+        {
+          // Level has score data, which means we cleared it!
+          return true;
+        }
+        else
+        {
+          // Level has score data, but the score is 0.
+          continue;
+        }
+      }
+    }
+    return false;
   }
 
   function fadeArrows()
   {
-    PlayState.instance.onConversationComplete();
+    DokiConversationSystem.onConversationComplete();
     PlayState.instance.playerStrumline.fadeInArrows();
     PlayState.instance.opponentStrumline.fadeInArrows();
   }
