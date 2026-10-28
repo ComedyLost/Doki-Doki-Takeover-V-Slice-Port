@@ -7,6 +7,7 @@ import funkin.Conductor;
 import funkin.util.FlxTweenUtil;
 import funkin.play.PlayStatePlaylist;
 import flixel.util.FlxColor;
+import ddto.cutscene.DokiConversationSystem;
 
 class NeetSong extends Song
 {
@@ -16,8 +17,6 @@ class NeetSong extends Song
   }
 
   var spotlight:FunkinSprite;
-  var shakeCamera:Bool = false;
-  var hasPlayedIntroCutscene:Bool;
 
   var sayori:FunkinSprite;
   var natsuki:FunkinSprite;
@@ -27,6 +26,9 @@ class NeetSong extends Song
   var deskfront:FunkinSprite;
   var blackScreenBG:FunkinSprite;
 
+  var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
+
   override function onCreate(event)
   {
     super.onCreate(event);
@@ -35,7 +37,7 @@ class NeetSong extends Song
     var stage = PlayState.instance.currentStage;
 
     blackScreenBG = new FunkinSprite(-FlxG.width * FlxG.camera.zoom,
-      -FlxG.height * FlxG.camera.zoom).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+      -FlxG.height * FlxG.camera.zoom).makeSolidColor(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
     blackScreenBG.alpha = 0.0001;
     blackScreenBG.zIndex = 54;
     blackScreenBG.scrollFactor.set();
@@ -113,6 +115,20 @@ class NeetSong extends Song
   public function onCountdownStart(event):Void
   {
     super.onCountdownStart(event);
+
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedIntroCutscene = true;
+
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+
     PlayState.instance.currentStage.getGirlfriend().alpha = 1;
     blackScreenBG.alpha = 0.0001;
     spotlight.alpha = 0.001;
@@ -120,5 +136,45 @@ class NeetSong extends Song
     {
       dokis.alpha = 0.001;
     }
+  }
+
+  function startDialogue()
+  {
+    PlayState.instance.tweenCameraToPosition(584, 434, 0);
+    DokiConversationSystem.startConversation(this.id);
+  }
+
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
+    if (!PlayStatePlaylist.isStoryMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      startEndDialogue();
+    }
+  }
+
+  function playbackCutscene(name:String, ?length:Float):Void
+  {
+    PlayState.instance.camCutscene.fade(0xFF000000, length, false);
+  }
+
+  function startEndDialogue()
+  {
+    DokiConversationSystem.startConversation(this.id, 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = function()
+    {
+      DokiConversationSystem.onConversationComplete();
+      PlayState.instance.endSong(true);
+    };
   }
 }

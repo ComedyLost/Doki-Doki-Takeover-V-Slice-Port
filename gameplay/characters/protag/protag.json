@@ -5,6 +5,7 @@
   "assetPath": "gameplay/characters/protag/costumes/default",
   "flipX": false,
   "singTime": 6,
+  "offsets": [60, 20],
   "cameraOffsets": [-10, 20],
   "death": {
     "cameraOffsets": [-40, -20],
@@ -48,30 +49,6 @@
       "prefix": "Death Confirm"
     }
   ],
-  "costumes": "protag",
-  "costumelist": [
-    {
-      "internal_Name": "casual",
-      "assetPath": "gameplay/characters/protag/costumes/casual"
-    },
-    {
-      "internal_Name": "hotline",
-      "assetPath": "gameplay/characters/protag/costumes/hotline"
-    },
-    {
-      "internal_Name": "henry",
-      "assetPath": "gameplay/characters/protag/costumes/henry"
-    },
-    {
-      "internal_Name": "fanon",
-      "assetPath": "gameplay/characters/protag/costumes/fanon"
-    },
-    {
-      "internal_Name": "blueskies",
-      "assetPath": "gameplay/characters/protag/costumes/blueskies"
-    }
-  ],
   "isPixel": false,
-  "scale": 0.98,
-  "Made_With": "the cigs Converter"
+  "scale": 0.98
 }

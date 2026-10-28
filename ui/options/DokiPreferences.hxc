@@ -34,20 +34,6 @@ class DokiPreferences
     return value;
   }
 
-  public static var menus(get, set):FlxSave;
-
-  static function get_menus():FlxSave
-  {
-    return save.data.menus;
-  }
-
-  static function set_menus(value:Bool):FlxSave
-  {
-    save.data.menus = value;
-    flush();
-    return value;
-  }
-
   public static var chrcheck(get, set):FlxSave;
 
   static function get_chrcheck():FlxSave

@@ -19,7 +19,7 @@ class JoyrideSong extends Song
   var pastDokiLight:FlxColor;
   var encoreTime:Int;
   var sunshine:FunkinSprite;
-  
+
   var hasPlayedCutscene:Bool;
 
   final STAGE_PATH:String = 'gameplay/stages/musicroom';
@@ -35,7 +35,7 @@ class JoyrideSong extends Song
   {
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
-    
+
     hasPlayedCutscene = false;
 
     encoreTime = 0;
@@ -147,7 +147,7 @@ class JoyrideSong extends Song
     }
     lastStep = event.step;
   }
-  
+
   public function playbackCutscene(?cutsceneType:String)
   {
     PlayState.instance.currentStage.getDad().visible = true;

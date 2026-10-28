@@ -48,7 +48,7 @@ class SayoSpeakerCharacter extends AnimateAtlasCharacter
     if (!this.debug)
     {
       speaker = CharacterDataParser.fetchCharacter('nogf');
-      speaker.danceEvery = this.danceEvery % 2;
+      speaker.danceEvery = this.danceEvery / 2;
     }
   }
 

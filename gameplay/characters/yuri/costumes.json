@@ -1,0 +1,29 @@
+{
+  "costumes": "yuri",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/yuri/costumes/blueskies"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/yuri/costumes/casual"
+    },
+    {
+      "internal_Name": "picnic",
+      "assetPath": "gameplay/characters/yuri/costumes/picnic"
+    },
+    {
+      "internal_Name": "taki",
+      "assetPath": "gameplay/characters/yuri/costumes/taki"
+    },
+    {
+      "internal_Name": "derby",
+      "assetPath": "gameplay/characters/yuri/costumes/derby"
+    },
+    {
+      "internal_Name": "tabi",
+      "assetPath": "gameplay/characters/yuri/costumes/tabi"
+    }
+  ]
+}

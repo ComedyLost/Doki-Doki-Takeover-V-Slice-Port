@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "name": "Pixel BF (Va11halla)",
   "renderType": "multisparrow",
-  "assetPath": "gameplay/characters/bf-pixelbar/newbfPixelbar",
+  "assetPath": "newbfPixelbar",
   "flipX": true,
   "singTime": 4,
   "healthIcon": { "id": "pixelbf-new", "isPixel": false },
@@ -63,25 +63,24 @@
     {
       "name": "firstDeath",
       "prefix": "BF Dies pixel",
-      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "assetPath": "../bf-pixel/bf-pixel-dead",
       "offsets": [0, -4]
     },
     {
       "name": "deathLoop",
       "prefix": "Retry Loop",
-      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "assetPath": "../bf-pixel/bf-pixel-dead",
       "looped": true,
       "offsets": [-5, -6]
     },
     {
       "name": "deathConfirm",
       "prefix": "RETRY CONFIRM",
-      "assetPath": "gameplay/characters/bf-pixel/bf-pixel-dead",
+      "assetPath": "../bf-pixel/bf-pixel-dead",
       "offsets": [-5, -6]
     }
   ],
   "startingAnimation": "",
   "isPixel": true,
-  "scale": 6,
-  "Made_With": "the cigs Converter"
+  "scale": 6
 }

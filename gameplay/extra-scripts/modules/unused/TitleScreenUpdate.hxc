@@ -13,7 +13,7 @@ import funkin.ui.title.TitleState;
 import funkin.ui.MusicBeatState;
 import funkin.ui.story.StoryMenuState;
 import funkin.Conductor;
-import funkin.ui.transition.LoadingState;
+import funkin.ui.transition.loading.LoadingState;
 import funkin.play.PlayStatePlaylist;
 import funkin.play.PlayState;
 import funkin.play.PauseSubState;

@@ -1,0 +1,33 @@
+{
+  "costumes": "monika",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/monika/costumes/blueskies"
+    },
+    {
+      "internal_Name": "valentine",
+      "assetPath": "gameplay/characters/monika/costumes/valentine"
+    },
+    {
+      "internal_Name": "hex",
+      "assetPath": "gameplay/characters/monika/costumes/hex"
+    },
+    {
+      "internal_Name": "senpai",
+      "assetPath": "gameplay/characters/monika/costumes/senpai"
+    },
+    {
+      "internal_Name": "vigilante",
+      "assetPath": "gameplay/characters/monika/costumes/vigilante"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/monika/costumes/casual"
+    },
+    {
+      "internal_Name": "casuallong",
+      "assetPath": "gameplay/characters/monika/costumes/casuallong"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import flixel.tweens.FlxEase;
 import funkin.play.song.Song;
 import funkin.Conductor;
 import funkin.util.FlxTweenUtil;
+import ddto.cutscene.DokiConversationSystem;
 
 class ConstrictedSong extends Song
 {
@@ -16,11 +17,16 @@ class ConstrictedSong extends Song
 
   var vignette:FunkinSprite;
   var zippergoo:FunkinSprite;
+  var hasPlayedIntroCutscene:Bool;
+  var hasPlayedOutroCutscene:Bool;
 
   override function onCreate(event)
   {
     super.onCreate(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
+
+    hasPlayedIntroCutscene = false;
+    hasPlayedOutroCutscene = false;
 
     vignette = new FunkinSprite().loadGraphic(Paths.image('gameplay/stages/dokiclubroom/vignette'));
     vignette.scrollFactor.set();
@@ -79,9 +85,62 @@ class ConstrictedSong extends Song
     lastStep = event.step;
   }
 
+  public override function onCountdownStart(event:CountdownScriptEvent):Void
+  {
+    super.onCountdownStart(event);
+
+    if (PlayState.instance.isChartingMode) hasPlayedIntroCutscene = true;
+
+    if (!hasPlayedIntroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedIntroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      startDialogue();
+    }
+  }
+
+  function startDialogue()
+  {
+    DokiConversationSystem.startConversation(this.id);
+  }
+
+  public override function onSongEnd(event:CountdownScriptEvent):Void
+  {
+    super.onSongEnd(event);
+    if (PlayState.instance.isChartingMode) hasPlayedOutroCutscene = true;
+
+    if (!hasPlayedOutroCutscene)
+    {
+      trace('Pausing countdown to play cutscene.');
+
+      hasPlayedOutroCutscene = true;
+
+      event.cancel(); // CANCEL THE COUNTDOWN!
+
+      PlayState.instance.camCutscene.visible = true;
+
+      startEndDialogue();
+    }
+  }
+
+  function startEndDialogue()
+  {
+    DokiConversationSystem.startConversation(this.id, 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = function()
+    {
+      DokiConversationSystem.onConversationComplete();
+      PlayState.instance.endSong();
+    };
+  }
+
   public function onSongRetry(event):Void
   {
     super.onSongRetry(event);
+    hasPlayedIntroCutscene = true;
     FlxTween.cancelTweensOf(vignette);
     FlxTween.cancelTweensOf(zippergoo);
     vignette.alpha = 0.001;

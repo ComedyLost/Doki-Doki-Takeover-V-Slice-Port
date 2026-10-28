@@ -72,20 +72,5 @@
       "offsets": [98, 231]
     }
   ],
-  "costumes": "gf",
-  "costumelist": [
-    {
-      "internal_Name": "casual",
-      "assetPath": "gameplay/characters/playablegf/costumes/casual"
-    },
-    {
-      "internal_Name": "christmas",
-      "assetPath": "gameplay/characters/playablegf/costumes/christmas"
-    },
-    {
-      "internal_Name": "blueskies",
-      "assetPath": "gameplay/characters/playablegf/costumes/blueskies"
-    }
-  ],
   "flipX": true
 }

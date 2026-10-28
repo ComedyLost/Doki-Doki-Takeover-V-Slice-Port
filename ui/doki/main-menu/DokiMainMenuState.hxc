@@ -18,7 +18,7 @@ import flixel.text.FlxTextBorderStyle;
 import flixel.addons.transition.FlxTransitionableState;
 import funkin.ui.freeplay.FreeplayState;
 import funkin.ui.story.StoryMenuState;
-import funkin.ui.transition.LoadingState;
+import funkin.ui.transition.loading.LoadingState;
 import funkin.data.song.SongRegistry;
 import funkin.play.song.Song;
 import funkin.play.PlayStatePlaylist;

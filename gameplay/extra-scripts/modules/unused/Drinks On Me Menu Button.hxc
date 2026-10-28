@@ -9,7 +9,7 @@ import funkin.ui.Prompt;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
 import flixel.util.FlxTimer;
-import funkin.ui.transition.LoadingState;
+import funkin.ui.transition.loading.LoadingState;
 import funkin.data.song.SongRegistry;
 import funkin.play.song.Song;
 import funkin.play.PlayStatePlaylist;

@@ -10,13 +10,7 @@
   "characters": {
    "player": "bf-holding-gf",
    "girlfriend": "senpai",
-   "opponent": "monika-pixelnew",
-   "opponentVocals": [
-    "monika-pixelnew"
-   ],
-   "playerVocals": [
-    "bf-holding-gf"
-   ]
+   "opponent": "monika-pixelnew"
   },
   "stage": "credits",
   "noteStyle": "ddto",

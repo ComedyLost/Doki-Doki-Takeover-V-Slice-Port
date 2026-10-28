@@ -97,6 +97,14 @@ class YouAndMeSong extends Song
       FlxG.camera.targetOffset.x = FlxG.camera.targetOffset.y = 0;
     });
   }
+  
+  public function onSongRetry(event):Void
+  {
+    super.onSongRetry(event);
+    FlxTween.cancelTweensOf(PlayState.instance.cameraFollowPoint);
+    FlxTween.cancelTweensOf(whiteflash);
+    whiteflash.alpha = 1;
+  }
 
   function blackBars(inorout:Bool)
   {

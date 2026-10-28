@@ -12,6 +12,8 @@ import funkin.play.cutscene.dialogue.ConversationState;
 import flixel.tweens.FlxEase;
 import funkin.Conductor;
 import funkin.modding.module.ModuleHandler;
+import ddto.cutscene.DokiConversationSystem;
+import funkin.mobile.input.ControlsHandler;
 // Countdown
 import flixel.util.FlxTimer;
 import funkin.play.Countdown;
@@ -19,7 +21,6 @@ import funkin.play.CountdownStep;
 import funkin.util.EaseUtil;
 import funkin.modding.events.ScriptEvent;
 import funkin.modding.events.CountdownScriptEvent;
-import ddto.cutscene.DokiConversationSystem;
 
 class YourDemiseSong extends Song
 {
@@ -72,6 +73,13 @@ class YourDemiseSong extends Song
 
     hasPlayedIntroCutscene = false;
     hasPlayedOutroCutscene = false;
+  }
+
+  override public function onSongLoaded(event:ScriptEvent)
+  {
+    super.onSongLoaded();
+    final isDownscroll:Bool = #if FEATURE_TOUCH_CONTROLS (Preferences.controlsScheme == "Arrows" && !ControlsHandler.hasExternalInputDevice) || #end Preferences.downscroll;
+    if (isDownscroll) event.notes = PlayState.instance.currentSong.getDifficulty('downscroll')?.notes.copy();
   }
 
   function hideHud()
@@ -140,7 +148,7 @@ class YourDemiseSong extends Song
       event.cancel(); // CANCEL THE COUNTDOWN!
 
       startDialogue();
-      
+
       hideHud();
     }
     else
@@ -169,9 +177,9 @@ class YourDemiseSong extends Song
       PlayState.instance.camCutscene.visible = true;
 
       startEndDialogue();
-    }	
+    }
   }
-  
+
   public function playbackCutscene(?cutsceneType:String)
   {
     endsceneone = new FunkinSprite();

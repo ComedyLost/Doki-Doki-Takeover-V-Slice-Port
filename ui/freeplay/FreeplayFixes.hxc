@@ -106,7 +106,7 @@ class DokiFreeplayFixes extends Module
         case "libitina":
           cap.pixelIcon.setCharacter('libitina');
         case "love-n-funkin":
-          switch (FlxG.state.subState.currentVariation)
+          switch (cap.freeplayData.curVariation)
           {
             case 'pico': cap.pixelIcon.setCharacter('pico');
             case Constants.DEFAULT_VARIATION: cap.pixelIcon.setCharacter('gf');
@@ -147,7 +147,7 @@ class DokiFreeplayFixes extends Module
           switch (event.variationId)
           {
             case 'pico': event.capsule.pixelIcon.setCharacter('pico');
-            case Constants.DEFAULT_VARIATION, null: event.capsule.pixelIcon.setCharacter('gf');
+            case Constants.DEFAULT_VARIATION: event.capsule.pixelIcon.setCharacter('gf');
           }
       }
     }

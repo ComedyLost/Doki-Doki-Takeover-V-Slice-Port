@@ -1,0 +1,33 @@
+{
+  "costumes": "sayori",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/sayori/costumes/blueskies"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/sayori/costumes/casual"
+    },
+    {
+      "internal_Name": "picnic",
+      "assetPath": "gameplay/characters/sayori/costumes/picnic"
+    },
+    {
+      "internal_Name": "grace",
+      "assetPath": "gameplay/characters/sayori/costumes/grace"
+    },
+    {
+      "internal_Name": "minus",
+      "assetPath": "gameplay/characters/sayori/costumes/minus"
+    },
+    {
+      "internal_Name": "sleepwear",
+      "assetPath": "gameplay/characters/sayori/costumes/sleepwear"
+    },
+    {
+      "internal_Name": "zipper",
+      "assetPath": "gameplay/characters/sayori/costumes/zipper"
+    }
+  ]
+}

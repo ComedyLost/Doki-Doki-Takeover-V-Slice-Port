@@ -21,6 +21,11 @@ import funkin.modding.module.Module;
 import funkin.mobile.input.ControlsHandler;
 import funkin.modding.ModStore;
 import funkin.ui.FullScreenScaleMode;
+import ddto.cutscene.DokiConversationSystem;
+import ddto.gameplay.MirrorModeHealthIcon;
+
+using funkin.data.song.SongDataUtils;
+using funkin.util.tools.ArrayTools;
 
 class CatfightSong extends Song
 {
@@ -32,10 +37,16 @@ class CatfightSong extends Song
   var psychMod:Module;
 
   var strumlineNames = ['playerStrumline', 'opponentStrumline'];
-  var playerCharacter:String;
   var hasPlayedIntroCutscene:Bool;
   var hasPlayedOutroCutscene:Bool;
-  var defaultCamPos;
+  var defaultCamPos:Null<Float>;
+  var isYuri(get, never):Bool;
+  var shownPopup:Bool;
+
+  function get_isYuri():Bool
+  {
+    return ModStore.get('catfightIsYuri') ?? false;
+  }
 
   var currentStage(get, never):Stage;
 
@@ -43,10 +54,37 @@ class CatfightSong extends Song
   {
     return PlayState.instance?.currentStage;
   }
-  
+
   function onCreate(event:ScriptEvent)
   {
     super.onCreate(event);
+    hasPlayedIntroCutscene = hasPlayedOutroCutscene = false;
+    choseDoki();
+
+    defaultCamPos = null;
+
+    shownPopup = false;
+
+    // Use a custom health icon to force the icons to swap directions
+    if (!isYuri) return;
+    PlayState.instance.healthBar.flipX = true;
+    PlayState.instance.healthBarBG.flipX = true;
+
+    PlayState.instance.iconP2.destroy();
+    PlayState.instance.iconP2 = new MirrorModeHealthIcon('dad', 1);
+    PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2);
+    PlayState.instance.iconP2.zIndex = 850;
+    PlayState.instance.add(PlayState.instance.iconP2);
+    PlayState.instance.iconP2.cameras = [PlayState.instance.camHUD];
+    PlayState.instance.currentStage.getDad()?.initHealthIcon(true);
+
+    PlayState.instance.iconP1.destroy();
+    PlayState.instance.iconP1 = new MirrorModeHealthIcon('bf', 0);
+    PlayState.instance.iconP1.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP1.height / 2);
+    PlayState.instance.iconP1.zIndex = 850;
+    PlayState.instance.add(PlayState.instance.iconP1);
+    PlayState.instance.iconP1.cameras = [PlayState.instance.camHUD];
+    PlayState.instance.currentStage.getBoyfriend()?.initHealthIcon(false);
   }
 
   public function onCountdownStart(event):Void
@@ -54,14 +92,16 @@ class CatfightSong extends Song
     super.onCountdownStart(event);
     if (PlayState.instance?.currentStage == null || PlayState.instance.isMinimalMode) return;
 
-    if (playerCharacter == 'yuri')
+    if (PlayState.instance.isChartingMode) hasPlayedIntroCutscene = hasPlayedOutroCutscene = true;
+
+    currentStage.getGirlfriend().idleSuffix = '-alt';
+
+    if (isYuri)
     {
       // psychMod.active = false;
-      currentStage.getDad().characterType = 3;
-      currentStage.getBoyfriend().characterType = 3;
+      currentStage.getDad().characterType = CharacterType.BF;
+      currentStage.getBoyfriend().characterType = CharacterType.DAD;
     }
-
-    if (PlayState.instance.isChartingMode) hasPlayedIntroCutscene = hasPlayedOutroCutscene = true;
 
     if (!hasPlayedIntroCutscene && DokiPreferences.freeplayDialogue)
     {
@@ -73,59 +113,44 @@ class CatfightSong extends Song
 
       PlayState.instance.camHUD.visible = false;
 
-      transitionToDialogue();
+      startIntroDialogue();
       return;
     }
 
     PlayState.instance.playerStrumline.resetScrollSpeed();
     PlayState.instance.opponentStrumline.resetScrollSpeed();
 
-    if (currentStage.getBoyfriend().cameraFocusPoint.y == defaultCamPos) currentStage.getBoyfriend().cameraFocusPoint.y += 125;
-  }
+    if (!shownPopup)
+    {
+      var who:String = (isYuri ? 'catfightYuriPopup' : 'catfightNatPopup');
+      var anim:String = (isYuri ? 'PopUpYuri' : 'PopUpNatsuki');
+      var catpopup:FunkinSprite = new FunkinSprite(400, 400);
+      catpopup.frames = Paths.getSparrowAtlas('gameplay/songs/catfight/graphics/' + who);
+      catpopup.animation.addByPrefix('idle', anim, 24, false);
+      catpopup.setGraphicSize(Std.int(catpopup.width * 0.7));
+      catpopup.updateHitbox();
+      catpopup.animation.play('idle');
+      PlayState.instance.add(catpopup);
+    }
 
-  public function onDestroy(event):Void
-  {
-    super.onDestroy(event);
-    // psychMod.active = true;
+    if (defaultCamPos == null) defaultCamPos = currentStage.getBoyfriend().cameraFocusPoint.y;
+
+    if (currentStage.getBoyfriend().cameraFocusPoint.y == defaultCamPos) currentStage.getBoyfriend().cameraFocusPoint.y += 125;
   }
 
   function startIntroDialogue()
   {
-    PlayState.instance.startConversation('catfight');
+    DokiConversationSystem.startConversation(this.id);
   }
 
   function startOutroDialogue()
   {
-    PlayState.instance.startConversation('catfight-end');
-    PlayState.instance.currentConversation.completeCallback = function()
+    DokiConversationSystem.startConversation(this.id, 'End');
+    DokiConversationSystem.dialogueBox.completeCallback = function()
     {
-      PlayState.instance.onConversationComplete();
+      DokiConversationSystem.onConversationComplete();
       PlayState.instance.endSong();
     };
-  }
-
-  function transitionToDialogue()
-  {
-    trace('Transitioning to dialogue.');
-
-    PlayState.instance.camCutscene.visible = true;
-
-    var black:FunkinSprite = new FunkinSprite(-20, -20).makeSolidColor(FlxG.width * 1.5, FlxG.height * 1.5, 0xFF000000);
-    black.cameras = [PlayState.instance.camCutscene];
-    black.zIndex = 1000000;
-    PlayState.instance.add(black);
-
-    black.alpha = 1.0;
-
-    FlxTween.tween(black, {alpha: 0}, 1, {
-      ease: FlxEase.linear,
-      startDelay: 0.25,
-      onComplete: function(input)
-      {
-        // black.visible = false;
-        startIntroDialogue();
-      }
-    });
   }
 
   override public function onSongEnd(event)
@@ -148,197 +173,62 @@ class CatfightSong extends Song
   override public function onSongLoaded(event)
   {
     super.onSongLoaded(event);
-    choseDoki();
-    for (songNotes in event.notes)
+    var ps:PlayState = PlayState.instance;
+    // I fucking HATE V-Slice
+    var notes:Array<SongNoteData> = PlayState.instance.currentSong.getDifficulty(ps.currentDifficulty, ps.currentVariation).notes.deepClone();
+    if (isYuri) notes = notes.flipNotes();
+    for (songNote in notes)
     {
-      if (songNotes.kind == 'gf' && songNotes.getStrumlineIndex() == 0)
+      var noteData:Int = songNote.data;
+
+      if (songNote.getStrumlineIndex() == 0 && songNote.kind == 'gf')
       {
-        event.notes.remove(songNotes);
+        notes.remove(songNote);
       }
     }
+    event.notes = notes.copy();
   }
 
   function onSongRetry(event:ScriptEvent)
   {
     super.onSongRetry(event);
-    if (playerCharacter != 'yuri') return;
+    if (!isYuri) return;
     FlxG.signals.postUpdate.addOnce(() ->
     {
-      currentStage.getDad().characterType = 3;
-      currentStage.getBoyfriend().characterType = 3;
-      final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
-      if (!FlxG.onMobile
-        || (FlxG.onMobile
-          && ControlsHandler.usingExternalInputDevice)) PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET + cutoutSize;
-      if (!FlxG.onMobile
-        || (FlxG.onMobile
-          && ControlsHandler.usingExternalInputDevice)) PlayState.instance.opponentStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET)
-          + (cutoutSize / 2.0);
-      swapNoteData();
+      swapCharacters();
     });
+  }
+
+  function swapCharacters():Void
+  {
+    currentStage.getDad().characterType = CharacterType.BF;
+    currentStage.getBoyfriend().characterType = CharacterType.DAD;
+    final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
+    #if mobile
+    if (ControlsHandler.usingExternalInputDevice)
+    {
+      PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET + cutoutSize;
+      PlayState.instance.opponentStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET);
+    }
+    #else
+    PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET + cutoutSize;
+    PlayState.instance.opponentStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET);
+    #end
   }
 
   function choseDoki()
   {
-    var who:String;
-    var anim:String;
-    isYuri = ModStore.get('catfightIsYuri') ?? false;
-    playerCharacter = (isYuri ? 'yuri' : 'natsuki');
-    who = (isYuri ? 'catfightYuriPopup' : 'catfightNatPopup');
-    anim = (isYuri ? 'PopUpYuri' : 'PopUpNatsuki');
-    var catpopup:FunkinSprite = new FunkinSprite(400, 400);
-    catpopup.frames = Paths.getSparrowAtlas('extraui/' + who);
-    catpopup.animation.addByPrefix('idle', anim, 24, false);
-    catpopup.setGraphicSize(Std.int(catpopup.width * 0.7));
-    catpopup.updateHitbox();
-    catpopup.animation.play('idle');
-    PlayState.instance.add(catpopup);
-    new FlxTimer().start(0.1, function(tmr:FlxTimer)
-    {
+    FlxG.signals.postUpdate.addOnce(() -> {
       if (!isYuri) return;
       var playerVocals = PlayState.instance.vocals.playerVoices.members[0];
       PlayState.instance.vocals.playerVoices.members[0] = PlayState.instance.vocals.opponentVoices.members[0];
       PlayState.instance.vocals.opponentVoices.members[0] = playerVocals;
-      PlayState.instance.healthBar.flipX = true;
-      PlayState.instance.healthBarBG.flipX = true;
-      currentStage.getDad().characterType = 3;
-      currentStage.getBoyfriend().characterType = 3;
-      final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
-      if (!FlxG.onMobile
-        || (FlxG.onMobile
-          && ControlsHandler.usingExternalInputDevice)) PlayState.instance.playerStrumline.x = Constants.STRUMLINE_X_OFFSET + cutoutSize;
-      if (!FlxG.onMobile
-        || (FlxG.onMobile
-          && ControlsHandler.usingExternalInputDevice)) PlayState.instance.opponentStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET)
-          + (cutoutSize / 2.0);
-      swapNoteData();
+      swapCharacters();
     });
-  }
-
-  function swapNoteData()
-  {
-    var notes:Array<SongNoteData> = PlayState.instance.currentChart.notes.copy();
-    var playerNoteData:Array<SongNoteData> = [];
-    var opponentNoteData:Array<SongNoteData> = [];
-    Highscore.tallies.totalNotes = 0;
-    for (songNote in notes)
-    {
-      switch (songNote.getStrumlineIndex())
-      {
-        case 0:
-          notes.data += 4;
-          playerNoteData.push(songNote);
-        case 1:
-          // increment totalNotes for total possible notes able to be hit by the player
-          notes.data -= 4;
-          if (songNote.kind == "gf") continue;
-          opponentNoteData.push(songNote);
-          Highscore.tallies.totalNotes++;
-      }
-    }
-    PlayState.instance.playerStrumline.applyNoteData(opponentNoteData);
-    PlayState.instance.opponentStrumline.applyNoteData(playerNoteData);
-  }
-
-  override function onNoteGhostMiss(event)
-  {
-    super.onNoteGhostMiss(event);
-    if (playerCharacter != 'yuri') return;
-    currentStage.getDad().playSingAnimation(event.dir, true);
-    currentStage.getDad().holdTimer = 0;
-  }
-
-  override public function onNoteMiss(event)
-  {
-    super.onNoteMiss(event);
-    if (playerCharacter != 'yuri') return;
-    switch (event.note.noteData.getStrumlineIndex())
-    {
-      case 0:
-        currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection(), true);
-        currentStage.getBoyfriend().holdTimer = 0;
-      case 1:
-        currentStage.getDad().playSingAnimation(event.note.noteData.getDirection(), true);
-        currentStage.getDad().holdTimer = 0;
-    }
-  }
-
-  override public function onNoteHit(event)
-  {
-    super.onNoteHit(event);
-    if (playerCharacter != 'yuri') return;
-    if (event.note.kind == "gf") return;
-    switch (event.note.noteData.getStrumlineIndex())
-    {
-      case 0:
-        currentStage.getBoyfriend().playSingAnimation(event.note.noteData.getDirection());
-        currentStage.getBoyfriend().holdTimer = 0;
-      case 1:
-        currentStage.getDad().playSingAnimation(event.note.noteData.getDirection());
-        currentStage.getDad().holdTimer = 0;
-    }
-  }
-
-  override function onUpdate(event:UpdateScriptEvent)
-  {
-    super.onUpdate(event);
-    if (playerCharacter == 'yuri')
-    {
-      processNotes();
-      updatePosition();
-    }
-  }
-
-  function processNotes(?elapsed:Float):Void
-  {
-    if (PlayState.instance?.playerStrumline?.notes?.members == null
-      || PlayState.instance?.opponentStrumline?.notes?.members == null) return;
-    // Process hold notes on the opponent's side.
-    for (holdNote in PlayState.instance.playerStrumline.holdNotes.members)
-    {
-      if (holdNote == null || !holdNote.alive) continue;
-
-      // While the hold note is being hit, and there is length on the hold note...
-      if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
-      {
-        // Make sure the "opponent" keeps singing while the note is held.
-        currentStage?.getDad()?.holdTimer = 0;
-      }
-    }
-    for (holdNote in PlayState.instance.opponentStrumline.holdNotes.members)
-    {
-      if (holdNote == null || !holdNote.alive) continue;
-
-      // While the hold note is being hit, and there is length on the hold note...
-      if (holdNote.hitNote && !holdNote.missedNote && holdNote.sustainLength > 0)
-      {
-        // Make sure the "player" keeps singing while the note is held.
-        currentStage?.getBoyfriend()?.holdTimer = 0;
-      }
-    }
-  }
-
-  function updatePosition()
-  {
-    if (PlayState.instance.iconP1 == null || PlayState.instance.iconP2 == null) return;
-    PlayState.instance.iconP1.playerId = 2;
-    PlayState.instance.iconP2.playerId = 2;
-    PlayState.instance.iconP1.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP1.height / 2); // - (PlayState.instance.healthBar.height / 2)
-    PlayState.instance.iconP2.y = PlayState.instance.healthBar.y - (PlayState.instance.iconP2.height / 2); // - (PlayState.instance.healthBar.height / 2)
-    PlayState.instance.iconP2.x = PlayState.instance.healthBar.x
-      + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 2, 0, 100, 0) * 0.01))
-      - (PlayState.instance.iconP2.width - HealthIcon.POSITION_OFFSET);
-    PlayState.instance.iconP1.x = PlayState.instance.healthBar.x
-      + (PlayState.instance.healthBar.width * (FlxMath.remapToRange(PlayState.instance.healthBar.value, 2, 0, 100, 0) * 0.01) - HealthIcon.POSITION_OFFSET);
-    PlayState.instance.iconP1.updateHitbox();
-    PlayState.instance.iconP2.updateHitbox();
-    PlayState.instance.iconP1.updateHealthIcon(HealthIcon.MAXIMUM_HEALTH - PlayState.instance.health);
-    PlayState.instance.iconP2.updateHealthIcon(PlayState.instance.health);
   }
 
   function calcSectionLength(?duration:Int = 1)
   {
-    if (duration == null) duration = 1;
     var durSeconds = (Conductor.instance.stepLengthMs * (16 * duration)) / 1000;
     return durSeconds;
   }

@@ -12,6 +12,9 @@ import funkin.util.assets.FlxAnimationUtil;
 import flixel.util.FlxSave;
 import Reflect;
 import thx.Dynamics;
+import haxe.Json;
+import funkin.assets.Paths as NewPaths;
+import funkin.assets.Assets as NewAssets;
 
 using funkin.util.tools.ArrayTools;
 using funkin.util.AnsiUtil;
@@ -20,11 +23,13 @@ using funkin.util.AnsiUtil;
 class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
 {
   var SaveData:FlxSave;
+  final _costumeData:Dynamic;
 
   public function new(characterId:String)
   {
     // This tells CharacterDataParser to load Natsuki instead of an invalid character!
     super(characterId == "UNKNOWN" ? "natsuki" : characterId);
+    _costumeData = getCostumeData();
     var save = new FlxSave();
     save.bind("CostumesV2", "FunkinCrew");
     SaveData = save.data;
@@ -47,7 +52,7 @@ class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
 
   function get_currentCostume():String
   {
-    var costumeName:String = Reflect.field(SaveData, '${_data.costumes}costume') ?? '';
+    var costumeName:String = Reflect.field(SaveData, '${_costumeData.costumes}costume') ?? '';
     if (PlayState.instance?.currentSong != null && PlayState.instance.currentSong.scriptHas('COSTUME_OVERRIDE'))
       return PlayState.instance.currentSong.COSTUME_OVERRIDE;
     if (costumeName == '') return 'default';
@@ -81,14 +86,21 @@ class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
     super.onCreate(event);
     this.color = defaultColor;
   }
+  
+  private function getCostumeData():Null<Dynamic>
+  {
+    var jsonPath:String = NewPaths.json('gameplay/characters/${this.characterId}/costumes');
+    if (jsonPath.exists()) return Json.parse(NewAssets.getText(jsonPath));
+    return null;
+  }
 
   private function getCostumePath():String
   {
-    if (_data.costumelist == null) return DEFAULT_PATH;
+    if (_costumeData?.costumelist == null) return DEFAULT_PATH;
 
     if (currentCostume == 'default') return DEFAULT_PATH;
 
-    for (costume in _data.costumelist)
+    for (costume in _costumeData.costumelist)
     {
       var internal_name:String = costume.internal_Name;
       var assetPath:String = costume.assetPath;
@@ -146,6 +158,8 @@ class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
 
     PauseSubState.musicSuffix = '-doki';
   }
+  
+  final PLAYER_CAM_OFFSETS:Array<Float> = [0, 0];
 
   public function resetCameraFocusPoint():Void
   {
@@ -156,7 +170,7 @@ class NatsukiBaseCharacter extends MultiAnimateAtlasCharacter
     }
     var sprite:BaseCharacter = this.clone();
     var isPlayer:Bool = (currentStage?.characters.get('bf') == super);
-    var cameraOffsets:Array<Float> = (isPlayer && _data.playerCameraOffsets != null) ? _data.playerCameraOffsets.clone() : _data.cameraOffsets.clone();
+    var cameraOffsets:Array<Float> = isPlayer ? PLAYER_CAM_OFFSETS.clone() : _data.cameraOffsets.clone();
     var charCenterX = this.originalPosition.x + sprite.width / 2;
     var charCenterY = this.originalPosition.y + sprite.height / 2;
     this.cameraFocusPoint.set(charCenterX + cameraOffsets[0], charCenterY + cameraOffsets[1]);

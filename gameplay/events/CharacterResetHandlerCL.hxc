@@ -3,6 +3,7 @@ import funkin.modding.module.ModuleHandler;
 import funkin.modding.events.SongLoadScriptEvent;
 import funkin.play.PlayState;
 import funkin.play.character.CharacterDataParser;
+import funkin.data.character.CharacterRegistry;
 import funkin.play.character.CharacterType;
 import funkin.play.components.HealthIcon;
 import funkin.FunkinMemory;
@@ -105,7 +106,7 @@ class CharacterResetHandlerCL extends Module
 
   public function fetchCharacter(charId:String, debug:Bool = false):Null<BaseCharacter>
   {
-    if (charId == null || charId == '' || !CharacterDataParser.characterCache.exists(charId))
+    if (charId == null || charId == '' || !CharacterRegistry.characterCache.exists(charId))
     {
       // Gracefully handle songs that don't use this character,
       // or throw an error if the character is missing.
@@ -114,8 +115,8 @@ class CharacterResetHandlerCL extends Module
       return null;
     }
 
-    var charData:Null<CharacterData> = CharacterDataParser.characterCache.get(charId);
-    var charScriptClass:Null<String> = CharacterDataParser.characterScriptedClass.get(charId);
+    var charData:Null<CharacterData> = CharacterRegistry.characterCache.get(charId);
+    var charScriptClass:Null<String> = CharacterRegistry.characterScriptedClass.get(charId);
 
     var char:Null<BaseCharacter> = null;
 

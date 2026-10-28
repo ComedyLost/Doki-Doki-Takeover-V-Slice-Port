@@ -1,0 +1,25 @@
+{
+  "costumes": "protag",
+  "costumelist": [
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/protag/costumes/casual"
+    },
+    {
+      "internal_Name": "hotline",
+      "assetPath": "gameplay/characters/protag/costumes/hotline"
+    },
+    {
+      "internal_Name": "henry",
+      "assetPath": "gameplay/characters/protag/costumes/henry"
+    },
+    {
+      "internal_Name": "fanon",
+      "assetPath": "gameplay/characters/protag/costumes/fanon"
+    },
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/protag/costumes/blueskies"
+    }
+  ]
+}

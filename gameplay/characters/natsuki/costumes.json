@@ -1,0 +1,33 @@
+{
+  "costumes": "natsuki",
+  "costumelist": [
+    {
+      "internal_Name": "blueskies",
+      "assetPath": "gameplay/characters/natsuki/costumes/blueskies"
+    },
+    {
+      "internal_Name": "buff",
+      "assetPath": "gameplay/characters/natsuki/costumes/buffsuki"
+    },
+    {
+      "internal_Name": "casual",
+      "assetPath": "gameplay/characters/natsuki/costumes/casual"
+    },
+    {
+      "internal_Name": "hank",
+      "assetPath": "gameplay/characters/natsuki/costumes/hank"
+    },
+    {
+      "internal_Name": "kapi",
+      "assetPath": "gameplay/characters/natsuki/costumes/kapi"
+    },
+    {
+      "internal_Name": "sunday",
+      "assetPath": "gameplay/characters/natsuki/costumes/sunday"
+    },
+    {
+      "internal_Name": "skater",
+      "assetPath": "gameplay/characters/natsuki/costumes/skater"
+    }
+  ]
+}
