@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "name": "Epiphany Monika",
   "renderType": "animateatlas",
-  "assetPath": "bigmonika/basic",
+  "assetPath": "basic",
   "flipX": false,
   "singTime": 6,
   "atlasSettings": {

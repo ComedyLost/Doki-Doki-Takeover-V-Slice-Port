@@ -6,7 +6,6 @@ import flixel.tweens.FlxEase;
 import funkin.Conductor;
 import flixel.util.FlxTimer;
 import funkin.modding.module.ModuleHandler;
-import openfl.utils.Assets;
 import flixel.util.FlxTimer;
 import StringTools;
 import flixel.text.FlxText;

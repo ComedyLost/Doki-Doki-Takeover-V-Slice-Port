@@ -121,6 +121,12 @@ class CreditsStage extends Stage
     var finalName:String = (id != null ? id?.split('-')[0] : null);
     getNamedProp('P2 Box Bottom').loadGraphic(Paths.image('gameplay/stages/credits/window-bottom${(finalName != null) ? '-$finalName' : ''}'));
   }
+  
+  function onSongRetry(event:ScriptEvent)
+  {
+    super.onSongRetry(event);
+    PlayState.instance.cameraFollowPoint.setPosition(stageCamera.x, stageCamera.y);
+  }
 
   public function onCountdownStart(event):Void
   {

@@ -87,7 +87,7 @@ class DokiDialogueBox extends FlxTypedSpriteGroup
 
     isOBS = (!DokiPreferences.selfaware || !NewgroundsClient.isLoggedIn() || NewgroundsClient.user == null);
 
-    if (type != 'End') PlayState.instance.camCutscene.fade(0xFF000000, 0.8, true);
+    // if (type != 'End') PlayState.instance.camCutscene.fade(0xFF000000, 0.8, true);
 
     var dialogueType:String = '${type}Dialogue';
     var jsonDiaString:String = Assets.getText(Paths.json('$CONVO_PATH/$id/$dialogueType'));

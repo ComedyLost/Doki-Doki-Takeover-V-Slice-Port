@@ -16,10 +16,10 @@ class SchoolDDTOStage extends Stage
     super('schoolDDTO');
   }
 
-  var wiggleBack:FlxRuntimeShader = null;
-  var wiggleSchool:FlxRuntimeShader = null;
-  var wiggleGround:FlxRuntimeShader = null;
-  var wiggleTrees:FlxRuntimeShader = null;
+  var wiggleBack:WiggleEffectRuntime = null;
+  var wiggleSchool:WiggleEffectRuntime = null;
+  var wiggleGround:WiggleEffectRuntime = null;
+  var wiggleTrees:WiggleEffectRuntime = null;
 
   final NO_FREAKS:Array<String> = ['high-school-conflict', 'your-reality-takeover-mix'];
 

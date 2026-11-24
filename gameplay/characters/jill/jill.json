@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "name": "Jill",
   "renderType": "sparrow",
-  "assetPath": "gameplay/characters/jill/Jill_smoke",
+  "assetPath": "Jill_smoke",
   "flipX": false,
   "singTime": 4,
   "healthIcon": {"isPixel": false},

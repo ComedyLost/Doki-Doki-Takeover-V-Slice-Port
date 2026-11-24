@@ -3,7 +3,6 @@ import funkin.play.song.Song;
 import funkin.Highscore;
 import funkin.save.Save;
 import flixel.addons.display.FlxRuntimeShader;
-import openfl.utils.Assets;
 import funkin.modding.base.ScriptedFlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 import flixel.FlxCamera;

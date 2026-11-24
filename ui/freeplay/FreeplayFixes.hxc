@@ -15,6 +15,8 @@ import funkin.util.FileUtil;
 import funkin.modding.PolymodHandler;
 import funkin.ui.UIState;
 import funkin.modding.module.ModuleHandler;
+import funkin.ui.transition.Transition;
+import funkin.ui.transition.TransitionType;
 
 using StringTools;
 
@@ -46,7 +48,11 @@ class DokiFreeplayFixes extends Module
       {
         if (!FileUtil.fileExists('${DIRECTORY_NAME}/gameplay/chrs/' + dokis + '.chr') ?? false)
         {
-          FlxG.state.subState.openSubState(new DokiMissingSubState());
+          
+          Transition.openSubState(() -> new DokiMissingSubState(), {
+            transition: TransitionType.Throbber,
+            shouldPurgeCache: false
+          });    
         }
         else
         {

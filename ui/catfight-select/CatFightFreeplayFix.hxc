@@ -5,6 +5,8 @@ import funkin.ui.freeplay.SongMenuItem;
 import funkin.audio.FunkinSound;
 import funkin.modding.ModStore;
 import funkin.ui.UIState;
+import funkin.ui.transition.Transition;
+import funkin.ui.transition.TransitionType;
 
 class CatFightFreeplayFix extends Module
 {
@@ -26,7 +28,11 @@ class CatFightFreeplayFix extends Module
       {
         FlxG.state.subState.persistentUpdate = false;
         FlxG.state.subState.uiStateMachine.transition(UIState.Interacting);
-        FlxG.state.subState.openSubState(new CatfightPopup());
+        
+        Transition.openSubState(() -> new CatfightPopup(), {
+          transition: TransitionType.Throbber,
+          shouldPurgeCache: false
+        });  
       };
     }
   }

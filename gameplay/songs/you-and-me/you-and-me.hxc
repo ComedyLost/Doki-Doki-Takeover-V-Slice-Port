@@ -25,6 +25,8 @@ import funkin.save.Save;
 import funkin.modding.module.ModuleHandler;
 import funkin.assets.Paths as NewPaths;
 import funkin.assets.Assets as NewAssets;
+import funkin.ui.transition.Transition;
+import funkin.ui.transition.TransitionType;
 
 class YouAndMeSong extends Song
 {
@@ -229,7 +231,11 @@ class YouAndMeSong extends Song
         case 1156:
           PlayState.instance.disableKeys = true;
           PlayState.instance.mayPauseGame = false;
-          PlayState.instance.openSubState(new DokiCards(!PlayStatePlaylist.isStoryMode));
+          Transition.openSubState(() -> new DokiCards(!PlayStatePlaylist.isStoryMode), {
+            transition: TransitionType.Throbber,
+            shouldPurgeCache: false
+          });    
+          // PlayState.instance.openSubState(new DokiCards(!PlayStatePlaylist.isStoryMode));
         case 1252:
           var opponentStrumline:FunkinSprite = PlayState.instance.opponentStrumline;
           if (opponentStrumline != null)
@@ -365,7 +371,7 @@ class YouAndMeSong extends Song
     PlayState.instance.cameraFollowPoint.setPosition(639, -3004);
     PlayState.instance.tweenCameraToPosition(639, -3004, 0);
     FlxG.signals.postUpdate.addOnce(() -> {
-      Countdown.skipCountdown();
+      // Countdown.skipCountdown();
     });
   }
 }

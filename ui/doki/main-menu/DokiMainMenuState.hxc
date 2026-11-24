@@ -1,6 +1,5 @@
 import flixel.input.mouse.FlxMouseEventManager;
 import haxe.Json;
-import lime.utils.Assets;
 import flixel.FlxObject;
 import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinBackdrop;
@@ -22,8 +21,6 @@ import funkin.ui.transition.loading.LoadingState;
 import funkin.data.song.SongRegistry;
 import funkin.play.song.Song;
 import funkin.play.PlayStatePlaylist;
-import funkin.ui.debug.DebugMenuSubState;
-import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.audio.FunkinSound;
 import funkin.ui.options.OptionsState;
 import funkin.ui.credits.CreditsState;

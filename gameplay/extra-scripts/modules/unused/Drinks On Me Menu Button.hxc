@@ -1,6 +1,5 @@
 import funkin.modding.module.Module;
 import funkin.ui.mainmenu.MainMenuState;
-import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.graphics.FunkinSprite;
 import funkin.ui.freeplay.FreeplayState;
 import funkin.ui.title.TitleState;

@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "name": "Speakers (Pixel)",
   "renderType": "sparrow",
-  "assetPath": "gameplay/characters/nogf-pixel/nogfPixel",
+  "assetPath": "nogfPixel",
   "flipX": false,
   "offsets": [0, -10],
   "singTime": 4,

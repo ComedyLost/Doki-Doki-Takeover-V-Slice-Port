@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Pico (DDTO)",
-  "assetPath": "gameplay/characters/pico-doki/pico-doki",
+  "assetPath": "pico-doki",
   "renderType": "animateatlas",
   "singTime": 4,
   "offsets": [30, 30],

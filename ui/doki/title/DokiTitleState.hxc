@@ -22,8 +22,14 @@ import flixel.input.touch.FlxTouch;
 import funkin.ui.FullScreenScaleMode;
 import flixel.util.FlxColor;
 import StringTools;
+import funkin.ui.quickpanel.QuickPanelState;
 import funkin.util.plugins.SidePanelPlugin;
 import funkin.modding.ModStore;
+import funkin.ui.transition.Transition;
+import funkin.ui.transition.TransitionType;
+import funkin.ui.transition.FadeType;
+import funkin.assets.Paths as NewPaths;
+import funkin.assets.Assets as NewAssets;
 
 class DokiTitleState extends MusicBeatState
 {
@@ -58,15 +64,68 @@ class DokiTitleState extends MusicBeatState
 
   var lastBeat:Int = 0;
 
+  public static function queryAssets(type:AssetType):Array<AssetPath>
+  {
+    var results = [];
+
+    switch (type)
+    {
+      case 'IMAGE':
+        results.concat([
+          NewPaths.image('ui/doki/title/logo-bumpin-plus'),
+          NewPaths.image('ui/doki/title/gf-dance-title'),
+
+          NewPaths.image('ui/doki/title/sentpajim'),
+          NewPaths.image('ui/doki/title/tbd-logo'),
+          NewPaths.image('ui/doki/title/doki-popup/doki-doki'),
+          NewPaths.image('ui/doki/title/doki-popup/monika-popup'),
+          NewPaths.image('ui/doki/title/doki-popup/natsuki-popup'),
+          NewPaths.image('ui/doki/title/doki-popup/protag-popup'),
+          NewPaths.image('ui/doki/title/doki-popup/sayori-popup'),
+          NewPaths.image('ui/doki/title/doki-popup/yuri-popup'),
+          #if mobile
+          NewPaths.image('ui/doki/title/title-enter-mobile')
+          #else
+          NewPaths.image('ui/doki/title/title-enter')
+          #end  
+        ]);
+
+      case 'XML':
+        results.concat([
+          NewPaths.xml('ui/doki/title/logo-bumpin'),
+          NewPaths.xml('ui/doki/title/gf-dance-title')
+        ]);
+
+      case 'SOUND':
+        results.concat([
+          NewPaths.music('ui/doki/title/freaky-menu').audio(),
+          NewPaths.music('ui/title/girlfriends-ringtone').audio()
+        ]);
+
+      case 'JSON':
+        results.concat([
+          NewPaths.music('ui/doki/title/freaky-menu').metadata(),
+          NewPaths.music('ui/title/girlfriends-ringtone').metadata()
+        ]);
+
+      case 'TEXT':
+        results.concat([NewPaths.txt('ui/doki/title/intro-text-doki')]);
+
+      default:
+    }
+
+    return results;
+  }
+  
   override public function create():Void
   {
     super.create();
     FlxG.signals.postStateSwitch.addOnce(() -> {
-      SidePanelPlugin.instance.panelState.panel.lock = true;
-      SidePanelPlugin.instance.panelState.visible = false;
-      SidePanelPlugin.instance.panelState.active = false;
+      QuickPanelState.instance.allowOpen = false;
+      SidePanelPlugin.requestedPullTab = false;
+      SidePanelPlugin.instance.syncPanel();
     });
-
+    
     lastBeat = 0;
 
     Conductor.instance.update(0);
@@ -76,8 +135,7 @@ class DokiTitleState extends MusicBeatState
     var array = getIntroTextShit();
 
     curWacky = array[FlxG.random.int(0, array.length - 1)];
-    FlxG.sound.cache(Paths.music('freakyMenu/freakyMenu'));
-    FlxG.sound.cache(Paths.music('girlfriendsRingtone/girlfriendsRingtone'));
+    NewAssets.cacheSound(NewPaths.music('ui/title/girlfriends-ringtone').audio());
 
     // DEBUG BULLSHIT
 
@@ -244,7 +302,10 @@ class DokiTitleState extends MusicBeatState
       initialized = true;
     }
 
+    #if FEATURE_VIDEO_PLAYBACK
+    trace('Opening Attract state in ${Constants.TITLE_ATTRACT_DELAY} seconds...');
     attractTimer = new FlxTimer().start(Constants.TITLE_ATTRACT_DELAY, (_:FlxTimer) -> moveToAttract());
+    #end
   }
 
   function moveToAttract():Void
@@ -252,7 +313,11 @@ class DokiTitleState extends MusicBeatState
     FlxG.sound.music.fadeOut(2.0, 0);
     FlxG.camera.fade(FlxColor.BLACK, 2.0, false, function()
     {
-      FlxG.switchState(() -> new AttractState());
+      Transition.switchState(() -> new DokiAttractState(), {
+        /*assetQuery: DokiAttractState.queryAssets,*/
+        transition: TransitionType.BlackScreen(FadeType.Fade('North'), FadeType.Fade('South')),
+        shouldPurgeCache: false
+      });
     });
   }
 
@@ -284,6 +349,8 @@ class DokiTitleState extends MusicBeatState
       FlxTween.tween(FlxG.stage.window, {y: FlxG.stage.window.y + 100}, 0.7, {ease: FlxEase.quadInOut, type: 4});
     }
 
+    if (FlxG.sound.music != null) Conductor.instance.update(FlxG.sound.music.time);
+
     var pressedEnter:Bool = controls.ACCEPT_P || FlxG.mouse.justPressed;
     var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
@@ -302,8 +369,10 @@ class DokiTitleState extends MusicBeatState
     {
       var targetState:NextState = () -> new MainMenuState(true);
       if (DokiPreferences.menus == 'all') targetState = () -> new DokiMainMenuState();
-      trace(DokiPreferences.menus);
-      FlxG.switchState(targetState);
+      Transition.switchState(targetState, {
+        assetQuery: (DokiPreferences.menus != 'all' ? MainMenuState.queryAssets : null),
+        transition: (TransitionType.BlackScreen(FadeType.Fade('North'), FadeType.Fade('South'))),
+      });  
     }
 
     if (pressedEnter && !transitioning && skippedIntro)
@@ -317,10 +386,12 @@ class DokiTitleState extends MusicBeatState
 
       var targetState:NextState = () -> new MainMenuState(true);
       if (DokiPreferences.menus == 'all') targetState = () -> new DokiMainMenuState();
-      trace(DokiPreferences.menus);
       new FlxTimer().start(2, function(tmr:FlxTimer)
       {
-        FlxG.switchState(targetState);
+        Transition.switchState(targetState, {
+          assetQuery: (DokiPreferences.menus != 'all' ? MainMenuState.queryAssets : null),
+          transition: (TransitionType.BlackScreen(FadeType.Fade('North'), FadeType.Fade('South'))),
+        });    
       });
     }
 

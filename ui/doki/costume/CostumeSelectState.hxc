@@ -1,5 +1,4 @@
 import haxe.Json;
-import lime.utils.Assets;
 import flixel.FlxObject;
 import funkin.graphics.FunkinSprite;
 import funkin.graphics.FunkinBackdrop;
@@ -19,7 +18,6 @@ import funkin.Conductor;
 import flixel.text.FlxTextBorderStyle;
 import funkin.ui.mainmenu.MainMenuState;
 import flixel.sound.FlxSound;
-import funkin.modding.base.ScriptedMusicBeatState;
 import funkin.save.Save;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;

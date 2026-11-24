@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
   "name": "Ghost Intro",
-  "assetPath": "gameplay/characters/ghost-intro/LibiIntro_Assets",
+  "assetPath": "LibiIntro_Assets",
   "singTime": 6.1,
   "isPixel": false,
   "scale": 1,
   "offsets": [25, 25],
   "healthIcon": {
-    "id": "libitina",
+    "id": "ghost",
     "isPixel": false,
     "flipX": false,
     "scale": 1

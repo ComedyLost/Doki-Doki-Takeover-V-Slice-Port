@@ -1,0 +1,58 @@
+import funkin.ui.title.AttractState;
+import funkin.ui.transition.Transition;
+import funkin.ui.transition.TransitionType;
+import funkin.ui.transition.FadeType;
+import funkin.util.plugins.SidePanelPlugin;
+
+class DokiAttractState extends AttractState
+{
+
+  static var nextVideoToPlay:Int = 0;
+  
+  override function getVideoPath():AssetPath
+  {
+    var result:AssetPath = AttractState.VIDEO_PATHS[nextVideoToPlay];
+
+    nextVideoToPlay = (nextVideoToPlay + 1) % AttractState.VIDEO_PATHS.length;
+
+    return result;
+  }
+  
+  override function create():Void
+  {
+    super.create();
+    FlxG.signals.postStateSwitch.addOnce(() -> {
+      SidePanelPlugin.instance.panelState.panel.lock = true;
+      SidePanelPlugin.instance.panelState.visible = false;
+      SidePanelPlugin.instance.panelState.active = false;
+    });
+  }
+
+  override function onAttractEnd():Void
+  {
+    #if html5
+    if (vid != null)
+    {
+      remove(vid);
+    }
+    #end
+
+    #if hxvlc
+    if (vid != null)
+    {
+      vid.stop();
+      remove(vid);
+    }
+    #end
+
+    #if (html5 || hxvlc)
+    vid.destroy();
+    vid = null;
+    #end
+
+    Transition.switchState(() -> new DokiTitleState(), {
+      assetQuery: DokiTitleState.queryAssets,
+      transition: TransitionType.BlackScreen(FadeType.Fade('North'), FadeType.Fade('South'))
+    });
+  }  
+}

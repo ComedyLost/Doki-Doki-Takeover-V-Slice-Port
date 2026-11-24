@@ -9,7 +9,6 @@ import flixel.util.FlxTimer;
 import funkin.modding.base.ScriptedFlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
-import openfl.utils.Assets;
 import funkin.graphics.FunkinCamera;
 import flixel.FlxCamera;
 import flixel.FlxCameraFollowStyle;
@@ -79,8 +78,8 @@ class EvilClubroomStage extends Stage
     blackCover.screenCenter();
     blackCover.y = -300;
     add(blackCover);
-    popup = FunkinSprite.createSparrow(312, 412, '$STAGE_PATH/monika-delete-prompt');
-    popup.animation.addByPrefix('startDeleting', 'PopUpAnim', 24, false);
+    popup = FunkinSprite.createTextureAtlas(312, 412, '$STAGE_PATH/monika-delete-prompt-modern');
+    popup.anim.addBySymbol('startDeleting', popup.getDefaultSymbol(), popup.library.frameRate, false);
     popup.zIndex = 400;
     popup.alpha = 0;
     add(popup);

@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Angry Pixel Monika",
-  "assetPath": "gameplay/characters/monika-angry/Monika_Finale_New",
+  "assetPath": "Monika_Finale_New",
   "flipX": false,
   "singTime": 4,
   "healthIcon": { "isPixel": false },

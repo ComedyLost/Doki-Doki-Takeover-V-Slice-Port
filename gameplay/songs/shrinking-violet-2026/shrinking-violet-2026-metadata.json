@@ -1,0 +1,43 @@
+{
+ "version": "2.2.8",
+ "songName": "Shrinking Violet (2026)",
+ "artist": "",
+ "charter": "Unknown",
+ "offsets": { },
+ "playData": {
+  "difficulties": [
+   "easy",
+   "normal",
+   "hard"
+  ],
+  "characters": {
+   "player": "monika",
+   "girlfriend": "nogf",
+   "opponent": "yuri",
+   "opponentVocals": [
+    "dad"
+   ],
+   "playerVocals": [
+    "bf"
+   ]
+  },
+  "stage": "musicroom",
+  "noteStyle": "ddto",
+  "ratings": {
+   "easy": 0,
+   "normal": 0,
+   "hard": 0
+  },
+  "album": "takeover",
+  "stickerPack": "dokisonly"
+ },
+ "generatedBy": "Chart Editor SUPER - v0.0.1",
+ "timeChanges": [
+  {
+   "t": 0,
+   "b": 0,
+   "bpm": 134,
+   "bt": [4, 4, 4, 4]
+  }
+ ]
+}

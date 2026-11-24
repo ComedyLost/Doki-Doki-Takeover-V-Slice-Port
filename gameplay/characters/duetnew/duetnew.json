@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Duet",
-  "assetPath": "gameplay/characters/duetnew/Duet",
+  "assetPath": "Duet",
   "flipX": false,
   "singTime": 4,
   "healthIcon": {"isPixel": false},

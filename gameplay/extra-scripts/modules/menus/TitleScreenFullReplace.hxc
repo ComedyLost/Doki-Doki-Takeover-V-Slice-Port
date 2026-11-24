@@ -23,6 +23,7 @@ class TitleScreenReplace extends Module
     {
       // Tells the game to go to our menu instead of the TitleState!
       InitState.customTitleState = new DokiTitleState();
+      InitState.customTitleStateAssetsQuery = DokiTitleState.queryAssets;
       titleState = true; // if this was called again, just so it doesn't get created once more. (It shouldn't)
     }
   }

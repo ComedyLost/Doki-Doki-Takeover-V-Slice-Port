@@ -39,6 +39,7 @@ class KillDoki extends Module
 
     if (!event.note.noteData.getMustHitNote() && deadDoki)
     {
+      event.note.handledMiss = true;
       event.cancelEvent();
       PlayState.instance.vocals.opponentVolume = 0;
     }

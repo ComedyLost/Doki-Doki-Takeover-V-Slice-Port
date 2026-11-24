@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "name": "Monika",
   "renderType": "multianimateatlas",
-  "assetPath": "gameplay/characters/monika/costumes/default",
+  "assetPath": "costumes/default",
   "flipX": false,
   "singTime": 6,
   "cameraOffsets": [0, 15],

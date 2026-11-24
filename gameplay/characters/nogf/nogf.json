@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "name": "Speaker",
   "renderType": "animateatlas",
-  "assetPath": "gameplay/characters/nogf/speaker-ddto",
+  "assetPath": "speaker-ddto",
   "flipX": false,
   "singTime": 4,
   "animations": [

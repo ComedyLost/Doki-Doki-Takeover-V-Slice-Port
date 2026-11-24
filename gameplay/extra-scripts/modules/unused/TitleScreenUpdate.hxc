@@ -18,8 +18,6 @@ import funkin.play.PlayStatePlaylist;
 import funkin.play.PlayState;
 import funkin.play.PauseSubState;
 import funkin.audio.FunkinSound;
-import funkin.modding.base.ScriptedMusicBeatState;
-import funkin.modding.base.MusicBeatState;
 import funkin.modding.module.Module;
 
 // The old DDTO title screen that existed before 0.6.0, left in for archival purposes

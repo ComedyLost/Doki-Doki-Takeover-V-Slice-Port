@@ -226,7 +226,6 @@ class YourDemiseSong extends Song
   function onSongRetry(event:ScriptEvent)
   {
     super.onSongRetry(event);
-    PlayState.instance.currentStage.getGirlfriend().visible = false; // Actually hide GF now
     redStatic.alpha = 0;
     if (PlayStatePlaylist.isStoryMode) blackScreen.alpha = 1;
     else

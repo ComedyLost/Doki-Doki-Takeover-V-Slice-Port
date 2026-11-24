@@ -8,7 +8,6 @@ import flixel.util.FlxTimer;
 import funkin.modding.base.ScriptedFlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
-import openfl.utils.Assets;
 import funkin.save.Save;
 
 class FestivalClubroomGlitcherStage extends Stage

@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
   "name": "Ghost",
-  "assetPath": "gameplay/characters/ghost/Libitina",
+  "assetPath": "Libitina",
   "singTime": 6.1,
   "isPixel": false,
   "scale": 1,
   "offsets": [0, 50],
   "healthIcon": {
-    "id": "libitina",
+    "id": "ghost",
     "isPixel": false,
     "flipX": false,
     "scale": 1

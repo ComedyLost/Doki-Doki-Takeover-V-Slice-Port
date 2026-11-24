@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
   "name": "Ghost Sketch",
-  "assetPath": "gameplay/characters/ghost-sketch/Libitina_tmp",
+  "assetPath": "Libitina_tmp",
   "singTime": 6.1,
   "isPixel": false,
   "scale": 1,
   "offsets": [0, 50],
   "healthIcon": {
-    "id": "libitina",
+    "id": "ghost",
     "isPixel": false,
     "flipX": false,
     "scale": 1
