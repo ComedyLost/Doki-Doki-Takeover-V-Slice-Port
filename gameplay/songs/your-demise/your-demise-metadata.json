@@ -23,9 +23,7 @@
     "stage": "schoolEvilDDTO",
     "noteStyle": "ddtopixel",
     "ratings": {
-      "easy": 0,
-      "hard": 0,
-      "normal": 6
+      "normal": 10
     },
     "previewStart": 22000,
     "previewEnd": 48700
